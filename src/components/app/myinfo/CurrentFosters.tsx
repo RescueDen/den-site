@@ -5,7 +5,8 @@ import {getEmptyCawsUser} from "../../../models/CawsUser";
 import ApplicationState from "../../../state/ApplicationState";
 import {animalActions} from "../../../actions/animal.actions";
 import AnimalState from "../../../state/AnimalState";
-
+import AnimalCard from "../../animal/AnimalCard";
+import {Card} from "semantic-ui-react";
 
 //Define the expected props
 interface IncomingProps  {
@@ -14,45 +15,21 @@ interface IncomingProps  {
     cawsAnimals: AnimalState
 }
 
-//Define the expected props
-interface DispatchActions  {
-    //Define the props we expect
-    getAnimal: (id:number) =>any;
 
-}
+const CurrentFosters = (props:IncomingProps) => {
 
+    return (
 
-class MyInfo extends React.Component<IncomingProps&DispatchActions> {
-
-
-    //On mount
-    componentDidMount(){
-
-        //Step over each of my previous fosters
-        this.props.cawsUser.data.pastFosters.map(id =>{
-            this.props.getAnimal(id);
-        })
-
-
-
-    }
-
-
-
-    //Return the real div
-    /**
-     * Re-render eveyr time this is called
-     * @returns {*}
-     */
-    render() {
-        return (
-
-            <div>
-                {JSON.stringify(this.props.cawsAnimals.animals)}
-            </div>
-        )
-    }
-
+        <div>
+            <Card.Group>
+                {//Step over each of my previous fosters
+                    props.cawsUser.data.currentFosters.map(id =>{
+                        return <AnimalCard animalId={id}  />
+                    })
+                }
+            </Card.Group>
+        </div>
+    )
 };
 
 /**
@@ -67,16 +44,9 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
     };
 }
 
-function mapDispatchToProps(dispatch: any): DispatchActions {
-    return {
-        getAnimal:(id:number) => dispatch(animalActions.getAnimal(id)),
-    };
-}
-
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
 export default  connect(
     mapStateToProps,
-    mapDispatchToProps
-)(MyInfo);
+)(CurrentFosters);
 

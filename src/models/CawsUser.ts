@@ -6,6 +6,7 @@ import {UserData} from "./UserData";
 //Define the caws user, this comes from the json decode
 export interface CawsUserData extends UserData{
     //The baseline User Data
+    asmid:number;
     email:string;
     password?:string;
     token:string;
@@ -57,7 +58,7 @@ export interface CawsUserData extends UserData{
  */
 export function getEmptyCawsUser(): CawsUser{
     const data: CawsUserData = {
-        email:"",token:"",firstname:"",lastname:"",address:"",city:"",state:"",zip:"",
+        asmid:-1, email:"",token:"",firstname:"",lastname:"",address:"",city:"",state:"",zip:"",
         homephone:"",workphone:"",cellphone:"",isvolunteer:0,ismember:0,isfosterer:0,isbanned:0,
         additionalflags:"",firstfosterdate:new Date(),lastfosterin:new Date(), lastfosterout:new Date(),
         dayssincelastfoster:"",avgfostertime:"",currentFosters:[], pastFosters:[], lastUpdateFromAsm:new Date()

@@ -112,7 +112,43 @@ export default class CawsAnimal{
         this.data = data;
     }
 
+    //Provide a method to get the image url
+    getImageUrl():string{
+        if(this.data.IMGURLS.length > 0) {
+            return this.data.IMGURLS[0];
+        }else{
+            return ""
+        }
+    }
 
+    //Get the foster range based upon the movements
+    getMyHistory(userId:number):string[]{
+        //Store my history
+
+        //March over each movement
+        return this.data.MOVEMENTS.filter(move=>{
+            return move.PERSONID === userId;
+        }).map( move =>{
+            return move.MovementType + ":" + move.START+ " > " + move.END;
+
+        });
+
+
+    }
+    //Get the foster range based upon the movements
+    getCurrentStatus():string{
+        //March over each movement
+        for( let move of this.data.MOVEMENTS){
+            //If there is no end date
+            if(move.END.toString().length === 0){
+               return  move.MovementType + " " + move.START;
+            }
+
+
+        }
+        return"";
+
+    }
 
 
 

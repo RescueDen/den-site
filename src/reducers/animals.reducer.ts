@@ -14,7 +14,7 @@ export function animals(state:AnimalState = {animals:{}}, action:Action): Animal
     //Ok, we now know that it is an alert action
     switch (action.type) {
         case animalConstants.FETCH_ANIMAL:
-            //Get the new animinal
+            //Get the new animal
             const ani:CawsAnimal = action.payload as CawsAnimal;
 
             //Get the id

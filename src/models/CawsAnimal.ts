@@ -1,6 +1,7 @@
 /**
  * Specifies the caws user data
  */
+import {formatDate} from "../utils/date-formater";
 
 //Define the caws user, this comes from the json decode
 export interface CawsAnimalData{
@@ -129,7 +130,7 @@ export default class CawsAnimal{
         return this.data.MOVEMENTS.filter(move=>{
             return move.PERSONID === userId;
         }).map( move =>{
-            return move.MovementType + ":" + move.START+ " > " + move.END;
+            return move.MovementType + ":" + formatDate(move.START)+ " - " + formatDate(move.END);
 
         });
 
@@ -141,7 +142,7 @@ export default class CawsAnimal{
         for( let move of this.data.MOVEMENTS){
             //If there is no end date
             if(move.END.toString().length === 0){
-               return  move.MovementType + " " + move.START;
+               return  move.MovementType + " " +formatDate(move.START.toString());
             }
 
 
@@ -150,6 +151,10 @@ export default class CawsAnimal{
 
     }
 
+    //This is a search function for searching animals for now
+    inSearch(term:string){
+        return this.data.NAME.toLowerCase().indexOf(term.toLowerCase()) >=0;
+    }
 
 
 }

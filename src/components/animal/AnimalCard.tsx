@@ -11,14 +11,13 @@ import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 
 //Define the expected props
 interface IncomingProps{
-    animalId: number;
+    animal: CawsAnimal;
 
 }
 
 //Define the expected props
 interface LinkProps{
     //Define the props we expect
-    animal: CawsAnimal;
     user:CawsUser;
 
 }
@@ -26,28 +25,12 @@ interface LinkProps{
 
 
 
-interface DispatchProps{
-    //And the actions that must be done
-    downloadAnimal: (id:number) => any;
-
-}
-
-
-
 
 /**
  * This card shows the animal details
  */
-class AnimalCard extends React.Component<IncomingProps&LinkProps&DispatchProps> {
+class AnimalCard extends React.Component<IncomingProps&LinkProps> {
 
-    /**
-     * Gets called once when the page loads.  Tell the system to download that animal
-     */
-    componentDidMount(){
-        // reset login status
-        this.props.downloadAnimal(this.props.animalId)
-
-    };
 
     /**
      * Re-render eveyr time this is called
@@ -58,7 +41,7 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps&DispatchProps> 
         //If undefined
         if(!this.props.animal){
             return (
-                <Card key={this.props.animalId}>
+                <Card >
                     <Placeholder>
                         <Placeholder.Image square />
                     </Placeholder>
@@ -83,7 +66,7 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps&DispatchProps> 
         }else {
 
             return (
-                <Card  key={this.props.animalId}>
+                <Card key={this.props.animal.data.ID}>
                     <Image src={this.props.animal.getImageUrl()}/>
                     <Card.Content>
                         <Card.Header>{this.props.animal.data.NAME}</Card.Header>
@@ -99,8 +82,8 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps&DispatchProps> 
                     </Card.Content>
                 </Card>
             );
-        }
 
+        }
     }
 }
 
@@ -111,20 +94,18 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps&DispatchProps> 
  */
 function mapStateToProps(state:ApplicationState,myProps:IncomingProps ):LinkProps {
     return {
-        animal: state.animals.animals[myProps.animalId],
         user:state.authentication.loggedInUser || getEmptyCawsUser(),
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
-    return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
-    };
-
-}
+// function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
+//     return {
+//         downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+//     };
+//
+// }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
 export default connect (
     mapStateToProps,
-    mapDispatchToProps
 )(AnimalCard);

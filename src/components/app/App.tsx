@@ -7,9 +7,7 @@ import {Route} from "react-router";
 import {Link} from "react-router-dom";
 
 //Import Pages
-import MyInfo from "./myinfo/CurrentFosters";
-import CurrentFosters from "./myinfo/CurrentFosters";
-import PreviousFosters from "./myinfo/PreviousFosters";
+import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
 
 
 //Define the expected props
@@ -75,15 +73,15 @@ class App extends React.Component<any, MyState> {
                                 </Menu.Item>
                             </Link>
                             <Link to='/currentfosters'><Menu.Item >Current Fosters</Menu.Item></Link>
-                            <Link to='/previousfosters'><Menu.Item >Previous Fosters</Menu.Item></Link>
+                            <Link to='/pastfosters'><Menu.Item >Past Fosters</Menu.Item></Link>
 
                         </Container>
                     </Menu>
                 </Visibility>
                 {/*The menu is over is load in based upon the router*/}
-                <Route exact path="/" component={MyInfo} />
-                <Route exact path="/currentfosters" component={CurrentFosters} />
-                <Route exact path="/previousfosters" component={PreviousFosters} />
+                {/*<Route exact path="/" component={MyInfo} />*/}
+                <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
+                <Route exact path="/pastfosters" component={PastFostersFullPage} />
 
 
             </div>

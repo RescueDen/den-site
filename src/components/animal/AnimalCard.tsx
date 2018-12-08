@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal from "../../models/CawsAnimal";
-import {animalActions} from "../../actions/animal.actions";
-import {ThunkDispatch} from "redux-thunk";
 import {Card, Image, Icon, Placeholder} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import {Link} from "react-router-dom";
 
 //Define the expected props
 interface IncomingProps{
@@ -66,21 +65,24 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
         }else {
 
             return (
-                <Card key={this.props.animal.data.ID}>
-                    <Image src={this.props.animal.getImageUrl()}/>
-                    <Card.Content>
-                        <Card.Header>{this.props.animal.data.NAME}</Card.Header>
-                        <Card.Meta>
-                            <span className='date'>{this.props.animal.getMyHistory(this.props.user.data.asmid)}</span>
-                        </Card.Meta>
-                        <Card.Description>{this.props.animal.data.BIO}</Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                        <a>
-                            {this.props.animal.getCurrentStatus()}
-                        </a>
-                    </Card.Content>
-                </Card>
+                    <Card key={this.props.animal.data.ID}>
+                        <Link to={`/animal/${this.props.animal.data.ID}`}>
+                            <Image src={this.props.animal.getImageUrl()}/>
+                        </Link>
+                        <Card.Content>
+                            <Card.Header>{this.props.animal.data.NAME}</Card.Header>
+                            <Card.Meta>
+                                <span className='date'>{this.props.animal.getMyHistory(this.props.user.data.asmid)}</span>
+                            </Card.Meta>
+                            <Card.Description>{this.props.animal.data.BIO}</Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                            <a>
+                                {this.props.animal.getCurrentStatus()}
+                            </a>
+                        </Card.Content>
+                    </Card>
+
             );
 
         }

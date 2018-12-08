@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 
 //Import Pages
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
+import AnimalDetails from "../animal/AnimalDetails";
 
 
 //Define the expected props
@@ -82,6 +83,7 @@ class App extends React.Component<any, MyState> {
                 {/*<Route exact path="/" component={MyInfo} />*/}
                 <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
                 <Route exact path="/pastfosters" component={PastFostersFullPage} />
+                <Route path="/animal/:aniId" component={AnimalDetails} />
 
 
             </div>

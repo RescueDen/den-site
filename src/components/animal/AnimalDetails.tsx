@@ -1,0 +1,106 @@
+import React from 'react';
+import {connect} from 'react-redux';
+
+import ApplicationState from "../../state/ApplicationState";
+
+import CawsAnimal from "../../models/CawsAnimal";
+import {Card, Image, Icon, Placeholder, Segment, Dimmer, Loader, Container, Header} from "semantic-ui-react";
+import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import {RouteComponentProps} from "react-router";
+import {ThunkDispatch} from "redux-thunk";
+import {animalActions} from "../../actions/animal.actions";
+import AnimalImageGallery from "./details-components/AnimalImageGallery";
+
+
+
+//Define the expected props
+interface LinkProps extends RouteComponentProps<any> {
+    //Define the props we expect
+    animal: CawsAnimal;
+    user:CawsUser;
+
+}
+
+
+interface DispatchProps{
+    //And the actions that must be done
+    downloadAnimal: (id:number) => any;
+
+}
+
+
+/**
+ * This card shows the animal details
+ */
+class AnimalCard extends React.Component<LinkProps&DispatchProps> {
+
+    /**
+     * Gets called once when the page loads.  Tell the system to download that animal
+     */
+    componentDidMount(){
+        // reset login status
+        this.props.downloadAnimal(this.props.match.params.aniId);
+    };
+
+    /**
+     * Re-render eveyr time this is called
+     * @returns {*}
+     */
+    render() {
+
+        //If undefined show a loading icon
+        if(!this.props.animal){
+            return (
+                <div>
+                    <Segment>
+                        <Dimmer active inverted>
+                            <Loader size='large'>Loading</Loader>
+                        </Dimmer>
+
+                    </Segment>
+                </div>
+            );
+        }else {
+            //Get the animal details
+            return (
+                <div>
+                    <Container text>
+                        {/*The simple header*/}
+                        <Header as='h1'>{this.props.animal.data.NAME}</Header>
+
+                        {/*The animal gallery*/}
+                        <AnimalImageGallery animal={this.props.animal} />
+                        {JSON.stringify(this.props.animal)}
+                    </Container>
+                </div>
+            );
+
+        }
+    }
+}
+
+/**
+ * Map from the global state to things we need here
+ * @param state
+ * @returns {{authentication: WebAuthentication}}
+ */
+function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+    return {
+        ...myProps,
+        animal: state.animals.animals[myProps.match.params.aniId] ,
+        user:state.authentication.loggedInUser || getEmptyCawsUser(),
+    };
+}
+
+function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:LinkProps):DispatchProps {
+    return {
+        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+    };
+
+}
+
+//https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
+export default connect (
+    mapStateToProps,
+    mapDispatchToProps
+)(AnimalCard);

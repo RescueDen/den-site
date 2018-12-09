@@ -9,6 +9,9 @@ import {Link} from "react-router-dom";
 //Import Pages
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
 import AnimalDetails from "../animal/AnimalDetails";
+import MyDetails from "../person/MyDetails";
+import Information from "../newsAndInfo/Information";
+import News from "../newsAndInfo/News";
 
 
 //Define the expected props
@@ -75,6 +78,9 @@ class App extends React.Component<any, MyState> {
                             </Link>
                             <Link to='/currentfosters'><Menu.Item >Current Fosters</Menu.Item></Link>
                             <Link to='/pastfosters'><Menu.Item >Past Fosters</Menu.Item></Link>
+                            <Link to='/myinfo'><Menu.Item >My Info</Menu.Item></Link>
+                            <Link to='/info'><Menu.Item >Information</Menu.Item></Link>
+                            <Link to='/news'><Menu.Item >News</Menu.Item></Link>
 
                         </Container>
                     </Menu>
@@ -84,7 +90,11 @@ class App extends React.Component<any, MyState> {
                 <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
                 <Route exact path="/pastfosters" component={PastFostersFullPage} />
                 <Route path="/animal/:aniId" component={AnimalDetails} />
-
+                <Route path="/myinfo" component={MyDetails} />
+                <Route exact path="/info/" component={Information} />
+                <Route path="/info/:articleId" component={Information} />
+                <Route exact path="/news/" component={News} />
+                <Route path="/news/:articleId" component={News} />
 
             </div>
         );

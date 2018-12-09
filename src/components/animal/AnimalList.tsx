@@ -5,15 +5,23 @@ import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
 import AnimalCard from "../animal/AnimalCard";
-import {Card, Header, Input} from "semantic-ui-react";
+import {Image, Header, Input, List, Placeholder} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
+import {Link} from "react-router-dom";
 
 //Define the expected props
 interface IncomingProps  {
     //Define the props we expect
     animalIdList: number[]
-    cawsAnimalsDb: AnimalState
     title:string
+    link?:string
+
+}
+
+//Define the expected props
+interface LinkProps  {
+    //Define the props we expect
+    cawsAnimalsDb: AnimalState
 
 }
 
@@ -36,7 +44,7 @@ interface SearchState  {
 /**
  * This card shows the animal details
  */
-class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps, SearchState> {
+class SearchableAnimalList extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
     state={searchTerm:""};
 
     /**
@@ -64,7 +72,16 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
                 <div className="ui stackable grid">
                     <div className="left floated left aligned six wide column">
                         {/*The headers*/}
-                        <Header as='h1'>{this.props.title}</Header>
+                        {/*If there is no link, just give the header*/}
+                        {this.props.link &&
+                            <Link to={this.props.link}>
+                                <Header as='h1'>{this.props.title}</Header>
+                            </Link>
+                        }
+                        {/*else*/}
+                        {!this.props.link &&
+                            <Header as='h1'>{this.props.title}</Header>
+                        }
                     </div>
                     <div className="right floated right aligned six wide column">
 
@@ -75,7 +92,8 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
                 </div>
 
 
-                <Card.Group centered>
+                {/*//Create a list*/}
+                <List horizontal>
                     {//Step over each animal id
                         this.props.animalIdList.map(id => {
                             //Map into a caws animal
@@ -85,12 +103,42 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
                             return !ani || this.state.searchTerm.length == 0 || ani.inSearch(this.state.searchTerm);
 
                         }).map(ani=>{
-                            //Turn into a card. If it is undefined
-                            return <AnimalCard  animal={ani}/>
+                            //If the animal is null
+                            if(!ani){
+                                //Add a place holder
+                                return(
+                                    <List.Item>
+                                        <Placeholder>
+                                            <Placeholder.Header image>
+                                                <Placeholder.Line />
+                                                <Placeholder.Line />
+                                            </Placeholder.Header>
+                                            <Placeholder.Paragraph>
+                                                <Placeholder.Line length='short' />
+                                            </Placeholder.Paragraph>
+                                        </Placeholder>
+                                    </List.Item>
+                                );
+                            }else{
+                                return (
+                                    <List.Item>
+                                        <Image avatar src={ani.getImageUrl()} />
+                                        <List.Content>
+                                            <Link to={`/animal/${ani.data.ID}`}>
+                                                <List.Header>
+                                                    {ani.data.NAME}
+                                                </List.Header>
+                                            </Link>
+                                            {ani.getCurrentStatus()}
+                                        </List.Content>
+                                    </List.Item>
+                                );
+                            }
+
 
                         })
                     }
-                </Card.Group>
+                </List>
             </div>
         )
     }
@@ -114,43 +162,18 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToPropsCurrentFosters(state:ApplicationState): IncomingProps {
-    //Get the human
-    const cawsUser = state.authentication.loggedInUser|| getEmptyCawsUser();
+function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps&LinkProps {
 
     return {
-        animalIdList: cawsUser.data.currentFosters,
+        ...props,
         cawsAnimalsDb:state.animals,
-        title:"Current Fosters"
     };
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export const CurrentFostersFullPage =  connect(
-    mapStateToPropsCurrentFosters,
+export default  connect(
+    mapStateToProps,
     mapDispatchToProps
-)(SearchableAnimalCards);
-/**
- * Map from the global state to things we need here
- * @param state
- * @returns {{authentication: WebAuthentication}}
- */
-function mapStateToPropsPastFosters(state:ApplicationState): IncomingProps {
-    //Get the human
-    const cawsUser = state.authentication.loggedInUser|| getEmptyCawsUser();
+)(SearchableAnimalList);
 
-    return {
-        animalIdList: cawsUser.data.pastFosters,
-        cawsAnimalsDb:state.animals,
-        title:"Past Fosters"
-
-    };
-}
-
-
-//TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export const PastFostersFullPage =  connect(
-    mapStateToPropsPastFosters,
-    mapDispatchToProps
-)(SearchableAnimalCards);

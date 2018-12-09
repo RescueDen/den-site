@@ -10,6 +10,8 @@ import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalImageGallery from "./details-components/AnimalImageGallery";
+import AnimalBio from "./details-components/AnimalBio";
+import AnimalVaxxHistory from "./details-components/AnimalVaxxHistory";
 
 
 
@@ -32,7 +34,7 @@ interface DispatchProps{
 /**
  * This card shows the animal details
  */
-class AnimalCard extends React.Component<LinkProps&DispatchProps> {
+class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -70,7 +72,12 @@ class AnimalCard extends React.Component<LinkProps&DispatchProps> {
 
                         {/*The animal gallery*/}
                         <AnimalImageGallery animal={this.props.animal} />
-                        {JSON.stringify(this.props.animal)}
+                        
+                        {/*The animal Bio*/}
+                        <AnimalBio animal={this.props.animal}/>
+
+                        {/*The vaccine history*/}
+                        <AnimalVaxxHistory animal={this.props.animal}/>
                     </Container>
                 </div>
             );
@@ -103,4 +110,4 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Link
 export default connect (
     mapStateToProps,
     mapDispatchToProps
-)(AnimalCard);
+)(AnimalDetails);

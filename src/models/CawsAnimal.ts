@@ -28,7 +28,7 @@ export interface CawsAnimalData{
     //Good with
     ISGOODWITHCATS:number;
     ISGOODWITHDOGS:number;
-    ISGOODWITHCHILDREN:string
+    ISGOODWITHCHILDREN:number
     ISHOUSETRAINED:number;
 
     //Store when the last changed and last update from asm
@@ -155,6 +155,31 @@ export default class CawsAnimal{
     inSearch(term:string){
         return this.data.NAME.toLowerCase().indexOf(term.toLowerCase()) >=0;
     }
+    //Support function to convert 0,1,2 to yes, no Unknown
+    formatYesNoUnknown(value:number): string {
+        switch(value){
+            case 0: return "Yes";
+            case 1: return "No";
+            default: return "Unknown"
+        }
+    }
 
+    //Get vaccine in order
+    getVaccineHistoryInOrder(): VaccineData[]{
+        return this.data.VACCINEHISTORY.sort(((a, b) => {
+            //Get the given date
+            const aDate:Date = new Date(a.DATE.toString());
+            const bDate:Date = new Date(b.DATE.toString());
+
+            if(aDate > bDate)
+                return 1
+            else if (aDate < bDate)
+                return -1
+
+            return 0;
+        }))
+
+
+    }
 
 }

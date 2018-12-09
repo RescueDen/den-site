@@ -76,9 +76,7 @@ class News extends React.Component<LinkProps&DispatchProps, any> {
 
         //Start out with a title
         components.push(
-            <div>
-                <Header as="h1">News & Updates</Header>
-            </div>
+            <Header key="header" as="h1">News & Updates</Header>
         );
 
         //If this is an folder show the folder information
@@ -87,12 +85,12 @@ class News extends React.Component<LinkProps&DispatchProps, any> {
             if (item.items) {
                 //Add a list of them
                 components.push(
-                    <ArticleItemList  item={item} linkPath={"/news"}/>
+                    <ArticleItemList key={item.id} item={item} linkPath={"/news"}/>
                 );
             }
         }else{
             //Load up the article
-            components.push(<ArticleViewer item={item} />);
+            components.push(<ArticleViewer key={item.id} item={item} />);
         }
 
 

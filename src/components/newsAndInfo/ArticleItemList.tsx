@@ -50,7 +50,7 @@ class ArticleItemList extends React.Component<MyProps, MyState> {
                 //Check if in results
                 return(inSearchResults(item, this.state.searchTerm))
             }).map(item => {
-                    return <ArticleItem item={item} link={this.props.linkPath}/>;
+                    return <ArticleItem key={item.id} item={item} link={this.props.linkPath}/>;
                 }
             )
         }else{

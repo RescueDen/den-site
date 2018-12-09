@@ -74,26 +74,22 @@ class Information extends React.Component<LinkProps&DispatchProps, any> {
 
         //Start out with a title
         components.push(
-            <div>
-                <Header as="h1">Information</Header>
-            </div>
+            <Header key={"header"} as="h1">Information</Header>
         );
 
         //Add in the bread crumbs
         components.push(
-            <Breadcrumbs  breadCrumbs={this.props.infoSummary.buildBreadcrumbs(item.id)} link={"/info"}/>
+            <Breadcrumbs key={"breadCrumbs"+item.id} breadCrumbs={this.props.infoSummary.buildBreadcrumbs(item.id)} link={"/info"}/>
         )
-
-        //ToDo:Add in the bread crumbs
 
         //If this is an folder show the folder information
         if(isDirectory(item)){
             components.push(
-                <ArticleHierarchy linkPath={"/info"}  item={item}/>
+                <ArticleHierarchy key={"heir"+item.id} linkPath={"/info"}  item={item}/>
             );
         }else{
             //Load up the article
-            components.push(<ArticleViewer item={item} />);
+            components.push(<ArticleViewer key={"view"+item.id} item={item} />);
         }
 
 

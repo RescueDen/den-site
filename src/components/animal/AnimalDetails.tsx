@@ -74,8 +74,10 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                         <AnimalImageGallery animal={this.props.animal} />
                         
                         {/*The animal Bio*/}
-                        <AnimalBio animal={this.props.animal}/>
-
+                        <Segment>
+                            <Header as="h2">Biography</Header>
+                            <AnimalBio animal={this.props.animal}/>
+                        </Segment>
                         {/*The vaccine history*/}
                         <AnimalVaxxHistory animal={this.props.animal}/>
                     </Container>

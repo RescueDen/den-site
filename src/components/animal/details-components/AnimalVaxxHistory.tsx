@@ -9,23 +9,6 @@ interface Props {
     animal:CawsAnimal;
 }
 
-//Add a private support function to create the row
-const createRow = ( name:string, value:string, ...icons:SemanticICONS[]) =>{
-    return (
-        <Table.Row>
-            <Table.Cell>
-                <Header as='h4' image>
-                    {/*For each icon add it*/}
-                    {icons.map(icon => <Icon name={icon} />)}
-                    <Header.Content>
-                        {name}
-                    </Header.Content>
-                </Header>
-            </Table.Cell>
-            <Table.Cell>{value}</Table.Cell>
-        </Table.Row>
-    );
-}
 
 const AnimalVaxxHistory =  (myProps:Props) =>{
 
@@ -50,7 +33,7 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
                 {/*//Get the vaccine history in order*/}
                 {myProps.animal.getVaccineHistoryInOrder().map(vax =>{
                     return (
-                        <Table.Row>
+                        <Table.Row key={vax.TYPE+vax.DATEREQUIRED}>
                             <Table.Cell>
                                 <Header as='h4' >
                                     <Header.Content>

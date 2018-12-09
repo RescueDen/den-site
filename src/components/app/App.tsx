@@ -12,6 +12,7 @@ import AnimalDetails from "../animal/AnimalDetails";
 import MyDetails from "../person/MyDetails";
 import Information from "../newsAndInfo/Information";
 import News from "../newsAndInfo/News";
+import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 
 
 //Define the expected props
@@ -95,6 +96,7 @@ class App extends React.Component<any, MyState> {
                 <Route path="/info/:articleId" component={Information} />
                 <Route exact path="/news/" component={News} />
                 <Route path="/news/:articleId" component={News} />
+                <Route exact path="/inneed/" component={InNeedOfFosterList} />
 
             </div>
         );

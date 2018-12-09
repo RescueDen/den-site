@@ -19,7 +19,7 @@ const createRow = ( name:string, value:string, ...icons:SemanticICONS[]) =>{
             <Table.Cell>
                 <Header as='h4' image>
                     {/*For each icon add it*/}
-                    {icons.map(icon => <Icon name={icon} />)}
+                    {icons.map(icon => <Icon key={icon.toString()} name={icon} />)}
                     <Header.Content>
                         {name}
                     </Header.Content>

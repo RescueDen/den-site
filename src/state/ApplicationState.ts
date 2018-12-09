@@ -3,6 +3,7 @@ import AuthenticationState from "./AuthenticationState";
 import AnimalState from "./AnimalState";
 import InfoState from "./InfoState";
 import NewsState from "./NewsState";
+import InNeedOfFoster from "../models/InNeedOfFosterModel";
 
 /**
  * This model describes the entire state of program
@@ -12,5 +13,6 @@ export default interface ApplicationState {
     alerts: Alert[],
     animals: AnimalState,
     info:InfoState,
-    news:NewsState
+    news:NewsState,
+    inNeedFoster: InNeedOfFoster,
 }

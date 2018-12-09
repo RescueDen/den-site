@@ -1,20 +1,19 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {getEmptyCawsUser} from "../../models/CawsUser";
 import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
-import AnimalCard from "../animal/AnimalCard";
-import {Image, Header, Input, List, Placeholder} from "semantic-ui-react";
+import { Header, Input, List, Placeholder, Item} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
+import AnimalItemFull from "./AnimalItemFull";
 
 //Define the expected props
 interface IncomingProps  {
     //Define the props we expect
     animalIdList: number[]
     title:string
-    link?:string
+    link:string
 
 }
 
@@ -44,7 +43,7 @@ interface SearchState  {
 /**
  * This card shows the animal details
  */
-class SearchableAnimalList extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
+class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
     state={searchTerm:""};
 
     /**
@@ -61,6 +60,29 @@ class SearchableAnimalList extends React.Component<IncomingProps&DispatchProps&L
     updateSearch(term:string){
         this.setState({searchTerm:term});
     }
+
+    /**
+     * Get the items
+     */
+    getItems(){
+        //If we have items
+        return this.props.animalIdList.map(id => {
+            //Convert to an ani
+            const ani = this.props.cawsAnimalsDb.animals[id];
+
+            //If the ani is undefined just return the aniItem
+            if (ani === undefined) {
+                return <AnimalItemFull key={id} ani={ani} link={this.props.link}/>;
+            } else if (ani.inSearch(this.state.searchTerm)) {
+                //It is in the search term
+                return <AnimalItemFull key={id} ani={ani} link={this.props.link}/>;
+            } else {
+                return null;
+            }
+        });
+
+    }
+
 
     /**
      * Re-render every time this is called
@@ -93,52 +115,11 @@ class SearchableAnimalList extends React.Component<IncomingProps&DispatchProps&L
 
 
                 {/*//Create a list*/}
-                <List horizontal>
-                    {//Step over each animal id
-                        this.props.animalIdList.map(id => {
-                            //Map into a caws animal
-                            return this.props.cawsAnimalsDb.animals[id];
-                        }).filter(ani =>{
-                            //Filter on the search term
-                            return !ani || this.state.searchTerm.length == 0 || ani.inSearch(this.state.searchTerm);
+                <Item.Group divided>
+                    {/*If there are props*/}
+                    {this.getItems()}
 
-                        }).map(ani=>{
-                            //If the animal is null
-                            if(!ani){
-                                //Add a place holder
-                                return(
-                                    <List.Item>
-                                        <Placeholder>
-                                            <Placeholder.Header image>
-                                                <Placeholder.Line />
-                                                <Placeholder.Line />
-                                            </Placeholder.Header>
-                                            <Placeholder.Paragraph>
-                                                <Placeholder.Line length='short' />
-                                            </Placeholder.Paragraph>
-                                        </Placeholder>
-                                    </List.Item>
-                                );
-                            }else{
-                                return (
-                                    <List.Item>
-                                        <Image avatar src={ani.getImageUrl()} />
-                                        <List.Content>
-                                            <Link to={`/animal/${ani.data.ID}`}>
-                                                <List.Header>
-                                                    {ani.data.NAME}
-                                                </List.Header>
-                                            </Link>
-                                            {ani.getCurrentStatus()}
-                                        </List.Content>
-                                    </List.Item>
-                                );
-                            }
-
-
-                        })
-                    }
-                </List>
+                </Item.Group>
             </div>
         )
     }
@@ -162,10 +143,9 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps&LinkProps {
+function mapStateToProps(state:ApplicationState): LinkProps {
 
     return {
-        ...props,
         cawsAnimalsDb:state.animals,
     };
 }
@@ -175,5 +155,5 @@ function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingP
 export default  connect(
     mapStateToProps,
     mapDispatchToProps
-)(SearchableAnimalList);
+)(SearchableAnimalListFull);
 

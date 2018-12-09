@@ -56,7 +56,7 @@ class ArticleHierarchy extends React.Component<MyProps, MyState> {
 
 
             return (
-                <List.Item>
+                <List.Item key={item.id}>
                     <List.Icon onClick={() => this.updateHiddenOnDir(item.id)} name={hidden? "folder outline":"folder open outline" } />
                     <List.Content >
                         <List.Header as="h3" ><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
@@ -81,7 +81,7 @@ class ArticleHierarchy extends React.Component<MyProps, MyState> {
                 // this is just a document
                 return (
 
-                        <List.Item>
+                        <List.Item key={item.id}>
                             <List.Icon name='file alternate outline'/>
                                 <List.Content>
                                     <List.Header><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>

@@ -5,6 +5,7 @@ import { alerts } from './alerts.reducer'
 import { animals } from './animals.reducer'
 import {info} from "./info.reducer";
 import {news} from "./news.reducer";
+import {inNeedFoster} from "./inNeedFoster.reducer";
 
 
 import ApplicationState from '../state/ApplicationState';
@@ -15,7 +16,8 @@ const rootReducer = combineReducers<ApplicationState>({
     alerts,
     animals,
     info,
-    news
+    news,
+    inNeedFoster,
 });
 
 export default rootReducer;

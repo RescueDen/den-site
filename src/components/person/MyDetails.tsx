@@ -3,14 +3,11 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal from "../../models/CawsAnimal";
-import { Segment, Dimmer, Loader, Container, Header} from "semantic-ui-react";
+import { Segment, Container, Header} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
-import {ThunkDispatch} from "redux-thunk";
-import {animalActions} from "../../actions/animal.actions";
 import MySummary from "./MySummary";
-import AnimalList from "../animal/AnimalList";
+import AnimalList from "../animal/SearchableAnimalListCompact";
 
 
 //Define the expected props
@@ -47,12 +44,12 @@ class MyDetails extends React.Component<LinkProps> {
 
                     {/*Add in my current fosters*/}
                     <Segment>
-                        <AnimalList link="/currentfosters" title="My Fosters" animalIdList={this.props.user.data.currentFosters}/>
+                        <AnimalList aniLink="/animal" link="/currentfosters" title="My Fosters" animalIdList={this.props.user.data.currentFosters}/>
                     </Segment>
 
                     {/*Add in my Past fosters*/}
                     <Segment>
-                        <AnimalList link="/pastfosters" title="Past Fosters" animalIdList={this.props.user.data.pastFosters}/>
+                        <AnimalList aniLink="/animal" link="/pastfosters" title="Past Fosters" animalIdList={this.props.user.data.pastFosters}/>
                     </Segment>
                 </Container>
             </div>

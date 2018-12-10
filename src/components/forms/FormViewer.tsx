@@ -6,8 +6,8 @@ import {ThunkDispatch} from "redux-thunk";
 import {formsActions} from "../../actions/forms.actions";
 import {FormItemData} from "../../models/FormsSummary";
 
-// @ts-ignore
-import Form from "react-jsonschema-form-semanticui";
+
+import Form from "react-jsonschema-form-semanticui-fixed";
 import {FormSubmision} from "../../models/FormSubmision";
 import ApplicationState from "../../state/ApplicationState";
 
@@ -67,8 +67,7 @@ class FormViewer extends React.Component<DispatchProps&LinkProps> {
             <Form schema={this.props.formData.JSONSchema}
                   uiSchema={this.props.formData.UISchema}
                   onSubmit={this.onSubmit}
-                  onBlur={null}
-                  onFocus={null}
+
 
             />
 

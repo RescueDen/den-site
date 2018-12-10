@@ -2,15 +2,15 @@ import React from 'react';
 import JSX from 'react';
 
 import {Input, List} from "semantic-ui-react";
-import ArticlesSummary, {ArticleItemData, inSearchResults, isDirectory} from "../../models/ArticlesSummary";
 import {Link} from "react-router-dom";
+import {DocumentItemData, inSearchResults, isDirectory} from "../../models/DocumentSummary";
 
 
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    item:ArticleItemData;
+    item:DocumentItemData;
     linkPath:string;
 
 }
@@ -27,7 +27,7 @@ const initState:{ [id: string]: boolean } ={};
 /**
  * This card shows the animal details
  */
-class ArticleHierarchy extends React.Component<MyProps, MyState> {
+class DocumentHierarchy extends React.Component<MyProps, MyState> {
     state = {hidden:initState, searchTerm:""};
 
 
@@ -48,7 +48,7 @@ class ArticleHierarchy extends React.Component<MyProps, MyState> {
     }
 
     //Build the list
-    buildHierarchy(item: ArticleItemData): JSX.ReactNode{
+    buildHierarchy(item: DocumentItemData): JSX.ReactNode{
         //If this is a directory it
         if(isDirectory(item)){
             //Determine if this directory is hidden
@@ -125,4 +125,4 @@ class ArticleHierarchy extends React.Component<MyProps, MyState> {
 }
 
 
-export default ArticleHierarchy
+export default DocumentHierarchy

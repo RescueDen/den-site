@@ -6,11 +6,12 @@ import ApplicationState from "../../state/ApplicationState";
 import {Image, Segment, Dimmer, Loader, Container, Header} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
-import ArticlesSummary, {ArticleItemData, isDirectory} from "../../models/ArticlesSummary";
+import ArticlesSummary, {ArticleItemData} from "../../models/ArticlesSummary";
 import {infoActions} from "../../actions/info.actions";
-import ArticleHierarchy from "./ArticleHierarchy";
+import DocumentHierarchy from "./DocumentHierarchy";
 import ArticleViewer from "./ArticleViewer";
 import Breadcrumbs from "./Breadcrumbs";
+import {isDirectory} from "../../models/DocumentSummary";
 
 
 
@@ -85,7 +86,7 @@ class Information extends React.Component<LinkProps&DispatchProps, any> {
         //If this is an folder show the folder information
         if(isDirectory(item)){
             components.push(
-                <ArticleHierarchy key={"heir"+item.id} linkPath={"/info"}  item={item}/>
+                <DocumentHierarchy key={"heir"+item.id} linkPath={"/info"} item={item}/>
             );
         }else{
             //Load up the article
@@ -117,7 +118,7 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:LinkProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
         getInfoSummary:() =>  dispatch(infoActions.getInfoSummary())
     };

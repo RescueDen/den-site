@@ -3,8 +3,23 @@
  */
 import DocumentSummary, {DocumentItemData} from "./DocumentSummary";
 
+export interface FormMetaData {
+    title:string;
+    requiredPerm:string[];
+
+
+}
+
+
 //Store the info coming back from the server
-export interface ArticleItemData extends DocumentItemData{
+export interface FormItemData extends DocumentItemData{
+
+    //Store the form metadata
+    metadata:FormMetaData;
+
+    //And the meta data
+    JSONSchema:any;
+    UISchema:any;
 
 }
 
@@ -12,15 +27,15 @@ export interface ArticleItemData extends DocumentItemData{
 /**
  * Define a class that uses the CAWS User data
  */
-export default class ArticlesSummary implements DocumentSummary{
+export default class FormsSummary implements DocumentSummary{
     //Set to read only for now
-    public readonly data:ArticleItemData;
+    public readonly data:FormItemData;
 
     //Build a flat list for fast look ups
-    itemList: { [id: string]: ArticleItemData; } = {};
+    itemList: { [id: string]: DocumentItemData; } = {};
 
     //The main constructor
-    constructor(data: ArticleItemData) {
+    constructor(data: FormItemData) {
         this.data = data;
 
         //Now add all of the items to the flat this
@@ -28,7 +43,7 @@ export default class ArticlesSummary implements DocumentSummary{
     }
 
     //Add to itemList
-    private addToList(data: ArticleItemData){
+    private addToList(data: DocumentItemData){
 
         //Add the current item
         this.itemList[data.id] = data;
@@ -45,14 +60,14 @@ export default class ArticlesSummary implements DocumentSummary{
     }
 
     //Check to see if it empty
-    public findArticleItem(id:string):ArticleItemData {
+    public findArticleItem(id:string){
         return this.itemList[id];
     }
 
     //Build breadCrumbs
-    public buildBreadcrumbs(id:string) :ArticleItemData[]{
+    public buildBreadcrumbs(id:string) :DocumentItemData[]{
         //Build a list list
-        let breadCrumbs: ArticleItemData[] = [];
+        let breadCrumbs: DocumentItemData[] = [];
 
         //If there is no id return
         if(id === undefined || this.empty())
@@ -61,7 +76,7 @@ export default class ArticlesSummary implements DocumentSummary{
         //While the id is not null
         while(id.length > 0){
             //Get the article
-            const breadCrumb: ArticleItemData = this.findArticleItem(id);
+            const breadCrumb: DocumentItemData = this.findArticleItem(id);
 
             //Add it to the list
             breadCrumbs.push(breadCrumb);
@@ -74,8 +89,15 @@ export default class ArticlesSummary implements DocumentSummary{
         //Return
         return breadCrumbs.reverse();
     }
-
-
-
 }
 
+/**
+ * Function termines if this is a FormItemData
+ * @param arg
+ */
+export function isFormItemData(arg: any): arg is FormItemData{
+    return (arg.metadata != undefined) &&
+        (arg.JSONSchema != undefined) &&
+        (arg.UISchema != undefined);
+
+}

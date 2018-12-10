@@ -7,6 +7,7 @@ import AnimalState from "../../state/AnimalState";
 import AnimalCard from "../animal/AnimalCard";
 import {Card, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
+import AnimalItemFull from "./AnimalItemFull";
 
 //Define the expected props
 interface IncomingProps  {
@@ -55,6 +56,29 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
     }
 
     /**
+     * Get the items
+     */
+    getItems(){
+        //If we have items
+        return this.props.animalIdList.map(id => {
+            //Convert to an ani
+            const ani = this.props.cawsAnimalsDb.animals[id];
+
+            //If the ani is undefined just return the aniItem
+            if (ani === undefined) {
+                return <AnimalCard key={id} ani={ani} link="/animal"/>;
+            } else if (ani.inSearch(this.state.searchTerm)) {
+                //It is in the search term
+                return <AnimalCard key={id} ani={ani} link="/animal"/>;
+            } else {
+                return null;
+            }
+        });
+
+    }
+
+
+    /**
      * Re-render every time this is called
      * @returns {*}
      */
@@ -76,20 +100,7 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
 
 
                 <Card.Group centered>
-                    {//Step over each animal id
-                        this.props.animalIdList.map(id => {
-                            //Map into a caws animal
-                            return this.props.cawsAnimalsDb.animals[id];
-                        }).filter(ani =>{
-                            //Filter on the search term
-                            return !ani || this.state.searchTerm.length == 0 || ani.inSearch(this.state.searchTerm);
-
-                        }).map(ani=>{
-                            //Turn into a card. If it is undefined
-                            return <AnimalCard  animal={ani}/>
-
-                        })
-                    }
+                    {this.getItems()}
                 </Card.Group>
             </div>
         )

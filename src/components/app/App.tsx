@@ -13,6 +13,7 @@ import MyDetails from "../person/MyDetails";
 import Information from "../newsAndInfo/Information";
 import News from "../newsAndInfo/News";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
+import FormViewer from "../forms/FormSelector";
 
 
 //Define the expected props
@@ -97,6 +98,8 @@ class App extends React.Component<any, MyState> {
                 <Route exact path="/news/" component={News} />
                 <Route path="/news/:articleId" component={News} />
                 <Route exact path="/inneed/" component={InNeedOfFosterList} />
+                <Route exact path="/forms/" component={FormViewer} />
+                <Route path="/forms/:formId" component={FormViewer} />
 
             </div>
         );

@@ -10,8 +10,8 @@ import {Link} from "react-router-dom";
 
 //Define the expected props
 interface IncomingProps{
-    animal: CawsAnimal;
-
+    ani: CawsAnimal;
+    link:string;
 }
 
 //Define the expected props
@@ -32,13 +32,13 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
 
 
     /**
-     * Re-render eveyr time this is called
+     * Re-render every time this is called
      * @returns {*}
      */
     render() {
 
         //If undefined
-        if(!this.props.animal){
+        if(!this.props.ani){
             return (
                 <Card >
                     <Placeholder>
@@ -65,20 +65,20 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
         }else {
 
             return (
-                    <Card key={this.props.animal.data.ID}>
-                        <Link to={`/animal/${this.props.animal.data.ID}`}>
-                            <Image src={this.props.animal.getImageUrl()}/>
+                    <Card key={this.props.ani.data.ID}>
+                        <Link to={`${this.props.link}/${this.props.ani.data.ID}`}>
+                            <Image src={this.props.ani.getImageUrl()}/>
                         </Link>
                         <Card.Content>
-                            <Card.Header>{this.props.animal.data.NAME}</Card.Header>
+                            <Card.Header>{this.props.ani.data.NAME}</Card.Header>
                             <Card.Meta>
-                                <span className='date'>{this.props.animal.getMyHistory(this.props.user.data.asmid)}</span>
+                                <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.asmid)}</span>
                             </Card.Meta>
-                            <Card.Description>{this.props.animal.data.BIO}</Card.Description>
+                            <Card.Description>{this.props.ani.data.BIO}</Card.Description>
                         </Card.Content>
                         <Card.Content extra>
                             <a>
-                                {this.props.animal.getCurrentStatus()}
+                                {this.props.ani.getCurrentStatus()}
                             </a>
                         </Card.Content>
                     </Card>

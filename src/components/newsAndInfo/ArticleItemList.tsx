@@ -6,12 +6,13 @@ import ApplicationState from "../../state/ApplicationState";
 import {Image, Segment, Dimmer, Loader, Container, Header, Item, Input} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
-import ArticlesSummary, {ArticleItemData, inSearchResults} from "../../models/ArticlesSummary";
+import ArticlesSummary, {ArticleItemData} from "../../models/ArticlesSummary";
 import {infoActions} from "../../actions/info.actions";
-import ArticleHierarchy from "./ArticleHierarchy";
+import DocumentHierarchy from "./DocumentHierarchy";
 import ArticleViewer from "./ArticleViewer";
 import {newsActions} from "../../actions/news.actions";
 import ArticleItem from "./ArticleItem";
+import {inSearchResults} from "../../models/DocumentSummary";
 
 
 //Define the expected props

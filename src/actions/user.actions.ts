@@ -3,6 +3,7 @@ import { success, error } from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {UserData} from "../models/UserData";
+import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
 
 
 export const userConstants = {
@@ -14,22 +15,29 @@ export const userConstants = {
     LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
     LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
 
+    ACTIVATION_REQUEST: 'USERS_ACTIVATION_REQUEST',
+    ACTIVATION_SUCCESS: 'USERS_ACTIVATION_SUCCESS',
+    ACTIVATION_FAILURE: 'USERS_ACTIVATION_FAILURE',
+
+    PW_RESET_REQUEST: 'PW_RESET_REQUEST',
+    PW_RESET_SUCCESS: 'PW_RESET_SUCCESS',
+    PW_RESET_FAILURE: 'PW_RESET_FAILURE',
+
+
     LOGOUT: 'USERS_LOGOUT',
 
-    GETALL_REQUEST: 'USERS_GETALL_REQUEST',
-    GETALL_SUCCESS: 'USERS_GETALL_SUCCESS',
-    GETALL_FAILURE: 'USERS_GETALL_FAILURE',
 
-    DELETE_REQUEST: 'USERS_DELETE_REQUEST',
-    DELETE_SUCCESS: 'USERS_DELETE_SUCCESS',
-    DELETE_FAILURE: 'USERS_DELETE_FAILURE'
 };
 
 export const userActions = {
     login,
     logout,
-    register
-    // logout,
+    register,
+    requestActivationToken,
+    activate,
+    requestEmailReset,
+    forcePasswordChange,
+    updateLoggedInUser
     // getAll,
     // delete: _delete
 };
@@ -63,23 +71,112 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                 },
                 //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
-                    //dispatch a login failure
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
                     dispatch({
                         type: userConstants.LOGIN_FAILURE,
-                        payload: errorResponse
+                        payload: message
                     });
-                    //Dispatch the error
-                    try {
-                        dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
-                        dispatch(error(errorResponse.toString()));
 
-                    }
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+
+
 
                 }
             );
     };
+}
 
+/**
+ * This is the user action to try to log in
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function updateLoggedInUser(): ThunkAction<any, any,any, any> {
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+        //Dispatch the action of attempting to login
+        dispatch({
+            type: userConstants.LOGIN_REQUEST,
+        });
+
+        //Ask the user service to login
+        userService.updateLoggedInUser()
+            .then(
+                //If successful a user will be returned
+                user => {
+                    //dispatch a login success
+                    dispatch({
+                        type: userConstants.LOGIN_SUCCESS,
+                        payload: user
+                    });
+
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
+                    dispatch({
+                        type: userConstants.LOGIN_FAILURE,
+                        payload: message
+                    });
+
+                }
+            );
+    };
+}
+
+/**
+ * This is the user action to try to log in
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function activate(email:string, activationToken:string): ThunkAction<any, any,any, any> {
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+        //Dispatch the action of attempting to login
+        dispatch({
+            type: userConstants.ACTIVATION_REQUEST,
+        });
+
+        //Ask the user service to login
+        userService.activateUser(email, activationToken)
+            .then(
+                //If successful a user will be returned
+                resposne => {
+                    //dispatch a login success
+                    dispatch({
+                        type: userConstants.ACTIVATION_SUCCESS,
+                        payload: resposne
+                    });
+                    dispatch(success(resposne.message))
+
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+
+
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
+                    dispatch({
+                        type: userConstants.ACTIVATION_FAILURE,
+                        payload: message
+                    });
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+                }
+            );
+    };
 }
 
 /**
@@ -91,6 +188,131 @@ function logout() :Action {
     userService.logout();
     //No need to dispatch because this is an instant process
     return { type: userConstants.LOGOUT };
+}
+
+/**
+ * Register this new user with the system
+ * @param user
+ * @returns {Function}
+ */
+function requestActivationToken(email:string): ThunkAction<any, any,any, any> {
+    //Return a function that takes a dispatch
+    return (dispatch:Dispatch<Action>) => {
+
+
+        //Now ask the userService to register
+        userService.requestActivationToken(email)
+            .then(
+                response =>{
+                    //If the status is true, the new user was created
+                    if(response.status){
+
+                        //Dispatch a success message
+                        dispatch(success(response.message))
+                    }else{
+
+                        //Dispatch a sucess message
+                        dispatch(error(response.message))
+                    }
+
+
+                },
+                //If we get an error back
+                errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+                }
+            );
+    };
+
+}
+
+/**
+ * requestEmailReset
+ * @param user
+ * @returns {Function}
+ */
+function requestEmailReset(email:string): ThunkAction<any, any,any, any> {
+    //Return a function that takes a dispatch
+    return (dispatch:Dispatch<Action>) => {
+
+
+        //Now ask the userService to register
+        userService.requestEmailReset(email)
+            .then(
+                response =>{
+                    //If the status is true, the new user was created
+                    if(response.status){
+
+                        //Dispatch a success message
+                        dispatch(success(response.message))
+                    }else{
+
+                        //Dispatch a sucess message
+                        dispatch(error(response.message))
+                    }
+
+
+                },
+                //If we get an error back
+                errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+                }
+            );
+    };
+
+}
+
+/**
+ * Function to force a password change with a token
+ */
+function forcePasswordChange(email:string, reset_token:string, password:string): ThunkAction<any, any,any, any> {
+    //Return a function that takes a dispatch
+    return (dispatch: Dispatch<Action>) => {
+
+        //Dispatch the action of attempting to login
+        dispatch({
+            type: userConstants.PW_RESET_REQUEST,
+        });
+
+        //Ask the user service to login
+        userService.forcePasswordChange(email, reset_token, password)
+            .then(
+                //If successful a user will be returned
+                resposne => {
+                    //dispatch a login success
+                    dispatch({
+                        type: userConstants.PW_RESET_SUCCESS,
+                        payload: resposne
+                    });
+                    dispatch(success(resposne.message))
+
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+
+
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
+                    dispatch({
+                        type: userConstants.ACTIVATION_FAILURE,
+                        payload: message
+                    });
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+                }
+            );
+    }
 }
 
 /**
@@ -138,14 +360,17 @@ function register(user: UserData): ThunkAction<any, any,any, any> {
                 },
                 //If we get an error back
                 errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
                     //Else it failed
                     dispatch({
                         type: userConstants.REGISTER_FAILURE,
-                        payload: errorResponse
+                        payload: message
                     });
 
                     //Dispatch a sucess message
-                    dispatch(error(errorResponse.toString()));
+                    dispatch(error(message));
                 }
             );
     };

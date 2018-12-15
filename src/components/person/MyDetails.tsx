@@ -8,6 +8,8 @@ import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
 import MySummary from "./MySummary";
 import AnimalList from "../animal/SearchableAnimalListCompact";
+import {ThunkDispatch} from "redux-thunk";
+import {userActions} from "../../actions/user.actions";
 
 
 //Define the expected props
@@ -18,11 +20,21 @@ interface LinkProps extends RouteComponentProps<any> {
 }
 
 
+interface DispatchProps{
+    //And the actions that must be done
+    updateMyInfo: () => any;
+
+}
+
 /**
  * This page shows the person details
  */
-class MyDetails extends React.Component<LinkProps> {
+class MyDetails extends React.Component<LinkProps&DispatchProps> {
 
+    //Update the user if there are any changes
+    componentDidMount(){
+        this.props.updateMyInfo()
+    }
 
     /**
      * Re-render eveyr time this is called
@@ -71,9 +83,15 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
     };
 }
 
+function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:LinkProps):DispatchProps {
+    return {
+        updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser())
+    };
 
+}
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
 export default connect (
     mapStateToProps,
+    mapDispatchToProps
 )(MyDetails);

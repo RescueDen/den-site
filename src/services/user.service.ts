@@ -2,17 +2,18 @@ import axios from 'axios';
 import {ServerResponseStatus} from "../models/ServerStatus";
 import {UserData} from "../models/UserData";
 import CawsUser, {CawsUserData} from "../models/CawsUser";
+import {authHeader} from "../utils/auth-header";
 
 
 export const userService = {
     login,
     logout,
-    registerNewUser
-    // register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
+    registerNewUser,
+    activateUser,
+    requestActivationToken,
+    requestEmailReset,
+    forcePasswordChange,
+    updateLoggedInUser,
 };
 
 // Create a default axios instance with the api
@@ -53,6 +54,38 @@ function login(email:string, password:string) : Promise<CawsUser> {
 }
 
 /**
+ * Gets the latest data for the logged in user.
+ * @param username
+ * @param password
+ * @returns
+ */
+function updateLoggedInUser() : Promise<CawsUser> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get('/users/',  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const userData = <CawsUserData>response.data;
+
+            //Make a caws user
+            const cawsUser = new CawsUser(userData)
+
+            //Return just the user
+            return cawsUser;
+        }
+    );
+
+
+}
+
+/**
  * Logs out the current user from removing the local storage
  */
 function logout() {
@@ -68,11 +101,90 @@ function registerNewUser(user: UserData): Promise<ServerResponseStatus>{
     const responsePromise = apiServer.post('/users/new', user);
 
     //Now convert it to a serverResponse
-    return responsePromise.then(any =>{
-        return new ServerResponseStatus(true, "blue");
-
-
+    return responsePromise.then(response =>{
+        return  <ServerResponseStatus>response.data;
     });
+
+
+}
+
+/**
+ * This function add a new user to the service
+ */
+function forcePasswordChange(email:string, reset_token:string, password:string): Promise<ServerResponseStatus>{
+
+    const sendData:any ={
+        email,
+        password,
+        reset_token,
+    }
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post('/users/password/reset', sendData);
+
+    //Now convert it to a serverResponse
+    return responsePromise.then(response =>{
+        return  <ServerResponseStatus>response.data;
+    });
+
+
+}
+
+
+/**
+ * This function add a new user to the service
+ */
+function requestActivationToken(email: string): Promise<ServerResponseStatus>{
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/users/activate`,{params:{email:email}});
+
+    //Now convert it to a serverResponse
+    return responsePromise.then(response =>{
+        return  <ServerResponseStatus>response.data;
+    });
+
+
+}
+
+/**
+ * This function add a new user to the service
+ */
+function requestEmailReset(email: string): Promise<ServerResponseStatus>{
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/users/password/reset`,{params:{email:email}});
+
+    //Now convert it to a serverResponse
+    return responsePromise.then(response =>{
+        return  <ServerResponseStatus>response.data;
+    });
+
+
+}
+
+
+/**
+ * This function add a new user to the service
+ */
+function activateUser(email:string, activationToken:string): Promise<ServerResponseStatus>{
+
+    //Define a little object
+    const sendData:any = {
+        email:email,
+        activation_token: activationToken
+    }
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post('/users/activate', sendData);
+
+    //Now convert it to a serverResponse
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const data = <ServerResponseStatus>response.data;
+
+            return data;
+        }
+    );
 
 
 }

@@ -6,6 +6,13 @@ import CawsUser from "../models/CawsUser";
 export default interface AuthenticationState {
     loggedInUser?: CawsUser,
     loggedInStatus?:AuthenticationStatus,
+    loggedInMsg?:string,
+    activatedUserStatus?:AuthenticationStatus,
+    activatedUserMsg?:string,
+    registerUserStatus?:AuthenticationStatus,
+    registerUserMsg?:string,
+    pwResetStatus?:AuthenticationStatus,
+    pwResetUserMsg?:string,
 }
 
 export enum AuthenticationStatus{
@@ -13,3 +20,4 @@ export enum AuthenticationStatus{
     ATTEMPT,
     FALSE
 }
+

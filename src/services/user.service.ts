@@ -3,6 +3,7 @@ import {ServerResponseStatus} from "../models/ServerStatus";
 import {UserData} from "../models/UserData";
 import CawsUser, {CawsUserData} from "../models/CawsUser";
 import {authHeader} from "../utils/auth-header";
+import Permissions, {PermissionsData} from "../models/Permissions";
 
 
 export const userService = {
@@ -14,6 +15,7 @@ export const userService = {
     requestEmailReset,
     forcePasswordChange,
     updateLoggedInUser,
+    getLoggedInUserPermissions,
 };
 
 // Create a default axios instance with the api
@@ -86,11 +88,49 @@ function updateLoggedInUser() : Promise<CawsUser> {
 }
 
 /**
+ * Gets the latest data for the logged in user.
+ * @param username
+ * @param password
+ * @returns
+ */
+function getLoggedInUserPermissions() : Promise<Permissions> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get('/users/permissions',  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const permData = <PermissionsData>response.data;
+
+            //Make a caws user
+            const perm = new Permissions(permData)
+
+            //Log that user in
+            localStorage.setItem('currentPermissions', JSON.stringify(permData));
+
+
+            //Return just the user
+            return perm;
+        }
+    );
+
+
+}
+
+
+/**
  * Logs out the current user from removing the local storage
  */
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentPermissions');
 }
 
 /**

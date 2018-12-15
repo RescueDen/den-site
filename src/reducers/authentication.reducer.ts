@@ -2,19 +2,24 @@ import Action from "../actions/Action";
 import AuthenticationState, {AuthenticationStatus} from "../state/AuthenticationState";
 import {userConstants} from "../actions/user.actions";
 import CawsUser from "../models/CawsUser";
+import Permissions from "../models/Permissions";
 
 //When the program first starts up we don't know the status of the user logged in.
 let initialState:AuthenticationState = {};
 
 //Check the local storage first
 let userString = localStorage.getItem('currentUser');
-if(userString) {
+let permString = localStorage.getItem('currentPermissions');
+
+if(userString && permString) {
     let user = JSON.parse(userString);
+    let perm = JSON.parse(permString);
     //    initialState = user ? {loggedIn: true, payload: new User()} : {};
 
     initialState = {
         loggedInUser: new CawsUser(user),
-        loggedInStatus: AuthenticationStatus.TRUE
+        loggedInStatus: AuthenticationStatus.TRUE,
+        permissions: new Permissions(perm),
     }
 }
 
@@ -49,7 +54,8 @@ export function authentication(state:AuthenticationState = initialState, action:
             return {
                 ...initialState,
                 loggedInStatus:AuthenticationStatus.FALSE,
-                loggedInUser: undefined
+                loggedInUser: undefined,
+                permissions:undefined
             };
         /////////////////////
         case userConstants.REGISTER_REQUEST:
@@ -108,6 +114,13 @@ export function authentication(state:AuthenticationState = initialState, action:
                 pwResetStatus:AuthenticationStatus.FALSE,
                 pwResetUserMsg: action.payload
             };
+        //Update the permissions
+        case userConstants.FETCH_PERMISSIONS:
+            return {
+                ...initialState,
+                permissions: action.payload
+            };
+
         default:
             return state
     }

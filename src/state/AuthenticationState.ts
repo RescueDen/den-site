@@ -1,4 +1,5 @@
 import CawsUser from "../models/CawsUser";
+import Permissions from "../models/Permissions";
 
 /**
  * This model describes the authorisation
@@ -13,6 +14,9 @@ export default interface AuthenticationState {
     registerUserMsg?:string,
     pwResetStatus?:AuthenticationStatus,
     pwResetUserMsg?:string,
+
+    //Keep the user permissions
+    permissions?:Permissions,
 }
 
 export enum AuthenticationStatus{

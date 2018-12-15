@@ -23,6 +23,7 @@ export const userConstants = {
     PW_RESET_SUCCESS: 'PW_RESET_SUCCESS',
     PW_RESET_FAILURE: 'PW_RESET_FAILURE',
 
+    FETCH_PERMISSIONS: 'FETCH_PERMISSIONS',
 
     LOGOUT: 'USERS_LOGOUT',
 
@@ -66,7 +67,11 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                         type: userConstants.LOGIN_SUCCESS,
                         payload: user
                     });
+                    //Now update the user permissions
+                    updateUserPermissions(dispatch);
+
                     dispatch(success("You logged in!"))
+
 
                 },
                 //If there was an error, dispatch a login failure and alert the user why
@@ -91,6 +96,41 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
 }
 
 /**
+ * Now update the user permissions
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function updateUserPermissions(dispatch:Dispatch<Action>): void {
+
+    //Ask the user service to login
+    userService.getLoggedInUserPermissions()
+        .then(
+            //If successful a user will be returned
+            perm => {
+                //dispatch a login success
+                dispatch({
+                    type: userConstants.FETCH_PERMISSIONS,
+                    payload: perm
+                });
+                dispatch(success("You go permissions"))
+
+            },
+            //If there was an error, dispatch a login failure and alert the user why
+            errorResponse => {
+                //Get the message
+                const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                //Dispatch a sucess message
+                dispatch(error(message));
+
+
+
+            }
+        );
+
+}
+/**
  * This is the user action to try to log in
  * @param username
  * @param password
@@ -101,7 +141,7 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
     return (dispatch:Dispatch<Action>) => {
         //Dispatch the action of attempting to login
         dispatch({
-            type: userConstants.LOGIN_REQUEST,
+            type: userConstants.FETCH_PERMISSIONS,
         });
 
         //Ask the user service to login
@@ -114,6 +154,10 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
                         type: userConstants.LOGIN_SUCCESS,
                         payload: user
                     });
+
+                    //Now update the user permissions
+                    updateUserPermissions(dispatch);
+
 
                 },
                 //If there was an error, dispatch a login failure and alert the user why
@@ -131,6 +175,8 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
             );
     };
 }
+
+
 
 /**
  * This is the user action to try to log in

@@ -40,12 +40,8 @@ class App extends React.Component<any> {
                 {/*Provides call backs when this object leaves on certain*/}
                 <ResponsiveNavBar
                     ///*Define a desktop header*/}
-                    desktopHeader={
-                        <div style={{height:"20px",backgroundColor:"green"}} >
+                    desktopHeader={undefined}
 
-                        </div>
-
-                    }
 
                     ///*Now for the menu items*/}
                     items={[

@@ -106,7 +106,6 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                     as={NavBar}
                     animation="overlay"
                     icon={"labeled"}
-                    inverted
                     items={this.props.items}
                     vertical
                     visible={this.state.mobileMenuOpen}
@@ -123,7 +122,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                     onClick={this.closeMobileMenu}
                 >
                     {/*Now add an always vis menu to show/hide the real menu*/}
-                    <Menu inverted>
+                    <Menu>
                         <Menu.Item onClick={this.toggleMobileMenu}>
                             <Icon name="sidebar" />
                         </Menu.Item>

@@ -2,9 +2,8 @@ import React from 'react';
 import logoImage from '../../assets/logos/xCAWS_logo_sideways.png';
 
 // import routes
-import {Container, Image, Visibility, Header, Menu} from 'semantic-ui-react';
+import {Container, Image, Icon} from 'semantic-ui-react';
 import {Route} from "react-router";
-import {Link} from "react-router-dom";
 
 //Import Pages
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
@@ -14,35 +13,19 @@ import Information from "../newsAndInfo/Information";
 import News from "../newsAndInfo/News";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 import FormViewer from "../forms/FormSelector";
+import ResponsiveMenu from "../menu/ResponsiveNavBar";
+import ResponsiveNavBar from "../menu/ResponsiveNavBar";
 
 
-//Define the expected props
-interface MyState{
-    menuFixed: boolean
-}
+//Setup up path props to get the current path
 
-
-
-class App extends React.Component<any, MyState> {
-    state = {menuFixed:false}
+class App extends React.Component<any> {
     /**
      * Gets called once when the page loads
      */
     componentDidMount(){
 
     };
-
-
-    /**
-     * Function to update the state so the menu is no longer fixed
-     */
-    unStickTopMenu = () => this.setState({ menuFixed: false });
-
-    /**
-     * Function to update the state so the menu is  fixed
-     */
-    stickTopMenu = () => this.setState({ menuFixed: true });
-
 
     //Return the real div
     /**
@@ -53,53 +36,84 @@ class App extends React.Component<any, MyState> {
         return (
             <div className="App">
                 {/*Define the top area*/}
-                <Container text style={{ marginTop: '2em' }}>
-                    <Header as='h1'>Sticky Example</Header>
-                    <p>
-                        This example shows how to use lazy loaded images, a sticky menu, and a simple text
-                        container
-                    </p>
-                </Container>
-                {/*Provides call backs when this object leaves on certain*/}
-                <Visibility
-                    onBottomPassed={this.stickTopMenu}
-                    onBottomVisible={this.unStickTopMenu}
-                    once={false}
-                >
-                    {/*Inside of the visibility*/}
-                    <Menu
-                        borderless
-                        fixed={this.state.menuFixed ? 'top' : undefined}
-                        className={this.state.menuFixed ? 'fixedMenuStyle' : 'menuStyle'}
-                    >
-                        <Container text>
-                            <Link to='/' >
-                                <Menu.Item>
-                                    <Image size='tiny' src={logoImage} />
-                                </Menu.Item>
-                            </Link>
-                            <Link to='/currentfosters'><Menu.Item >Current Fosters</Menu.Item></Link>
-                            <Link to='/pastfosters'><Menu.Item >Past Fosters</Menu.Item></Link>
-                            <Link to='/myinfo'><Menu.Item >My Info</Menu.Item></Link>
-                            <Link to='/info'><Menu.Item >Information</Menu.Item></Link>
-                            <Link to='/news'><Menu.Item >News</Menu.Item></Link>
 
-                        </Container>
-                    </Menu>
-                </Visibility>
-                {/*The menu is over is load in based upon the router*/}
-                {/*<Route exact path="/" component={MyInfo} />*/}
-                <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
-                <Route exact path="/pastfosters" component={PastFostersFullPage} />
-                <Route path="/animal/:aniId" component={AnimalDetails} />
-                <Route path="/myinfo" component={MyDetails} />
-                <Route exact path="/info/" component={Information} />
-                <Route path="/info/:articleId" component={Information} />
-                <Route exact path="/news/" component={News} />
-                <Route path="/news/:articleId" component={News} />
-                <Route exact path="/inneed/" component={InNeedOfFosterList} />
-                <Route exact path="/forms/" component={FormViewer} />
-                <Route path="/forms/:formId" component={FormViewer} />
+                {/*Provides call backs when this object leaves on certain*/}
+                <ResponsiveNavBar
+                    ///*Define a desktop header*/}
+                    desktopHeader={
+                        <div style={{height:"20px",backgroundColor:"green"}} >
+
+                        </div>
+
+                    }
+
+                    ///*Now for the menu items*/}
+                    items={[
+                        //The logo
+                        {
+                            name:<Image size='tiny' src={logoImage} />
+                        },
+                        {
+                            name:"News",
+                            to:'/news',
+                            reqPerm:'get_news',
+                            icon:<Icon name='newspaper outline' />
+                        },
+                        {
+                            name:"Info",
+                            to:'/info',
+                            reqPerm:'get_info',
+                            icon:<Icon name='tv' />
+                        },
+                        {//Also show my info
+                            name:"My Info",
+                            to:'/myinfo',
+                            icon:<Icon name='user outline' />
+                        },
+                        {//Now foster info
+                            name:"Fosters",
+                            reqPerm:"get_animal_info",
+                            icon:<Icon name='paw' />,
+                            subItems:[
+                                {
+                                    name:"In Need",
+                                    to:'/inneed',
+                                },
+                                {
+                                    name:"Your Current Fosters",
+                                    to:'/currentfosters',
+                                },
+                                {
+                                    name:"Your Past Fosters",
+                                    to:'/pastfosters',
+                                }
+                            ]
+
+                        },
+                        {//Show all of the forms
+                            name:"Forms",
+                            to:'/forms',
+                            icon:<Icon name='edit outline' />
+                        },
+
+                    ]}
+                >
+
+                    {/*The menu is over is load in based upon the router*/}
+                    <Container>
+                        <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
+                        <Route exact path="/pastfosters" component={PastFostersFullPage} />
+                        <Route path="/animal/:aniId" component={AnimalDetails} />
+                        <Route path="/myinfo" component={MyDetails} />
+                        <Route exact path="/info/" component={Information} />
+                        <Route path="/info/:articleId" component={Information} />
+                        <Route exact path="/news/" component={News} />
+                        <Route path="/news/:articleId" component={News} />
+                        <Route exact path="/inneed/" component={InNeedOfFosterList} />
+                        <Route exact path="/forms/" component={FormViewer} />
+                        <Route path="/forms/:formId" component={FormViewer} />
+                    </Container>
+                </ResponsiveNavBar>
 
             </div>
         );

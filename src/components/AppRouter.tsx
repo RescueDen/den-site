@@ -22,7 +22,7 @@ class AppRouter extends React.Component{
     //The app router just shows the parts of the different
     render() {
         return (
-            <div className="ui container">
+            <div>
                 {/*Always show the the alerts*/}
                 <AlertDisplay/>
 

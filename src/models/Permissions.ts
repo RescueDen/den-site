@@ -22,5 +22,10 @@ export default class Permissions{
     }
 
 
+    //Check to see if we have the permissions
+    allowed(perm:string): boolean{
+        return this.data.permissions.indexOf(perm) > -1;
+    }
+
 
 }

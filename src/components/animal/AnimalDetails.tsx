@@ -65,23 +65,21 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
         }else {
             //Get the animal details
             return (
-                <div>
-                    <Container text>
-                        {/*The simple header*/}
-                        <Header as='h1'>{this.props.animal.data.NAME}</Header>
+                <Container>
+                    {/*The simple header*/}
+                    <Header as='h1'>{this.props.animal.data.NAME}</Header>
 
-                        {/*The animal gallery*/}
-                        <AnimalImageGallery animal={this.props.animal} />
-                        
-                        {/*The animal Bio*/}
-                        <Segment>
-                            <Header as="h2">Biography</Header>
-                            <AnimalBio animal={this.props.animal}/>
-                        </Segment>
-                        {/*The vaccine history*/}
-                        <AnimalVaxxHistory animal={this.props.animal}/>
-                    </Container>
-                </div>
+                    {/*The animal gallery*/}
+                    <AnimalImageGallery animal={this.props.animal} />
+
+                    {/*The animal Bio*/}
+                    <Segment>
+                        <Header as="h2">Biography</Header>
+                        <AnimalBio animal={this.props.animal}/>
+                    </Segment>
+                    {/*The vaccine history*/}
+                    <AnimalVaxxHistory animal={this.props.animal}/>
+                </Container>
             );
 
         }

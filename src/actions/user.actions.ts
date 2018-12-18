@@ -113,8 +113,6 @@ function updateUserPermissions(dispatch:Dispatch<Action>): void {
                     type: userConstants.FETCH_PERMISSIONS,
                     payload: perm
                 });
-                dispatch(success("You go permissions"))
-
             },
             //If there was an error, dispatch a login failure and alert the user why
             errorResponse => {
@@ -139,10 +137,6 @@ function updateUserPermissions(dispatch:Dispatch<Action>): void {
 function updateLoggedInUser(): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<Action>) => {
-        //Dispatch the action of attempting to login
-        dispatch({
-            type: userConstants.FETCH_PERMISSIONS,
-        });
 
         //Ask the user service to login
         userService.updateLoggedInUser()

@@ -75,10 +75,7 @@ class News extends React.Component<LinkProps&DispatchProps, any> {
         //Start to build the list of React
         let components: JSX.ReactNode[] = [];
 
-        //Start out with a title
-        components.push(
-            <Header key="header" as="h1">News & Updates</Header>
-        );
+
 
         //If this is an folder show the folder information
         if(isDirectory(item)) {
@@ -86,10 +83,18 @@ class News extends React.Component<LinkProps&DispatchProps, any> {
             if (item.items) {
                 //Add a list of them
                 components.push(
-                    <ArticleItemList key={item.id} item={item} linkPath={"/news"}/>
+                    <ArticleItemList
+                        header={<Header key="header" as="h1">News & Updates</Header>}
+                        key={item.id}
+                        item={item}
+                        linkPath={"/news"}/>
                 );
             }
         }else{
+            //Start out with a title
+            components.push(
+                <Header key="header" as="h1">News & Updates</Header>
+            );
             //Load up the article
             components.push(<ArticleViewer key={item.id} item={item} />);
         }

@@ -1,9 +1,9 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import {connect} from 'react-redux';
 import JSX from 'react';
 import ApplicationState from "../../state/ApplicationState";
 
-import {Image, Segment, Dimmer, Loader, Container, Header, Item, Input} from "semantic-ui-react";
+import {Image, Segment, Dimmer, Loader, Container, Header, Item, Input, Grid} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
 import ArticlesSummary, {ArticleItemData} from "../../models/ArticlesSummary";
@@ -20,6 +20,7 @@ interface MyProps  {
     //Define the props we expect
     item:ArticleItemData;
     linkPath:string;
+    header?:ReactNode;
 
 }
 
@@ -66,8 +67,22 @@ class ArticleItemList extends React.Component<MyProps, MyState> {
     render() {
         return(
             <div>
-                <Input icon='search' placeholder='Search...' value={this.state.searchTerm}
-                       onChange={v => this.updateSearch(v.currentTarget.value)}/>
+                {/*Define a stackable grid to offset the header from the search box*/}
+                <Grid stackable columns={2}>
+                    <Grid.Column floated='left' textAlign='left'>
+                        {this.props.header}
+
+                    </Grid.Column>
+                    <Grid.Column floated='right' textAlign='right' >
+                        {/*Float the search bar to the right*/}
+                        <Input icon='search' placeholder='Search...' value={this.state.searchTerm}
+                               onChange={v => this.updateSearch(v.currentTarget.value)}/>
+                    </Grid.Column>
+                </Grid>
+
+
+
+
                 <Item.Group divided>
                     {/*If there are props*/}
                     {this.getItems()}

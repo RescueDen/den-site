@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import JSX from 'react';
 
 import {Input, List} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {DocumentItemData, inSearchResults, isDirectory} from "../../models/DocumentSummary";
+import {Grid} from "semantic-ui-react";
 
 
 
@@ -12,6 +13,7 @@ interface MyProps  {
     //Define the props we expect
     item:DocumentItemData;
     linkPath:string;
+    header?:ReactNode;
 
 }
 
@@ -81,6 +83,7 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
                 // this is just a document
                 return (
 
+
                         <List.Item key={item.id}>
                             <List.Icon name='file alternate outline'/>
                                 <List.Content>
@@ -107,8 +110,22 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
     render() {
         return (
             <div>
-                <Input icon='search' placeholder='Search...' value={this.state.searchTerm}
-                       onChange={v => this.updateSearch(v.currentTarget.value)}/>
+                {/*Define a stackable grid to offset the header from the search box*/}
+                <Grid stackable columns={2}>
+                    <Grid.Column floated='left' textAlign='left'>
+                        {this.props.header}
+
+                    </Grid.Column>
+                    <Grid.Column floated='right' textAlign='right' >
+                        {/*Float the search bar to the right*/}
+                        <Input icon='search' placeholder='Search...' value={this.state.searchTerm}
+                               onChange={v => this.updateSearch(v.currentTarget.value)}/>
+
+                    </Grid.Column>
+                </Grid>
+
+
+
 
 
                 <List>

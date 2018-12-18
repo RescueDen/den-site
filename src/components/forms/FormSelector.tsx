@@ -22,10 +22,9 @@ interface LinkProps  extends RouteComponentProps<any> {
     formsSummary: FormsSummary
     formId?:string;
 
+    //Determine the menuType
 
 }
-
-
 
 
 interface DispatchProps{
@@ -83,16 +82,21 @@ class FormSelector extends React.Component<DispatchProps&LinkProps> {
         );
 
         //Add in the bread crumbs
-        components.push(
-            <Breadcrumbs key={"breadCrumbs"+item.id} breadCrumbs={this.props.formsSummary.buildBreadcrumbs(item.id)} link={"/forms"}/>
-        )
+        const breadCrumbs = <Breadcrumbs key={"breadCrumbs"+item.id} breadCrumbs={this.props.formsSummary.buildBreadcrumbs(item.id)} link={"/forms"}/>
+
 
         //If this is an folder show the folder information
         if(isDirectory(item)){
             components.push(
-                <DocumentHierarchy key={"heir"+item.id} linkPath={"/forms"} item={item}/>
+                <DocumentHierarchy
+                    header={breadCrumbs}
+                    key={"heir"+item.id}
+                    linkPath={"/forms"}
+                    item={item}/>
             );
         }else{
+            //Add in the bread crumbs
+            components.push(breadCrumbs);
             //Check to see if a valid form
             if(isFormItemData(item) ){
                 //Load up the article

@@ -3,7 +3,7 @@ import logoImage from '../../assets/logos/xCAWS_logo_sideways.png';
 
 // import routes
 import {Container, Image, Icon} from 'semantic-ui-react';
-import {Route} from "react-router";
+import {Redirect, Route} from "react-router";
 
 //Import Pages
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
@@ -13,7 +13,7 @@ import Information from "../newsAndInfo/Information";
 import News from "../newsAndInfo/News";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 import FormViewer from "../forms/FormSelector";
-import ResponsiveMenu from "../menu/ResponsiveNavBar";
+import ResponsiveMenu, {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
 
 
@@ -41,7 +41,7 @@ class App extends React.Component<any> {
                 <ResponsiveNavBar
                     ///*Define a desktop header*/}
                     desktopHeader={undefined}
-
+                    desktopMode={MenuMode.Fixed}
 
                     ///*Now for the menu items*/}
                     items={[
@@ -93,10 +93,24 @@ class App extends React.Component<any> {
                         },
 
                     ]}
+
+                    //Add in fixed items
+                    itemsRight=
+                        {[
+                            {//Show all of the forms
+                                name:"Log Out",
+                                to:'/login',
+                            }
+                        ]}
                 >
 
                     {/*The menu is over is load in based upon the router*/}
                     <Container>
+                        {/*Redirect to the default path*/}
+                        <Route exact path="/" render={() => (
+                            <Redirect to="/news"/>
+                        )}/>
+                        {/*List all of the possible paths*/}
                         <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
                         <Route exact path="/pastfosters" component={PastFostersFullPage} />
                         <Route path="/animal/:aniId" component={AnimalDetails} />

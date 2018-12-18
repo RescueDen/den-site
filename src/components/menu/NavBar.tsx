@@ -11,11 +11,11 @@ import {StrictMenuProps} from "semantic-ui-react/dist/commonjs/collections/Menu"
 //Income Props
 interface Props extends  StrictMenuProps{
     items:MenuItem[];
+    itemsRight?:MenuItem[];
     mobile: boolean;
     permissions?:Permissions;
     pathname?:string;
     reRoute : (to?:string) => any;
-
 }
 
 
@@ -29,6 +29,8 @@ export interface MenuItem {
     reqPerm?:string
     subItems?:MenuItem[]
     icon?:ReactNode
+    onClick?:()=>any;
+
 }
 
 
@@ -64,7 +66,7 @@ class NavBar extends React.Component<Props> {
                 <MenuItem
                     key={item.name}
                     active={active}
-                    onClick={linkTo}
+                    onClick={item.onClick? item.onClick :linkTo}//If there is an onclick use it, otherwise link
                 >
                     {/*Now the icon if here*/}
                     {item.icon}
@@ -111,7 +113,10 @@ class NavBar extends React.Component<Props> {
                     {/*Now the icon if here*/}
                     {item.icon}
                     {/*Now for the name*/}
-                    <Dropdown key={item.name}  text={item.name} onClick={linkTo}>
+                    <Dropdown key={item.name}
+                              text={item.name}
+                              onClick={item.onClick? item.onClick :linkTo}//If there is an onclick use it, otherwise link
+                    >
                         <Dropdown.Menu>
                             {/*Now the icon if here*/}
                             {item.subItems && item.subItems.map(item => this.buildMenuItem(item, mobile, Dropdown.Item))}
@@ -133,12 +138,24 @@ class NavBar extends React.Component<Props> {
      */
     render() {
         //Don't pass the items into the menu that it doesn't want!
-        const {items,reRoute,mobile, ...rest} = this.props;
+        const {items,itemsRight, reRoute,mobile, ...rest} = this.props;
 
 
         return (
             <Menu {...rest} >
+                {/*Draw the normal menus*/}
                 {items.map(item => this.buildMenuItem(item, this.props.mobile, Menu.Item))}
+
+                {/*Draw the ones on the right*/}
+                {itemsRight &&
+                <Menu.Menu position='right'>
+                    {/*Add each item*/}
+                    {itemsRight.map(item => this.buildMenuItem(item, this.props.mobile, Menu.Item))}
+
+                </Menu.Menu>
+
+                }
+
             </Menu>
 
         );

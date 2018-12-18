@@ -1,17 +1,31 @@
-import {Icon, Menu, Responsive, Sidebar, Visibility} from "semantic-ui-react";
+import {Icon, Image, Menu, Responsive, Sidebar, Visibility} from "semantic-ui-react";
 import React, {ReactNode} from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import Permissions from "../../models/Permissions";
 import NavBar, {MenuItem} from "./NavBar";
+import logoImage from "../../assets/logos/xCAWS_logo_sideways.png";
 
 //Income Props
 interface Props extends RouteComponentProps{
     items:MenuItem[];
     desktopHeader?:ReactNode;
+    desktopMode:MenuMode
+    itemsRight?:MenuItem[];
 
 }
+
+/**
+ * Different type of menu modes
+ */
+export enum MenuMode {
+    Fixed,
+    None,
+    Sticky
+
+}
+
 
 //Define the expected props
 interface MyState{
@@ -67,6 +81,36 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
         }
     }
 
+    /**
+     * Determine the navBar fixed
+     */
+    getFixedState():'top'|undefined{
+        //If we are in fixed mode
+        switch(this.props.desktopMode){
+            case MenuMode.Fixed:
+                return 'top';
+            case MenuMode.Sticky:
+                return  this.state.menuFixed ? 'top' : undefined;
+            default:
+                return undefined;
+        }
+
+    }
+    /**
+     * Determine the navBar fixed style
+     */
+    getModeStyle():'fixedMenuStyle' | 'menuStyle'{
+        //If we are in fixed mode
+        switch(this.props.desktopMode){
+            case MenuMode.Fixed:
+                return 'fixedMenuStyle';
+            case MenuMode.Sticky:
+                return  this.state.menuFixed ? 'fixedMenuStyle' : 'menuStyle'
+            default:
+                return 'menuStyle';
+        }
+
+    }
 
     /**
      * Build desktop Menu
@@ -81,9 +125,10 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
             >
                 {/*Now build the simple menu*/}
                 <NavBar
-                    fixed={this.state.menuFixed ? 'top' : undefined}
-                    className={this.state.menuFixed ? 'fixedMenuStyle' : 'menuStyle'}
+                    fixed={ this.getFixedState()}
+                    className={this.getModeStyle()}
                     items={this.props.items}
+                    itemsRight={this.props.itemsRight}
                     mobile={false}
                     permissions={this.props.permissions}
                     reRoute={this.reRoute}
@@ -122,12 +167,20 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                     onClick={this.closeMobileMenu}
                 >
                     {/*Now add an always vis menu to show/hide the real menu*/}
-                    <Menu>
-                        <Menu.Item onClick={this.toggleMobileMenu}>
-                            <Icon name="sidebar" />
-                        </Menu.Item>
+                    <NavBar
+                        mobile={false}//Hard code mobile so that this is on top
+                        reRoute={this.reRoute}
+                        items={[
+                             {//Add in the toggle menu item
+                                 name:undefined,
+                                 icon:<Icon name="sidebar" />,
+                                 onClick:this.toggleMobileMenu
+                             }
+                         ]}
+                        //Add in any right items
+                        itemsRight={this.props.itemsRight}
+                    />
 
-                    </Menu>
                     {this.props.children}
                 </Sidebar.Pusher>
 
@@ -151,7 +204,10 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                 <Responsive minWidth={Responsive.onlyTablet.minWidth}>
                     {this.props.desktopHeader}
                     {this.buildNavBarDesktop()}
-                    {this.props.children}
+                    {/*Push this down for the menu height*/}
+                    <div  style={{ marginTop: '5em' }}>
+                        {this.props.children}
+                    </div>
 
                 </Responsive>
                 {/*Now for the mobile only*/}

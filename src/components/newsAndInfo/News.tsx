@@ -102,9 +102,9 @@ class News extends React.Component<LinkProps&DispatchProps, any> {
 
         //Start rendering
         return (
-            <div>
+            <Segment>
                 {components}
-            </div>
+            </Segment>
         );
 
 

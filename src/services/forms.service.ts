@@ -1,11 +1,9 @@
 import axios from 'axios';
-import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
-import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
-import {FormInputProps} from "semantic-ui-react";
 import FormsSummary, {FormItemData} from "../models/FormsSummary";
 import {FormSubmision} from "../models/FormSubmision";
 import {ServerResponse} from "http";
+import {ServerResponseStatus} from "../models/ServerStatus";
 
 export const formsService = {
     getFormsSummary,
@@ -60,7 +58,7 @@ function getFormsSummary() : Promise<FormsSummary> {
  * @param password
  * @returns
  */
-function submitForm(sub :FormSubmision) : Promise<ServerResponse> {
+function submitForm(sub :FormSubmision) : Promise<ServerResponseStatus> {
 
     //Get the headers
     const headers =authHeader();
@@ -73,7 +71,7 @@ function submitForm(sub :FormSubmision) : Promise<ServerResponse> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const data = <ServerResponse>response.data;
+            const data = <ServerResponseStatus>response.data;
 
             //Return just the user
             return data;

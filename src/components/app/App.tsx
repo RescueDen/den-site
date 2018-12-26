@@ -111,17 +111,17 @@ class App extends React.Component<any> {
                             <Redirect to="/news"/>
                         )}/>
                         {/*List all of the possible paths*/}
-                        <Route exact path="/currentfosters" component={CurrentFostersFullPage} />
-                        <Route exact path="/pastfosters" component={PastFostersFullPage} />
-                        <Route path="/animal/:aniId" component={AnimalDetails} />
-                        <Route path="/myinfo" component={MyDetails} />
-                        <Route exact path="/info/" component={Information} />
-                        <Route path="/info/:articleId" component={Information} />
-                        <Route exact path="/news/" component={News} />
-                        <Route path="/news/:articleId" component={News} />
-                        <Route exact path="/inneed/" component={InNeedOfFosterList} />
-                        <Route exact path="/forms/" component={FormViewer} />
-                        <Route path="/forms/:formId" component={FormViewer} />
+                        <Route key='currentfosters' exact path="/currentfosters" component={CurrentFostersFullPage} />
+                        <Route key='pastfosters' exact path="/pastfosters" component={PastFostersFullPage} />
+                        <Route key='animal' path="/animal/:aniId" component={AnimalDetails} />
+                        <Route key='myinfo' path="/myinfo" component={MyDetails} />
+                        <Route key='info' exact path="/info/" component={Information} />
+                        <Route key='info/articleId' path="/info/:articleId" component={Information} />
+                        <Route key='news' exact path="/news/" component={News} />
+                        <Route key='news:articleID' path="/news/:articleId" component={News} />
+                        <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
+                        <Route key='forms' exact path="/forms/" component={FormViewer} />
+                        <Route key='forms/formid' path="/forms/:formId" component={FormViewer} />
                     </Container>
                 </ResponsiveNavBar>
 

@@ -122,6 +122,11 @@ export default class CawsAnimal{
         }
     }
 
+    //Provide a method to get the image url
+    getCodeAndName():string{
+        return this.data.SHELTERCODE + ":" + this.data.NAME;
+    }
+
     //Get the foster range based upon the movements
     getMyHistory(userId:number):string[]{
         //Store my history

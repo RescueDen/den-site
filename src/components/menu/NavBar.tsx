@@ -64,7 +64,7 @@ class NavBar extends React.Component<Props> {
             //Just return this item
             return (
                 <MenuItem
-                    key={item.name}
+                    key={item.name+(item.icon?item.icon.toString():"")}
                     active={active}
                     onClick={item.onClick? item.onClick :linkTo}//If there is an onclick use it, otherwise link
                 >
@@ -144,7 +144,10 @@ class NavBar extends React.Component<Props> {
         return (
             <Menu {...rest} >
                 {/*Draw the normal menus*/}
-                {items.map(item => this.buildMenuItem(item, this.props.mobile, Menu.Item))}
+                {items && items.map(item => {
+                    return this.buildMenuItem(item, this.props.mobile, Menu.Item)
+                }
+                )}
 
                 {/*Draw the ones on the right*/}
                 {itemsRight &&

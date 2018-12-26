@@ -7,6 +7,7 @@ import {info} from "./info.reducer";
 import {news} from "./news.reducer";
 import {inNeedFoster} from "./inNeedFoster.reducer";
 import {forms} from "./forms.reducer";
+import {events} from "./events.reducer";
 
 
 import ApplicationState from '../state/ApplicationState';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers<ApplicationState>({
     news,
     inNeedFoster,
     forms,
+    events
 });
 
 export default rootReducer;

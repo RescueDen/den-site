@@ -15,6 +15,8 @@ import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 import FormViewer from "../forms/FormSelector";
 import ResponsiveMenu, {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
+import FormSelector from "../forms/FormSelector";
+import EventsSelector from "../events/EventsSelector";
 
 
 //Setup up path props to get the current path
@@ -91,7 +93,11 @@ class App extends React.Component<any> {
                             to:'/forms',
                             icon:<Icon name='edit outline' />
                         },
-
+                        {//Show all of the forms
+                            name:"Events",
+                            to:'/events',
+                            icon:<Icon name='calendar alternate outline' />
+                        },
                     ]}
 
                     //Add in fixed items
@@ -120,8 +126,10 @@ class App extends React.Component<any> {
                         <Route key='news' exact path="/news/" component={News} />
                         <Route key='news:articleID' path="/news/:articleId" component={News} />
                         <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
-                        <Route key='forms' exact path="/forms/" component={FormViewer} />
-                        <Route key='forms/formid' path="/forms/:formId" component={FormViewer} />
+                        <Route key='forms' exact path="/forms/" component={FormSelector} />
+                        <Route key='forms/formid' path="/forms/:formId" component={FormSelector} />
+                        <Route key='events' exact path="/events/" component={EventsSelector} />
+                        <Route key='events/eventId' path="/events/:eventId" component={EventsSelector} />
                     </Container>
                 </ResponsiveNavBar>
 

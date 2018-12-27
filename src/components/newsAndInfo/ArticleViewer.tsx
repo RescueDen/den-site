@@ -3,10 +3,6 @@ import React from 'react';
 import {Image, Dimmer, Input, List, Loader, Segment} from "semantic-ui-react";
 import {ArticleItemData} from "../../models/ArticlesSummary";
 import {infoService} from "../../services/info.service"
-import {error} from "../../actions/alert.actions";
-import {infoConstants} from "../../actions/info.actions";
-
-
 
 //Define the expected props
 interface MyProps  {

@@ -11,6 +11,7 @@ export interface EventData{
     readonly signupId?:string;
     readonly name:string
 
+
 }
 
 
@@ -27,6 +28,9 @@ export default class EventsSummary{
 
     //Build a list of different event types
     eventGroups: { [name: string]: EventData[]; } = {};
+
+    //Build a list of different event types
+    lookUpGroup: { [id: string]: string; } = {};
 
 
 
@@ -62,7 +66,11 @@ export default class EventsSummary{
 
 
             //Now put each event into the list
-            this.eventGroups[folder.name].forEach(event => this.eventList[event.id] = event);
+            this.eventGroups[folder.name].forEach(event => {
+                this.eventList[event.id] = event;
+                this.lookUpGroup[event.id] = folder.name;
+
+            });
 
 
 

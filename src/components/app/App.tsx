@@ -3,7 +3,7 @@ import logoImage from '../../assets/logos/xCAWS_logo_sideways.png';
 
 // import routes
 import {Container, Image, Icon} from 'semantic-ui-react';
-import {Redirect, Route} from "react-router";
+import {Redirect, Route, RouteProps} from "react-router";
 
 //Import Pages
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
@@ -20,8 +20,12 @@ import EventsSelector from "../events/EventsSelector";
 
 
 //Setup up path props to get the current path
+interface AppProps extends RouteProps{
 
-class App extends React.Component<any> {
+}
+
+
+class App extends React.Component<AppProps> {
     /**
      * Gets called once when the page loads
      */
@@ -35,6 +39,11 @@ class App extends React.Component<any> {
      * @returns {*}
      */
     render() {
+
+        //Get the current url
+        const url = this.props.location? this.props.location.pathname: "";
+        console.log(url);
+
         return (
             <div className="App">
                 {/*Define the top area*/}
@@ -119,17 +128,17 @@ class App extends React.Component<any> {
                         {/*List all of the possible paths*/}
                         <Route key='currentfosters' exact path="/currentfosters" component={CurrentFostersFullPage} />
                         <Route key='pastfosters' exact path="/pastfosters" component={PastFostersFullPage} />
-                        <Route key='animal' path="/animal/:aniId" component={AnimalDetails} />
+                        <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
                         <Route key='myinfo' path="/myinfo" component={MyDetails} />
                         <Route key='info' exact path="/info/" component={Information} />
-                        <Route key='info/articleId' path="/info/:articleId" component={Information} />
+                        <Route key={'info/articleId'+url} path="/info/:articleId" component={Information} />
                         <Route key='news' exact path="/news/" component={News} />
-                        <Route key='news:articleID' path="/news/:articleId" component={News} />
+                        <Route key={'news:articleID'+url} path="/news/:articleId" component={News} />
                         <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
                         <Route key='forms' exact path="/forms/" component={FormSelector} />
-                        <Route key='forms/formid' path="/forms/:formId" component={FormSelector} />
+                        <Route key={'forms/formid'+url} path="/forms/:formId" component={FormSelector} />
                         <Route key='events' exact path="/events/" component={EventsSelector} />
-                        <Route key='events/eventId' path="/events/:eventId" component={EventsSelector} />
+                        <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
                     </Container>
                 </ResponsiveNavBar>
 

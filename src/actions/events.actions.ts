@@ -1,19 +1,20 @@
-import {  error } from './alert.actions';
-import {Action, Dispatch} from 'redux';
+import {alertConstants, error} from './alert.actions';
+import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {newsService} from "../services/news.service";
-import {formsService} from "../services/forms.service";
-import {FormSubmision} from "../models/FormSubmision";
 import {eventsService} from "../services/events.service";
+import {EventView} from "../state/EventsState";
+import Action from "./Action";
 
 export const eventsConstants = {
     FETCH_EVENTS_SUMMARY: 'FETCH_EVENTS_SUMMARY',
-
+    UPDATE_VIEW: 'UPDATE_EVENTS_VIEW',
+    TOGGLE_EVENT_GROUP: 'TOGGLE_EVENT_GROUP'
 };
 
 export const eventsActions = {
     getEventsSummary,
-    // getAll,
+    setEventView,
+    toggleEventGroup
     // delete: _delete
 };
 
@@ -53,3 +54,34 @@ function getEventsSummary(): ThunkAction<any, any,any, any> {
     };
 
 }
+
+
+
+/**
+ * Create new success message
+ * @param message
+ */
+export function setEventView(view: EventView): Action {
+    return {
+        type: eventsConstants.UPDATE_VIEW,
+        payload: view
+    };
+}
+/**
+ * Turn on and off event group
+ * @param message
+ */
+export function toggleEventGroup(group: string): Action {
+    return {
+        type: eventsConstants.TOGGLE_EVENT_GROUP,
+        payload: group
+    };
+}
+//
+// export function error(message: string): Action {
+//     return {
+//         type: alertConstants.ACTION_ERROR,
+//         payload: new Alert(AlertType.NEGATIVE, message)
+//
+//     };
+// }

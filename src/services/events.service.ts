@@ -8,8 +8,8 @@ import {DocumentItemData} from "../models/DocumentSummary";
 import EventsSummary from "../models/Events";
 
 export const eventsService = {
-    getEventsSummary
-    // register,
+    getEventsSummary,
+    downloadEventInfo
     // getAll,
     // getById,
     // update,
@@ -53,6 +53,36 @@ function getEventsSummary() : Promise<EventsSummary> {
 
 
 }
+/**
+ * Get the html info for this Event
+ * @param username
+ * @param password
+ * @returns
+ */
+function downloadEventInfo(id:string) : Promise<string> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/events/info/${id}`,  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const artData = <string>response.data;
+
+            return artData;
+        }
+    );
+
+
+}
+
+
+
 /**
  * Get the info summary
  * @param username

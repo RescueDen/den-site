@@ -202,7 +202,7 @@ class EventViewer extends React.Component<LinkProps, MyState> {
 
         //Add a header and date
         components.push(
-            <Header as='h2'>
+            <Header key='header' as='h2'>
                 <Icon name='checked calendar' />
                 <Header.Content>
                     {this.props.eventInfo.name}
@@ -239,56 +239,74 @@ class EventViewer extends React.Component<LinkProps, MyState> {
         if(this.props.eventInfo.signupId) {
             //Show the error message
             if(this.state.signUpErrorMessage){
-                components.push(<p>signUpErrorMessage</p>)
+                components.push(<p>{this.state.signUpErrorMessage}</p>)
             }
 
             if (this.state.signUpResponse) {
                 //Extract so that it knows it is not null
                 const signUpInfo:SignUpResponse = this.state.signUpResponse!;
 
-                //Wrap everything in a dimmer
-                components.push(
-                    <Dimmer.Dimmable  blurring dimmed={this.state.signUpUpdating}>
-                        {/*Add in the existing responses if they are avail*/}
-                        {signUpInfo.existingSignUps&&
+                //If we have existing signups that means we want to edit each one by them selves
+                if(signUpInfo.existingSignUps) {
+                    components.push(
+                        <Dimmer.Dimmable key='dimmingSignUps' blurring dimmed={this.state.signUpUpdating}>
+                            {/*Add in the existing responses if they are avail*/}
                             <SignUpsTable
                                 signups={signUpInfo.existingSignUps}
-                                selectRow={(rowId:number) => this.editRow(rowId)}
-                                deleteRow={(rowId:number) => this.deleteRow(rowId)}
+                                selectRow={(rowId: number) => this.editRow(rowId)}
+                                deleteRow={(rowId: number) => this.deleteRow(rowId)}
                                 selectedRow={this.state.activeRow}
                             />
-                        }
-                        {/*Add in the signup form*/}
-                        <Form schema={signUpInfo.signupForm.JSONSchema}
-                              uiSchema={signUpInfo.signupForm.UISchema}
-                              formData={signUpInfo.signupForm.formData}
-                              widgets={{"animalIdWidget":this.animalIdWidget}}
-                              onSubmit={this.onSubmit}
 
-                        >
-                            {/*Render a custom Submit button*/}
-                            {this.state.activeRow &&
-                            <div>
-                                <Button primary type="submit">Update SignUp</Button>
-                                <Button
-                                    onClick={() => this.editRow()}
-                                    type="submit">Cancel</Button>
-                            </div>
-                            }
-                            {!this.state.activeRow &&
-                            <div>
-                                <Button primary type="submit">SignUp</Button>
-                            </div>
-                            }
-                        </Form>
-                    </Dimmer.Dimmable>
+                            {/*Add in the signup form*/}
+                            <Form schema={signUpInfo.signupForm.JSONSchema}
+                                  uiSchema={signUpInfo.signupForm.UISchema}
+                                  formData={signUpInfo.signupForm.formData}
+                                  widgets={{"animalIdWidget": this.animalIdWidget}}
+                                  onSubmit={this.onSubmit}
+                            >
+                                {/*Render a custom Submit button*/}
+                                {this.state.activeRow &&
+                                <div>
+                                    <Button primary type="submit">Update SignUp</Button>
+                                    <Button
+                                        onClick={() => this.editRow()}
+                                        type="submit">Cancel</Button>
+                                </div>
+                                }
+                                {!this.state.activeRow &&
+                                <div>
+                                    <Button primary type="submit">SignUp</Button>
+                                </div>
+                                }
 
-                )
+                            </Form>
+                        </Dimmer.Dimmable>
+                    )
+                }else{
+                    //Just show the one signup
+                    components.push(
+                        <Dimmer.Dimmable key='dimmingSignUps' blurring dimmed={this.state.signUpUpdating}>
+                            {/*Add in the signup form*/}
+                            <Form schema={signUpInfo.signupForm.JSONSchema}
+                                  uiSchema={signUpInfo.signupForm.UISchema}
+                                  formData={signUpInfo.signupForm.formData}
+                                  widgets={{"animalIdWidget": this.animalIdWidget}}
+                                  onChange={this.onSubmit}
+                            >
+                                {/*Render a custom/hidden Submit button*/}
+                                <Button  style={{display:"none"}} type="submit"></Button>
+
+
+                            </Form>
+                        </Dimmer.Dimmable>
+                    )
+                }
 
             } else {
                 //Show a loading screen
                 components.push(
-                    <div>
+                    <div key='loadingDimmer'>
                         <Dimmer.Dimmable>
                             <Dimmer inverted active>
                                 <Loader>{

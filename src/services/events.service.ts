@@ -6,11 +6,14 @@ import {ServerResponse} from "http";
 import {ServerResponseStatus} from "../models/ServerStatus";
 import {DocumentItemData} from "../models/DocumentSummary";
 import EventsSummary from "../models/Events";
+import {SignUpResponse} from "../models/SignUp";
 
 export const eventsService = {
     getEventsSummary,
-    downloadEventInfo
-    // getAll,
+    downloadEventInfo,
+    downloadEventSignup,
+    postEventSignup,
+    deleteEventSignup
     // getById,
     // update,
     // delete: _delete
@@ -81,6 +84,70 @@ function downloadEventInfo(id:string) : Promise<string> {
 
 }
 
+/**
+ * Get the html info for this Event
+ * @param username
+ * @param password
+ * @returns
+ */
+function downloadEventSignup(id:string, rowId?:number) : Promise<SignUpResponse> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    let responsePromise;
+
+    //If we are asking for a specific row
+    if(rowId) {
+        responsePromise = apiServer.get(`/events/signup/${id}/${rowId}`, {headers: headers});
+    }else{
+        responsePromise = apiServer.get(`/events/signup/${id}`, {headers: headers});
+    }
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const artData = <SignUpResponse>response.data;
+
+            return artData;
+        }
+    );
+
+
+}
+
+/**
+ * Get the html info for this Event
+ * @param username
+ * @param password
+ * @returns
+ */
+function deleteEventSignup(id:string, rowId:number) : Promise<SignUpResponse> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    let responsePromise;
+
+    //If we are asking for a specific row
+    responsePromise = apiServer.delete(`/events/signup/${id}/${rowId}`, {headers: headers});
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const artData = <SignUpResponse>response.data;
+
+            return artData;
+        }
+    );
+
+
+}
+
 
 
 /**
@@ -89,23 +156,29 @@ function downloadEventInfo(id:string) : Promise<string> {
  * @param password
  * @returns
  */
-function submitForm(sub :FormSubmision) : Promise<ServerResponseStatus> {
+function postEventSignup( sub :any, id:string, rowId?:number) : Promise<SignUpResponse> {
 
     //Get the headers
     const headers =authHeader();
 
+    //Create an object to hold the sub
+    const subObject = {
+        submission:sub,
+        rowId: rowId
+    }
+
+
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post('/forms/',  sub, {headers:headers});
+    const responsePromise = apiServer.post(`/events/signup/${id}`,  subObject, {headers:headers});
 
 
     //We need to do some work here
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const data = <ServerResponseStatus>response.data;
+            const artData = <SignUpResponse>response.data;
 
-            //Return just the user
-            return data;
+            return artData;
         }
     );
 

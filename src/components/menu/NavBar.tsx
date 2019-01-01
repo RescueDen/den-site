@@ -1,8 +1,5 @@
 import {Icon, Menu, MenuItemProps, MenuProps, Responsive, Sidebar, Visibility} from "semantic-ui-react";
 import React, {ReactNode} from "react";
-import {RouteComponentProps, withRouter} from "react-router";
-import ApplicationState from "../../state/ApplicationState";
-import {connect} from "react-redux";
 import Permissions from "../../models/Permissions";
 import {Dropdown} from "semantic-ui-react";
 import {StrictMenuProps} from "semantic-ui-react/dist/commonjs/collections/Menu";
@@ -109,7 +106,7 @@ class NavBar extends React.Component<Props> {
         }else {
             //Desktop mode
             return (
-                <Menu.Item key={item.name} >
+                <Menu.Item key={item.name+item.icon} >
                     {/*Now the icon if here*/}
                     {item.icon}
                     {/*Now for the name*/}

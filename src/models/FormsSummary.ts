@@ -63,6 +63,10 @@ export default class FormsSummary implements DocumentSummary{
     public findArticleItem(id:string){
         return this.itemList[id];
     }
+    //Check to see if it empty
+    public findFormItem(id:string):FormItemData{
+        return this.itemList[id] as FormItemData;
+    }
 
     //Build breadCrumbs
     public buildBreadcrumbs(id:string) :DocumentItemData[]{

@@ -17,6 +17,10 @@ import ResponsiveMenu, {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
 import FormSelector from "../forms/FormSelector";
 import EventsSelector from "../events/EventsSelector";
+import SuppliesPage from "../static-pages/SuppliesPage";
+import AppStatusPage from "../static-pages/AppStatusPage";
+import PrivateRoute from "../authentication/PrivateRoute";
+import Achievements from "../person/Achievements";
 
 
 //Setup up path props to get the current path
@@ -61,6 +65,11 @@ class App extends React.Component<AppProps> {
                             name:<Image size='tiny' src={logoImage} />
                         },
                         {
+                            name:"App Status",
+                            to:'/appstatus',
+                            icon:<Icon name='check square outline' />
+                        },
+                        {
                             name:"News",
                             to:'/news',
                             reqPerm:'get_news',
@@ -71,11 +80,6 @@ class App extends React.Component<AppProps> {
                             to:'/info',
                             reqPerm:'get_info',
                             icon:<Icon name='tv' />
-                        },
-                        {//Also show my info
-                            name:"My Info",
-                            to:'/myinfo',
-                            icon:<Icon name='user outline' />
                         },
                         {//Now foster info
                             name:"Fosters",
@@ -107,6 +111,23 @@ class App extends React.Component<AppProps> {
                             to:'/events',
                             icon:<Icon name='calendar alternate outline' />
                         },
+                        {//Now foster info
+                            name:undefined,
+                            icon:<Icon name='ellipsis horizontal' />,
+                            subItems:[
+                                {//Also show my info
+                                    name:"My Info",
+                                    to:'/myinfo',
+                                    icon:<Icon name='user outline' />
+                                },
+                                {
+                                    name:"Supplies",
+                                    to:'/supplies',
+                                    icon:<Icon name='shopping basket' />
+                                }
+                            ]
+
+                        },
                     ]}
 
                     //Add in fixed items
@@ -126,19 +147,23 @@ class App extends React.Component<AppProps> {
                             <Redirect to="/news"/>
                         )}/>
                         {/*List all of the possible paths*/}
+                        <PrivateRoute exactRoute={true} reqPermission='get_news' exclude={[]} path='/news' to='/appstatus/'  component={News} />
                         <Route key='currentfosters' exact path="/currentfosters" component={CurrentFostersFullPage} />
                         <Route key='pastfosters' exact path="/pastfosters" component={PastFostersFullPage} />
                         <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
                         <Route key='myinfo' path="/myinfo" component={MyDetails} />
                         <Route key='info' exact path="/info/" component={Information} />
                         <Route key={'info/articleId'+url} path="/info/:articleId" component={Information} />
-                        <Route key='news' exact path="/news/" component={News} />
                         <Route key={'news:articleID'+url} path="/news/:articleId" component={News} />
                         <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
                         <Route key='forms' exact path="/forms/" component={FormSelector} />
                         <Route key={'forms/formid'+url} path="/forms/:formId" component={FormSelector} />
                         <Route key='events' exact path="/events/" component={EventsSelector} />
                         <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
+                        <Route key={'supplies'} path="/supplies" component={SuppliesPage} />
+                        <Route key={'appstatus'} path="/appstatus" component={AppStatusPage} />
+                        <Route key={'achievements'} path="/achievements" component={Achievements} />
+
                     </Container>
                 </ResponsiveNavBar>
 

@@ -98,12 +98,12 @@ class SearchableAnimalListCompact extends React.Component<IncomingProps&Dispatch
                         {/*If there is no link, just give the header*/}
                         {this.props.link &&
                             <Link to={this.props.link}>
-                                <Header as='h1'>{this.props.title}</Header>
+                                <Header as='h2'>{this.props.title}</Header>
                             </Link>
                         }
                         {/*else*/}
                         {!this.props.link &&
-                            <Header as='h1'>{this.props.title}</Header>
+                            <Header as='h2'>{this.props.title}</Header>
                         }
                     </div>
                     <div className="right floated right aligned six wide column">

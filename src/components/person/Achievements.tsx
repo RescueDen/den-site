@@ -3,25 +3,27 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import {Segment, Container, Header, Label} from "semantic-ui-react";
+import {Segment, Container, Header, Label, Dimmer, Loader, Placeholder} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
-import MySummary from "./MySummary";
-import AnimalList from "../animal/SearchableAnimalListCompact";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../actions/user.actions";
 import {AchievementData} from "../../models/Achievements";
 import AchievementList from "./AchievementList";
-import {Link} from "react-router-dom";
+import {achievementsService} from "../../services/achievements.service";
 
 
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user:CawsUser;
+    user?:CawsUser;
     achievements?:AchievementData[]
 }
 
+//Also show all possible achivements
+interface State {
+    allAchievements:AchievementData[]
+}
 
 interface DispatchProps{
     //And the actions that must be done
@@ -30,13 +32,23 @@ interface DispatchProps{
 }
 
 /**
- * This page shows the person details
+ * This page shows the person Achievements and all possible ones
  */
-class MyDetails extends React.Component<LinkProps&DispatchProps> {
+class Achievements extends React.Component<LinkProps&DispatchProps, State> {
+    state={allAchievements:[]}
 
     //Update the user if there are any changes
     componentDidMount(){
         this.props.updateMyInfo()
+
+        //Get all possible achievements
+        achievementsService.getAllAchievements().then(
+            listOf =>{
+                this.setState({allAchievements:listOf})
+            }
+
+        )
+
     }
 
     /**
@@ -51,35 +63,30 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
         return (
             <div>
                 <Container text>
-                    {/*The simple header*/}
-                    <Header as='h1'>{this.props.user.data.firstname} {this.props.user.data.lastname}</Header>
-
                     {/*If we have achievements*/}
                     {this.props.achievements &&
                     <Segment>
                         <Header as="h2">My Achievements</Header>
                         <AchievementList achievements={this.props.achievements}/>
-                        <br/>
-                        <Label attached='bottom right'><Link to='/achievements'>see all possible achievements</Link></Label>
-
                     </Segment>
                     }
-                    {/*Load in my Summary*/}
-                    <MySummary user={this.props.user}/>
-
-                    {/*Add in my current fosters*/}
-                    {this.props.user.data.currentFosters &&
+                    {this.state.allAchievements.length > 0 &&
                     <Segment>
-                        <AnimalList aniLink="/animal" link="/currentfosters" title="My Fosters"
-                                    animalIdList={this.props.user.data.currentFosters}/>
+                        <Header as="h2">Possible Achievements</Header>
+                        <AchievementList achievements={this.state.allAchievements}/>
                     </Segment>
                     }
 
-                    {/*Add in my Past fosters*/}
-                    {this.props.user.data.pastFosters &&
+                    {/*Else show a loading screen*/}
+                    {this.state.allAchievements.length == 0 &&
                     <Segment>
-                        <AnimalList aniLink="/animal" link="/pastfosters" title="Past Fosters"
-                                    animalIdList={this.props.user.data.pastFosters}/>
+                        <Header as="h2">Possible Achievements</Header>
+                        <Dimmer active inverted>
+                            <Loader inverted content='Loading' />
+                        </Dimmer>
+                        <Placeholder>
+                            <Placeholder.Paragraph />
+                        </Placeholder>
                     </Segment>
                     }
                 </Container>
@@ -115,4 +122,4 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
 export default connect (
     mapStateToProps,
     mapDispatchToProps
-)(MyDetails);
+)(Achievements);

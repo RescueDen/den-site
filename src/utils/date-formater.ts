@@ -1,4 +1,3 @@
-import {EventData} from "../models/Events";
 
 /**
  * Formats the date in a year month day format
@@ -12,7 +11,7 @@ export function yearMonthDay(dateIn:string) {
         return ""
     }
 
-    return date.getFullYear() + "/" + (date.getMonth()+1) + "/"+(date.getDay()+1);
+    return date.getFullYear() + "/" + (date.getMonth()+1) + "/"+(date.getDate()+1);
 }
 
 /**
@@ -20,10 +19,14 @@ export function yearMonthDay(dateIn:string) {
  * @param dateIn
  */
 export function formatDate(dateIn:any) {
+    if(!dateIn){
+        return "";
+    }
+
     //If the date is empty
     const dateString = dateIn.toString();
     if(dateString.length == 0)
-        return ""
+        return "";
 
     return yearMonthDay(dateString);
 }

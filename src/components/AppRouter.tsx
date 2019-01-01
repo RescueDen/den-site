@@ -36,7 +36,7 @@ class AppRouter extends React.Component{
                             <Route path="/passwordreset" component={PasswordResetPage} />
 
                         </Container>
-                        <PrivateRoute  exclude={["/login", "/register","/activate", "/passwordreset"]} path="/" component={App} />
+                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset"]} path="/" component={App} />
 
                     </div>
                 </BrowserRouter>

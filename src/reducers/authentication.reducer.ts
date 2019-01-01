@@ -33,26 +33,26 @@ export function authentication(state:AuthenticationState = initialState, action:
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
             return {
-                ...initialState,
+                ...state,
                 loggedInStatus:AuthenticationStatus.ATTEMPT,
                 loggedInUser: action.payload as CawsUser
             };
         case userConstants.LOGIN_SUCCESS:
             return {
-                ...initialState,
+                ...state,
                 loggedInStatus:AuthenticationStatus.TRUE,
                 loggedInUser: action.payload as CawsUser
             };
         case userConstants.LOGIN_FAILURE:
             return {
-                ...initialState,
+                ...state,
                 loggedInStatus:AuthenticationStatus.FALSE,
                 loggedInUser: undefined,
                 loggedInMsg: action.payload
             };
         case userConstants.LOGOUT:
             return {
-                ...initialState,
+                ...state,
                 loggedInStatus:AuthenticationStatus.FALSE,
                 loggedInUser: undefined,
                 permissions:undefined
@@ -60,64 +60,64 @@ export function authentication(state:AuthenticationState = initialState, action:
         /////////////////////
         case userConstants.REGISTER_REQUEST:
             return {
-                ...initialState,
+                ...state,
                 registerUserStatus:AuthenticationStatus.ATTEMPT,
                 registerUserMsg: ""
             };
         case userConstants.REGISTER_SUCCESS:
             return {
-                ...initialState,
+                ...state,
                 registerUserStatus:AuthenticationStatus.TRUE,
                 registerUserMsg: action.payload
             };
         case userConstants.REGISTER_FAILURE:
             return {
-                ...initialState,
+                ...state,
                 registerUserStatus:AuthenticationStatus.FALSE,
                 registerUserMsg: action.payload
             };
         /////////////////////
         case userConstants.ACTIVATION_REQUEST:
             return {
-                ...initialState,
+                ...state,
                 activatedUserStatus:AuthenticationStatus.ATTEMPT,
                 activatedUserMsg: ""
             };
         case userConstants.ACTIVATION_SUCCESS:
             return {
-                ...initialState,
+                ...state,
                 activatedUserStatus:AuthenticationStatus.TRUE,
                 activatedUserMsg: action.payload
             };
         case userConstants.ACTIVATION_FAILURE:
             return {
-                ...initialState,
+                ...state,
                 activatedUserStatus:AuthenticationStatus.FALSE,
                 activatedUserMsg: action.payload
             };
         /////////////////////
         case userConstants.PW_RESET_REQUEST:
             return {
-                ...initialState,
+                ...state,
                 pwResetStatus:AuthenticationStatus.ATTEMPT,
                 pwResetUserMsg: ""
             };
         case userConstants.PW_RESET_SUCCESS:
             return {
-                ...initialState,
+                ...state,
                 pwResetStatus:AuthenticationStatus.TRUE,
                 pwResetUserMsg: action.payload
             };
         case userConstants.PW_RESET_FAILURE:
             return {
-                ...initialState,
+                ...state,
                 pwResetStatus:AuthenticationStatus.FALSE,
                 pwResetUserMsg: action.payload
             };
         //Update the permissions
         case userConstants.FETCH_PERMISSIONS:
             return {
-                ...initialState,
+                ...state,
                 permissions: action.payload
             };
 

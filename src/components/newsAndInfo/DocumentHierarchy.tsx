@@ -24,13 +24,14 @@ interface MyState{
     searchTerm: string
 }
 
-const initState:{ [id: string]: boolean } ={};
+//Const defaultShow
+const defaultHide = true;
 
 /**
  * This card shows the animal details
  */
 class DocumentHierarchy extends React.Component<MyProps, MyState> {
-    state = {hidden:initState, searchTerm:""};
+    state = {hidden:{} as { [id: string]: boolean }, searchTerm:""};
 
 
     /**
@@ -54,8 +55,16 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
         //If this is a directory it
         if(isDirectory(item)){
             //Determine if this directory is hidden
-            const hidden:boolean = this.state.hidden[item.id] != undefined && this.state.hidden[item.id];
+            let hidden:boolean = this.state.hidden[item.id] != undefined && this.state.hidden[item.id];
 
+            //See if we should flip the default behavior
+            if(defaultHide)
+                hidden = ! hidden;
+
+            //Force to not be hidden if searching
+            if(this.state.searchTerm.length > 0){
+                hidden = false;
+            }
 
             return (
                 <List.Item key={item.id}>

@@ -4,6 +4,7 @@ import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {UserData} from "../models/UserData";
 import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
+import {achievementsActions} from "./achievements.actions";
 
 
 export const userConstants = {
@@ -70,7 +71,8 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                     //Now update the user permissions
                     updateUserPermissions(dispatch);
 
-                    dispatch(success("You logged in!"))
+                    //Also get this persons achievments
+                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
 
                 },
@@ -152,6 +154,8 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
                     //Now update the user permissions
                     updateUserPermissions(dispatch);
 
+                    //Also get this persons achievments
+                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
                 },
                 //If there was an error, dispatch a login failure and alert the user why

@@ -6,6 +6,7 @@ import NewsState from "./NewsState";
 import InNeedOfFoster from "../models/InNeedOfFosterModel";
 import FormsState from "./FormsState";
 import EventsState from "./EventsState";
+import AchievementsState from "./AchievementsState";
 
 /**
  * This model describes the entire state of program
@@ -18,5 +19,6 @@ export default interface ApplicationState {
     news:NewsState,
     inNeedFoster: InNeedOfFoster,
     forms: FormsState,
-    events:EventsState
+    events:EventsState,
+    achievements: AchievementsState
 }

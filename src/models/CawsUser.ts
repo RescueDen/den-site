@@ -73,11 +73,29 @@ export default class CawsUser{
     //Set to read only for now
     readonly data:CawsUserData;
 
+    //Hold the split and normalized tags
+    readonly tags:string[];
+
     //The main constructor
     constructor(data: CawsUserData) {
         this.data = data;
+
+        //Set the tags from the data
+        this.tags = this.data.additionalflags.split("|").map(tag =>{
+            return tag.toLowerCase().trim();
+
+        })
+
     }
 
+    /**
+     * Determine if the user has this tag
+     * @param tagString
+     */
+    hasTag(tag:string): boolean{
+        return this.tags.indexOf(tag) >=0;
 
 
+
+    }
 }

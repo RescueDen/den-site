@@ -13,6 +13,9 @@ export interface DocumentItemData{
     thumbnail?:string;
     parentid:string;
 
+    //See if we need to hide it
+    hideListing?: boolean
+
     //And hold other items
     items?:DocumentItemData[]
 }

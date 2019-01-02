@@ -7,7 +7,7 @@ import {formsActions, formsConstants} from "../../actions/forms.actions";
 import {FormItemData} from "../../models/FormsSummary";
 
 
-import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
+import Form, {Widget, WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 import {FormSubmision} from "../../models/FormSubmision";
 import ApplicationState from "../../state/ApplicationState";
 import {formsService} from "../../services/forms.service";
@@ -22,6 +22,8 @@ import MyFosterSelection from "./MyFosterSelection";
 //Define the expected props
 interface LinkProps {
     formData: FormItemData
+
+    formWidgets?: { [name: string]: Widget };
 
 }
 
@@ -105,6 +107,16 @@ class FormViewer extends React.Component<LinkProps, State> {
      */
     render() {
 
+        //Merge the widgets to gether
+        let widgets={"animalIdWidget":this.animalIdWidget}
+
+        //If there are other widgets add them
+        if(this.props.formWidgets){
+            widgets = {...widgets, ...this.props.formWidgets}
+        }
+
+
+
         //For now just render
         return(
             <Segment>
@@ -113,7 +125,7 @@ class FormViewer extends React.Component<LinkProps, State> {
                 </Dimmer>
                 <Form schema={this.props.formData.JSONSchema}
                       uiSchema={this.props.formData.UISchema}
-                      widgets={{"animalIdWidget":this.animalIdWidget}}
+                      widgets={widgets}
                       onSubmit={this.onSubmit}
                 />
 

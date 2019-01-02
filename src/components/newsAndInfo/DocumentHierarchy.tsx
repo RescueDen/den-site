@@ -87,7 +87,7 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
             );
         }else{
             //If this is just a document, see if it included in the search
-            if(inSearchResults(item, this.state.searchTerm)) {
+            if(inSearchResults(item, this.state.searchTerm) && !item.hideListing) {
 
                 // this is just a document
                 return (

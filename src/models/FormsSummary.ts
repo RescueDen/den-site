@@ -6,8 +6,6 @@ import DocumentSummary, {DocumentItemData} from "./DocumentSummary";
 export interface FormMetaData {
     title:string;
     requiredPerm:string[];
-
-
 }
 
 

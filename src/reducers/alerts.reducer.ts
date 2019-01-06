@@ -16,11 +16,31 @@ export function alerts(state:Alert[] = [], action:Action): Alert[] {
     //Ok, we now know that it is an alert action
     switch (action.type) {
         case alertConstants.ACTION_SUCCESS:
-            //Add the new success to the list
-            return [(action.payload as Alert).assignId(id++), ...state]
-
         case alertConstants.ACTION_ERROR:
-            return [(action.payload as Alert).assignId(id++), ...state]
+            //Now see if the item is already in the list
+            let indexLoc = -1;
+
+            //Get the new alert
+            const newAlert = action.payload as Alert;
+
+            //Check each item
+            state.forEach((alert, index) =>{
+                if(alert.equals(newAlert)){
+                    indexLoc = index;
+                }
+            } );
+
+            //If it is already there just store the number increase
+            if(indexLoc >= 0){
+                state[indexLoc].bumpCount();
+                return [ ...state];
+            }else{
+                return [(action.payload as Alert).assignId(id++), ...state]
+            }
+
+
+
+
         case alertConstants.ACTION_CLEAR:
             //If there is a payload
             if(action.payload){

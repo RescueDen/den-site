@@ -10,7 +10,7 @@ import {Header, Grid, Image,Form , Segment, Button, Message} from 'semantic-ui-r
 import AuthenticationState, {AuthenticationStatus} from "../../state/AuthenticationState";
 import {Dispatch} from "redux";
 import FullPageForm from "./FullPageForm";
-
+import FacebookLogin from 'react-facebook-login';
 
 //Define the expected props
 interface IncomingProps{
@@ -25,6 +25,8 @@ interface DispatchProps{
     userActionLogin: (email:string, password:string) => any;
     requestActivationToken: (email:string) => any;
     requestEmailReset: (email:string) => any;
+    userActionLoginFacebook: (facebookToken:any) => any;
+
 }
 
 //Define the expected props
@@ -53,6 +55,15 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
         this.props.userActionLogout();
 
     };
+
+    responseFacebook = (response:any) => {
+        //See if there is an access token
+        if(response.accessToken){
+            this.props.userActionLoginFacebook(response);
+        }
+
+
+    }
 
     //When the user is done with the form add it
     handleSubmit(e: React.FormEvent) {
@@ -164,6 +175,13 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                     </Button>
 
                 </Message>
+                <FacebookLogin
+                    appId="377460049683618"
+                    autoLoad={false}
+                    scope="public_profile"
+                    fields="email"
+                    callback={this.responseFacebook}
+                />
             </FullPageForm>
 
 
@@ -189,10 +207,13 @@ function mapDispatchToProps(dispatch: Dispatch<any>): {} {
         userActionLogin:(email:string, password:string) => dispatch(userActions.login(email, password)),
         userActionLogout:() => dispatch(userActions.logout()),
         requestActivationToken: (email:string) => dispatch(userActions.requestActivationToken(email)),
-        requestEmailReset: (email:string)  => dispatch(userActions.requestEmailReset(email))
+        requestEmailReset: (email:string)  => dispatch(userActions.requestEmailReset(email)),
+        userActionLoginFacebook: (facebookToken:any) => dispatch(userActions.loginFacebook(facebookToken))
 
 
-};
+
+
+    };
 
 }
 

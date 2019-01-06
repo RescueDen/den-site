@@ -39,7 +39,8 @@ export const userActions = {
     activate,
     requestEmailReset,
     forcePasswordChange,
-    updateLoggedInUser
+    updateLoggedInUser,
+    loginFacebook
     // getAll,
     // delete: _delete
 };
@@ -60,6 +61,60 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
 
         //Ask the user service to login
         userService.login(email, password)
+            .then(
+                //If successful a user will be returned
+                user => {
+                    //dispatch a login success
+                    dispatch({
+                        type: userConstants.LOGIN_SUCCESS,
+                        payload: user
+                    });
+                    //Now update the user permissions
+                    updateUserPermissions(dispatch);
+
+                    //Also get this persons achievments
+                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
+
+
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
+                    dispatch({
+                        type: userConstants.LOGIN_FAILURE,
+                        payload: message
+                    });
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+
+
+
+                }
+            );
+    };
+}
+
+
+/**
+ * This is the user action to try to log in
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function loginFacebook(facebookToken :any): ThunkAction<any, any,any, any> {
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+        //Dispatch the action of attempting to login
+        dispatch({
+            type: userConstants.LOGIN_REQUEST,
+        });
+
+        //Ask the user service to login
+        userService.loginFacebook(facebookToken)
             .then(
                 //If successful a user will be returned
                 user => {

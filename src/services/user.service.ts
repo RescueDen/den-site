@@ -16,6 +16,7 @@ export const userService = {
     forcePasswordChange,
     updateLoggedInUser,
     getLoggedInUserPermissions,
+    loginFacebook
 };
 
 // Create a default axios instance with the api
@@ -34,6 +35,37 @@ function login(email:string, password:string) : Promise<CawsUser> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/login', { email: email, password: password });
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const userData = <CawsUserData>response.data;
+
+            //Log that user in
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+
+            //Make a caws user
+            const cawsUser = new CawsUser(userData)
+
+            //Return just the user
+            return cawsUser;
+        }
+    );
+
+
+}
+
+/**
+ * Attempt to login the user to the server
+ * @param username
+ * @param password
+ * @returns
+ */
+function loginFacebook(facebookToken:any) : Promise<CawsUser> {
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post('/users/login/facebook', facebookToken);
 
     //We need to do some work here
     return responsePromise.then(response =>

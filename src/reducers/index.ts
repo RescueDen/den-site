@@ -9,6 +9,7 @@ import {inNeedFoster} from "./inNeedFoster.reducer";
 import {forms} from "./forms.reducer";
 import {events} from "./events.reducer";
 import {achievements} from "./achievements.reducer";
+import {courses} from "./courses.reducer";
 
 
 import ApplicationState from '../state/ApplicationState';
@@ -23,7 +24,8 @@ const rootReducer = combineReducers<ApplicationState>({
     inNeedFoster,
     forms,
     events,
-    achievements
+    achievements,
+    courses
 });
 
 export default rootReducer;

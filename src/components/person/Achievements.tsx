@@ -7,7 +7,6 @@ import {
     Segment,
     Container,
     Header,
-    Label,
     Dimmer,
     Loader,
     Placeholder,

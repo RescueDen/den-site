@@ -21,6 +21,8 @@ import SuppliesPage from "../static-pages/SuppliesPage";
 import AppStatusPage from "../static-pages/AppStatusPage";
 import PrivateRoute from "../authentication/PrivateRoute";
 import Achievements from "../person/Achievements";
+import CourseList from "../courses/CourseList";
+import Course from "../courses/Course";
 
 
 //Setup up path props to get the current path
@@ -123,7 +125,14 @@ class App extends React.Component<AppProps> {
                                 {
                                     name:"Supplies",
                                     to:'/supplies',
+                                    reqPerm:"foster_supplies",
                                     icon:<Icon name='shopping basket' />
+                                },
+                                {
+                                    name:"Learn",
+                                    to:'/learn',
+                                    reqPerm:"get_courses",
+                                    icon:<Icon name='university' />
                                 }
                             ]
 
@@ -163,6 +172,8 @@ class App extends React.Component<AppProps> {
                         <Route key={'supplies'} path="/supplies" component={SuppliesPage} />
                         <Route key={'appstatus'} path="/appstatus" component={AppStatusPage} />
                         <Route key={'achievements'} path="/achievements" component={Achievements} />
+                        <Route key='learn' exact path="/learn/" component={CourseList} />
+                        <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
 
                     </Container>
                 </ResponsiveNavBar>

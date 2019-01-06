@@ -2,9 +2,6 @@ import React from 'react';
 
 import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon} from "semantic-ui-react";
 import {ArticleItemData} from "../../models/ArticlesSummary";
-import {infoService} from "../../services/info.service"
-import {error} from "../../actions/alert.actions";
-import {infoConstants} from "../../actions/info.actions";
 import {formatDate} from "../../utils/date-formater";
 import {Link} from "react-router-dom";
 

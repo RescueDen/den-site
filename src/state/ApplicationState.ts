@@ -7,6 +7,7 @@ import InNeedOfFoster from "../models/InNeedOfFosterModel";
 import FormsState from "./FormsState";
 import EventsState from "./EventsState";
 import AchievementsState from "./AchievementsState";
+import CoursesState from "./CoursesState";
 
 /**
  * This model describes the entire state of program
@@ -21,4 +22,5 @@ export default interface ApplicationState {
     forms: FormsState,
     events:EventsState,
     achievements: AchievementsState
+    courses: CoursesState
 }

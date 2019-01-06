@@ -92,7 +92,7 @@ class NavBar extends React.Component<Props> {
         //Draw the menu if it is mobile or not
         if(mobile){
             return (
-                <Menu.Item key={item.name} active={active}>
+                <Menu.Item key={item.name+item.icon} active={active}>
                     {/*Now the icon if here*/}
                     {item.icon}
                     {/*Now for the name*/}

@@ -67,8 +67,8 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
             }
 
             return (
-                <List.Item key={item.id}>
-                    <List.Icon onClick={() => this.updateHiddenOnDir(item.id)} name={hidden? "folder outline":"folder open outline" } />
+                <List.Item size='big' key={item.id}>
+                    <List.Icon size='big' onClick={() => this.updateHiddenOnDir(item.id)} name={hidden? "folder outline":"folder open outline" } />
                     <List.Content >
                         <List.Header as="h3" ><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
                     </List.Content>

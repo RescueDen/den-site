@@ -9,7 +9,7 @@ import {
     Placeholder,
     Rail,
     Responsive,
-    Segment,
+    Segment, SemanticWIDTHSNUMBER,
     Sticky
 } from "semantic-ui-react";
 import {LessonData} from "../../models/Courses";
@@ -77,10 +77,12 @@ class Lesson extends React.Component<Props, State> {
     render() {
 
         //Prerender the video so it doesn't not un render
-        let video;
+        let video = undefined;
+        let contentComputerWidth = 16 as  SemanticWIDTHSNUMBER;
 
         if(this.props.lesson.videoId) {
             video =<Embed allowfullscreen id={this.props.lesson.videoId} source='youtube'/>
+            contentComputerWidth = 12 as  SemanticWIDTHSNUMBER;
         }
 
 
@@ -89,7 +91,7 @@ class Lesson extends React.Component<Props, State> {
                 {/*Now for a small screen just overlay them*/}
                 <Responsive key="small"as={Grid}  columns={2} minWidth={Responsive.onlyLargeScreen.minWidth}>
                     {/*Put everything in a single col*/}
-                    <Grid.Column width={12}>
+                    <Grid.Column width={contentComputerWidth}>
                         <div ref={this.myRef}>
                                 {video &&
                                     <Rail style={{marginTop:"25px"}} position='right'>

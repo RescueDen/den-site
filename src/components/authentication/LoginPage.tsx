@@ -178,7 +178,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                 <FacebookLogin
                     appId="377460049683618"
                     autoLoad={false}
-                    scope="public_profile"
+                    scope="email"
                     fields="email"
                     callback={this.responseFacebook}
                 />

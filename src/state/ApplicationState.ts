@@ -8,6 +8,7 @@ import FormsState from "./FormsState";
 import EventsState from "./EventsState";
 import AchievementsState from "./AchievementsState";
 import CoursesState from "./CoursesState";
+import FeedState from "./FeedState";
 
 /**
  * This model describes the entire state of program
@@ -21,6 +22,7 @@ export default interface ApplicationState {
     inNeedFoster: InNeedOfFoster,
     forms: FormsState,
     events:EventsState,
-    achievements: AchievementsState
-    courses: CoursesState
+    achievements: AchievementsState,
+    courses: CoursesState,
+    feed:FeedState
 }

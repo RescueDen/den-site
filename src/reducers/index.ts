@@ -10,6 +10,7 @@ import {forms} from "./forms.reducer";
 import {events} from "./events.reducer";
 import {achievements} from "./achievements.reducer";
 import {courses} from "./courses.reducer";
+import {feed} from "./feed.reducer";
 
 
 import ApplicationState from '../state/ApplicationState';
@@ -25,7 +26,8 @@ const rootReducer = combineReducers<ApplicationState>({
     forms,
     events,
     achievements,
-    courses
+    courses,
+    feed
 });
 
 export default rootReducer;

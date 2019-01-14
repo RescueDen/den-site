@@ -88,6 +88,13 @@ export interface VaccineData {
     COMMENTS:string;
 }
 
+
+export enum Species{
+    cat =  "Cat",
+    dog = "Dog"
+
+}
+
 /**
  * Returns an empty caws user
  */
@@ -169,6 +176,10 @@ export default class CawsAnimal{
         }
     }
 
+    needsFoster():boolean{
+        return this.data.FLAGS.indexOf("Needs Foster") >= 0;
+    }
+
     //Get vaccine in order
     getVaccineHistoryInOrder(): VaccineData[]{
         return this.data.VACCINEHISTORY.sort(((a, b) => {
@@ -187,4 +198,17 @@ export default class CawsAnimal{
 
     }
 
+    isSpecies(searchSpecies: Species[]):boolean {
+        const mySpecies = this.data.SPECIES;
+
+        for(let i =0; i < searchSpecies.length; i++){
+            if(searchSpecies[i].toString() == mySpecies){
+                return true
+            }
+        }
+
+
+        return false;
+
+    }
 }

@@ -5,7 +5,7 @@ import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
 import AnimalCard from "../animal/AnimalCard";
-import {Card, Header, Input} from "semantic-ui-react";
+import {Button, Card, Checkbox, CheckboxProps, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import AnimalItemFull from "./AnimalItemFull";
 
@@ -29,7 +29,7 @@ interface DispatchProps{
 interface SearchState  {
     //Define the props we expect
     searchTerm: string
-
+    showBios:boolean;
 
 }
 
@@ -38,7 +38,7 @@ interface SearchState  {
  * This card shows the animal details
  */
 class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps, SearchState> {
-    state={searchTerm:""};
+    state={searchTerm:"", showBios:true};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -66,10 +66,10 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
 
             //If the ani is undefined just return the aniItem
             if (ani === undefined) {
-                return <AnimalCard key={id} ani={ani} link="/animal"/>;
+                return <AnimalCard key={id} ani={ani} link="/animal" showBio={this.state.showBios}/>;
             } else if (ani.inSearch(this.state.searchTerm)) {
                 //It is in the search term
-                return <AnimalCard key={id} ani={ani} link="/animal"/>;
+                return <AnimalCard key={id} ani={ani} link="/animal" showBio={this.state.showBios}/>;
             } else {
                 return null;
             }
@@ -83,18 +83,24 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
      * @returns {*}
      */
     render() {
+
+        //Get the hid/show text
+        const hideShowText = this.state.showBios? "Hide Bios" : "Show Bios";
+
         return (
             <div>
                 <div className="ui stackable grid">
                     <div className="left floated left aligned six wide column">
                         {/*The headers*/}
-                        <Header as='h1'>{this.props.title}</Header>
+                        <Header as='h1'>{this.props.title} ({this.props.animalIdList.length})</Header>
                     </div>
                     <div className="right floated right aligned six wide column">
 
+                        <Button toggle active={this.state.showBios} onClick={() =>this.setState({showBios: !this.state.showBios})}>
+                            {hideShowText}
+                        </Button>
                         <Input icon='search' placeholder='Search...' value={this.state.searchTerm}
                                onChange={v => this.updateSearch(v.currentTarget.value)}/>
-
                     </div>
                 </div>
 

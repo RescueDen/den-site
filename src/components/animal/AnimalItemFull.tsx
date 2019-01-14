@@ -19,6 +19,9 @@ interface MyProps  {
 
     //add a link to link to
     link:string;
+
+    //A foster button
+    extraButton?: any
 }
 
 /**
@@ -53,6 +56,8 @@ class AnimalItemFull extends React.Component<MyProps> {
             );
 
         }else {
+
+
             //Return the html
             return (
                 <Item>
@@ -68,12 +73,15 @@ class AnimalItemFull extends React.Component<MyProps> {
                             <AnimalBio animal={this.props.ani}/>
                         </Item.Description>
                         <Item.Extra>
-                            <Link to={`${this.props.link}/${this.props.ani.data.ID}`} >
-                            <Button primary floated='right'>
-                                Read More
-                                <Icon name='chevron right'/>
-                            </Button>
-                            </Link>
+                            <Button.Group floated='right'>
+                                {this.props.extraButton}
+                                <Link to={`${this.props.link}/${this.props.ani.data.ID}`} >
+                                    <Button primary>
+                                        Read More
+                                        <Icon name='chevron right'/>
+                                    </Button>
+                                </Link>
+                            </Button.Group>
                         </Item.Extra>
                     </Item.Content>
                 </Item>

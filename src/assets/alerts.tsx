@@ -35,7 +35,18 @@ const data : { [id: string]: ReplacementMessage; } =  {
     },
     "password_change_success": {
         "message": "Password updated"
+    },
+    "login_email_not_found": {
+        "header": "Can't find Email.",
+        "message": "You will need to register this email before you can login or login with gmail or facebook. If this is the first time you have logged in in on the new version of the site, please re-register. "
+    },
+    "user_password_login_forbidden": {
+        "message": "You can't login with a user and name and password for this email because you never set a password.  Please login with gmail or facebook, or perform a password reset. "
     }
+
+
+
+
 }
 
 

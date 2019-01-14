@@ -5,7 +5,7 @@ import {userActions} from '../../actions/user.actions';
 import logoImage from "../../assets/logos/xCAWS_logo_noText.png";
 
 import ApplicationState from "../../state/ApplicationState";
-import {Header, Grid, Image,Form , Segment, Button, Message} from 'semantic-ui-react'
+import {Header, Grid, Image, Form, Segment, Button, Message, Icon} from 'semantic-ui-react'
 
 import AuthenticationState, {AuthenticationStatus} from "../../state/AuthenticationState";
 import {Dispatch} from "redux";
@@ -181,7 +181,11 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                     scope="email"
                     fields="email"
                     callback={this.responseFacebook}
-                />
+                    icon={<Icon size='large' name="facebook official"/>}
+
+                >
+                    Click here
+                </FacebookLogin>
             </FullPageForm>
 
 

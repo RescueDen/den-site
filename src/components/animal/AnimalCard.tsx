@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 interface IncomingProps{
     ani: CawsAnimal;
     link:string;
+    showBio:boolean;
 }
 
 //Define the expected props
@@ -45,17 +46,19 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
                         <Placeholder.Image square />
                     </Placeholder>
 
+
                     <Card.Content>
                         <Placeholder>
                             <Placeholder.Header>
-                                <Placeholder.Line length='very short' />
-                                <Placeholder.Line length='medium' />
+                                <Placeholder.Line length='very short'/>
+                                <Placeholder.Line length='medium'/>
                             </Placeholder.Header>
                             <Placeholder.Paragraph>
-                                <Placeholder.Line length='short' />
+                                <Placeholder.Line length='short'/>
                             </Placeholder.Paragraph>
                         </Placeholder>
                     </Card.Content>
+
 
                     <Card.Content extra>
                         <Placeholder.Line length='short' />
@@ -74,7 +77,9 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
                             <Card.Meta>
                                 <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.asmid)}</span>
                             </Card.Meta>
-                            <Card.Description>{this.props.ani.data.BIO}</Card.Description>
+                            {this.props.showBio &&
+                                <Card.Description>{this.props.ani.data.BIO}</Card.Description>
+                            }
                         </Card.Content>
                         <Card.Content extra>
                             <a>

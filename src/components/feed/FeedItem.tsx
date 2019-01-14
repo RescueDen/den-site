@@ -53,7 +53,7 @@ const FeedItem =  (props:Props) => {
                     </Feed.Summary>
                     {props.data.preview &&
                     <Feed.Extra text>
-                        {props.data.preview}}
+                        {props.data.preview}
                     </Feed.Extra>
                     }
                     <Feed.Extra images>

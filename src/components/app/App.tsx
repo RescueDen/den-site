@@ -170,7 +170,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                     >
 
                     {/*The menu is over is load in based upon the router*/}
-                        <Container >
+                        <Container key={url}>
                             {/*Redirect to the default path*/}
                             <Route exact path="/" render={() => (
                                 <Redirect to="/news"/>

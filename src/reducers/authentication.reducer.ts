@@ -35,7 +35,6 @@ export function authentication(state:AuthenticationState = initialState, action:
             return {
                 ...state,
                 loggedInStatus:AuthenticationStatus.ATTEMPT,
-                loggedInUser: action.payload as CawsUser
             };
         case userConstants.LOGIN_SUCCESS:
             return {

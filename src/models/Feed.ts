@@ -1,4 +1,3 @@
-import {DocumentItemData} from "./DocumentSummary";
 
 /**
  * Specify event information

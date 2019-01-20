@@ -27,6 +27,7 @@ import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {feedActions} from "../../actions/feed.actions";
+import Logging from "../logging/Logging";
 
 
 //Setup up path props to get the current path
@@ -129,7 +130,6 @@ class App extends React.Component<AppProps&DispatchProps> {
                             },
                             {//Now foster info
                                 name:undefined,
-                                icon:<Icon name='ellipsis horizontal' />,
                                 subItems:[
                                     {//Also show my info
                                         name:"My Info",
@@ -194,6 +194,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'achievements'} path="/achievements" component={Achievements} />
                             <Route key='learn' exact path="/learn/" component={CourseList} />
                             <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
+                            <Route key={'logging'} path="/logging/" component={Logging} />
 
                         </Container>
                     </ResponsiveNavBar>

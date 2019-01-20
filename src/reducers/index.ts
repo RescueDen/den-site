@@ -14,6 +14,7 @@ import {feed} from "./feed.reducer";
 
 
 import ApplicationState from '../state/ApplicationState';
+import {logging} from "./logging.reducer";
 
 //Define the root reducer
 const rootReducer = combineReducers<ApplicationState>({
@@ -27,7 +28,8 @@ const rootReducer = combineReducers<ApplicationState>({
     events,
     achievements,
     courses,
-    feed
+    feed,
+    logging
 });
 
 export default rootReducer;

@@ -113,6 +113,7 @@ class NavBar extends React.Component<Props> {
                     <Dropdown key={item.name}
                               text={item.name}
                               onClick={item.onClick? item.onClick :linkTo}//If there is an onclick use it, otherwise link
+                              icon={item.name ? undefined : <Icon name='ellipsis horizontal'/>}
                     >
                         <Dropdown.Menu>
                             {/*Now the icon if here*/}

@@ -9,6 +9,7 @@ import EventsState from "./EventsState";
 import AchievementsState from "./AchievementsState";
 import CoursesState from "./CoursesState";
 import FeedState from "./FeedState";
+import LoggingState from "./LoggingState";
 
 /**
  * This model describes the entire state of program
@@ -24,5 +25,6 @@ export default interface ApplicationState {
     events:EventsState,
     achievements: AchievementsState,
     courses: CoursesState,
-    feed:FeedState
+    feed:FeedState,
+    logging: LoggingState
 }

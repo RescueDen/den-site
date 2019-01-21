@@ -44,6 +44,7 @@ const MySummary =  (myProps:LinkProps) => {
             {/*Add in a table with their information*/}
             <Table basic='very' style={{margin: "auto"}} celled collapsing>
                 <Table.Body>
+                    {createRow("E-Mail", myProps.user.data.email, "mail")}
                     {createRow("Address", myProps.user.data.address+","+myProps.user.data.city + " " + myProps.user.data.zip, "home")}
                     {createRow("First Foster Date", formatDate(myProps.user.data.firstfosterdate) , "calendar outline")}
                     {createRow("Average Foster Time", myProps.user.data.avgfostertime + "(days)", "calendar outline")}

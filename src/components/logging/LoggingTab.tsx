@@ -203,7 +203,7 @@ class LoggingTab extends React.Component<Props, State> {
                 {this.buildLogForm()}
                 <br/>
                 {/*If there are recent logs add them*/}
-                {this.props.recentLogs &&
+                {this.props.recentLogs && this.props.recentLogs.length > 0 &&
                 this.buildRecentSegment()
                 }
 

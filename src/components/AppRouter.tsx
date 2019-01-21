@@ -14,6 +14,7 @@ import {Container} from "semantic-ui-react";
 import RegisterPage from "./authentication/RegisterPage";
 import ActivationPage from "./authentication/ActivationPage";
 import PasswordResetPage from "./authentication/PasswordResetPage";
+import HelpViewier from "./help/HelpViewier";
 
 //Define the class
 class AppRouter extends React.Component{
@@ -34,9 +35,10 @@ class AppRouter extends React.Component{
                             <Route path="/register" component={RegisterPage} />
                             <Route path="/activate" component={ActivationPage} />
                             <Route path="/passwordreset" component={PasswordResetPage} />
+                            <Route path="/loginhelp" component={HelpViewier} />
 
                         </Container>
-                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset"]} path="/" component={App} />
+                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset", "/loginhelp", "/loginhelp/"]} path="/" component={App} />
 
                     </div>
                 </BrowserRouter>

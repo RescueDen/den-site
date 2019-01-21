@@ -32,7 +32,7 @@ function getCategorySummary() : Promise<CategoryInfoSummary> {
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/logging/',  {headers:headers});
+    const responsePromise = apiServer.get('/logging',  {headers:headers});
 
 
     //We need to do some work here

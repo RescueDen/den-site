@@ -10,7 +10,9 @@ import {Header, Grid, Image, Form, Segment, Button, Message, Icon} from 'semanti
 import AuthenticationState, {AuthenticationStatus} from "../../state/AuthenticationState";
 import {Dispatch} from "redux";
 import FullPageForm from "./FullPageForm";
-import FacebookLogin from 'react-facebook-login';
+// @ts-ignore
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
 
 //Define the expected props
 interface IncomingProps{
@@ -26,7 +28,7 @@ interface DispatchProps{
     requestActivationToken: (email:string) => any;
     requestEmailReset: (email:string) => any;
     userActionLoginFacebook: (facebookToken:any) => any;
-
+    userActionLoginGoogle: (googleToken:any) => any;
 }
 
 //Define the expected props
@@ -61,6 +63,24 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
         if(response.accessToken){
             this.props.userActionLoginFacebook(response);
         }
+
+
+    }
+
+    responseGoogle = (response:any) => {
+        //See if there is an access token
+        console.log(response.getAuthResponse())
+        if(response.getAuthResponse()){
+            this.props.userActionLoginGoogle(response.getAuthResponse());
+        }
+
+
+
+    }
+
+    signOut = (response:any) => {
+        //See if there is an access token
+        console.log(response.getAuthResponse())
 
 
     }
@@ -175,17 +195,41 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                     </Button>
 
                 </Message>
-                <FacebookLogin
-                    appId="377460049683618"
-                    autoLoad={false}
-                    scope="email"
-                    fields="email"
-                    callback={this.responseFacebook}
-                    icon={<Icon size='large' name="facebook official"/>}
+                <br/>
+                <p>Or Login with Google or Facebook without creating a new password!</p>
 
-                >
-                    Click here
-                </FacebookLogin>
+                {/*Keep all of the buttons in a group to make it look nice*/}
+                <Button.Group>
+                    <FacebookLogin
+                        appId="377460049683618"
+                        autoLoad={false}
+                        scope="email"
+                        fields="email"
+                        callback={this.responseFacebook}
+                        render={(renderProps:any) => (
+                            <Button color='facebook' onClick={renderProps.onClick}>
+                                <Icon name='facebook' /> Facebook
+                            </Button>
+                        )}
+
+                    />
+                    <GoogleLogin
+                        clientId="327122640256-6huu8nsbpa9jtj9u970gregpc9dviuef.apps.googleusercontent.com"
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                        render={(renderProps:any) => (
+                            <Button color='google plus' onClick={renderProps.onClick}>
+                                <Icon name='google' /> Google
+                            </Button>
+                        )}
+                    />
+
+                </Button.Group>
+
+                {/*Add a help button*/}
+                <br/><br/>
+                <Link to="/loginhelp" className="ui button"><Icon name='help circle'/>Help</Link>
+
             </FullPageForm>
 
 
@@ -212,7 +256,9 @@ function mapDispatchToProps(dispatch: Dispatch<any>): {} {
         userActionLogout:() => dispatch(userActions.logout()),
         requestActivationToken: (email:string) => dispatch(userActions.requestActivationToken(email)),
         requestEmailReset: (email:string)  => dispatch(userActions.requestEmailReset(email)),
-        userActionLoginFacebook: (facebookToken:any) => dispatch(userActions.loginFacebook(facebookToken))
+        userActionLoginFacebook: (facebookToken:any) => dispatch(userActions.loginFacebook(facebookToken)),
+        userActionLoginGoogle: (googleToken:any) => dispatch(userActions.loginGoogle(googleToken))
+
 
 
 

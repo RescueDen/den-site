@@ -170,6 +170,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                     <NavBar
                         mobile={false}//Hard code mobile so that this is on top
                         reRoute={this.reRoute}
+                        permissions={this.props.permissions}
                         items={[
                              {//Add in the toggle menu item
                                  name:undefined,

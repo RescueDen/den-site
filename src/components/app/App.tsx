@@ -28,6 +28,9 @@ import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {feedActions} from "../../actions/feed.actions";
 import Logging from "../logging/Logging";
+import HelpViewier from "../help/HelpViewier";
+import FullPageMenu from "../menu/FullPageMenu";
+import {leftMenuItems, rightMenuItems} from "./MenuItems";
 
 
 //Setup up path props to get the current path
@@ -43,6 +46,9 @@ interface DispatchProps {
 }
 
 
+
+
+
 class App extends React.Component<AppProps&DispatchProps> {
     state={showFeed:false}
     /**
@@ -51,6 +57,10 @@ class App extends React.Component<AppProps&DispatchProps> {
     componentDidMount(){
 
     };
+
+
+
+
 
 
     //Return the real div
@@ -76,97 +86,20 @@ class App extends React.Component<AppProps&DispatchProps> {
                         desktopMode={MenuMode.Fixed}
 
                         ///*Now for the menu items*/}
-                        items={[
-                            //The logo
-                            {
-                                name:<Image size='tiny' src={logoImage} />
-                            },
-                            {
-                                name:"App Status",
-                                to:'/appstatus',
-                                icon:<Icon name='check square outline' />
-                            },
-                            {
-                                name:"News",
-                                to:'/news',
-                                reqPerm:'get_news',
-                                icon:<Icon name='newspaper outline' />
-                            },
-                            {
-                                name:"Info",
-                                to:'/info',
-                                reqPerm:'get_info',
-                                icon:<Icon name='tv' />
-                            },
-                            {//Now foster info
-                                name:"Fosters",
-                                reqPerm:"get_animal_info",
-                                icon:<Icon name='paw' />,
-                                subItems:[
-                                    {
-                                        name:"In Need",
-                                        to:'/inneed',
-                                    },
-                                    {
-                                        name:"Your Current Fosters",
-                                        to:'/currentfosters',
-                                    },
-                                    {
-                                        name:"Your Past Fosters",
-                                        to:'/pastfosters',
-                                    }
-                                ]
-
-                            },
-                            {//Show all of the forms
-                                name:"Forms",
-                                to:'/forms',
-                                icon:<Icon name='edit outline' />
-                            },
-                            {//Show all of the forms
-                                name:"Events",
-                                to:'/events',
-                                icon:<Icon name='calendar alternate outline' />
-                            },
-                            {//Now foster info
-                                name:undefined,
-                                subItems:[
-                                    {//Also show my info
-                                        name:"My Info",
-                                        to:'/myinfo',
-                                        icon:<Icon name='user outline' />
-                                    },
-                                    {
-                                        name:"Supplies",
-                                        to:'/supplies',
-                                        reqPerm:"foster_supplies",
-                                        icon:<Icon name='shopping basket' />
-                                    },
-                                    {
-                                        name:"Learn",
-                                        to:'/learn',
-                                        reqPerm:"get_courses",
-                                        icon:<Icon name='university' />
-                                    }
-                                ]
-
-                            },
-                        ]}
+                        items={leftMenuItems}
 
                         //Add in fixed items
                         itemsRight=
                             {[
+                                ...rightMenuItems,
                                 {//Show all of the forms
-                                    name:"Log Out",
-                                    to:'/login'
-                                },
-                                {//Show all of the forms
-                                    name:<Icon name="feed" />,
-                                    onClick: () =>{
+                                    name: <Icon name="feed"/>,
+                                    onClick: () => {
                                         this.props.toggleFeed();
                                     }
                                 }
-                            ]}
+                            ]
+                            }
                     >
 
                     {/*The menu is over is load in based upon the router*/}
@@ -192,9 +125,11 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'supplies'} path="/supplies" component={SuppliesPage} />
                             <Route key={'appstatus'} path="/appstatus" component={AppStatusPage} />
                             <Route key={'achievements'} path="/achievements" component={Achievements} />
-                            <Route key='learn' exact path="/learn/" component={CourseList} />
+                            <Route key='courses' exact path="/courses/" component={CourseList} />
                             <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
                             <Route key={'logging'} path="/logging/" component={Logging} />
+                            <Route key={'help'} path="/help" component={HelpViewier} />
+                            <Route key={'menu'} path="/menu" component={FullPageMenu}/>
 
                         </Container>
                     </ResponsiveNavBar>

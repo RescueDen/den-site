@@ -12,7 +12,7 @@ interface Props {
     catInfo:CategoryInfo;
     recentLogs?: LogData[];
     timeHistory?: MonthInfo[];
-    total?: number
+    totalsSum?: number
 
     removeLog: (id:number) => any
 

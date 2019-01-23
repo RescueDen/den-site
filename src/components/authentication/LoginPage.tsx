@@ -196,7 +196,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
                 </Message>
                 <br/>
-                <p>Or Login with Google or Facebook without creating a new password!</p>
+                <p>or Login with Google or Facebook without creating a new password!</p>
 
                 {/*Keep all of the buttons in a group to make it look nice*/}
                 <Button.Group>

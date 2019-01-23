@@ -34,8 +34,8 @@ export interface  LogSummary {
     historySummary: { [category: string]: MonthInfo[]; }
 
     //Get the summary for that info
-    total: { [category: string]: number; }
-
+    totalsSum: { [category: string]: number; }
+    totalsCount: { [category: string]: number; }
 }
 
 

@@ -59,7 +59,7 @@ class Logging extends React.Component<LinkProps&StateProps&DispatchProps, any> {
                         render: () => <LoggingTab
                             catInfo={this.props.categorySummary.categories[catName]}
                             recentLogs={this.props.logSummary.recentLogs[catName]}
-                            total={this.props.logSummary.total[catName]}
+                            totalsSum={this.props.logSummary.totalsSum[catName]}
                             timeHistory={this.props.logSummary.historySummary[catName]}
                             removeLog={(id: number) => this.props.removeLog(catName, id)}
 

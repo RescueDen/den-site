@@ -27,7 +27,9 @@ const FeedItem =  (props:Props) => {
         case "achievement":
             label = <Icon name='certificate' />;
             break;
-
+        case "news":
+            label = <Icon name='newspaper outline' />;
+            break;
     }
 
     //Add an external link

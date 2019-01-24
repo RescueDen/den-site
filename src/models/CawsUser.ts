@@ -98,4 +98,10 @@ export default class CawsUser{
 
 
     }
+
+    //Provide a method to get the image url
+    getCodeAndName():string{
+        return this.data.firstname + " " +this.data.lastname;
+    }
+
 }

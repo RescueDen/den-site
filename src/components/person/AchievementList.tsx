@@ -7,7 +7,7 @@ import AchievementBadge from "./AchievementBadge";
 
 interface LinkProps  {
     //Define the props we expect
-    achievements:AchievementData[];
+    achievements?:AchievementData[];
 
 }
 
@@ -19,17 +19,29 @@ interface LinkProps  {
  */
 const AchievementList =  (myProps:LinkProps) => {
 
-    return (
-        <Grid centered doubling columns={5}>
-            {myProps.achievements.map(ach =>{
-                return (
-                    <Grid.Column textAlign='center' key={ach.id}>
-                        <AchievementBadge achievement={ach}/>
+    if(myProps.achievements) {
+        return (
+            <Grid centered doubling columns={5}>
+                {myProps.achievements.map(ach => {
+                    return (
+                        <Grid.Column textAlign='center' key={ach.id}>
+                            <AchievementBadge achievement={ach}/>
+                        </Grid.Column>
+                    );
+                })}
+            </Grid>
+        );
+    }else{
+        return (
+            <Grid centered doubling columns={5}>
+                    <Grid.Column textAlign='center' key={"placeHolder"}>
+                        <Placeholder size='tiny'>
+                            <Placeholder.Image />
+                        </Placeholder>
                     </Grid.Column>
-                );
-            })}
-        </Grid>
-    );
+            </Grid>
+        );
+    }
 
 }
 

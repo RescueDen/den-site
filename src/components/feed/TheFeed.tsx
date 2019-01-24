@@ -50,7 +50,7 @@ class TheFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
      */
     render() {
         return (
-            <Sidebar.Pushable style={{minHeight:"100vh"}}>
+            <Sidebar.Pushable style={{minHeight:"100vh", overflow: "scroll"}}>
                 <Sidebar
                     as={Menu}
                     animation='overlay'
@@ -74,7 +74,7 @@ class TheFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
                             <Header.Subheader>See what is happening in the world of CAWS</Header.Subheader>
                         </Header.Content>
                     </Header>
-                    <Feed>
+                    <Feed >
                         {this.props.feedItems.map( item =>{
                             return <FeedItem key={item.id} data={item}/>
                         })}

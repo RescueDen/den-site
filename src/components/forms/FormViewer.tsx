@@ -2,8 +2,6 @@ import React from 'react';
 
 import {connect} from "react-redux";
 
-import {ThunkDispatch} from "redux-thunk";
-import {formsActions, formsConstants} from "../../actions/forms.actions";
 import {FormItemData} from "../../models/FormsSummary";
 
 
@@ -11,11 +9,11 @@ import Form, {Widget, WidgetProps} from "react-jsonschema-form-semanticui-fixed"
 import {FormSubmision} from "../../models/FormSubmision";
 import ApplicationState from "../../state/ApplicationState";
 import {formsService} from "../../services/forms.service";
-import {error} from "../../actions/alert.actions";
-import {Dimmer, Loader, Segment} from "semantic-ui-react";
+import {Dimmer, Dropdown, Loader, Segment} from "semantic-ui-react";
 import {extractMessageFromPossibleServerResponseStatus} from "../../models/ServerStatus";
-import {userConstants} from "../../actions/user.actions";
 import MyFosterSelection from "./MyFosterSelection";
+import CawsUser from "../../models/CawsUser";
+import CawsAnimal from "../../models/CawsAnimal";
 
 
 
@@ -25,6 +23,8 @@ interface LinkProps {
 
     formWidgets?: { [name: string]: Widget };
 
+    //Store a person
+    user?: CawsUser;
 }
 
 
@@ -108,13 +108,35 @@ class FormViewer extends React.Component<LinkProps, State> {
     render() {
 
         //Merge the widgets to gether
-        let widgets={"animalIdWidget":this.animalIdWidget}
+        let widgets={
+            "animalIdWidget":this.animalIdWidget,
+        }
 
         //If there are other widgets add them
         if(this.props.formWidgets){
             widgets = {...widgets, ...this.props.formWidgets}
         }
 
+        //Get a copy of the schema
+        let uiSchema = this.props.formData.UISchema;
+
+
+        //Set any known values
+        const formData: { [id: string]: any; } = {};
+
+        //If the user is specified set them
+        if(this.props.user){
+            formData["personEmail"]  = this.props.user.data.email;
+            formData["personId"]  = this.props.user.getCodeAndName();
+
+            //Make a hidden
+            const hidden = {"ui:widget": "hidden"};
+
+            //Hide the values as well
+            uiSchema["personEmail"] = hidden;
+            uiSchema["personId"] = hidden;
+
+        }
 
 
         //For now just render
@@ -124,9 +146,10 @@ class FormViewer extends React.Component<LinkProps, State> {
                     <Loader inverted>Loading</Loader>
                 </Dimmer>
                 <Form schema={this.props.formData.JSONSchema}
-                      uiSchema={this.props.formData.UISchema}
+                      uiSchema={uiSchema}
                       widgets={widgets}
                       onSubmit={this.onSubmit}
+                      formData={formData}
                 />
 
             </Segment>
@@ -137,18 +160,17 @@ class FormViewer extends React.Component<LinkProps, State> {
     }
 };
 
-/**
- * All of them share the same mapDispatchToProps
- * @param dispatch
- * @param ownProps
- */
+
 /**
  * Map from the global state to things we need here
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState) {
-    return {};
+function mapStateToProps(state:ApplicationState, incoming:LinkProps):LinkProps {
+    return {
+        ...incoming,
+        user:state.authentication.loggedInUser
+    };
 }
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {

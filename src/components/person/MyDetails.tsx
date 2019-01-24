@@ -55,15 +55,16 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
                     <Header as='h1'>{this.props.user.data.firstname} {this.props.user.data.lastname}</Header>
 
                     {/*If we have achievements*/}
-                    {this.props.achievements &&
                     <Segment>
                         <Header as="h2">My Achievements</Header>
-                        <AchievementList achievements={this.props.achievements}/>
+                        {this.props.achievements &&
+                            <AchievementList achievements={this.props.achievements}/>
+                        }
                         <br/>
                         <Label attached='bottom right'><Link to='/achievements'>see all possible achievements</Link></Label>
 
                     </Segment>
-                    }
+
                     {/*Load in my Summary*/}
                     <MySummary user={this.props.user}/>
 

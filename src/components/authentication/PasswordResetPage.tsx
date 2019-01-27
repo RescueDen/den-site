@@ -144,7 +144,7 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
                     <Image src={logoImage} />
-                    Activate your account
+                    Reset Your Password
                 </Header>
 
                 {/*Now add the required values to the form*/}

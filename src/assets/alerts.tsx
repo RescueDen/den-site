@@ -42,7 +42,28 @@ const data : { [id: string]: ReplacementMessage; } =  {
     },
     "user_password_login_forbidden": {
         "message": "You can't login with a user and name and password for this email because you never set a password.  Please login with gmail or facebook, or perform a password reset. "
+    },
+    "password_change_request_received": {
+        "message": "An email has been sent to the requested email address."
+    },
+    "activation_forbidden": {
+        "header": "Invalid Activation Token",
+        "message": "Please check the activation token and try again."
+    },
+    "user_activated": {
+        "header": "User Activated",
+        "message": "Please login using your email and password."
+    },
+    "activation_token_missing_email": {
+        "message": "Please provide the email address when activating."
+    },
+    "activation_token_request_received": {
+        "message": "An email has been sent to the requested email address."
+    },
+    "password_change_forbidden": {
+        "message": "Please check the token and email and try again."
     }
+
 
 
 

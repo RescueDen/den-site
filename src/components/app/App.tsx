@@ -1,5 +1,4 @@
 import React from 'react';
-import logoImage from '../../assets/logos/xCAWS_logo_sideways.png';
 
 // import routes
 import {Container, Image, Icon} from 'semantic-ui-react';
@@ -22,15 +21,16 @@ import PrivateRoute from "../authentication/PrivateRoute";
 import Achievements from "../person/Achievements";
 import CourseList from "../courses/CourseList";
 import Course from "../courses/Course";
-import TheFeed from "../feed/TheFeed";
+import SideFeed from "../feed/SideFeed";
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {feedActions} from "../../actions/feed.actions";
 import Logging from "../logging/Logging";
-import HelpViewier from "../help/HelpViewier";
+import HelpViewier from "../static-pages/HelpViewier";
 import FullPageMenu from "../menu/FullPageMenu";
 import {leftMenuItems, rightMenuItems} from "./MenuItems";
+import Welcome from "../static-pages/Welcome";
 
 
 //Setup up path props to get the current path
@@ -79,7 +79,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                 {/*Define the top area*/}
 
                 {/*Provides call backs when this object leaves on certain*/}
-                <TheFeed >
+                <SideFeed>
                     <ResponsiveNavBar
                         ///*Define a desktop header*/}
                         desktopHeader={undefined}
@@ -106,15 +106,17 @@ class App extends React.Component<AppProps&DispatchProps> {
                         <Container key={url}>
                             {/*Redirect to the default path*/}
                             <Route exact path="/" render={() => (
-                                <Redirect to="/news"/>
+                                <Redirect to="/welcome"/>
                             )}/>
                             {/*List all of the possible paths*/}
-                            <PrivateRoute exactRoute={true} reqPermission='get_news' exclude={[]} path='/news' to='/appstatus/'  component={News} />
+                            {/*<PrivateRoute exactRoute={true} reqPermission='get_news' exclude={[]} path='/news' to='/appstatus/'  component={News} />*/}
+                            <Route key='welcome' exact path="/welcome" component={Welcome} />
                             <Route key='currentfosters' exact path="/currentfosters" component={CurrentFostersFullPage} />
                             <Route key='pastfosters' exact path="/pastfosters" component={PastFostersFullPage} />
                             <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
                             <Route key='myinfo' path="/myinfo" component={MyDetails} />
-                            <Route key='info' exact path="/info/" component={Information} />
+                            <Route key='info' exact path="/info/" reqPermission='get_info'  component={Information} />
+                            <Route key='news' exact path="/news/" reqPermission='get_news' component={News} />
                             <Route key={'info/articleId'+url} path="/info/:articleId" component={Information} />
                             <Route key={'news:articleID'+url} path="/news/:articleId" component={News} />
                             <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
@@ -133,7 +135,7 @@ class App extends React.Component<AppProps&DispatchProps> {
 
                         </Container>
                     </ResponsiveNavBar>
-                </TheFeed>
+                </SideFeed>
             </div>
         );
     }

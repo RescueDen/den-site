@@ -111,7 +111,7 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                     user={this.props.user}
                     key='cat fostering'
                     icon={<Icon name='paw'/>}
-                    name={"Dog Fostering"}
+                    name={"Cat Fostering"}
                     status={[
                         {
                             name:"Apply and Review",

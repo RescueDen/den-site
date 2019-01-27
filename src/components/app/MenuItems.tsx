@@ -7,7 +7,7 @@ export const leftMenuItems = [
     //The logo
     {
         name: <Image size='tiny' src={logoImage}/>,
-        to:'/menu'
+        to:'/welcome'
     },
     {
         name: "App Status",

@@ -10,29 +10,25 @@ import {connect} from "react-redux";
 import {FeedItemData} from "../../models/Feed";
 import FeedItem from "./FeedItem";
 
-//Income Props
-interface FeedProps{
-    children:any
 
+//Setup up path props to get the current path
+interface Props {
 }
 
 
 //Setup up path props to get the current path
 interface StateProps {
-    feedShown:boolean
     feedItems:FeedItemData[]
 }
 
 //Setup up path props to get the current path
 interface DispatchProps {
-    //And the actions that must be done
-    toggleFeed: () => any;
     updateFeed: () => any;
 
 }
 
 
-class TheFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
+class TheFeed extends React.Component<Props&StateProps&DispatchProps> {
 
 
 
@@ -50,25 +46,10 @@ class TheFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
      */
     render() {
         return (
-            <Sidebar.Pushable style={{minHeight:"100vh", overflow: "scroll"}}>
-                <Sidebar
-                    as={Menu}
-                    animation='overlay'
-                    icon='labeled'
-                    vertical
-                    // onHide={() => {
-                    //     if(this.props.feedShown) {
-                    //         this.props.toggleFeed();
-                    //     }}}
-                    visible={this.props.feedShown}
-                    direction='right'
-
-                >
-
-                    <Label  corner='left' icon='close' onClick={() => this.props.toggleFeed()}/>
+            <>
 
                     <Header as='h2'
-                            icon>
+                            icon textAlign='center'>
                         <Icon name='feed'  />
                         <Header.Content>The CAWS Feed
                             <Header.Subheader>See what is happening in the world of CAWS</Header.Subheader>
@@ -79,11 +60,8 @@ class TheFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
                             return <FeedItem key={item.id} data={item}/>
                         })}
                     </Feed>
-                </Sidebar>
-                <Sidebar.Pusher >
-                    {this.props.children}
-                </Sidebar.Pusher>
-            </Sidebar.Pushable>
+            </>
+
         );
 
     }
@@ -95,17 +73,15 @@ class TheFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,myProps:FeedProps ):FeedProps&StateProps {
+function mapStateToProps(state:ApplicationState,myProps:Props ):Props&StateProps {
     return {
         ...myProps,
-        feedShown:state.feed.feedShown,
         feedItems:state.feed.feedItems
     };
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        toggleFeed:() =>  dispatch(feedActions.toggleFeed()),
         updateFeed:() => dispatch(feedActions.updateFeed())
     };
 

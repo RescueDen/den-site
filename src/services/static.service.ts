@@ -3,9 +3,9 @@ import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
 import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
 
-export const helpService = {
-    getPublicHelp,
-    getPrivateHelp
+export const staticService = {
+    getPublicPage,
+    getPrivatePage
     // register,
     // getAll,
     // getById,
@@ -26,10 +26,10 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getPublicHelp() : Promise<string> {
+function getPublicPage(page:string) : Promise<string> {
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/help/public`);
+    const responsePromise = apiServer.get(`/static/public/${page}`);
 
 
     //We need to do some work here
@@ -52,13 +52,13 @@ function getPublicHelp() : Promise<string> {
  * @param password
  * @returns
  */
-function getPrivateHelp() : Promise<string> {
+function getPrivatePage(page:string) : Promise<string> {
 
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/help/private`,  {headers:headers});
+    const responsePromise = apiServer.get(`/static/private/${page}`,  {headers:headers});
 
 
     //We need to do some work here

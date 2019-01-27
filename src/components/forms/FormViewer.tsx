@@ -13,7 +13,6 @@ import {Dimmer, Dropdown, Loader, Segment} from "semantic-ui-react";
 import {extractMessageFromPossibleServerResponseStatus} from "../../models/ServerStatus";
 import MyFosterSelection from "./MyFosterSelection";
 import CawsUser from "../../models/CawsUser";
-import CawsAnimal from "../../models/CawsAnimal";
 
 
 

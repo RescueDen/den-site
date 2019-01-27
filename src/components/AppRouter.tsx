@@ -14,7 +14,7 @@ import {Container} from "semantic-ui-react";
 import RegisterPage from "./authentication/RegisterPage";
 import ActivationPage from "./authentication/ActivationPage";
 import PasswordResetPage from "./authentication/PasswordResetPage";
-import HelpViewier from "./help/HelpViewier";
+import HelpViewier from "./static-pages/HelpViewier";
 
 //Define the class
 class AppRouter extends React.Component{

@@ -32,14 +32,18 @@ class HelpViewer extends React.Component<LinkProps> {
         if(this.props.user){
             return (
                 <Container>
-                    <StaticComponent pagePath={"help"} public={false}/>
+                    <Segment>
+                        <StaticComponent pagePath={"help"} public={false}/>
+                    </Segment>
                 </Container>
             );
 
         }else{
             return(
                 <Container>
-                    <StaticComponent pagePath={"help"} public={true}/>
+                    <Segment>
+                        <StaticComponent pagePath={"help"} public={true}/>
+                    </Segment>
                 </Container>
             );
         }

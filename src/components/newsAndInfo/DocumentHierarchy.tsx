@@ -96,7 +96,7 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
                         <List.Item key={item.id}>
                             <List.Icon name='file alternate outline'/>
                                 <List.Content>
-                                    <List.Header><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
+                                    <List.Header as="h3"><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
                                     <List.Description>{item.preview}</List.Description>
                                 </List.Content>
                         </List.Item>

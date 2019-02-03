@@ -21,6 +21,7 @@
     "@types/redux-logger": "^3.0.6",
     "@types/redux-thunk": "^2.1.0",
     "axios": "^0.18.0",
+    "file-saver": "^2.0.0",
     "moment": "^2.23.0",
     "query-string": "^6.2.0",
     "react": "^16.6.3",
@@ -58,6 +59,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/file-saver": "^2.0.0",
     "@types/react-image-gallery": "^0.8.3"
   }
 }

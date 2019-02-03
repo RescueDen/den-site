@@ -31,6 +31,7 @@ import HelpViewier from "../static-pages/HelpViewier";
 import FullPageMenu from "../menu/FullPageMenu";
 import {leftMenuItems, rightMenuItems} from "./MenuItems";
 import Welcome from "../static-pages/Welcome";
+import CAWSHub from "../static-pages/CAWSHub";
 
 
 //Setup up path props to get the current path
@@ -132,6 +133,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'logging'} path="/logging/" component={Logging} />
                             <Route key={'help'} path="/help" component={HelpViewier} />
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>
+                            <PrivateRoute exactRoute={true} reqPermission='access_hub' exclude={[]} path='/cawshub' to='/welcome'  component={CAWSHub} />
 
                         </Container>
                     </ResponsiveNavBar>

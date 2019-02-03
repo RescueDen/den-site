@@ -69,6 +69,11 @@ export const leftMenuItems = [
         to: '/events',
         icon: <Icon name='calendar alternate outline'/>
     },
+    {//Show all of the forms
+        name: "CAWS Hub",
+        to: '/cawshub',
+        icon: <Icon name='building'/>
+    },
 
 ];
 

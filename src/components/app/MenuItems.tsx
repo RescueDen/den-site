@@ -17,6 +17,7 @@ export const leftMenuItems = [
     {//Now foster info
         name: "Learn",
         icon: <Icon name='info circle'/>,
+        reqPerm: 'get_news',
         subItems: [
             {
                 name: "News",

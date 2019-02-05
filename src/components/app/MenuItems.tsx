@@ -73,6 +73,7 @@ export const leftMenuItems = [
     {//Show all of the forms
         name: "CAWS Hub",
         to: '/cawshub',
+        reqPerm: "access_hub",
         icon: <Icon name='building'/>
     },
 

@@ -206,6 +206,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                         scope="email"
                         fields="email"
                         callback={this.responseFacebook}
+                        disableMobileRedirect={true}
                         render={(renderProps:any) => (
                             <Button color='facebook' onClick={renderProps.onClick}>
                                 <Icon name='facebook' /> Facebook

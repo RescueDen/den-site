@@ -19,8 +19,17 @@ export function info(state:InfoState = {infoSummary:(new ArticlesSummary({id:"",
         case infoConstants.FETCH_INFO_SUMMARY:
 
             //Add the new success to the list
-            return {infoSummary:action.payload};
+            return {
+                ...state,
+                infoSummary:action.payload
+            };
+        case infoConstants.FETCH_INSIDE_SUMMARY:
 
+            //Add the new success to the list
+            return {
+                ...state,
+                insideSummary:action.payload
+            };
         default:
             return state
     }

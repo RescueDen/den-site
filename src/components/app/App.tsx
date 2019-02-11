@@ -32,6 +32,7 @@ import FullPageMenu from "../menu/FullPageMenu";
 import {leftMenuItems, rightMenuItems} from "./MenuItems";
 import Welcome from "../static-pages/Welcome";
 import CAWSHub from "../static-pages/CAWSHub";
+import InsideCaws from "../newsAndInfo/InsideCaws";
 
 
 //Setup up path props to get the current path
@@ -117,8 +118,10 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
                             <Route key='myinfo' path="/myinfo" component={MyDetails} />
                             <Route key='info' exact path="/info/" reqPermission='get_info'  component={Information} />
+                            <Route key='inside' exact path="/inside/" reqPermission='inside_caws'  component={InsideCaws} />
                             <Route key='news' exact path="/news/" reqPermission='get_news' component={News} />
                             <Route key={'info/articleId'+url} path="/info/:articleId" component={Information} />
+                            <Route key={'inside/articleId'+url} path="/inside/:articleId" component={InsideCaws} />
                             <Route key={'news:articleID'+url} path="/news/:articleId" component={News} />
                             <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
                             <Route key='forms' exact path="/forms/" component={FormSelector} />

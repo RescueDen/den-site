@@ -5,6 +5,7 @@ import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
 
 export const infoService = {
     getInfoSummary,
+    getInsideSummary,
     downloadInfoArticle: getInfoArticle,
     // register,
     // getAll,
@@ -32,6 +33,37 @@ function getInfoSummary() : Promise<ArticlesSummary> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.get('/info/',  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const anData = <ArticleItemData>response.data;
+
+            //Make a caws user
+            const info = new ArticlesSummary(anData)
+
+            //Return just the user
+            return info;
+        }
+    );
+
+
+}
+/**
+ * Get the info summary
+ * @param username
+ * @param password
+ * @returns
+ */
+function getInsideSummary() : Promise<ArticlesSummary> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get('/inside/',  {headers:headers});
 
 
     //We need to do some work here

@@ -1,5 +1,6 @@
 import {Icon, Image} from "semantic-ui-react";
 import logoImage from "../../assets/logos/xCAWS_logo_sideways.png";
+import logoIcon from "../../assets/logos/xCAWS_logoBW_noText.png";
 import React from "react";
 
 
@@ -36,6 +37,12 @@ export const leftMenuItems = [
                 to: '/courses',
                 reqPerm: "get_courses",
                 icon: <Icon name='university'/>
+            },
+            {
+                name: "Inside CAWS",
+                to: '/inside',
+                reqPerm: "inside_caws",
+                icon: <Image size='tiny' src={logoIcon}/>
             }
         ]
 

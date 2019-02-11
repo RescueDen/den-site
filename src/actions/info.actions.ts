@@ -8,11 +8,13 @@ import {infoService} from "../services/info.service";
 
 export const infoConstants = {
     FETCH_INFO_SUMMARY: 'FETCH_INFO_SUMMARY',
+    FETCH_INSIDE_SUMMARY:"FETCH_INSIDE_SUMMARY",
 
 };
 
 export const infoActions = {
     getInfoSummary,
+    getInsideSummary
     // logout,
     // getAll,
     // delete: _delete
@@ -54,4 +56,41 @@ function getInfoSummary(): ThunkAction<any, any,any, any> {
     };
 
 }
+/**
+ * Update the info the summary
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function getInsideSummary(): ThunkAction<any, any,any, any> {
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+
+        //Ask the user service to login
+        infoService.getInsideSummary()
+            .then(
+                //If successful a user will be returned
+                sum => {
+                    //dispatch a login success
+                    dispatch({
+                        type: infoConstants.FETCH_INSIDE_SUMMARY,
+                        payload: sum
+                    });
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+                    //Dispatch the error
+                    try {
+                        dispatch(error(errorResponse.response.data.message));
+                    }catch(e){
+                        dispatch(error(errorResponse.toString()));
+
+                    }
+
+                }
+            );
+    };
+
+}
+
 

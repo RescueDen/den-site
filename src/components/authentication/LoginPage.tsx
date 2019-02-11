@@ -165,6 +165,9 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                     <Image src={logoImage} />
                     Log-in to your account
                 </Header>
+                <p>
+                    Welcome to the new CAWS Volunteer and Foster Page (now called the den and available at den.caws.org).  If you had an old account you will have to register or login with Google or Facebook using the buttons below.
+                </p>
 
                 {/*Now add the required values to the form*/}
                 <Form error={errorState} size='large' onSubmit={e => this.handleSubmit(e)}>

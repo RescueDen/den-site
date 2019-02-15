@@ -8,6 +8,7 @@ import AnimalCard from "../animal/AnimalCard";
 import {Button, Card, Checkbox, CheckboxProps, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import AnimalItemFull from "./AnimalItemFull";
+import {userActions} from "../../actions/user.actions";
 
 //Define the expected props
 interface IncomingProps  {
@@ -23,6 +24,8 @@ interface DispatchProps{
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
 
+    //And the actions that must be done
+    updateMyInfo: () => any;
 }
 
 //Define the expected props
@@ -46,6 +49,9 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
     componentDidMount(){
         // reset login status
         this.props.animalIdList.forEach(aniId => this.props.downloadAnimal(aniId));
+
+        //Update the human info
+        this.props.updateMyInfo();
     };
 
     /**
@@ -120,7 +126,8 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
  */
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
+        updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser())
     };
 
 }

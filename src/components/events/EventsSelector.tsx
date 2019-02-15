@@ -422,9 +422,14 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
 
         //Start rendering
         return (
-            <Segment>
-                {components}
-            </Segment>
+            <>
+                <Segment>
+                    This is a list of upcoming events that you can sign-up for.  Please click on the event you would like to sign-up for.  They are organized by event type. Use the Cal View toggle to see a list instead of a calendar or click on a calendar to turn them off (all are on by default).
+                </Segment>
+                <Segment>
+                    {components}
+                </Segment>
+            </>
         );
 
     }

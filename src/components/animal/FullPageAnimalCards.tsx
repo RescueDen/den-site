@@ -7,7 +7,7 @@ import AnimalState from "../../state/AnimalState";
 import AnimalCard from "../animal/AnimalCard";
 import {Button, Card, Checkbox, CheckboxProps, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
-import AnimalItemFull from "./AnimalItemFull";
+import AnimalItemFull from "../inneed/AnimalItemFull";
 import {userActions} from "../../actions/user.actions";
 
 //Define the expected props

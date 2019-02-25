@@ -3,12 +3,17 @@ import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
-import {Header, Input, List, Placeholder, Item, Button, Dropdown, Form} from "semantic-ui-react";
+import {Header, Input, List, Placeholder, Item, Button, Dropdown, Form, Modal} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
 import AnimalItemFull from "./AnimalItemFull";
 import CawsUser from "../../models/CawsUser";
 import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import {inSearch, inSpecies, NonCawsAnimal} from "../../models/InNeedOfFosterModel";
+import NonCawsAnimalItemFull from "./NonCawsAnimalItemFull";
+import AddInNeed from "./AddInNeed";
+import {inNeedActions} from "../../actions/inNeedFoster.actions";
+import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
 interface IncomingProps  {
@@ -16,6 +21,8 @@ interface IncomingProps  {
     animalIdList: number[]
     title:string
     link:string
+    nonCaws:NonCawsAnimal[]
+
 
 }
 
@@ -24,14 +31,16 @@ interface LinkProps  {
     //Define the props we expect
     cawsAnimalsDb: AnimalState
     user?: CawsUser
-
+    busy:boolean;
 }
 
 
 interface DispatchProps{
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
-
+    removeAnimal: (id:string) =>any;
+    // addGeometry:(name:string) =>any;
+    uploadAnimal:(data: NonCawsAnimal, file: File) => any;
 }
 
 //Define the expected props
@@ -39,8 +48,11 @@ interface SearchState  {
     //Define the props we expect
     searchTerm: string
     searchSpecies: Species[]
+    //Add a control to open/close modal
+    addNewModalOpen:boolean
 
-
+    //Keep a boolean for busy
+    busy:boolean
 }
 
 const searchOptions =[
@@ -60,7 +72,7 @@ const searchOptions =[
  * This card shows the animal details
  */
 class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={searchTerm:"", searchSpecies:[Species.cat, Species.dog] as Species[]};
+    state={searchTerm:"", searchSpecies:[Species.cat, Species.dog] as Species[], addNewModalOpen:false, busy:false};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -103,6 +115,42 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
 
         }
 
+    }
+    buildNonCawsFosterButton(ani:NonCawsAnimal): any {
+        //If this foster needs a button
+            //Build the name
+        let name = "Someone ";
+        if(this.props.user){
+            name = this.props.user.data.firstname + " " + this.props.user.data.lastname;
+        }
+
+
+        //build the mail to
+        let href = "mailto:" + ani.species + "s@caws.org";
+        href+= "?subject=" + name + " would like to foster " + ani.id + ":" + ani.name;
+        href+= "&body="+ name + " would like to foster " + ani.id + ":" + ani.name;
+
+        return (
+            <>
+                <a href={href}>
+                    <Button  >
+                        Click to Foster
+                    </Button>
+                </a>
+                <PermissionBlock reqPerm={"post_in_need"}>
+                    <Button
+                        disabled={this.props.busy}
+                        onClick={() => this.props.removeAnimal(ani.id)}
+                        negative={true}
+                    >
+                        Remove from List
+
+                    </Button>
+                </PermissionBlock>
+            </>
+        );
+
+
 
     }
 
@@ -116,10 +164,6 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
             //Convert to an ani
             const ani = this.props.cawsAnimalsDb.animals[id];
 
-
-
-
-
             //If the ani is undefined just return the aniItem
             if (ani === undefined) {
                 return <AnimalItemFull key={id} ani={ani} link={this.props.link} />;
@@ -132,6 +176,32 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
         });
 
     }
+
+    /**
+     * Get the items
+     */
+    getNonCawsItems(){
+        //If we have items
+        return this.props.nonCaws.map(ani => {
+
+            //If the ani is undefined just return the aniItem
+            if (ani != undefined && (inSearch(ani, this.state.searchTerm) && inSpecies(ani, this.state.searchSpecies))) {
+                //It is in the search term
+                return <NonCawsAnimalItemFull key={ani.id} ani={ani}  extraButton={this.buildNonCawsFosterButton(ani)}/>;
+            } else {
+                return null;
+            }
+        });
+
+    }
+
+    uploadNewAni = (data: NonCawsAnimal, file: File) => {
+        this.props.uploadAnimal(data, file);
+
+        //Also close the upload
+        this.setState({addNewModalOpen:false})
+    }
+
 
 
     /**
@@ -165,8 +235,23 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
                                           onChange={(info,props) => {this.setState({searchSpecies: (props.value as Species[])})}}
 
                                 />
+                                <PermissionBlock reqPerm={"post_in_need"}>
+                                    <Modal
+                                        trigger={<Button icon='upload' onClick={() => this.setState({addNewModalOpen:true})}></Button>}
+                                        open={this.state.addNewModalOpen}
+                                        onClose={() => this.setState({addNewModalOpen:false})}
+                                    >
+                                        <Modal.Content>
+                                            <AddInNeed uploadAnimal={this.uploadNewAni}/>
+                                        </Modal.Content>
+
+                                    </Modal>
+                                </PermissionBlock>
+
                             </Form.Group>
                         </Form>
+
+
                     </div>
                 </div>
 
@@ -175,6 +260,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
                 <Item.Group divided>
                     {/*If there are props*/}
                     {this.getItems()}
+                    {this.getNonCawsItems()}
 
                 </Item.Group>
             </div>
@@ -189,7 +275,10 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
  */
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
+        uploadAnimal:(data: NonCawsAnimal, file: File) => dispatch(inNeedActions.uploadAnimal(data, file)),
+        removeAnimal:(id:string) =>   dispatch(inNeedActions.removeAnimal(id))
+
     };
 
 }
@@ -204,7 +293,8 @@ function mapStateToProps(state:ApplicationState): LinkProps {
 
     return {
         cawsAnimalsDb:state.animals,
-        user:state.authentication.loggedInUser
+        user:state.authentication.loggedInUser,
+        busy:state.inNeedFoster.busy
     };
 }
 

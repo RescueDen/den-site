@@ -7,9 +7,9 @@ import AnimalState from "../../state/AnimalState";
 import AnimalCard from "../animal/AnimalCard";
 import {Card, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
-import InNeedOfFosterModel from "../../models/InNeedOfFosterModel";
+import InNeedOfFosterModel, {NonCawsAnimal} from "../../models/InNeedOfFosterModel";
 import {inNeedActions} from "../../actions/inNeedFoster.actions";
-import SearchableAnimalListFull from "../animal/SearchableAnimalListFull";
+import SearchableAnimalListFull from "./SearchableAnimalListFull";
 
 //Define the expected props
 interface IncomingProps  {
@@ -44,7 +44,12 @@ class InNeedOfFosterList extends React.Component<IncomingProps&DispatchProps> {
      */
     render() {
         return (
-            <SearchableAnimalListFull link="/animal" title={"In Need of Foster"} animalIdList={this.props.inNeed.getAllAnimalsInNeed()} />
+            <SearchableAnimalListFull
+                link="/animal"
+                title={"In Need of Foster"}
+                animalIdList={this.props.inNeed.getAllAnimalsInNeed()}
+                nonCaws={this.props.inNeed.getNonCawsAnimals()}
+                />
         )
     }
 };
@@ -57,6 +62,7 @@ class InNeedOfFosterList extends React.Component<IncomingProps&DispatchProps> {
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
     return {
         getInNeedList:() =>  dispatch(inNeedActions.getInNeedOfFoster())
+
     };
 
 }
@@ -70,7 +76,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
 function mapStateToPropsPastFosters(state:ApplicationState): IncomingProps {
 
     return {
-        inNeed: state.inNeedFoster,
+        inNeed: state.inNeedFoster.inNeed,
     };
 }
 

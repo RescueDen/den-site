@@ -10,6 +10,7 @@ import AchievementsState from "./AchievementsState";
 import CoursesState from "./CoursesState";
 import FeedState from "./FeedState";
 import LoggingState from "./LoggingState";
+import InNeedState from "./InNeedState";
 
 /**
  * This model describes the entire state of program
@@ -20,7 +21,7 @@ export default interface ApplicationState {
     animals: AnimalState,
     info:InfoState,
     news:NewsState,
-    inNeedFoster: InNeedOfFoster,
+    inNeedFoster: InNeedState,
     forms: FormsState,
     events:EventsState,
     achievements: AchievementsState,

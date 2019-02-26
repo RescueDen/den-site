@@ -101,15 +101,15 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
         //Now get the color
         switch(groupIndex){
             case 0:
-                return 'red';
+                return 'pink';
             case 1:
                 return 'green';
             case 2:
-                return 'blue';
+                return 'orange';
             case 3:
-                return 'violet';
+                return 'blue';
             case 4:
-                return 'teal';
+                return 'red';
             default:
                 return 'grey'
         }
@@ -245,7 +245,8 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
         //Start rendering
         return (
             <Segment>
-                <Header as="h2" > Upcoming RSVP Opportunities </Header>
+                <Header as="h2" > Upcoming Events </Header>
+                <p>Sign your foster up or RSVP for an adoption event</p>
                 {listOfEventsComponent}
             </Segment>
 

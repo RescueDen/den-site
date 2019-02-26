@@ -157,15 +157,15 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         //Now get the color
         switch(groupIndex){
             case 0:
-                return 'red';
+                return 'pink';
             case 1:
                 return 'green';
             case 2:
-                return 'blue';
+                return 'orange';
             case 3:
-                return 'violet';
+                return 'blue';
             case 4:
-                return 'teal';
+                return 'red';
             default:
                 return 'grey'
         }
@@ -417,6 +417,8 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         return (
             <>
                 <Segment>
+                    <Header as="h2" > Upcoming Events </Header>
+                    <p>Sign your foster up or RSVP for an adoption event</p>
                     <p>This is a list of upcoming events that you can sign-up for.  Please click on the event you would like to sign-up for.  They are organized by event type (all on by default).</p>
                 </Segment>
                 <Segment>

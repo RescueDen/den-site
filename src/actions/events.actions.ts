@@ -2,18 +2,17 @@ import {alertConstants, error} from './alert.actions';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {eventsService} from "../services/events.service";
-import {EventView} from "../state/EventsState";
 import Action from "./Action";
 
 export const eventsConstants = {
     FETCH_EVENTS_SUMMARY: 'FETCH_EVENTS_SUMMARY',
-    UPDATE_VIEW: 'UPDATE_EVENTS_VIEW',
+    //UPDATE_VIEW: 'UPDATE_EVENTS_VIEW',
     TOGGLE_EVENT_GROUP: 'TOGGLE_EVENT_GROUP'
 };
 
 export const eventsActions = {
     getEventsSummary,
-    setEventView,
+    //setEventView,
     toggleEventGroup
     // delete: _delete
 };
@@ -60,13 +59,14 @@ function getEventsSummary(): ThunkAction<any, any,any, any> {
 /**
  * Create new success message
  * @param message
- */
+
 export function setEventView(view: EventView): Action {
     return {
         type: eventsConstants.UPDATE_VIEW,
         payload: view
     };
 }
+ */
 /**
  * Turn on and off event group
  * @param message

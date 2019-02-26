@@ -7,14 +7,14 @@ import EventsSummary from "../models/Events";
 export default interface EventsState {
     eventsSummary: EventsSummary
     //Set the type of view
-    view:EventView
     //show the display preferences
     hideCal:{[id: string]: boolean}
 
 }
 
-
+/*
 export enum EventView{
     Cal = "CalView",
     List = "ListView"
 }
+*/

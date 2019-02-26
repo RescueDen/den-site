@@ -11,7 +11,7 @@ import {
     Checkbox,
     Container,
     Dimmer,
-    Grid,
+    Grid, Header,
     Icon,
     Image,
     Label,
@@ -30,7 +30,6 @@ import {SemanticCOLORS} from "semantic-ui-react/dist/commonjs/generic";
 import EventViewer from "./EventViewer";
 import {formatDate, sortDates} from "../../utils/date-formater";
 import {Link} from "react-router-dom";
-import {EventView} from "../../state/EventsState";
 
 //Use a localizer
 const localizer = BigCalendar.momentLocalizer(moment)
@@ -42,8 +41,6 @@ interface LinkProps  extends RouteComponentProps<any> {
     eventsSummary: EventsSummary
     eventId?:string;
 
-    //Determine the menuType
-    calView: EventView;
 
     //show the display preferences
     hideItem:{[id: string]: boolean}
@@ -62,13 +59,12 @@ interface State {
 interface DispatchProps{
     //And the actions that must be done
     getEventsSummary: () => any;
-    setCalView: (view:EventView) => any;
     toggleEventGroup: (group:string) => any;
 
 
 }
 
-interface CawsEvent extends Event{
+export interface CawsEvent extends Event{
     group:string;
     start: string;
     end: string;
@@ -110,14 +106,14 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         //If we are on mobile double the height
         if(currentWidth < mobileWidth){
             //Now compute the height
-            const height = currentWidth*1.5;
+            const height = currentWidth*1;
 
             //Update state
             this.setState({calHeight:height});
 
         }else{
             //Now compute the height
-            const height = currentWidth*0.6;
+            const height = currentWidth*0.3;
 
             //Update state
             this.setState({calHeight:height});
@@ -198,7 +194,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         });
     }
 
-    private getCalViewControl(label?:string){
+    /*private getCalViewControl(label?:string){
         //Create the checkbox button
         return (
             <Checkbox
@@ -211,7 +207,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
             } />
         );
 
-    }
+    }*/
 
     /**
      * Re-render every time this is called
@@ -259,12 +255,25 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         //Start to build the list of React
         let components: JSX.ReactNode[] = [];
 
+        //Show the options to turn on and off the cal, the view depends if we are on mobile
+        components.push(
+            <Responsive key='desktopResponsive' minWidth={Responsive.onlyTablet.minWidth}>
+                <Grid key="header" stackable columns={1}>
+                    <Grid.Column floated='left' textAlign='left'>
+                        <Button.Group size='mini'>
+                            {/*Build a button for each group */}
+                            {this.getGroupButtons()}
+                        </Button.Group>
 
+                    </Grid.Column>
+                </Grid>
+            </Responsive>
+        );
 
         //Add the headers
         components.push(
             <Responsive key='mobileResponsive' {...Responsive.onlyMobile}>
-                <Grid key="header" columns={2}>
+                <Grid key="header" columns={1}>
                     <Grid.Column textAlign='center'>
                         <Button.Group size='mini' vertical>
                             {/*Build a button for each group */}
@@ -272,34 +281,11 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
                         </Button.Group>
 
                     </Grid.Column>
-                    <Grid.Column  textAlign='center' verticalAlign='middle' >
-                        <Segment padded>
-                            <Label attached='top'>Calendar View</Label>
-                            {this.getCalViewControl()}
-                        </Segment>
 
-                    </Grid.Column>
                 </Grid>
             </Responsive>
         )
 
-        //Show the options to turn on and off the cal, the view depends if we are on mobile
-        components.push(
-            <Responsive key='desktopResponsive' minWidth={Responsive.onlyTablet.minWidth}>
-                <Grid key="header" stackable columns={2}>
-                    <Grid.Column floated='left' textAlign='left'>
-                        <Button.Group size='mini'>
-                        {/*Build a button for each group */}
-                        {this.getGroupButtons()}
-                        </Button.Group>
-
-                    </Grid.Column>
-                    <Grid.Column floated='right' textAlign='right' verticalAlign='middle' >
-                            {this.getCalViewControl("Cal View")}
-                    </Grid.Column>
-                </Grid>
-            </Responsive>
-        );
 
         //Add a single line break
         components.push(<br key='break' />);
@@ -346,77 +332,84 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         }
 
         //For each
-        switch(this.props.calView) {
-            case EventView.Cal:
-                components.push(
-                    <Responsive
-                        key={"responsiveItemCal"}
-                        as={Container}
-                        onUpdate={(event, data) => this.updateCalHeight(data.width)}
-                        style={{height: this.state.calHeight}}
-                        fireOnMount={true}
-                    >
+        const bigCalComponent = (
+            <Responsive
+                key={"responsiveItemCal"}
+                as={Container}
+                onUpdate={(event, data) => this.updateCalHeight(data.width)}
+                style={{height: this.state.calHeight}}
+                fireOnMount={true}
+            >
 
-                        <BigCalendar
-                            localizer={localizer}
-                            views={['month']}
-                            events={events}
-                            onSelectEvent={event => this.onEventSelect(event.id)}
-                            eventPropGetter={event => this.getEventStyle(event)}
+                <BigCalendar
+                    localizer={localizer}
+                    views={['month']}
+                    events={events}
+                    onSelectEvent={event => this.onEventSelect(event.id)}
+                    eventPropGetter={event => this.getEventStyle(event)}
 
-                        />
-                    </Responsive>
-                );
-                break;
-            case EventView.List:
+                />
+            </Responsive>
+        );
 
-                //Show grouped by date
-                //Get the keys
-                const dateKeys = Object.keys(eventsByDate);
 
-                //Now sort it
-                sortDates(dateKeys);
+        //Show grouped by date
+        //Get the keys
+        const dateKeys = Object.keys(eventsByDate);
 
-                //Now render each date range
-                components.push(
-                    <List key='list of events'>
-                        {dateKeys.map(date => {
-                            return (
-                                <List.Item key={date}>
-                                    <Icon size='large' name='checked calendar'/>
-                                    <List.Content>
-                                        {/*See if there is a date*/}
-                                        {(new Date(date)).valueOf() > 0 &&
-                                        <List.Header as='h2'>{date}</List.Header>
+        //Now sort it
+        sortDates(dateKeys);
+
+        //Get yesterday
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        //Now render each date range
+        const listOfEventsComponent = (
+            <List key='list of events'>
+                {dateKeys.filter(date => {
+                   const testDate = new Date(date);
+                   //Must be in the future or current
+                    return testDate.valueOf() > yesterday.valueOf();
+
+                }).map(date => {
+                    return (
+                        <List.Item key={date}>
+                            <Icon size='large' name='checked calendar'/>
+                            <List.Content>
+                                {/*See if there is a date*/}
+                                {(new Date(date)).valueOf() > 0 &&
+                                <List.Header as='h3'>{date}</List.Header>
+                                }
+                                <List.Description>
+                                    {/*Add a sub list*/}
+                                    <List>
+                                        {eventsByDate[date].map(event => {
+                                            return (
+                                                <List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
+                                                    <List.Icon name='circle'
+                                                               color={this.getColor(this.props.eventsSummary.lookUpGroup[event.id])}/>
+                                                    <List.Content>{event.name}</List.Content>
+                                                </List.Item>
+                                            );
+                                        })
                                         }
-                                        <List.Description>
-                                            {/*Add a sub list*/}
-                                            <List>
-                                                {eventsByDate[date].map(event => {
-                                                    return (
-                                                        <List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
-                                                            <List.Icon name='circle'
-                                                                       color={this.getColor(this.props.eventsSummary.lookUpGroup[event.id])}/>
-                                                            <List.Content>{event.name}</List.Content>
-                                                        </List.Item>
-                                                    );
-                                                })
-                                                }
-                                            </List>
-                                        </List.Description>
-                                    </List.Content>
-                                </List.Item>
+                                    </List>
+                                </List.Description>
+                            </List.Content>
+                        </List.Item>
 
 
-                            );
-                        })
-                        }
+                    );
+                })
+                }
 
-                    </List>
-                );
-                break;
+            </List>
+        );
 
-        }
+
+
+
 
 
 
@@ -424,10 +417,24 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         return (
             <>
                 <Segment>
-                    This is a list of upcoming events that you can sign-up for.  Please click on the event you would like to sign-up for.  They are organized by event type. Use the Cal View toggle to see a list instead of a calendar or click on a calendar to turn them off (all are on by default).
+                    <p>This is a list of upcoming events that you can sign-up for.  Please click on the event you would like to sign-up for.  They are organized by event type (all on by default).</p>
                 </Segment>
                 <Segment>
+
                     {components}
+                    <Grid stackable columns={2}>
+                        <Grid.Column>
+                            <Segment>
+                                <Header as="h2" > Upcoming RSVP Opportunities </Header>
+                                {listOfEventsComponent}
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>
+                                {bigCalComponent}
+                            </Segment>
+                        </Grid.Column>
+                    </Grid>
                 </Segment>
             </>
         );
@@ -471,8 +478,6 @@ function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
         eventsSummary:state.events.eventsSummary,
         eventId:myProps.match.params.eventId,
 
-        //Determine the menuType
-        calView: state.events.view,
 
         //show the display preferences
         hideItem:state.events.hideCal
@@ -487,7 +492,6 @@ function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
         getEventsSummary:() =>  dispatch(eventsActions.getEventsSummary()),
-        setCalView:(view:EventView) =>  dispatch(eventsActions.setEventView(view)),
         toggleEventGroup:(group:string) =>  dispatch(eventsActions.toggleEventGroup(group))
 
     };

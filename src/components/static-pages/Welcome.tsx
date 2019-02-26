@@ -9,6 +9,7 @@ import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import StaticComponent from "./StaticComponent";
 import TheFeed from "../feed/TheFeed";
+import EventsList from "../events/EventsList";
 
 
 
@@ -28,6 +29,7 @@ class Welcome extends React.Component<any> {
                         <Segment>
                             <StaticComponent pagePath={"welcome"} public={false}/>
                         </Segment>
+                        <EventsList/>
                     </Container>
                 </Grid.Column>
                 <Grid.Column>

@@ -1,5 +1,5 @@
 import Action from '../actions/Action'
-import EventsState, {EventView} from "../state/EventsState";
+import EventsState from "../state/EventsState";
 import {eventsConstants} from "../actions/events.actions";
 import EventsSummary from "../models/Events";
 
@@ -12,7 +12,7 @@ import EventsSummary from "../models/Events";
 export function events(state:EventsState =
                            {
                                eventsSummary:(new EventsSummary({id:"",type:"",name:"", parentid:""})),
-                               view:EventView.Cal,
+                               //view:EventView.Cal,
                                hideCal:{} as {[id: string]: boolean}
                            }, action:Action): EventsState {
 
@@ -35,12 +35,12 @@ export function events(state:EventsState =
                 ...state,
                 hideCal:newHideItemState
             };
-        case eventsConstants.UPDATE_VIEW:
+        /*case eventsConstants.UPDATE_VIEW:
             //Now update the state
             return {
                 ...state,
                 view:action.payload
-            };
+            };*/
         default:
             return state
     }

@@ -73,7 +73,7 @@ export const leftMenuItems = [
         icon: <Icon name='edit outline'/>
     },
     {//Show all of the forms
-        name: "Events",
+        name: "Events & RSVPs",
         to: '/events',
         icon: <Icon name='calendar alternate outline'/>
     },

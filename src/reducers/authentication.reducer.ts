@@ -10,8 +10,9 @@ let initialState:AuthenticationState = {};
 //Check the local storage first
 let userString = localStorage.getItem('currentUser');
 let permString = localStorage.getItem('currentPermissions');
+let userPref = localStorage.getItem('currentPreferences');
 
-if(userString && permString) {
+if(userString && permString && userPref) {
     let user = JSON.parse(userString);
     let perm = JSON.parse(permString);
     //    initialState = user ? {loggedIn: true, payload: new User()} : {};
@@ -20,6 +21,7 @@ if(userString && permString) {
         loggedInUser: new CawsUser(user),
         loggedInStatus: AuthenticationStatus.TRUE,
         permissions: new Permissions(perm),
+        preferences: JSON.parse(userPref),
     }
 }
 
@@ -118,6 +120,20 @@ export function authentication(state:AuthenticationState = initialState, action:
             return {
                 ...state,
                 permissions: action.payload
+            };
+        //Update the user pref
+        case userConstants.FETCH_USERPREF:
+            return {
+                ...state,
+                preferences: action.payload,
+                prefStatus:undefined
+
+            };
+        case userConstants.UPDATE_USERPREF:
+            return {
+                ...state,
+                preferences: action.payload,
+                prefStatus: AuthenticationStatus.ATTEMPT,
             };
 
         default:

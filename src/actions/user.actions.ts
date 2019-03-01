@@ -5,6 +5,7 @@ import {ThunkAction} from 'redux-thunk';
 import {UserData} from "../models/UserData";
 import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
 import {achievementsActions} from "./achievements.actions";
+import {SettingGroup} from "../models/UserPreferences";
 
 
 export const userConstants = {
@@ -26,7 +27,12 @@ export const userConstants = {
 
     FETCH_PERMISSIONS: 'FETCH_PERMISSIONS',
 
+    FETCH_USERPREF: 'FETCH_USERPREF',
+    UPDATE_USERPREF: 'UPDATE_USERPREF',
+
+
     LOGOUT: 'USERS_LOGOUT',
+
 
 
 };
@@ -41,7 +47,8 @@ export const userActions = {
     forcePasswordChange,
     updateLoggedInUser,
     loginFacebook,
-    loginGoogle
+    loginGoogle,
+    setUserPreferences
     // getAll,
     // delete: _delete
 };
@@ -72,6 +79,9 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                     });
                     //Now update the user permissions
                     updateUserPermissions(dispatch);
+
+                    //Update the user pref
+                    updateUserPreferences(dispatch);
 
                     //Also get this persons achievments
                     achievementsActions.getAchievementsWithDispatch(dispatch, user)
@@ -127,6 +137,9 @@ function loginFacebook(facebookToken :any): ThunkAction<any, any,any, any> {
                     //Now update the user permissions
                     updateUserPermissions(dispatch);
 
+                    //Update the user pref
+                    updateUserPreferences(dispatch);
+
                     //Also get this persons achievments
                     achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
@@ -178,6 +191,9 @@ function loginGoogle(googleLogin :any): ThunkAction<any, any,any, any> {
                     });
                     //Now update the user permissions
                     updateUserPermissions(dispatch);
+
+                    //Update the user pref
+                    updateUserPreferences(dispatch);
 
                     //Also get this persons achievments
                     achievementsActions.getAchievementsWithDispatch(dispatch, user)
@@ -238,6 +254,86 @@ function updateUserPermissions(dispatch:Dispatch<Action>): void {
         );
 
 }
+
+/**
+ * Now update the user pref
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function updateUserPreferences(dispatch:Dispatch<Action>): void {
+
+    //Ask the user service to login
+    userService.getLoggedInUserPreferences()
+        .then(
+            //If successful a user will be returned
+            perm => {
+                //dispatch a login success
+                dispatch({
+                    type: userConstants.FETCH_USERPREF,
+                    payload: perm
+                });
+            },
+            //If there was an error, dispatch a login failure and alert the user why
+            errorResponse => {
+                //Get the message
+                const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                //Dispatch a sucess message
+                dispatch(error(message));
+
+
+
+            }
+        );
+}
+
+/**
+ * set the suer preferences on the server
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+function setUserPreferences(newSetting:SettingGroup): ThunkAction<any, any,any, any> {
+
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+
+        //dispatch a login success
+        dispatch({
+            type: userConstants.UPDATE_USERPREF,
+        });
+
+        //Ask the user service to login
+        userService.setLoggedInUserPreferences(newSetting)
+            .then(
+                //If successful a user will be returned
+                user => {
+                    //dispatch a login success
+                    dispatch({
+                        type: userConstants.FETCH_USERPREF,
+                        payload: user
+                    });
+
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
+                    dispatch({
+                        type: userConstants.LOGIN_FAILURE,
+                        payload: message
+                    });
+
+                }
+            );
+    };
+
+}
+
+
 /**
  * This is the user action to try to log in
  * @param username
@@ -261,6 +357,9 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
 
                     //Now update the user permissions
                     updateUserPermissions(dispatch);
+
+                    //Update the user pref
+                    updateUserPreferences(dispatch);
 
                     //Also get this persons achievments
                     achievementsActions.getAchievementsWithDispatch(dispatch, user)

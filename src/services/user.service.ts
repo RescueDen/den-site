@@ -4,6 +4,7 @@ import {UserData} from "../models/UserData";
 import CawsUser, {CawsUserData} from "../models/CawsUser";
 import {authHeader} from "../utils/auth-header";
 import Permissions, {PermissionsData} from "../models/Permissions";
+import {UserPreferences, SettingGroup} from "../models/UserPreferences";
 
 
 export const userService = {
@@ -16,6 +17,8 @@ export const userService = {
     forcePasswordChange,
     updateLoggedInUser,
     getLoggedInUserPermissions,
+    getLoggedInUserPreferences,
+    setLoggedInUserPreferences,
     loginFacebook,
     loginGoogle
 };
@@ -187,6 +190,58 @@ function getLoggedInUserPermissions() : Promise<Permissions> {
 
 }
 
+
+function getLoggedInUserPreferences() : Promise<UserPreferences> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get('/users/preferences',  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const prefData = <UserPreferences>response.data;
+
+            //Log that user in
+            localStorage.setItem('currentPreferences', JSON.stringify(prefData));
+
+            //Return just the user
+            return prefData;
+        }
+    );
+
+
+}
+
+function setLoggedInUserPreferences(setting :SettingGroup) : Promise<UserPreferences> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post('/users/preferences',setting,  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const prefData = <UserPreferences>response.data;
+
+            //Log that user in
+            localStorage.setItem('currentPreferences', JSON.stringify(prefData));
+
+            //Return just the user
+            return prefData;
+        }
+    );
+
+
+}
 
 /**
  * Logs out the current user from removing the local storage

@@ -34,6 +34,7 @@ import Welcome from "../static-pages/Welcome";
 import CAWSHub from "../static-pages/CAWSHub";
 import InsideCaws from "../newsAndInfo/InsideCaws";
 import StatsPage from "../static-pages/StatsPage";
+import MyPreferences from "../person/preferences/MyPreferences";
 
 
 //Setup up path props to get the current path
@@ -118,6 +119,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key='pastfosters' exact path="/pastfosters" component={PastFostersFullPage} />
                             <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
                             <Route key='myinfo' path="/myinfo" component={MyDetails} />
+                            <Route key='preferences' path="/preferences" component={MyPreferences} />
                             <Route key='info' exact path="/info/" reqPermission='get_info'  component={Information} />
                             <Route key='inside' exact path="/inside/" reqPermission='inside_caws'  component={InsideCaws} />
                             <Route key='news' exact path="/news/" reqPermission='get_news' component={News} />

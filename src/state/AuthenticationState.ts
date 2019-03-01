@@ -1,5 +1,6 @@
 import CawsUser from "../models/CawsUser";
 import Permissions from "../models/Permissions";
+import {UserPreferences} from "../models/UserPreferences";
 
 /**
  * This model describes the authorisation
@@ -17,6 +18,11 @@ export default interface AuthenticationState {
 
     //Keep the user permissions
     permissions?:Permissions,
+
+    //Also keep the user preferences
+    preferences?:UserPreferences,
+    prefStatus?:AuthenticationStatus
+
 }
 
 export enum AuthenticationStatus{

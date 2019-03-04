@@ -116,6 +116,11 @@ export const rightMenuItems = [
                 to:'/help',
                 icon:<Icon name='help circle' />
             },
+            {//Lower the User to change preferences
+                name:"Preferences",
+                to:'/preferences',
+                icon:<Icon name='settings' />
+            },
             {//Show all of the forms
                 name:"Log out",
                 to:'/login',

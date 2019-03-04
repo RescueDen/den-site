@@ -132,7 +132,6 @@ export function authentication(state:AuthenticationState = initialState, action:
         case userConstants.UPDATE_USERPREF:
             return {
                 ...state,
-                preferences: action.payload,
                 prefStatus: AuthenticationStatus.ATTEMPT,
             };
 

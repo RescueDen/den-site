@@ -16,8 +16,6 @@ import {LessonData} from "../../models/Courses";
 import {infoService} from "../../services/info.service";
 import {coursesService} from "../../services/courses.service";
 import SingleForm from "../forms/SingleForm";
-import _ from 'lodash'
-
 
 
 //Define the expected props
@@ -28,7 +26,6 @@ interface Props{
 interface State{
     html: string;
 
-
 }
 
 /**
@@ -37,12 +34,8 @@ interface State{
 class Lesson extends React.Component<Props, State> {
     state = {html:""};
 
-    myRef:RefObject<HTMLDivElement>;
-
     constructor(props:Props) {
         super(props);
-
-        this.myRef = React.createRef<HTMLDivElement>();
 
     }
 
@@ -74,6 +67,8 @@ class Lesson extends React.Component<Props, State> {
 
     };
 
+
+
     render() {
 
         //Prerender the video so it doesn't not un render
@@ -86,13 +81,14 @@ class Lesson extends React.Component<Props, State> {
         }
 
 
+
         return (
             <div>
                 {/*Now for a small screen just overlay them*/}
                 <Responsive key="small"as={Grid}  columns={2} minWidth={Responsive.onlyLargeScreen.minWidth}>
                     {/*Put everything in a single col*/}
                     <Grid.Column width={contentComputerWidth}>
-                        <div ref={this.myRef}>
+                        <div>
                                 {video &&
                                     <Rail style={{marginTop:"25px"}} position='right'>
                                         {video}
@@ -122,8 +118,8 @@ class Lesson extends React.Component<Props, State> {
                                         }
                                         {/*Lastly we should embbeed somthing*/}
                                         {this.props.lesson.embeddedUrl &&
-                                        <iframe  src={this.props.lesson.embeddedUrl} >
-                                        </iframe>
+                                            <a target="_blank"  href={this.props.lesson.embeddedUrl}>{this.props.lesson.name}</a>
+
                                         }
                                     </Segment>
                                 </Container>
@@ -157,8 +153,9 @@ class Lesson extends React.Component<Props, State> {
                         }
                         {/*Lastly we should embbeed somthing*/}
                         {this.props.lesson.embeddedUrl &&
-                        <iframe  src={this.props.lesson.embeddedUrl} >
-                        </iframe>
+                            <iframe
+                                src={this.props.lesson.embeddedUrl} >
+                            </iframe>
                         }
                     </Responsive>
                 </Container>

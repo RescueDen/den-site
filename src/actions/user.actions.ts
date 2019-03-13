@@ -6,6 +6,8 @@ import {UserData} from "../models/UserData";
 import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
 import {achievementsActions} from "./achievements.actions";
 import {SettingGroup} from "../models/UserPreferences";
+import CawsUser from "../models/CawsUser";
+import {animalActions} from "./animal.actions";
 
 
 export const userConstants = {
@@ -77,14 +79,9 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                         type: userConstants.LOGIN_SUCCESS,
                         payload: user
                     });
-                    //Now update the user permissions
-                    updateUserPermissions(dispatch);
+                    //get the other user info
+                    getOtherUserInfo(dispatch, user);
 
-                    //Update the user pref
-                    updateUserPreferences(dispatch);
-
-                    //Also get this persons achievments
-                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
 
                 },
@@ -134,14 +131,9 @@ function loginFacebook(facebookToken :any): ThunkAction<any, any,any, any> {
                         type: userConstants.LOGIN_SUCCESS,
                         payload: user
                     });
-                    //Now update the user permissions
-                    updateUserPermissions(dispatch);
+                    //get the other user info
+                    getOtherUserInfo(dispatch, user);
 
-                    //Update the user pref
-                    updateUserPreferences(dispatch);
-
-                    //Also get this persons achievments
-                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
 
                 },
@@ -189,14 +181,10 @@ function loginGoogle(googleLogin :any): ThunkAction<any, any,any, any> {
                         type: userConstants.LOGIN_SUCCESS,
                         payload: user
                     });
-                    //Now update the user permissions
-                    updateUserPermissions(dispatch);
+                    //get the other user info
+                    getOtherUserInfo(dispatch, user);
 
-                    //Update the user pref
-                    updateUserPreferences(dispatch);
 
-                    //Also get this persons achievments
-                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
 
                 },
@@ -333,6 +321,31 @@ function setUserPreferences(newSetting:SettingGroup): ThunkAction<any, any,any, 
 
 }
 
+/**
+ * download the other user info
+ * @param dispatch
+ * @param user
+ */
+function getOtherUserInfo(dispatch:Dispatch<Action>,user:CawsUser ):void{
+
+    //Now update the user permissions
+    updateUserPermissions(dispatch);
+
+    //Update the user pref
+    updateUserPreferences(dispatch);
+
+    //Get info for each foster
+    if(user.data.currentFosters){
+        user.data.currentFosters.forEach(aniId =>{
+            animalActions.getAnimalWithDispatch(dispatch, aniId);
+        })
+    }
+
+    //Also get this persons achievments
+    achievementsActions.getAchievementsWithDispatch(dispatch, user)
+
+}
+
 
 /**
  * This is the user action to try to log in
@@ -355,14 +368,9 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
                         payload: user
                     });
 
-                    //Now update the user permissions
-                    updateUserPermissions(dispatch);
+                    //get the other user info
+                    getOtherUserInfo(dispatch, user);
 
-                    //Update the user pref
-                    updateUserPreferences(dispatch);
-
-                    //Also get this persons achievments
-                    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
                 },
                 //If there was an error, dispatch a login failure and alert the user why

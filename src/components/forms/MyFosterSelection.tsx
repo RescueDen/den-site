@@ -29,6 +29,10 @@ interface StateProps {
 }
 
 interface DispatchProps{
+
+    //And the actions that must be done
+    updateMyInfo: () => any;
+
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
 
@@ -45,6 +49,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
      */
     componentDidMount() {
         // reset login status
+        this.props.updateMyInfo();
         this.props.fosterIds.forEach(aniId => this.props.downloadAnimal(aniId));
     };
 
@@ -125,7 +130,9 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps&St
  */
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
+        updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser())
+
     };
 
 }

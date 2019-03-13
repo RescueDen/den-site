@@ -219,7 +219,7 @@ class EventViewer extends React.Component<LinkProps, MyState> {
         if(this.props.eventInfo.infoId) {
             if (this.state.htmlInfo.length == 0) {
                 components.push(
-                    <div>
+                    <div key={"loading div"}>
                         <Dimmer inverted active>
                             <Loader size='large'>Loading</Loader>
                         </Dimmer>
@@ -230,7 +230,7 @@ class EventViewer extends React.Component<LinkProps, MyState> {
             } else {
                 //Return the html
                 components.push(
-                    <div dangerouslySetInnerHTML={{__html: this.state.htmlInfo}}/>
+                    <div key={this.props.eventInfo.infoId} dangerouslySetInnerHTML={{__html: this.state.htmlInfo}}/>
                 );
             }
         }

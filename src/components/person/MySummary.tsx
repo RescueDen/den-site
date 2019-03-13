@@ -50,6 +50,7 @@ const MySummary =  (myProps:LinkProps) => {
                     {createRow("Average Foster Time", myProps.user.data.avgfostertime + "(days)", "calendar outline")}
                     {createRow("Days Since Last Foster", myProps.user.data.dayssincelastfoster + "(days)", "calendar outline")}
                     {createRow("Tags", myProps.user.data.additionalflags , "tags")}
+                    {createRow("Last ASM Update", myProps.user.data.lastUpdateFromAsm?myProps.user.data.lastUpdateFromAsm.toString() :"" , "clock")}
 
                 </Table.Body>
             </Table>

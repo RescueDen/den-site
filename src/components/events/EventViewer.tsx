@@ -5,7 +5,7 @@ import {
     Button,
     Dimmer, Header, Icon,
     Image,
-    Loader,
+    Loader, Message,
     Segment
 } from "semantic-ui-react";
 import  {EventData} from "../../models/Events";
@@ -296,6 +296,12 @@ class EventViewer extends React.Component<LinkProps, MyState> {
                             >
                                 {/*Render a custom/hidden Submit button*/}
                                 <Button  style={{display:"none"}} type="submit"></Button>
+                                <Message icon>
+                                    <Icon name='circle notched' loading />
+                                    <Message.Content>
+                                        All selections and changes are automatically saved.
+                                    </Message.Content>
+                                </Message>
 
 
                             </Form>

@@ -5,6 +5,7 @@ import {Input, List} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {DocumentItemData, inSearchResults, isDirectory} from "../../models/DocumentSummary";
 import {Grid} from "semantic-ui-react";
+import {formatDate} from "../../utils/date-formater";
 
 
 
@@ -97,6 +98,9 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
                             <List.Icon name='file alternate outline'/>
                                 <List.Content>
                                     <List.Header as="h3"><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
+                                    {item.date &&
+                                        <List.Header as="h4">{formatDate(item.date)}</List.Header>
+                                    }
                                     <List.Description>{item.preview}</List.Description>
                                 </List.Content>
                         </List.Item>

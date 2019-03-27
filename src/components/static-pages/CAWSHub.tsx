@@ -7,6 +7,7 @@ import {staticService} from "../../services/static.service";
 import {accessService} from "../../services/access.service";
 import PermissionBlock from "../authentication/PermissionBlock";
 import * as FileSaver from "file-saver";
+import ReloadingImage from "../app/ReloadingImage";
 
 
 //Store the hub state
@@ -122,13 +123,15 @@ class CAWSHub extends React.Component<any, MyState> {
                         </Segment>
                         <Segment>
 
-                            <Image
+                            <ReloadingImage
                                 /*label={
                                 <Label as='a' color='green' ribbon='right'>
                                     Live Update
                                 </Label>
                             }*/
-                            fluid src={`${process.env.REACT_APP_API_URL}/access/security/hub`}/>
+                            src={`${process.env.REACT_APP_API_URL}/access/security/hub`}
+                            interval={15000}
+                            />
                         </Segment>
                     </Grid.Column>
                 </Grid>

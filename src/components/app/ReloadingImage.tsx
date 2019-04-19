@@ -50,12 +50,12 @@ class ReloadingImage extends Component<LinkProps> {
         return (
             <>
             <Image
-                /*label={
+                label={
                     <Label color='green' ribbon='right'>
+                        Hub Cam
                         <Icon loading name='spinner' />
-                        Hub View
                     </Label>
-                }*/
+                }
 
                 fluid src={`${this.props.src}/${this.state.random}`}/>
                 </>

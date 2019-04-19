@@ -43,7 +43,7 @@ function getAchievements(asmId: number) : Promise<AchievementData[]> {
 
             //Now set the url for each
             data.forEach(ach =>{
-                ach.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + ach.badge;
+                ach.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + ach.badge + ".svg";
             })
 
             //Return just the user
@@ -75,7 +75,7 @@ function getAllAchievements() : Promise<AchievementData[]> {
 
             //Now set the url for each
             data.forEach(ach =>{
-                ach.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + ach.badge;
+                ach.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + ach.badge + ".svg";
             })
 
             //Return just the user

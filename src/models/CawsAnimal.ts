@@ -211,4 +211,24 @@ export default class CawsAnimal{
         return false;
 
     }
+
+    //Get to download
+    getObjectToDownload(): CawsAnimalData{
+        //Make a copy
+        let newDataJsonString = JSON.stringify(this.data);
+
+        //Create back
+        let newDataJson = JSON.parse(newDataJsonString) as CawsAnimalData;
+
+
+        //Remove the movements
+        newDataJson.MOVEMENTS = [];
+
+        return newDataJson;
+
+
+
+
+    }
+
 }

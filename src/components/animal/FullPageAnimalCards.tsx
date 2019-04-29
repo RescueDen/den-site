@@ -62,6 +62,36 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
     }
 
     /**
+     * Export ani to json
+     * @param objectData
+     */
+    private exportToJson = () => {
+        //Get as json list
+        //If we have items
+        const fosterList =  this.props.animalIdList.map(id => {
+            //Convert to an ani
+            return this.props.cawsAnimalsDb.animals[id].getObjectToDownload();
+
+        });
+
+        //Export as a file
+        let filename = "export.json";
+        let contentType = "application/json;charset=utf-8;";
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(fosterList)))], { type: contentType });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            const a = document.createElement('a');
+            a.download = filename;
+            a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(fosterList));
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    }
+
+    /**
      * Get the items
      */
     getItems(){
@@ -114,6 +144,9 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
                 <Card.Group centered>
                     {this.getItems()}
                 </Card.Group>
+                <Button secondary onClick={this.exportToJson} > Download Fosters as Json </Button>
+
+
             </div>
         )
     }

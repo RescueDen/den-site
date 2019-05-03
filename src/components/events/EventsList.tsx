@@ -1,11 +1,8 @@
 import React from 'react';
-import JSX from 'react';
 
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
-import AnimalState from "../../state/AnimalState";
 import {ThunkDispatch} from "redux-thunk";
-import {RouteComponentProps} from "react-router";
 import {
     Button,
     Checkbox,
@@ -22,12 +19,9 @@ import {
 } from "semantic-ui-react";
 import EventsSummary, {EventData} from "../../models/Events";
 import {eventsActions} from "../../actions/events.actions";
-import BigCalendar, {Event} from 'react-big-calendar';
-import moment from 'moment';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {SemanticCOLORS} from "semantic-ui-react/dist/commonjs/generic";
-import EventViewer from "./EventViewer";
 import {formatDate, sortDates} from "../../utils/date-formater";
 import {Link} from "react-router-dom";
 import {CawsEvent} from "./EventsSelector";

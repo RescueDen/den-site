@@ -35,6 +35,7 @@ import CAWSHub from "../static-pages/CAWSHub";
 import InsideCaws from "../newsAndInfo/InsideCaws";
 import StatsPage from "../static-pages/StatsPage";
 import MyPreferences from "../person/preferences/MyPreferences";
+import KCBuilder from "../kennelCards/KCBuilder";
 
 
 //Setup up path props to get the current path
@@ -139,6 +140,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'logging'} path="/logging/" component={Logging} />
                             <Route key={'help'} path="/help" component={HelpViewier} />
                             <Route key={'stats'} path="/stats" component={StatsPage} />
+                            <Route key={'kennelcard'} path="/kennelcard" component={KCBuilder} />
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>
                             <PrivateRoute exactRoute={true} reqPermission='access_hub' exclude={[]} path='/cawshub' to='/welcome'  component={CAWSHub} />

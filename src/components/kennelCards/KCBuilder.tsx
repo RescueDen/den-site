@@ -73,6 +73,8 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
                 }));
 
+            }else{
+                this.addId(+queryList);
             }
         }
 

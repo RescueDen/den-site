@@ -1,16 +1,17 @@
 import React from 'react';
 import CawsAnimal, {Species} from "../../models/CawsAnimal";
 import {Text, View, Image, StyleSheet} from "@react-pdf/renderer";
-import {kcstyles} from "./FullPageKC";
 import facebookIcon from "../../assets/kc/facebookClear.png";
 import instagramIcon from "../../assets/kc/instagramClear.png";
 import mailIcon from "../../assets/kc/mailIcon.png";
+import {kcstyles} from "./KCBuilder";
 
 //Define the expected props
 interface Props{
     //Define the props we expect
     aniData: CawsAnimal;
     iconSize:string;
+    height:string;
     qrData?:string;
 }
 
@@ -30,7 +31,7 @@ const Footer = (props:Props) => {
     });
 
     return (
-        <View style={kcstyles.footerSection}>
+        <View style={[kcstyles.footerSection,{height:props.height}]}>
             <View style={footerStyles.footerGroup}>
                 <Image style={footerStyles.footerImg} src={facebookIcon}/>
                 <Text style={kcstyles.footerText}>@caws.org</Text>

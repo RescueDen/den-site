@@ -6,10 +6,9 @@ import AnimalState from "../../state/AnimalState";
 import {ThunkDispatch} from "redux-thunk";
 import {RouteComponentProps} from "react-router-dom";
 import queryString from "query-string";
-import {Document, Page, PDFViewer, Text, View} from "@react-pdf/renderer";
-import FullPageKC from "./FullPageKC";
+import {Document, Font, PDFViewer, StyleSheet,  Page} from "@react-pdf/renderer";
 import QRCode from 'qrcode'
-
+import HalfPageKC from "./HalfPageKC";
 
 //Define the expected props
 interface IncomingProps extends RouteComponentProps<any>  {
@@ -30,6 +29,51 @@ interface DispatchProps{
 }
 
 const baseUrl = 'https://us01.sheltermanager.com/animal?id='
+
+
+//Setup the fonts
+// Register font
+Font.register({ family: 'LemonTuesday', src: process.env.PUBLIC_URL+"/fonts/LemonTuesday.ttf" });
+Font.register({ family: 'LeagueSpartan-Bold', src: process.env.PUBLIC_URL+"/fonts/LeagueSpartan-Bold.ttf" });
+Font.register({ family: 'Gidole-Regular', src: process.env.PUBLIC_URL+"/fonts/Gidole-Regular.ttf" });
+Font.register({ family: 'Arimo', src: process.env.PUBLIC_URL+"/fonts/Arimo-Regular.ttf" });
+
+export const kcstyles = StyleSheet.create({
+    page: { backgroundColor: 'white' },
+    headerSection: {  backgroundColor:"#fafafa",color: 'black', textAlign: 'left'},
+    aniNameSection: {
+        fontFamily:'LemonTuesday', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center', float:"left"
+    },
+    footerSection: {
+        backgroundColor:"#eae2ff",
+        color: 'black',
+        display: "flex",
+        flexDirection: "row",
+        alignContent: "flex-start",
+        justifyContent: "space-around",
+        alignItems: "center"
+    },
+    sectionHeader:{
+        fontFamily:'LeagueSpartan-Bold',
+        color:'#ff5e0f'
+    },
+    infoRow:{
+        fontFamily:'Gidole-Regular',
+        color:'#000000'
+    },
+    bio:{
+        fontFamily:'Gidole-Regular',
+        color:'#000000',
+        textAlign:"justify"
+    },
+    footerText:{
+        fontFamily:'Arimo',
+        fontSize:'0.25in',
+        color:'#000000',
+        marginLeft:"5px"
+    }
+});
+
 
 //Define the expected props
 interface SearchState  {
@@ -140,20 +184,46 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             return this.props.cawsAnimalsDb.animals[id];
         })
 
+        //Build the list of components
+        let listOfPages:any[] = [];
 
+        //If it is single page
+        // listOfPages = aniDataList.map(data => {
+        //     return (
+        //         <FullPageKC aniData={data} qrData={this.state.qrData[data.data.ID]}/>
+        //     );
+        // });
+        // Now the two page
+        for (let i =0; i < aniDataList.length; i+=2){//Notice we go up by two
+            //Get page one
+            const data1 = aniDataList[i];
+            const qr1 = this.state.qrData[data1.data.ID];
+
+            //Now see if there is a second one
+            let data2 = undefined;let qr2 = undefined;
+            if(i+1 < aniDataList.length ){
+                data2 = aniDataList[i+1];
+                qr2 = this.state.qrData[data2.data.ID];
+            }
+
+
+            //Build a new page
+            listOfPages.push(
+                <HalfPageKC aniDataFirst={data1} aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2} />
+            );
+
+        }
+
+        //If it is full page
         return (
             <>
-                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()}>
+                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+listOfPages.length}>
                     <Document>
-                        {aniDataList.map(data => {
-                            return (
-                                <FullPageKC aniData={data} qrData={this.state.qrData[data.data.ID]}/>
-                            );
-                        })}
+                        {listOfPages}
                     </Document>
                 </PDFViewer>
             </>
-        )
+        );
 
 
     }

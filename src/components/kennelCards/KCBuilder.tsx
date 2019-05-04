@@ -9,6 +9,7 @@ import queryString from "query-string";
 import {Document, Font, PDFViewer, StyleSheet,  Page} from "@react-pdf/renderer";
 import QRCode from 'qrcode'
 import HalfPageKC from "./HalfPageKC";
+import CawsAnimal from "../../models/CawsAnimal";
 
 //Define the expected props
 interface IncomingProps extends RouteComponentProps<any>  {
@@ -135,7 +136,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         this.props.downloadAnimal(id);
 
         //Build the qr code data
-
+        this.buildQrCodes([id], {} as { [id: number]: string; });
 
     }
     addIds = (ids:number[]) =>{
@@ -145,28 +146,72 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         ids.forEach((id:number) =>{
            this.props.downloadAnimal(id);
 
-           //Also build the qr code
-            QRCode.toDataURL(baseUrl+id, {
+
+        });
+
+        //Now build the qr codes
+        this.buildQrCodes(ids, {} as { [id: number]: string; });
+    }
+
+    buildQrCodes = (ids:number[], newQr: { [id: number]: string; }) =>{
+
+        //Get the next number
+        const nextID = ids.pop();
+
+        if(nextID) {
+            QRCode.toDataURL(baseUrl + nextID, {
                 color: {
                     dark: '#1a4789',  // Blue dots
                     light: '#0000' // Transparent background
                 }
-            }).then(data =>{
-                //New Data:
-                let newData ={...this.state.qrData} as { [id: number]: string; };
-                    newData[id] = data;
+            }).then(data => {
 
-                this.setState(
-                    {
-                        qrData: newData
-                    }
+                //Add the new qr code
+                newQr[nextID]= data;
 
-                );
+                //Now call the next one in the list
+                this.buildQrCodes(ids,newQr);
+
             })
+        }else{
+            //We are done, save it
+            //Wait some time
+            this.setState(
+                {
+                    qrData: {...this.state.qrData, ...newQr}
+                }
+            );
+        }
 
-        });
+
+
     }
 
+
+    buildPages = (aniDataList:CawsAnimal[]) =>{
+        //Build the list of components
+        let listOfPages:any[] = [];
+
+        for (let i =0; i < aniDataList.length; i+=2){//Notice we go up by two
+            //Get page one
+            const data1 = aniDataList[i];
+            const qr1 = this.state.qrData[data1.data.ID];
+            //Now see if there is a second one
+            let data2 = undefined;let qr2 = undefined;
+            if(i+1 < aniDataList.length ){
+                data2 = aniDataList[i+1];
+                qr2 = this.state.qrData[data2.data.ID];
+            }
+
+
+            //Build a new page
+            listOfPages.push(
+                <HalfPageKC key={""+data1.data.ID + (data2?data2.data.ID:"") } aniDataFirst={data1} aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2} />
+            );
+
+        }
+        return listOfPages;
+    }
 
     /**
      * Re-render every time this is called
@@ -184,8 +229,6 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             return this.props.cawsAnimalsDb.animals[id];
         })
 
-        //Build the list of components
-        let listOfPages:any[] = [];
 
         //If it is single page
         // listOfPages = aniDataList.map(data => {
@@ -194,35 +237,14 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //     );
         // });
         // Now the two page
-        for (let i =0; i < aniDataList.length; i+=2){//Notice we go up by two
-            //Get page one
-            const data1 = aniDataList[i];
-            const qr1 = this.state.qrData[data1.data.ID];
-
-            //Now see if there is a second one
-            let data2 = undefined;let qr2 = undefined;
-            if(i+1 < aniDataList.length ){
-                data2 = aniDataList[i+1];
-                qr2 = this.state.qrData[data2.data.ID];
-            }
-
-
-            //Build a new page
-            listOfPages.push(
-                <HalfPageKC aniDataFirst={data1} aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2} />
-            );
-
-        }
 
         //If it is full page
         return (
-            <>
-                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+listOfPages.length}>
+                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()}>
                     <Document>
-                        {listOfPages}
+                        {this.buildPages(aniDataList)}
                     </Document>
                 </PDFViewer>
-            </>
         );
 
 

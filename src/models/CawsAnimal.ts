@@ -2,6 +2,8 @@
  * Specifies the caws user data
  */
 import {formatDate} from "../utils/date-formater";
+import missingPic from "../assets/pictures/missingPhoto.png";
+
 
 //Define the caws user, this comes from the json decode
 export interface CawsAnimalData{
@@ -129,7 +131,7 @@ export default class CawsAnimal{
         if(this.data.IMGURLS.length > 0) {
             return this.data.IMGURLS[0];
         }else{
-            return ""
+            return missingPic;
         }
     }
 

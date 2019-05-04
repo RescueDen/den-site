@@ -19,6 +19,10 @@ export interface CawsAnimalData{
     SPECIES:string;
     SEX:string;
 
+    //Fees
+    ADOPTIONFEE:string;
+    TRAININGDEPOSIT:string;
+
     //Dates
     DATEBROUGHTIN:Date;
     DATEOFBIRTH:Date;
@@ -226,9 +230,44 @@ export default class CawsAnimal{
 
         return newDataJson;
 
-
-
-
     }
+
+    getAdoptionFee():string |undefined{
+        //Convert the fee to a number
+        if (!this.data.ADOPTIONFEE){
+            return undefined;
+        }else{
+            let fee = parseFloat(this.data.ADOPTIONFEE);
+            //Divide by 100
+            fee /= 100;
+
+            //Return if it is not zero
+            if (fee != 0){
+                return "$"+fee.toFixed(2);
+            }else{
+                return undefined;
+            }
+
+        }
+    }
+    getTrainingDeposit():string |undefined{
+        //Convert the fee to a number
+        if (!this.data.TRAININGDEPOSIT){
+            return undefined;
+        }else{
+            let fee = parseFloat(this.data.TRAININGDEPOSIT);
+            //Divide by 100
+            fee /= 100;
+
+            //Return if it is not zero
+            if (fee != 0){
+                return "$"+fee.toFixed(2);
+            }else{
+                return undefined;
+            }
+
+        }
+    }
+
 
 }

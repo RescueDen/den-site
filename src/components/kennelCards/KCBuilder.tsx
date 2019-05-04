@@ -121,7 +121,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
         return (
             <>
-                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()}>
+                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length}>
                     <Document>
                         {aniDataList.map(data => {
                             return (

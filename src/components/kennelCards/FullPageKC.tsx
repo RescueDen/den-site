@@ -4,6 +4,7 @@ import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
 import cawsLogo from "../../assets/logos/xCAWS_logo_full.png";
 import InfoSection from "./InfoSection";
 import BioSection from "./BioSection";
+import Footer from "./Footer";
 
 
 
@@ -18,6 +19,7 @@ interface Props{
 Font.register({ family: 'LemonTuesday', src: process.env.PUBLIC_URL+"/fonts/LemonTuesday.ttf" });
 Font.register({ family: 'LeagueSpartan-Bold', src: process.env.PUBLIC_URL+"/fonts/LeagueSpartan-Bold.ttf" });
 Font.register({ family: 'Gidole-Regular', src: process.env.PUBLIC_URL+"/fonts/Gidole-Regular.ttf" });
+Font.register({ family: 'Arimo', src: process.env.PUBLIC_URL+"/fonts/Arimo-Regular.ttf" });
 
 export const kcstyles = StyleSheet.create({
     page: { backgroundColor: 'white' },
@@ -27,7 +29,16 @@ export const kcstyles = StyleSheet.create({
         fontFamily:'LemonTuesday', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center',fontSize:'.8in', float:"left"
     },
     bodySection: { height:'6.1in' },
-    footerSection: { height:'1.0in', backgroundColor:"#eae2ff",color: 'black', textAlign: 'center'},
+    footerSection: {
+        height:'1.0in',
+        backgroundColor:"#eae2ff",
+        color: 'black',
+        display: "flex",
+        flexDirection: "row",
+        alignContent: "flex-start",
+        justifyContent: "space-around",
+        alignItems: "center"
+    },
     sectionHeader:{
         fontFamily:'LeagueSpartan-Bold',
         fontSize:'0.25in',
@@ -43,6 +54,12 @@ export const kcstyles = StyleSheet.create({
         fontSize:'0.2in',
         color:'#000000',
         textAlign:"justify"
+    },
+    footerText:{
+        fontFamily:'Arimo',
+        fontSize:'0.25in',
+        color:'#000000',
+        marginLeft:"5px"
     }
 });
 
@@ -110,9 +127,7 @@ const FullPageKC =  (props:Props) => {
                 </View>
 
             </View>
-            <View style={kcstyles.footerSection}>
-                <Text>Footer</Text>
-            </View>
+            <Footer iconSize=".42in" aniData={props.aniData}/>
         </Page>
     );
 }

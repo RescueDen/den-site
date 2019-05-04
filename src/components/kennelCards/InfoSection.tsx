@@ -21,8 +21,12 @@ const InfoSection =  (props:Props) => {
                 <Text style={kcstyles.sectionHeader}>{props.aniData.data.SPECIES.toUpperCase()} INFORMATION</Text>
                 <Text style={kcstyles.infoRow}>Breed: {props.aniData.data.BREED}</Text>
                 <Text style={kcstyles.infoRow}>Age: {props.aniData.data.AGE}</Text>
-                <Text style={kcstyles.infoRow}>Adoption Fee: </Text>
-                <Text style={kcstyles.infoRow}>Training Deposit: </Text>
+                {props.aniData.getAdoptionFee() &&
+                    <Text style={kcstyles.infoRow}>Adoption Fee: {props.aniData.getAdoptionFee()}</Text>
+                }
+                {props.aniData.getTrainingDeposit() &&
+                    <Text style={kcstyles.infoRow}>Training Deposit: {props.aniData.getTrainingDeposit()}</Text>
+                }
             </View>
             {props.aniData.isSpecies([Species.dog]) &&
                 <View style={{maxWidth: "50%"}}>

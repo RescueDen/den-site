@@ -1,6 +1,5 @@
 import React from "react";
-import {Container, Dimmer, Header, Icon, List, Loader, Segment} from "semantic-ui-react";
-import CawsUser from "../../models/CawsUser";
+import { Dimmer,  Loader} from "semantic-ui-react";
 import {staticService} from "../../services/static.service";
 
 //Define the expected props

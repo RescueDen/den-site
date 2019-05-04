@@ -6,11 +6,11 @@ import AnimalState from "../../state/AnimalState";
 import {ThunkDispatch} from "redux-thunk";
 import {RouteComponentProps} from "react-router-dom";
 import queryString from "query-string";
-import {Document, Font, PDFViewer, StyleSheet,  Page} from "@react-pdf/renderer";
+import {Document, Font, PDFViewer, StyleSheet, Page, PDFDownloadLink} from "@react-pdf/renderer";
 import QRCode from 'qrcode'
 import HalfPageKC from "./HalfPageKC";
 import CawsAnimal from "../../models/CawsAnimal";
-import {Checkbox, Container, Grid, Icon, Input, Label} from "semantic-ui-react";
+import {Button, Checkbox, Container, Grid, Icon, Input, Label} from "semantic-ui-react";
 import FullPageKC from "./FullPageKC";
 
 //Define the expected props
@@ -192,6 +192,10 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
     }
 
+    toggleFullPage = () =>{
+        this.setState({fullPage: !this.state.fullPage});
+
+    }
 
     buildPages = (aniDataList:CawsAnimal[]) =>{
         //Build the list of components
@@ -259,16 +263,23 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                         </Grid.Column>
                         <Grid.Column floated='right' textAlign='right' >
                         {/*    Allow switch between full and half*/}
-                            <Checkbox
-                                toggle
-                                checked={this.state.fullPage}
-                                onChange={((event1, data) => {
-                                    if(data.checked != undefined) {
-                                        this.setState({fullPage: data.checked});
-                                    }
-                                })}
-                                label={{ children: 'full-page' }}
-                            />
+                            <Button toggle active={this.state.fullPage} onClick={this.toggleFullPage}>
+                                {this.state.fullPage? "Full-Page": "Half-Page"}
+                            </Button>
+
+                            {/*  Add Button to download  */}
+                            <PDFDownloadLink
+                                className={"ui button"}
+                                document={
+                                    <Document>
+                                        {this.buildPages(aniDataList)}
+                                    </Document>
+                                }
+                                fileName="kennelCards.pdf"
+                            >
+                                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF!')}
+                            </PDFDownloadLink>
+
                         </Grid.Column>
                     </Grid>
                     <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}>
@@ -276,6 +287,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                             {this.buildPages(aniDataList)}
                         </Document>
                     </PDFViewer>
+
                 </Container>
 
 

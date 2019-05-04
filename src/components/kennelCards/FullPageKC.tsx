@@ -11,7 +11,8 @@ import Footer from "./Footer";
 //Define the expected props
 interface Props{
     //Define the props we expect
-    aniData: CawsAnimal
+    aniData: CawsAnimal;
+    qrData?:string;
 }
 
 //Setup the fonts
@@ -127,7 +128,7 @@ const FullPageKC =  (props:Props) => {
                 </View>
 
             </View>
-            <Footer iconSize=".42in" aniData={props.aniData}/>
+            <Footer key={props.aniData.data.ID} qrData={props.qrData} iconSize=".42in" aniData={props.aniData}/>
         </Page>
     );
 }

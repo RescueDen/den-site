@@ -8,6 +8,7 @@ import {RouteComponentProps} from "react-router-dom";
 import queryString from "query-string";
 import {Document, Page, PDFViewer, Text, View} from "@react-pdf/renderer";
 import FullPageKC from "./FullPageKC";
+import QRCode from 'qrcode'
 
 
 //Define the expected props
@@ -22,14 +23,13 @@ interface LinkProps  {
 
 }
 
-
-
-
 interface DispatchProps{
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
 
 }
+
+const baseUrl = 'https://us01.sheltermanager.com/animal?id='
 
 //Define the expected props
 interface SearchState  {
@@ -39,6 +39,8 @@ interface SearchState  {
     //Store a list of things to render
     idList:number[];
 
+    //Store the qr data to render based upon id
+    qrData:{ [id: number]: string; }
 }
 
 
@@ -46,7 +48,7 @@ interface SearchState  {
  * This card shows the animal details
  */
 class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={searchTerm:"", idList:[] as number[]};
+    state={searchTerm:"", idList:[] as number[], qrData: {} as { [id: number]: string; } };
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -78,8 +80,6 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             }
         }
 
-        console.log(params);
-
 
     };
 
@@ -90,6 +90,8 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //Make sure we have the animal
         this.props.downloadAnimal(id);
 
+        //Build the qr code data
+
 
     }
     addIds = (ids:number[]) =>{
@@ -98,6 +100,26 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //Make sure we have the animal
         ids.forEach((id:number) =>{
            this.props.downloadAnimal(id);
+
+           //Also build the qr code
+            QRCode.toDataURL(baseUrl+id, {
+                color: {
+                    dark: '#1a4789',  // Blue dots
+                    light: '#0000' // Transparent background
+                }
+            }).then(data =>{
+                //New Data:
+                let newData ={...this.state.qrData} as { [id: number]: string; };
+                    newData[id] = data;
+
+                this.setState(
+                    {
+                        qrData: newData
+                    }
+
+                );
+            })
+
         });
     }
 
@@ -121,11 +143,11 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
         return (
             <>
-                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length}>
+                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()}>
                     <Document>
                         {aniDataList.map(data => {
                             return (
-                                <FullPageKC aniData={data}/>
+                                <FullPageKC aniData={data} qrData={this.state.qrData[data.data.ID]}/>
                             );
                         })}
                     </Document>

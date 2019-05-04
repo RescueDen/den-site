@@ -10,6 +10,8 @@ import {Document, Font, PDFViewer, StyleSheet,  Page} from "@react-pdf/renderer"
 import QRCode from 'qrcode'
 import HalfPageKC from "./HalfPageKC";
 import CawsAnimal from "../../models/CawsAnimal";
+import {Checkbox, Container, Grid, Icon, Input, Label} from "semantic-ui-react";
+import FullPageKC from "./FullPageKC";
 
 //Define the expected props
 interface IncomingProps extends RouteComponentProps<any>  {
@@ -86,6 +88,9 @@ interface SearchState  {
 
     //Store the qr data to render based upon id
     qrData:{ [id: number]: string; }
+
+    //Define if it is full page
+    fullPage:boolean;
 }
 
 
@@ -93,7 +98,7 @@ interface SearchState  {
  * This card shows the animal details
  */
 class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={searchTerm:"", idList:[] as number[], qrData: {} as { [id: number]: string; } };
+    state={searchTerm:"", idList:[] as number[], qrData: {} as { [id: number]: string; } , fullPage:true};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -192,23 +197,36 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //Build the list of components
         let listOfPages:any[] = [];
 
-        for (let i =0; i < aniDataList.length; i+=2){//Notice we go up by two
-            //Get page one
-            const data1 = aniDataList[i];
-            const qr1 = this.state.qrData[data1.data.ID];
-            //Now see if there is a second one
-            let data2 = undefined;let qr2 = undefined;
-            if(i+1 < aniDataList.length ){
-                data2 = aniDataList[i+1];
-                qr2 = this.state.qrData[data2.data.ID];
+        //If it is full page
+        if(this.state.fullPage){
+            //One page per kc
+            listOfPages = aniDataList.map(data => {
+                return (
+                    <FullPageKC aniData={data} qrData={this.state.qrData[data.data.ID]}/>
+                );
+            });
+        }else {
+            //Do two pages at a time
+            for (let i = 0; i < aniDataList.length; i += 2) {//Notice we go up by two
+                //Get page one
+                const data1 = aniDataList[i];
+                const qr1 = this.state.qrData[data1.data.ID];
+                //Now see if there is a second one
+                let data2 = undefined;
+                let qr2 = undefined;
+                if (i + 1 < aniDataList.length) {
+                    data2 = aniDataList[i + 1];
+                    qr2 = this.state.qrData[data2.data.ID];
+                }
+
+
+                //Build a new page
+                listOfPages.push(
+                    <HalfPageKC key={"" + data1.data.ID + (data2 ? data2.data.ID : "")} aniDataFirst={data1}
+                                aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2}/>
+                );
+
             }
-
-
-            //Build a new page
-            listOfPages.push(
-                <HalfPageKC key={""+data1.data.ID + (data2?data2.data.ID:"") } aniDataFirst={data1} aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2} />
-            );
-
         }
         return listOfPages;
     }
@@ -230,23 +248,40 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         })
 
 
-        //If it is single page
-        // listOfPages = aniDataList.map(data => {
-        //     return (
-        //         <FullPageKC aniData={data} qrData={this.state.qrData[data.data.ID]}/>
-        //     );
-        // });
-        // Now the two page
-
-        //If it is full page
+        //Build the header
         return (
-                <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()}>
-                    <Document>
-                        {this.buildPages(aniDataList)}
-                    </Document>
-                </PDFViewer>
-        );
+            <>
+                <Container>
+                    {/*Define a stackable grid to offset the header from the search box*/}
+                    <Grid stackable columns={2}>
+                        <Grid.Column floated='left' textAlign='left'>
+                            {"Search Here"}
+                        </Grid.Column>
+                        <Grid.Column floated='right' textAlign='right' >
+                        {/*    Allow switch between full and half*/}
+                            <Checkbox
+                                toggle
+                                checked={this.state.fullPage}
+                                onChange={((event1, data) => {
+                                    if(data.checked != undefined) {
+                                        this.setState({fullPage: data.checked});
+                                    }
+                                })}
+                                label={{ children: 'full-page' }}
+                            />
+                        </Grid.Column>
+                    </Grid>
+                    <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}>
+                        <Document>
+                            {this.buildPages(aniDataList)}
+                        </Document>
+                    </PDFViewer>
+                </Container>
 
+
+            </>
+
+        );
 
     }
 };

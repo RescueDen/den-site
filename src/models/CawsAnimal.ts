@@ -271,5 +271,20 @@ export default class CawsAnimal{
         }
     }
 
+    /**
+     * Returns so much of the bio
+     * @param bioMax
+     */
+    getBio(bioMax: number):string {
+        //Get the current length
+        const currentLength = this.data.BIO.length;
 
+        if(currentLength > bioMax){
+            return this.data.BIO.substr(0, bioMax-1) + "...";
+        }else{
+            return this.data.BIO;
+        }
+
+
+    }
 }

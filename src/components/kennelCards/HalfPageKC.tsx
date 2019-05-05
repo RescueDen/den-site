@@ -106,11 +106,11 @@ const HalfPageContent = (props:HalfPageContentProps) => {
                     }
                 }
                 >
-                    <BioSection fontSize='0.12in' aniData={props.aniData}/>
+                    <BioSection fontSize='0.15in' aniData={props.aniData}/>
                 </View>
 
             </View>
-            <Footer key={props.aniData.data.ID} qrData={props.qrData} iconSize=".32in" height='0.62in' aniData={props.aniData}/>
+            <Footer key={props.aniData.data.ID} fontSize={"0.15in"} qrData={props.qrData} iconSize=".32in" height='0.62in' aniData={props.aniData}/>
         </>
 
 

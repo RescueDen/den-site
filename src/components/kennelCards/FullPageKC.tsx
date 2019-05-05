@@ -88,7 +88,7 @@ const FullPageKC =  (props:Props) => {
                 </View>
 
             </View>
-            <Footer key={props.aniData.data.ID} qrData={props.qrData} iconSize=".42in" height='1.0in' aniData={props.aniData}/>
+            <Footer key={props.aniData.data.ID} fontSize={"0.25in"} qrData={props.qrData} iconSize=".42in" height='1.0in' aniData={props.aniData}/>
         </Page>
     );
 }

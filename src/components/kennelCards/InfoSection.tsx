@@ -26,6 +26,7 @@ const InfoSection =  (props:Props) => {
                 <Text style={headerStyle}>{props.aniData.data.SPECIES.toUpperCase()} INFORMATION</Text>
                 <Text style={textStyle}>Breed: {props.aniData.data.BREED}</Text>
                 <Text style={textStyle}>Age: {props.aniData.data.AGE}</Text>
+                <Text style={textStyle}>Sex: {props.aniData.data.SEX}</Text>
                 {props.aniData.getAdoptionFee() &&
                     <Text style={textStyle}>Adoption Fee: {props.aniData.getAdoptionFee()}</Text>
                 }
@@ -33,15 +34,16 @@ const InfoSection =  (props:Props) => {
                     <Text style={textStyle}>Training Deposit: {props.aniData.getTrainingDeposit()}</Text>
                 }
             </View>
-            {props.aniData.isSpecies([Species.dog]) &&
-                <View style={{maxWidth: "50%"}}>
-                    <Text style={headerStyle}>MY FAMILY</Text>
+            <View style={{maxWidth: "50%"}}>
+                <Text style={headerStyle}>MY FAMILY</Text>
+                {props.aniData.isSpecies([Species.dog]) &&
                     <Text style={textStyle}>Housetrained: {props.aniData.formatYesNoUnknown(props.aniData.data.ISHOUSETRAINED)}</Text>
-                    <Text style={textStyle}>Good with dogs: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHDOGS)}</Text>
-                    <Text style={textStyle}>Good with cats: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHCATS)}</Text>
-                    <Text style={textStyle}>Good with children: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHCHILDREN)}</Text>
-                </View>
-            }
+                }
+                <Text style={textStyle}>Good with dogs: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHDOGS)}</Text>
+                <Text style={textStyle}>Good with cats: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHCATS)}</Text>
+                <Text style={textStyle}>Good with children: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHCHILDREN)}</Text>
+            </View>
+
         </View>
 
 

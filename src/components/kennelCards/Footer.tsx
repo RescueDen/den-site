@@ -11,6 +11,7 @@ interface Props{
     //Define the props we expect
     aniData: CawsAnimal;
     iconSize:string;
+    fontSize:string;
     height:string;
     qrData?:string;
 }
@@ -30,19 +31,26 @@ const Footer = (props:Props) => {
         }
     });
 
+
+    //Build the footer text
+    const footer = [kcstyles.footerText,{fontSize: props.fontSize} ]
+
+
+
+
     return (
         <View style={[kcstyles.footerSection,{height:props.height}]}>
             <View style={footerStyles.footerGroup}>
                 <Image style={footerStyles.footerImg} src={facebookIcon}/>
-                <Text style={kcstyles.footerText}>@caws.org</Text>
+                <Text style={footer}>@caws.org</Text>
             </View>
             <View style={footerStyles.footerGroup}>
                 <Image style={footerStyles.footerImg} src={instagramIcon}/>
-                <Text style={kcstyles.footerText}>@cawsanimals</Text>
+                <Text style={footer}>@cawsanimals</Text>
             </View>
             <View style={footerStyles.footerGroup}>
                 <Image style={footerStyles.footerImg} src={mailIcon}/>
-                <Text style={kcstyles.footerText}>{props.aniData.data.SPECIES}s@caws.org</Text>
+                <Text style={footer}>{props.aniData.data.SPECIES}s@caws.org</Text>
             </View>
 
             {props.qrData &&

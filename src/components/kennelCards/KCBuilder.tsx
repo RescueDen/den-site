@@ -12,6 +12,7 @@ import HalfPageKC from "./HalfPageKC";
 import CawsAnimal from "../../models/CawsAnimal";
 import {Button, Checkbox, Container, Grid, Icon, Input, Label} from "semantic-ui-react";
 import FullPageKC from "./FullPageKC";
+import RemoteSearch from "../animal/RemoteSearch";
 
 //Define the expected props
 interface IncomingProps extends RouteComponentProps<any>  {
@@ -71,7 +72,6 @@ export const kcstyles = StyleSheet.create({
     },
     footerText:{
         fontFamily:'Arimo',
-        fontSize:'0.25in',
         color:'#000000',
         marginLeft:"5px"
     }
@@ -192,8 +192,8 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
     }
 
-    toggleFullPage = () =>{
-        this.setState({fullPage: !this.state.fullPage});
+    setFullPage = (fullPage:boolean) =>{
+        this.setState({fullPage: fullPage});
 
     }
 
@@ -259,16 +259,13 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                     {/*Define a stackable grid to offset the header from the search box*/}
                     <Grid stackable columns={2}>
                         <Grid.Column floated='left' textAlign='left'>
-                            {"Search Here"}
+                            <RemoteSearch selectAnimal={this.addId}/>
                         </Grid.Column>
                         <Grid.Column floated='right' textAlign='right' >
-                        {/*    Allow switch between full and half*/}
-                            <Button toggle active={this.state.fullPage} onClick={this.toggleFullPage}>
-                                {this.state.fullPage? "Full-Page": "Half-Page"}
-                            </Button>
 
                             {/*  Add Button to download  */}
                             <PDFDownloadLink
+                                key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}
                                 className={"ui button"}
                                 document={
                                     <Document>
@@ -277,12 +274,22 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                                 }
                                 fileName="kennelCards.pdf"
                             >
-                                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF!')}
+                                {({ blob, url, loading, error }) => (loading ? 'Loading...' : 'Download PDF')}
                             </PDFDownloadLink>
+
+
+                            {/*    Allow switch between full and half*/}
+                            <Button.Group>
+                                <Button positive={!this.state.fullPage} onClick={() => this.setFullPage(false)}>Half</Button>
+                                <Button.Or />
+                                <Button  positive={this.state.fullPage} onClick={() => this.setFullPage(true)}>Full</Button>
+                            </Button.Group>
+
+
 
                         </Grid.Column>
                     </Grid>
-                    <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}>
+                    <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}>
                         <Document>
                             {this.buildPages(aniDataList)}
                         </Document>

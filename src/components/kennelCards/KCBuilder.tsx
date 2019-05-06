@@ -13,6 +13,7 @@ import CawsAnimal from "../../models/CawsAnimal";
 import {Button, Checkbox, Container, Dimmer, Grid, Icon, Input, Label, Loader} from "semantic-ui-react";
 import FullPageKC from "./FullPageKC";
 import RemoteSearch from "../animal/RemoteSearch";
+import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
 interface IncomingProps extends RouteComponentProps<any>  {
@@ -267,9 +268,12 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                 <Container>
                     {/*Define a stackable grid to offset the header from the search box*/}
                     <Grid stackable columns={2}>
-                        <Grid.Column floated='left' textAlign='left'>
-                            <RemoteSearch selectAnimal={this.addId}/>
-                        </Grid.Column>
+                        {/*Only show this if the user can search for dogs*/}
+                        <PermissionBlock reqPerm={"search_animal_info"}>
+                            <Grid.Column floated='left' textAlign='left'>
+                                <RemoteSearch selectAnimal={this.addId}/>
+                            </Grid.Column>
+                            </PermissionBlock>
                         <Grid.Column floated='right' textAlign='right' >
 
                             {/*  Add Button to download  */}
@@ -301,13 +305,13 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                     <div>
                         <Loader active={this.state.idList.length != aniDataList.length} />
                         <PDFViewer style={{width: '100%', height: '80vh'}}
-                                   key={this.state.idList.toString() + aniDataList + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
+                                   key={this.state.idList.toString() + JSON.stringify(aniDataList) + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
                             <Document>
                                 {this.buildPages(aniDataList)}
                             </Document>
                         </PDFViewer>
                     </div>
-                    }
+
 
                 </Container>
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 import AnimalState from "../../state/AnimalState";
 import {
-    Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon
+    Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon, Popup
 } from "semantic-ui-react";
 import CawsAnimal from "../../models/CawsAnimal";
 import {animalService} from "../../services/animal.service";
@@ -22,6 +22,7 @@ interface SearchState  {
     isLoading: boolean;
     results: any;
     searchTerm:string;
+    error?:string;
 }
 
 //Set the minimum
@@ -35,7 +36,7 @@ const bioMax = 100;
  * This card shows the animal details
  */
 class RemoteSearch extends React.Component<IncomingProps, SearchState> {
-    state={isLoading:false, results: [] as CawsAnimal[], searchTerm:"" };
+    state={isLoading:false, results: [] as CawsAnimal[], searchTerm:"" , error:undefined};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -106,11 +107,11 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
 
                 })
 
-                this.setState({results:resultList})
+                this.setState({results:resultList, error:undefined, isLoading:false})
 
 
             }).catch((err:any)=>{
-                alert("error here for no reason: " + err);
+                this.setState({error:"Could not search for " + searchQuery + ". Please try another term."});
             })
 
 
@@ -135,19 +136,27 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
     render() {
 
         return (
+            <Popup
+                trigger={
+                    <Dropdown
+                        fluid
+                        selection
+                        search
+                        options={this.state.results}
+                        value={this.state.searchTerm}
+                        placeholder='Add Animals'
+                        onChange={this.handleResultSelect}
+                        onSearchChange={this.handleSearchChange}
+                        loading={this.state.isLoading}
+                        minCharacters={minChar}
+                    />
 
-            <Dropdown
-                fluid
-                selection
-                search
-                options={this.state.results}
-                value={this.state.searchTerm}
-                placeholder='Add Animals'
-                onChange={this.handleResultSelect}
-                onSearchChange={this.handleSearchChange}
-                loading={this.state.isLoading}
-                minCharacters={minChar}
+                }
+                content={this.state.error}
+                open={this.state.error != undefined}
+                position='right center'
             />
+
         );
     }
 };

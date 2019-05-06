@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal from "../../models/CawsAnimal";
-import {Card, Image, Icon, Placeholder, Segment, Dimmer, Loader, Container, Header} from "semantic-ui-react";
+import {Button,Segment, Dimmer, Loader, Container, Header} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
@@ -12,6 +12,7 @@ import {animalActions} from "../../actions/animal.actions";
 import AnimalImageGallery from "./details-components/AnimalImageGallery";
 import AnimalBio from "./details-components/AnimalBio";
 import AnimalVaxxHistory from "./details-components/AnimalVaxxHistory";
+import {Link} from "react-router-dom";
 
 
 
@@ -76,6 +77,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     <Segment>
                         <Header as="h2">Biography</Header>
                         <AnimalBio animal={this.props.animal}/>
+                        <Link className={"ui button"} to={`/kennelcard?id=${this.props.animal.data.ID}`}> Preview {this.props.animal.data.NAME}'s Kennel Card  </Link>
                     </Segment>
                     {/*The vaccine history*/}
                     <AnimalVaxxHistory animal={this.props.animal}/>

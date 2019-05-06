@@ -10,7 +10,7 @@ import {Document, Font, PDFViewer, StyleSheet, Page, PDFDownloadLink} from "@rea
 import QRCode from 'qrcode'
 import HalfPageKC from "./HalfPageKC";
 import CawsAnimal from "../../models/CawsAnimal";
-import {Button, Checkbox, Container, Grid, Icon, Input, Label} from "semantic-ui-react";
+import {Button, Checkbox, Container, Dimmer, Grid, Icon, Input, Label, Loader} from "semantic-ui-react";
 import FullPageKC from "./FullPageKC";
 import RemoteSearch from "../animal/RemoteSearch";
 
@@ -298,11 +298,16 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
                         </Grid.Column>
                     </Grid>
-                    <PDFViewer style={{width: '100%', height: '80vh'}} key={this.state.idList.toString()+aniDataList+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}>
-                        <Document>
-                            {this.buildPages(aniDataList)}
-                        </Document>
-                    </PDFViewer>
+                    <div>
+                        <Loader active={this.state.idList.length != aniDataList.length} />
+                        <PDFViewer style={{width: '100%', height: '80vh'}}
+                                   key={this.state.idList.toString() + aniDataList + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
+                            <Document>
+                                {this.buildPages(aniDataList)}
+                            </Document>
+                        </PDFViewer>
+                    </div>
+                    }
 
                 </Container>
 

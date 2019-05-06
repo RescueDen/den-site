@@ -130,6 +130,15 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             }
         }
 
+        //Check to see if the format was defined
+        const format = params["format"];
+        if(format == "full"){
+            this.setFullPage(true)
+        }else if (format == "half"){
+            this.setFullPage(false);
+        }
+
+
 
     };
 

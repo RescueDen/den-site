@@ -77,7 +77,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     <Segment>
                         <Header as="h2">Biography</Header>
                         <AnimalBio animal={this.props.animal}/>
-                        <Link className={"ui button"} to={`/kennelcard?id=${this.props.animal.data.ID}`}> Preview {this.props.animal.data.NAME}'s Kennel Card  </Link>
+                        <Link className={"ui button"} to={`/kennelcard?id=${this.props.animal.data.ID}`}> Preview {this.props.animal.data.NAME.trim()}'s Kennel Card  </Link>
                     </Segment>
                     {/*The vaccine history*/}
                     <AnimalVaxxHistory animal={this.props.animal}/>

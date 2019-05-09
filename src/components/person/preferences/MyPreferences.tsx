@@ -7,7 +7,6 @@ import {
     Loader,
     Form,
     DropdownProps,
-    Dimmer,
     Button,
     CheckboxProps
 } from "semantic-ui-react";

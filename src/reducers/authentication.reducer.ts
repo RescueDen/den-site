@@ -121,6 +121,7 @@ export function authentication(state:AuthenticationState = initialState, action:
                 ...state,
                 permissions: action.payload
             };
+        /////////////////////////////
         //Update the user pref
         case userConstants.FETCH_USERPREF:
             return {

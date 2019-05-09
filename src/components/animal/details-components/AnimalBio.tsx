@@ -43,6 +43,8 @@ const AnimalBio =  (myProps:Props) =>{
                         {createRow("Sex", myProps.animal.data.SEX, "man", "woman")}
                         {/*{createRow("Fixed", myProps.animal.data.N, "man", "woman")}*/}
                         {createRow("Age", myProps.animal.data.AGE, "calendar outline")}
+                        {createRow("MicroChip", myProps.animal.data.MICROCHIP, "microchip")}
+
                         {createRow("Is Good With Cats?", myProps.animal.formatYesNoUnknown(myProps.animal.data.ISGOODWITHCATS))}
                         {createRow("Is Good With Dogs?", myProps.animal.formatYesNoUnknown(myProps.animal.data.ISGOODWITHDOGS))}
                         {createRow("Is Good With Children?", myProps.animal.formatYesNoUnknown(myProps.animal.data.ISGOODWITHCHILDREN), "child")}

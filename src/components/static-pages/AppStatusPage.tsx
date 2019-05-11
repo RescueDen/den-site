@@ -6,7 +6,7 @@ import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
 import {userActions} from "../../actions/user.actions";
 import AppStatusWidget from "./AppStatusWidget";
-import {Container, Header, Icon} from "semantic-ui-react";
+import {Container, Header, Icon, SemanticICONS} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 
 //Define the expected props
@@ -53,6 +53,8 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                     status={[
                         {
                             name:"Apply and Review",
+                            comment:"Fill out the on-line application",
+                            icon:'edit' as SemanticICONS,
                             show:(
                                 <p key='Apply and Review'>We can use all the help we can get. If you are interested in volunteering please fill out a <a href="https://caws.org/volunteer-questionaire/"> volunteer application</a>. Please allow a few days for review. If you have any questions please email volunteers@caws.org</p>
                             )
@@ -60,6 +62,8 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                         {
                             name:"Orientation",
                             tag:"volunteer applicant",
+                            comment:"learn the ins-and-outs",
+                            icon:'university' as SemanticICONS,
                             show:(
                                 <p key='volunteer applicant'>We have reviewed your application and would really appreciate your help. The next step is orientation.  Once you complete the orientation. wavier it may take a day to process.</p>
                             )
@@ -67,6 +71,7 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                         {
                             name:"Ready to Volunteer",
                             tag:"volunteer",
+                            icon:'handshake outline' as SemanticICONS,
                             show:(
                                 <p key='volunteer'>Thank you for completing orientation. It is time to help! Check the Volunteer Opportunities link for the latest places to help.</p>
                             )
@@ -85,6 +90,8 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                     status={[
                         {
                             name:"Apply and Review",
+                            comment:"fill out the on-line application",
+                            icon:'edit' as SemanticICONS,
                             show:(
                                 <p key='Apply and Review'>If you are interested in dog fostering please fill out a <a href="https://caws.org/foster-questionnaire/">foster application</a>. Please allow a few days for review. </p>
                             )
@@ -92,6 +99,8 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                         {
                             name:"Orientation",
                             tag:"dog fosterer applicant",
+                            comment:"learn the ins-and-outs",
+                            icon:'university' as SemanticICONS,
                             show:(
                                 <p  key='dog fosterer applicant'>We have reviewed your application and would really appreciate your help. The next step is orientation.  Once you complete the orientation. wavier it may take a day to process.</p>
                             )
@@ -99,6 +108,7 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                         {
                             name:"Ready to Foster Dogs",
                             tag:"dog fosterer",
+                            icon:'paw' as SemanticICONS,
                             show:(
                                 <p  key='dog fosterer'>Thank you for completing orientation. It is time to help! Click the  <Link to={'/inneed'} >in-need </Link> page for dogs that need a foster.</p>
                             )
@@ -115,6 +125,8 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                     status={[
                         {
                             name:"Apply and Review",
+                            comment:"Fill out the on-line application",
+                            icon:'edit' as SemanticICONS,
                             show:(
                                 <p  key='Apply and Review'>If you are interested in volunteering please fill out a cat <a href="https://caws.org/foster-questionnaire/">foster application</a>. Please allow a few days for review.  </p>
                             )
@@ -122,6 +134,8 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                         {
                             name:"Orientation",
                             tag:"cat fosterer applicant",
+                            comment:"learn the ins-and-outs",
+                            icon:'university' as SemanticICONS,
                             show:(
                                 <p  key='cat fosterer applicant'>We have reviewed your application and would really appreciate your help. The next step is orientation.  Once you complete the orientation. wavier it may take a day to process.</p>
                             )
@@ -129,6 +143,7 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                         {
                             name:"Ready to Foster Cats",
                             tag:"cat fosterer",
+                            icon:'paw' as SemanticICONS,
                             show:(
                                 <p  key='cat fosterer'>Thank you for completing orientation. It is time to help! Click the  <Link to={'/inneed'} >in-need </Link> page for cats that need a foster.</p>
                             )

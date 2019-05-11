@@ -1,6 +1,7 @@
 import React from "react";
-import {Header, Icon, List, Segment} from "semantic-ui-react";
+import {Header, Icon, List, Segment, Step} from "semantic-ui-react";
 import CawsUser from "../../models/CawsUser";
+import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 
 //Define the expected props
 interface AppStatusProps  {
@@ -14,8 +15,10 @@ interface AppStatusProps  {
 //Define the expected props
 interface AppStatus {
     name:string;
+    comment?:string;
     tag?:string;
     show:any;
+    icon:SemanticICONS;
 
 }
 
@@ -68,16 +71,25 @@ const AppStatusWidget = (props:AppStatusProps) => {
         }
 
         //Now add the item
+        // listComponents.push(
+        //     <List.Item key={i}>
+        //         {thisActive &&
+        //         <List.Icon name='check circle outline'/>
+        //         }
+        //         {!thisActive &&
+        //         <List.Icon name='circle outline'/>
+        //         }
+        //         <List.Content>{props.status[i].name}</List.Content>
+        //     </List.Item>
+        // )
         listComponents.push(
-            <List.Item key={i}>
-                {thisActive &&
-                <List.Icon name='check circle outline'/>
-                }
-                {!thisActive &&
-                <List.Icon name='circle outline'/>
-                }
-                <List.Content>{props.status[i].name}</List.Content>
-            </List.Item>
+            <Step disabled={!thisActive} active={highestStatus==props.status[i]}>
+                <Icon name={props.status[i].icon} />
+                <Step.Content>
+                    <Step.Title>{props.status[i].name}</Step.Title>
+                    <Step.Description>{props.status[i].comment}</Step.Description>
+                </Step.Content>
+            </Step>
         )
 
     }
@@ -85,9 +97,9 @@ const AppStatusWidget = (props:AppStatusProps) => {
 
     //Now add the list items
     components.push(
-      <List ordered key='list'>
+        <Step.Group>
           {listComponents}
-      </List>
+        </Step.Group>
     );
 
     //Now show the next item
@@ -98,7 +110,7 @@ const AppStatusWidget = (props:AppStatusProps) => {
 
 
     return (
-        <Segment>
+        <Segment style={{textAlign:"center"}}>
             {components}
         </Segment>
     );

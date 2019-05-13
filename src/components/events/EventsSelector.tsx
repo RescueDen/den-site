@@ -30,6 +30,7 @@ import {SemanticCOLORS} from "semantic-ui-react/dist/commonjs/generic";
 import EventViewer from "./EventViewer";
 import {formatDate, sortDates} from "../../utils/date-formater";
 import {Link} from "react-router-dom";
+import {successAutoDismiss} from "../../actions/alert.actions";
 
 //Use a localizer
 const localizer = BigCalendar.momentLocalizer(moment)
@@ -60,6 +61,7 @@ interface DispatchProps{
     //And the actions that must be done
     getEventsSummary: () => any;
     toggleEventGroup: (group:string) => any;
+    successAutoDismiss:(msg:string, time:number) => any;
 
 
 }
@@ -236,7 +238,9 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
             if(this.props.eventsSummary.eventList[this.props.eventId]){
                 return (
                   <EventViewer key={this.props.eventId}
-                               eventInfo={this.props.eventsSummary.eventList[this.props.eventId]} />
+                               eventInfo={this.props.eventsSummary.eventList[this.props.eventId]}
+                               successAutoDismiss={this.props.successAutoDismiss}
+                  />
                 );
                 
             }else{
@@ -494,8 +498,8 @@ function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
         getEventsSummary:() =>  dispatch(eventsActions.getEventsSummary()),
-        toggleEventGroup:(group:string) =>  dispatch(eventsActions.toggleEventGroup(group))
-
+        toggleEventGroup:(group:string) =>  dispatch(eventsActions.toggleEventGroup(group)),
+        successAutoDismiss:(mess:string, time:number) => dispatch(successAutoDismiss(mess, time))
     };
 
 }

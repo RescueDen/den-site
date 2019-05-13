@@ -2,18 +2,11 @@ import React from 'react';
 import JSX from 'react';
 
 import {
-    Dimmer, Header, Icon,
-    Image,
-    Loader,
-    Segment, Table
+    Icon,
+    Table
 } from "semantic-ui-react";
-import  {EventData} from "../../models/Events";
 
-import {eventsService} from "../../services/events.service";
-import {formatDate} from "../../utils/date-formater";
-import {ExistingSignUps, SignUpResponse} from "../../models/SignUp";
-import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
-import MyFosterSelection from "../forms/MyFosterSelection";
+import {ExistingSignUps} from "../../models/SignUp";
 
 //Define the expected props
 interface LinkProps  {

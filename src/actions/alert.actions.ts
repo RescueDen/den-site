@@ -54,3 +54,23 @@ export function clear(alert: Alert): Action {
         payload: alert
     };
 }
+
+
+/**
+ * Update the logging category summary
+ * @param username
+ * @param password
+ * @returns {Function}
+ */
+export function successAutoDismiss(message: string, time:number): ThunkAction<any, any,any, any> {
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+
+        dispatch(success(message))
+
+        //After so many seconds dismiss it
+        setTimeout(() => {dispatch(clearByMessage(message))}, time);
+
+    };
+
+}

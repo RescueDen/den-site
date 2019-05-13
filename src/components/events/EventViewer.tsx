@@ -22,6 +22,9 @@ interface LinkProps  {
     //Define the props we expect
     eventInfo:EventData
 
+    //Send message
+    successAutoDismiss:(msg:string, time:number) => any;
+
 }
 
 
@@ -32,7 +35,7 @@ interface MyState{
     signUpErrorMessage?: string
     activeRow?:number;
     signUpUpdating:boolean;
-
+    formCount:number;
 }
 
 
@@ -42,7 +45,7 @@ interface MyState{
  * Show the details of a single up coming event
  */
 class EventViewer extends React.Component<LinkProps, MyState> {
-    state = {htmlInfo:"", signUpResponse:undefined, signUpErrorMessage:undefined,activeRow:undefined, signUpUpdating:false };
+    state = {htmlInfo:"", signUpResponse:undefined, signUpErrorMessage:undefined,activeRow:undefined, signUpUpdating:false, formCount:0 };
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -56,6 +59,8 @@ class EventViewer extends React.Component<LinkProps, MyState> {
                     article => {
                         //Update the state
                         this.setState({htmlInfo: article})
+
+
                     },
                     //If there was an error, show to the user
                     errorResponse => {
@@ -159,7 +164,6 @@ class EventViewer extends React.Component<LinkProps, MyState> {
 
     //Submit the form
     onSubmit = (form:any) => {
-
         //Set the state for submitting
         this.setState({signUpUpdating:true});
 
@@ -170,7 +174,12 @@ class EventViewer extends React.Component<LinkProps, MyState> {
                     //If successful html will be returned
                     form => {
                         //Update the state
-                        this.setState({signUpResponse: form, signUpUpdating: false, activeRow:undefined})
+                        this.setState({signUpResponse: form, signUpUpdating: false, activeRow:undefined});
+
+                        //State that the changes were saved
+                        const msg = "Sign-Up saved for " + this.props.eventInfo.name;
+                        //Also dispatch a success message
+                        this.props.successAutoDismiss(msg, 7000);
                     },
                     //If there was an error, show to the user
                     errorResponse => {
@@ -189,6 +198,13 @@ class EventViewer extends React.Component<LinkProps, MyState> {
                 );
         }
     };
+
+
+    resetForm = () => {
+        this.setState({formCount:this.state.formCount++});
+
+    };
+
 
 
     /**
@@ -288,23 +304,19 @@ class EventViewer extends React.Component<LinkProps, MyState> {
                     components.push(
                         <Dimmer.Dimmable key='dimmingSignUps' blurring dimmed={this.state.signUpUpdating}>
                             {/*Add in the signup form*/}
-                            <Form schema={signUpInfo.signupForm.JSONSchema}
-                                  uiSchema={signUpInfo.signupForm.UISchema}
-                                  formData={signUpInfo.signupForm.formData}
-                                  widgets={{"animalIdWidget": this.animalIdWidget}}
-                                  onChange={this.onSubmit}
+                            <Form key={this.state.formCount}
+                                schema={signUpInfo.signupForm.JSONSchema}
+                                uiSchema={signUpInfo.signupForm.UISchema}
+                                formData={signUpInfo.signupForm.formData}
+                                widgets={{"animalIdWidget": this.animalIdWidget}}
+                                onSubmit={this.onSubmit}
                             >
                                 {/*Render a custom/hidden Submit button*/}
-                                <Button  style={{display:"none"}} type="submit"></Button>
-                                <Message icon>
-                                    <Icon name='circle notched' loading />
-                                    <Message.Content>
-                                        All selections and changes are automatically saved.
-                                    </Message.Content>
-                                </Message>
-
+                                <Button  primary type="submit">Save</Button>
+                                <Button type="button" secondary onClick={this.resetForm}> Cancel & Reset </Button>
 
                             </Form>
+
                         </Dimmer.Dimmable>
                     )
                 }

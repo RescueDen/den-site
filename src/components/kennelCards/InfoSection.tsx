@@ -30,9 +30,9 @@ const InfoSection =  (props:Props) => {
                 {props.aniData.getAdoptionFee() &&
                     <Text style={textStyle}>Adoption Fee: {props.aniData.getAdoptionFee()}</Text>
                 }
-                {props.aniData.getTrainingDeposit() &&
-                    <Text style={textStyle}>Training Deposit: {props.aniData.getTrainingDeposit()}</Text>
-                }
+                {/*{props.aniData.getTrainingDeposit() &&*/}
+                {/*    <Text style={textStyle}>Training Deposit: {props.aniData.getTrainingDeposit()}</Text>*/}
+                {/*}*/}
             </View>
             <View style={{maxWidth: "50%"}}>
                 <Text style={headerStyle}>MY FAMILY</Text>

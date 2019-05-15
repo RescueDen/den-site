@@ -13,7 +13,6 @@ import {
     Sticky
 } from "semantic-ui-react";
 import {LessonData} from "../../models/Courses";
-import {infoService} from "../../services/info.service";
 import {coursesService} from "../../services/courses.service";
 import SingleForm from "../forms/SingleForm";
 
@@ -76,7 +75,15 @@ class Lesson extends React.Component<Props, State> {
         let contentComputerWidth = 16 as  SemanticWIDTHSNUMBER;
 
         if(this.props.lesson.videoId) {
-            video =<Embed allowfullscreen id={this.props.lesson.videoId} source='youtube'/>
+            // video = <iframe src={`https://www.youtube.com/embed/${this.props.lesson.videoId}?autoplay=1`} allowFullScreen={true}></iframe>
+            video = <Embed
+                id={this.props.lesson.videoId}
+                source='youtube'
+                active={true}
+                iframe={{
+                    allowFullScreen: true,
+                }}
+            />
             contentComputerWidth = 12 as  SemanticWIDTHSNUMBER;
         }
 
@@ -129,8 +136,7 @@ class Lesson extends React.Component<Props, State> {
                 <Container>
                     {/*Now for a small screen just overlay them*/}
                     <Responsive key="small"as={Segment} maxWidth={Responsive.onlyLargeScreen.minWidth}>
-                        {video
-                        }
+                        {video}
                         {/*Show a loading of the info*/}
                         {this.props.lesson.infoId && this.state.html.length == 0 &&
                             <Placeholder>

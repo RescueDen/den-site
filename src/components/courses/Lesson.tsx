@@ -71,19 +71,10 @@ class Lesson extends React.Component<Props, State> {
     render() {
 
         //Prerender the video so it doesn't not un render
-        let video = undefined;
         let contentComputerWidth = 16 as  SemanticWIDTHSNUMBER;
 
         if(this.props.lesson.videoId) {
-            // video = <iframe src={`https://www.youtube.com/embed/${this.props.lesson.videoId}?autoplay=1`} allowFullScreen={true}></iframe>
-            video = <Embed
-                id={this.props.lesson.videoId}
-                source='youtube'
-                active={true}
-                iframe={{
-                    allowFullScreen: true,
-                }}
-            />
+
             contentComputerWidth = 12 as  SemanticWIDTHSNUMBER;
         }
 
@@ -96,9 +87,16 @@ class Lesson extends React.Component<Props, State> {
                     {/*Put everything in a single col*/}
                     <Grid.Column width={contentComputerWidth}>
                         <div>
-                                {video &&
+                                {this.props.lesson.videoId &&
                                     <Rail style={{marginTop:"25px"}} position='right'>
-                                        {video}
+                                        <Embed
+                                            id={this.props.lesson.videoId}
+                                            source='youtube'
+                                            active={true}
+                                            iframe={{
+                                                allowFullScreen: true,
+                                            }}
+                                        />
                                     </Rail>
                                 }
                                 <Container>
@@ -134,9 +132,19 @@ class Lesson extends React.Component<Props, State> {
                     </Grid.Column>
                 </Responsive>
                 <Container>
+
                     {/*Now for a small screen just overlay them*/}
                     <Responsive key="small"as={Segment} maxWidth={Responsive.onlyLargeScreen.minWidth}>
-                        {video}
+                        {this.props.lesson.videoId &&
+                            <Embed
+                                id={this.props.lesson.videoId}
+                                source='youtube'
+                                active={true}
+                                iframe={{
+                                    allowFullScreen: false,
+                                }}
+                            />
+                        }
                         {/*Show a loading of the info*/}
                         {this.props.lesson.infoId && this.state.html.length == 0 &&
                             <Placeholder>

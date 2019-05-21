@@ -11,10 +11,11 @@ import {events} from "./events.reducer";
 import {achievements} from "./achievements.reducer";
 import {courses} from "./courses.reducer";
 import {feed} from "./feed.reducer";
-
+import {logging} from "./logging.reducer";
+import {people} from "./people.reducer";
 
 import ApplicationState from '../state/ApplicationState';
-import {logging} from "./logging.reducer";
+
 
 //Define the root reducer
 const rootReducer = combineReducers<ApplicationState>({
@@ -29,7 +30,8 @@ const rootReducer = combineReducers<ApplicationState>({
     achievements,
     courses,
     feed,
-    logging
+    logging,
+    people
 });
 
 export default rootReducer;

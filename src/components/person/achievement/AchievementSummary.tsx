@@ -6,7 +6,7 @@ import ApplicationState from "../../../state/ApplicationState";
 import {
     Segment,
     Container,
-    Image, Loader, Header, Grid, List, Placeholder
+    Image, Loader, Header, Grid, List, Placeholder, Label, Icon
 } from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
@@ -109,8 +109,14 @@ class AchievementSummary extends React.Component<LinkProps&DispatchProps, State>
                             {/* See if the list of achievers is avail   */}
                             {achieversList.length > 0 &&
                             <Segment>
-                                <Header as='h2'>Achievers ({achieversList.length})</Header>
-                                <List bulleted  horizontal>
+                                <Header as='h2'>
+                                    <Label floating large='large' circular color='purple' >
+                                        {achieversList.length}
+                                    </Label>
+                                    Achievers
+
+                                </Header>
+                                <List   horizontal  verticalAlign='middle'>
                                     {achieversList.map(id => {
                                         //Get the person info
                                         const personInfo = this.props.peopleInfo[+id];

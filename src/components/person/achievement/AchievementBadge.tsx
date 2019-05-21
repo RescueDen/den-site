@@ -1,9 +1,10 @@
 
 //Define the expected props
-import {AchievementData} from "../../models/Achievements";
+import {AchievementData} from "../../../models/Achievements";
 import * as React from "react";
 import {Header, Image, Label, Popup, Segment} from "semantic-ui-react";
-import {formatDate} from "../../utils/date-formater";
+import {formatDate} from "../../../utils/date-formater";
+import {Link} from "react-router-dom";
 
 interface LinkProps  {
     //Define the props we expect
@@ -36,12 +37,12 @@ const AchievementBadge =  (myProps:LinkProps) => {
             inverted
             position='top center'
             trigger={
-            <div>
+            <Link to={`/achievements/${myProps.achievement.id}`}>
                 <Image centered size='tiny'
                        src={myProps.achievement.badgeUrl}
                 />
                 <Label  basic pointing>{label}</Label>
-            </div>
+            </Link>
 
         }>
             <Popup.Header>{myProps.achievement.name}</Popup.Header>

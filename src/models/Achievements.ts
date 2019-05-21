@@ -1,6 +1,8 @@
 
 
 //Define the caws user, this comes from the json decode
+import CawsAnimal from "./CawsAnimal";
+
 export interface AchievementData{
     id:number;
     name:string;
@@ -13,6 +15,14 @@ export interface AchievementData{
 
 }
 
+
+//define the summary, it holds an achievement
+export interface AchievementSummaryData{
+    achievement:AchievementData;
+    achievers: { [id: number]: Date; }
+
+
+}
 /**
  * Returns an empty caws user
  */

@@ -18,7 +18,7 @@ import EventsSelector from "../events/EventsSelector";
 import SuppliesPage from "../static-pages/SuppliesPage";
 import AppStatusPage from "../static-pages/AppStatusPage";
 import PrivateRoute from "../authentication/PrivateRoute";
-import Achievements from "../person/Achievements";
+import Achievements from "../person/achievement/Achievements";
 import CourseList from "../courses/CourseList";
 import Course from "../courses/Course";
 import SideFeed from "../feed/SideFeed";
@@ -36,6 +36,7 @@ import InsideCaws from "../newsAndInfo/InsideCaws";
 import StatsPage from "../static-pages/StatsPage";
 import MyPreferences from "../person/preferences/MyPreferences";
 import KCBuilder from "../kennelCards/KCBuilder";
+import AchievementSummary from "../person/achievement/AchievementSummary";
 
 
 //Setup up path props to get the current path
@@ -134,13 +135,16 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
                             <Route key={'supplies'} path="/supplies" component={SuppliesPage} />
                             <Route key={'appstatus'} path="/appstatus" component={AppStatusPage} />
-                            <Route key={'achievements'} path="/achievements" component={Achievements} />
                             <Route key='courses' exact path="/courses/" component={CourseList} />
                             <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
                             <Route key={'logging'} path="/logging/" component={Logging} />
                             <Route key={'help'} path="/help" component={HelpViewier} />
                             <Route key={'stats'} path="/stats" component={StatsPage} />
                             <Route key={'kennelcard'} path="/kennelcard" component={KCBuilder} />
+                            <Route exact key={'achievements'} path="/achievements" component={Achievements} />
+                            <Route key={'achievements/achId'+url} path="/achievements/:achId" component={AchievementSummary} />
+
+
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>
                             <PrivateRoute exactRoute={true} reqPermission='access_hub' exclude={[]} path='/cawshub' to='/welcome'  component={CAWSHub} />

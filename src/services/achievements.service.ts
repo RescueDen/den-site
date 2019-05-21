@@ -2,12 +2,12 @@ import axios from 'axios';
 import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
 import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
-import {AchievementData} from "../models/Achievements";
+import {AchievementData, AchievementSummaryData} from "../models/Achievements";
 
 export const achievementsService = {
     getAchievements,
-    getAllAchievements
-    // register,
+    getAllAchievements,
+    getAchievementSummary
     // getAll,
     // getById,
     // update,
@@ -32,7 +32,7 @@ function getAchievements(asmId: number) : Promise<AchievementData[]> {
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/achievements/${asmId}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/users/achievements/${asmId}`,  {headers:headers});
 
 
     //We need to do some work here
@@ -51,6 +51,37 @@ function getAchievements(asmId: number) : Promise<AchievementData[]> {
         }
     );
 }
+
+/**
+ * get achievements for this person
+ * @param username
+ * @param password
+ * @returns
+ */
+function getAchievementSummary(achId: number) : Promise<AchievementSummaryData> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/achievements/${achId}`,  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const data = <AchievementSummaryData>response.data;
+
+            //Now set the url for each
+            data.achievement.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + data.achievement.id + ".svg";
+
+            //Return just the user
+            return data;
+        }
+    );
+}
+
 
 /**
  * get all possible achievements

@@ -11,7 +11,7 @@ import AnimalList from "../animal/SearchableAnimalListCompact";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../actions/user.actions";
 import {AchievementData} from "../../models/Achievements";
-import AchievementList from "./AchievementList";
+import AchievementList from "./achievement/AchievementList";
 import {Link} from "react-router-dom";
 
 

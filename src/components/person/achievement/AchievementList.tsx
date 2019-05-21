@@ -1,6 +1,6 @@
 
 //Define the expected props
-import {AchievementData} from "../../models/Achievements";
+import {AchievementData} from "../../../models/Achievements";
 import * as React from "react";
 import {Grid, List, Placeholder} from "semantic-ui-react";
 import AchievementBadge from "./AchievementBadge";

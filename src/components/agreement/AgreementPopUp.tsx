@@ -78,7 +78,9 @@ class AgreementPopUp extends React.Component<LinkProps&DispatchProps,MyState> {
             //Check to see if we have the setting
             const alreadyAggree = this.props.prefs.settings.settings["siteAgreement"]
 
-            if(!JSON.parse(alreadyAggree)){
+
+
+            if(alreadyAggree && !JSON.parse(alreadyAggree)){
                return (
                    <Modal
                        open={true}
@@ -88,7 +90,7 @@ class AgreementPopUp extends React.Component<LinkProps&DispatchProps,MyState> {
                        <Modal.Header>CAWS Den Agreement</Modal.Header>
                        <Modal.Content>
                            <p>
-                               Welcome to the CAWS Den.  The Den will serve as your central location for all things CAWS.In addition to the CAWS Privacy Policy (caws.org/privacy) you also acknowledge that:
+                               Welcome to the CAWS Den.  The Den will serve as your central location for all things CAWS.  In addition to the CAWS Privacy Policy (caws.org/privacy) you also acknowledge that:
                                <List>
                                    <List.Item >
                                        <List.Icon name='check circle' />

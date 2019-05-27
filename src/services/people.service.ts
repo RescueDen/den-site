@@ -2,10 +2,11 @@ import axios from 'axios';
 import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
 import {PersonData} from "../models/People";
+import {AchievementData} from "../models/Achievements";
 
 export const peopleService = {
-    getPerson
-
+    getPerson,
+    getAchievements
     // register,
     // getAll,
     // getById,
@@ -85,4 +86,36 @@ function searchForAnimal(search:string) : Promise<CawsAnimal[]> {
     );
 
 
+}
+
+/**
+ * get achievements for this person
+ * @param username
+ * @param password
+ * @returns
+ */
+function getAchievements(userId: number) : Promise<AchievementData[]> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/people/achievements/${userId}`,  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const data = <AchievementData[]>response.data;
+
+            //Now set the url for each
+            data.forEach(ach =>{
+                ach.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + ach.id + ".svg";
+            })
+
+            //Return just the user
+            return data;
+        }
+    );
 }

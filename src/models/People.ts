@@ -12,5 +12,10 @@ export interface PersonData{
     //Basic info
     id:number;
     email?:string;
+
+    //Foster history
+    currentFosters:number[];
+    pastFosters:number[];
+
 }
 

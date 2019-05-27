@@ -15,6 +15,7 @@ import {achievementsService} from "../../../services/achievements.service";
 import {PersonData} from "../../../models/People";
 import {peopleActions} from "../../../actions/people.actions";
 import {formatDate} from "../../../utils/date-formater";
+import {Link} from "react-router-dom";
 
 
 //Define the expected props
@@ -125,7 +126,7 @@ class AchievementSummary extends React.Component<LinkProps&DispatchProps, State>
                                             return (
                                                 <List.Item>
                                                     <List.Content>
-                                                        <List.Header>{personInfo.firstname} {personInfo.lastname}</List.Header>
+                                                        <List.Header><Link  to={`/people/${personInfo.id}`}>{personInfo.firstname} {personInfo.lastname}</Link></List.Header>
                                                         <List.Description>{personInfo.email}</List.Description>
                                                         <List.Description>{formatDate(summary.achievers[+id])}</List.Description>
                                                     </List.Content>

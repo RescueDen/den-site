@@ -57,9 +57,8 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
                     {/*If we have achievements*/}
                     <Segment>
                         <Header as="h2">My Achievements</Header>
-                        {this.props.achievements &&
-                            <AchievementList achievements={this.props.achievements}/>
-                        }
+                        <AchievementList achievements={this.props.achievements}/>
+
                         <br/>
                         <Label attached='bottom right'><Link to='/achievements'>see all possible achievements</Link></Label>
 

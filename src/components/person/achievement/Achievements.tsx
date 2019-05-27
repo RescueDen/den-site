@@ -39,7 +39,7 @@ interface LinkProps extends RouteComponentProps<any> {
 const badgeFormId = "1De0pmAfbOK44B0oc23UATg6pvTTQ6UYF";
 
 
-//Also show all possible achivements
+//Also show all possible achievements
 interface State {
     allAchievements:AchievementData[]
 }

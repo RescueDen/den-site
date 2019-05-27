@@ -37,6 +37,8 @@ import StatsPage from "../static-pages/StatsPage";
 import MyPreferences from "../person/preferences/MyPreferences";
 import KCBuilder from "../kennelCards/KCBuilder";
 import AchievementSummary from "../person/achievement/AchievementSummary";
+import AgreementPopUp from "../agreement/AgreementPopUp";
+import PersonDetails from "../person/PersonDetails";
 
 
 //Setup up path props to get the current path
@@ -81,7 +83,10 @@ class App extends React.Component<AppProps&DispatchProps> {
         console.log(url);
 
         return (
+
             <div className="App">
+                <AgreementPopUp/>
+
                 {/*Define the top area*/}
 
                 {/*Provides call backs when this object leaves on certain*/}
@@ -143,7 +148,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'kennelcard'} path="/kennelcard" component={KCBuilder} />
                             <Route exact key={'achievements'} path="/achievements" component={Achievements} />
                             <Route key={'achievements/achId'+url} path="/achievements/:achId" component={AchievementSummary} />
-
+                            <Route key={'people/personId'+url} path="/people/:personId" component={PersonDetails} />
 
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>

@@ -36,7 +36,7 @@ class SideFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
      */
     render() {
         return (
-            <Sidebar.Pushable style={{minHeight:"100vh", overflow: "scroll"}}>
+            <Sidebar.Pushable style={{minHeight:"100vh"}}>
                 <Sidebar
                     as={Menu}
                     animation='overlay'

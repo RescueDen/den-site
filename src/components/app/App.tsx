@@ -121,7 +121,9 @@ class App extends React.Component<AppProps&DispatchProps> {
                             )}/>
                             {/*List all of the possible paths*/}
                             {/*<PrivateRoute exactRoute={true} reqPermission='get_news' exclude={[]} path='/news' to='/appstatus/'  component={News} />*/}
-                            <Route key='welcome' exact path="/welcome" component={Welcome} />
+                            {/*<Route key='welcome' exact path="/welcome" component={Welcome} />*/}
+                            <PrivateRoute exactRoute={true} reqPermission='registered' exclude={[]} path='/welcome' to='/gettingstarted'  component={Welcome} />
+
                             <Route key='currentfosters' exact path="/currentfosters" component={CurrentFostersFullPage} />
                             <Route key='pastfosters' exact path="/pastfosters" component={PastFostersFullPage} />
                             <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
@@ -139,7 +141,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key='events' exact path="/events/" component={EventsSelector} />
                             <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
                             <Route key={'supplies'} path="/supplies" component={SuppliesPage} />
-                            <Route key={'appstatus'} path="/appstatus" component={AppStatusPage} />
+                            <Route key={'gettingstarted'} path="/gettingstarted" component={AppStatusPage} />
                             <Route key='courses' exact path="/courses/" component={CourseList} />
                             <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
                             <Route key={'logging'} path="/logging/" component={Logging} />

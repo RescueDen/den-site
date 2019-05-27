@@ -3,7 +3,7 @@ import React from 'react';
 //Import custom styling
 import {
     Button, DropdownProps,
-    Form
+    Form, Icon
 } from "semantic-ui-react";
 
 import {connect} from "react-redux";
@@ -149,9 +149,11 @@ class AddInNeed extends React.Component<IncomingProps&LinkProps, LocalState> {
                         })
                     }}
                 />
-                <Form.Field disabled={!allowedToSubmit}
+                <Form.Field
+                    disabled={!allowedToSubmit}
                     control={Button}
-                >Add</Form.Field>
+                > <Icon name='facebook official' />
+                    Add and Share to FaceBook</Form.Field>
 
             </Form>
         );

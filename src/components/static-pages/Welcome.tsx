@@ -23,21 +23,23 @@ class Welcome extends React.Component<any> {
      */
     render() {
         return(
-            <Grid stackable columns={2}>
-                <Grid.Column>
-                    <Container>
+            <>
+                <Grid stackable columns={2}>
+                    <Grid.Column>
+                        <Container>
+                            <Segment>
+                                <StaticComponent pagePath={"welcome"} public={false}/>
+                            </Segment>
+                            <EventsList/>
+                        </Container>
+                    </Grid.Column>
+                    <Grid.Column>
                         <Segment>
-                            <StaticComponent pagePath={"welcome"} public={false}/>
+                            <TheFeed/>
                         </Segment>
-                        <EventsList/>
-                    </Container>
-                </Grid.Column>
-                <Grid.Column>
-                    <Segment>
-                        <TheFeed/>
-                    </Segment>
-                </Grid.Column>
-            </Grid>
+                    </Grid.Column>
+                </Grid>
+            </>
         );
 
 

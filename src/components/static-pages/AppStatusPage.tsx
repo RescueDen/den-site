@@ -40,9 +40,9 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
         return (
             <Container>
                 {/*Add the header info*/}
-                <Header as="h2">Application Status</Header>
+                <Header as="h2">Getting Started</Header>
                 <p>
-                    Thank you for your interest in helping CAWS.  We can use help in a variety of placing including volunteering and dog/cat fostering.  If you are interested in helping in one of these ways, please follow the steps below.  The Next Step in each section will update as you complete each step. If this information is not correct, check to make sure the email used to sign-up for this site is the same provided to CAWS.
+                    Thank you for your interest in helping CAWS.  We can use help in a variety of ways including volunteering and dog/cat fostering.  If you are interested in helping in one of these ways, please follow the steps below.  The Next Step in each section will update as you complete each step. If this information is not correct, check to make sure the email used to sign-up for this site is the same provided to CAWS.
                 </p>
                     {/*volunteering*/}
                 <AppStatusWidget
@@ -52,20 +52,11 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                     name={"Volunteering"}
                     status={[
                         {
-                            name:"Apply and Review",
-                            comment:"Fill out the on-line application",
-                            icon:'edit' as SemanticICONS,
-                            show:(
-                                <p key='Apply and Review'>We can use all the help we can get. If you are interested in volunteering please fill out a <a href="https://caws.org/volunteer-questionaire/"> volunteer application</a>. Please allow a few days for review. If you have any questions please email volunteers@caws.org</p>
-                            )
-                        },
-                        {
                             name:"Orientation",
-                            tag:"volunteer applicant",
                             comment:"learn the ins-and-outs",
                             icon:'university' as SemanticICONS,
                             show:(
-                                <p key='volunteer applicant'>We have reviewed your application and would really appreciate your help. The next step is orientation.  Once you complete the orientation. wavier it may take a day to process.</p>
+                                <p key='volunteer applicant'>We can use all the help we can get!  The first step is learning what is involved in volunteering, where we need, and how you can make a difference. <Link to={'learn/1Fv-iEvYJPFsuVuanvOPF1NPhkXMQMRognvPmdkM9IXE'}>Complete the online orientation.</Link>  We can't do this with out you. </p>
                             )
                         },
                         {

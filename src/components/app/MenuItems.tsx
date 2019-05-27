@@ -11,8 +11,8 @@ export const leftMenuItems = [
         to:'/welcome'
     },
     {
-        name: "App Status",
-        to: '/appstatus',
+        name: "Getting Started",
+        to: '/gettingstarted',
         icon: <Icon name='check square outline'/>
     },
     {//Now foster info

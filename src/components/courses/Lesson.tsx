@@ -3,7 +3,7 @@ import {
     Card,
     Container,
     Embed,
-    Grid,
+    Grid, Header,
     Icon,
     Image,
     Placeholder,
@@ -123,7 +123,14 @@ class Lesson extends React.Component<Props, State> {
                                         }
                                         {/*Lastly we should embbeed somthing*/}
                                         {this.props.lesson.embeddedUrl &&
-                                            <a target="_blank"  href={this.props.lesson.embeddedUrl}>{this.props.lesson.name}</a>
+                                        <Header as='h2' textAlign='center'>
+                                            <a target="_blank"
+                                               href={this.props.lesson.embeddedUrl}
+                                            >
+                                                <Icon name='signup' />
+                                                <Header.Content>{this.props.lesson.name}</Header.Content>
+                                            </a>
+                                        </Header>
 
                                         }
                                     </Segment>
@@ -167,9 +174,16 @@ class Lesson extends React.Component<Props, State> {
                         }
                         {/*Lastly we should embbeed somthing*/}
                         {this.props.lesson.embeddedUrl &&
-                            <iframe
-                                src={this.props.lesson.embeddedUrl} >
-                            </iframe>
+
+                                <Header as='h2' textAlign='center'>
+                                    <a target="_blank"
+                                       href={this.props.lesson.embeddedUrl}
+                                    >
+                                    <Icon name='signup' />
+                                    <Header.Content>{this.props.lesson.name}</Header.Content>
+                                    </a>
+                                </Header>
+
                         }
                     </Responsive>
                 </Container>

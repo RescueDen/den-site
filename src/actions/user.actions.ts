@@ -334,6 +334,9 @@ function getOtherUserInfo(dispatch:Dispatch<Action>,user:CawsUser ):void{
     //Update the user pref
     updateUserPreferences(dispatch);
 
+    //Also get this persons achievments
+    achievementsActions.getAchievementsWithDispatch(dispatch, user)
+
     //Get info for each foster
     if(user.data.currentFosters){
         user.data.currentFosters.forEach(aniId =>{
@@ -341,8 +344,6 @@ function getOtherUserInfo(dispatch:Dispatch<Action>,user:CawsUser ):void{
         })
     }
 
-    //Also get this persons achievments
-    achievementsActions.getAchievementsWithDispatch(dispatch, user)
 
 }
 

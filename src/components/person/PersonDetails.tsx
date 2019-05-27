@@ -51,9 +51,6 @@ class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
 
     //Update the user if there are any changes
     componentDidMount(){
-        //Make sure we have this person
-        this.props.getPerson(this.props.personId);
-
         //Load up the achievements for this person
         peopleService.getAchievements(this.props.personId).then(listOfAch =>{
             this.setState({achievements:listOfAch})
@@ -70,6 +67,10 @@ class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
 
             }
         );
+
+        //Make sure we have this person
+        this.props.getPerson(this.props.personId);
+
 
 
     }

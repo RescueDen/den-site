@@ -37,12 +37,6 @@ export const leftMenuItems = [
                 to: '/courses',
                 reqPerm: "get_courses",
                 icon: <Icon name='university'/>
-            },
-            {
-                name: "Inside CAWS",
-                to: '/inside',
-                reqPerm: "inside_caws",
-                icon: <Image size='tiny' src={logoIcon}/>
             }
         ]
 
@@ -76,6 +70,17 @@ export const leftMenuItems = [
         name: "Events & RSVPs",
         to: '/events',
         icon: <Icon name='calendar alternate outline'/>
+    },
+    {
+        name: "Inside CAWS",
+        to: '/inside',
+        reqPerm: "inside_caws",
+        icon: <Icon name='bullseye'/>
+    },
+    {
+        name: "Achievements",
+        to: '/achievements',
+        icon: <Icon name='certificate'/>
     },
     {//Show all of the forms
         name: "CAWS Hub",

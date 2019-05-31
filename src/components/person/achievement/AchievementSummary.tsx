@@ -16,6 +16,7 @@ import {PersonData} from "../../../models/People";
 import {peopleActions} from "../../../actions/people.actions";
 import {formatDate} from "../../../utils/date-formater";
 import {Link} from "react-router-dom";
+import Permissions from "../../../models/Permissions";
 
 
 //Define the expected props
@@ -25,6 +26,10 @@ interface LinkProps extends RouteComponentProps<any> {
 
     //Store the people info
     peopleInfo: { [id: number]: PersonData; }
+
+    //Store the permission
+    permissions?: Permissions
+
 }
 
 
@@ -56,7 +61,9 @@ class AchievementSummary extends React.Component<LinkProps&DispatchProps, State>
                 //Update the state
                 this.setState({achievementSummary: summary})
 
-                //Now get the people info
+                //Now get the people info if allowed to
+                if(this.props.permissions && this.props.permissions.allowed("get_public_people_info"))
+
                 Object.keys(summary.achievers).forEach(id =>{
                     this.props.getPerson(+id);
                 })
@@ -108,7 +115,7 @@ class AchievementSummary extends React.Component<LinkProps&DispatchProps, State>
 
                             {/*    Add the list of achievements */}
                             {/* See if the list of achievers is avail   */}
-                            {achieversList.length > 0 &&
+                            {achieversList.length > 0 && this.props.permissions && this.props.permissions.allowed("get_public_people_info") &&
                             <Segment>
                                 <Header as='h2'>
                                     <Label floating large='large' circular color='purple' >
@@ -175,7 +182,8 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
     return {
         ...myProps,
         achId:myProps.match.params.achId,
-        peopleInfo:state.people.people
+        peopleInfo:state.people.people,
+        permissions:state.authentication.permissions
 
     };
 }

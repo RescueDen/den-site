@@ -379,11 +379,6 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
-                    //Else it failed
-                    dispatch({
-                        type: userConstants.LOGIN_FAILURE,
-                        payload: message
-                    });
 
                 }
             );

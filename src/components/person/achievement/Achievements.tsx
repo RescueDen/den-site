@@ -127,7 +127,7 @@ class Achievements extends React.Component<LinkProps&DispatchProps, State> {
                         {/*Add the form to request information*/}
                         {badgeRequestForm && isFormItemData(badgeRequestForm)  &&
                         <FormViewer
-                            key={badgeRequestForm.id}
+                            key={badgeRequestForm.id + this.state.allAchievements.length }
                             formData={badgeRequestForm}
                             formWidgets={{"badgeWidget":this.badgeWidget} }
                         />

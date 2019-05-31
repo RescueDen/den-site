@@ -4,7 +4,7 @@ import {RouteComponentProps, withRouter} from "react-router";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import Permissions from "../../models/Permissions";
-import NavBar, {MenuItem} from "./NavBar";
+import NavBar, {MenuItem, MenuType} from "./NavBar";
 import logoImage from "../../assets/logos/xCAWS_logo_sideways.png";
 
 //Income Props
@@ -129,7 +129,34 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                     className={this.getModeStyle()}
                     items={this.props.items}
                     itemsRight={this.props.itemsRight}
-                    mobile={false}
+                    mobile={MenuType.Desktop}
+                    permissions={this.props.permissions}
+                    reRoute={this.reRoute}
+                    pathname={this.props.location.pathname}
+                />
+            </Visibility>
+        );
+
+    }
+
+    /**
+     * Build desktop Menu
+     */
+    buildNavBarTablet(): ReactNode{
+        return (
+            //Wrap the header in vis bility
+            <Visibility
+                onBottomPassed={this.stickTopMenu}
+                onBottomVisible={this.unStickTopMenu}
+                once={false}
+            >
+                {/*Now build the simple menu*/}
+                <NavBar
+                    fixed={ this.getFixedState()}
+                    className={this.getModeStyle()}
+                    items={this.props.items}
+                    itemsRight={this.props.itemsRight}
+                    mobile={MenuType.Tablet}
                     permissions={this.props.permissions}
                     reRoute={this.reRoute}
                     pathname={this.props.location.pathname}
@@ -154,7 +181,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                     items={this.props.items}
                     vertical
                     visible={this.state.mobileMenuOpen}
-                    mobile={true}
+                    mobile={MenuType.Mobile}
                     permissions={this.props.permissions}
                     reRoute={this.reRoute}
                     pathname={this.props.location.pathname}
@@ -168,7 +195,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                 >
                     {/*Now add an always vis menu to show/hide the real menu*/}
                     <NavBar
-                        mobile={false}//Hard code mobile so that this is on top
+                        mobile={MenuType.Desktop}//Hard code mobile so that this is on top
                         reRoute={this.reRoute}
                         permissions={this.props.permissions}
                         items={[
@@ -202,9 +229,19 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
         return (
             <div>
                 {/*//Now a different menu based upon mobile or not*/}
-                <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <Responsive minWidth={Responsive.onlyComputer.minWidth}>
                     {this.props.desktopHeader}
                     {this.buildNavBarDesktop()}
+                    {/*Push this down for the menu height*/}
+                    <div  style={{ marginTop: '5em' }}>
+                        {this.props.children}
+                    </div>
+
+                </Responsive>
+                {/*Now for a tablet makeup*/}
+                <Responsive {...Responsive.onlyTablet} >
+                    {this.props.desktopHeader}
+                    {this.buildNavBarTablet()}
                     {/*Push this down for the menu height*/}
                     <div  style={{ marginTop: '5em' }}>
                         {this.props.children}

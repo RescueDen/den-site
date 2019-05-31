@@ -1,4 +1,4 @@
-import {Icon, Menu, MenuItemProps, MenuProps, Responsive, Sidebar, Visibility} from "semantic-ui-react";
+import {Icon, Menu, MenuItemProps, MenuProps, Popup, Responsive, Sidebar, Visibility} from "semantic-ui-react";
 import React, {ReactNode} from "react";
 import Permissions from "../../models/Permissions";
 import {Dropdown} from "semantic-ui-react";
@@ -9,13 +9,19 @@ import {StrictMenuProps} from "semantic-ui-react/dist/commonjs/collections/Menu"
 interface Props extends  StrictMenuProps{
     items:MenuItem[];
     itemsRight?:MenuItem[];
-    mobile: boolean;
+    mobile: MenuType;
     permissions?:Permissions;
     pathname?:string;
     reRoute : (to?:string) => any;
 }
 
 
+//Store the different menu types
+export enum MenuType {
+    Mobile,
+    Tablet,
+    Desktop
+}
 
 /**
  * Simple struct used to pass in item vars
@@ -38,39 +44,69 @@ class NavBar extends React.Component<Props> {
     /**
      * Build the menu item
      */
-    buildMenuItem(item:MenuItem, mobile:boolean, MenuItem:React.ComponentClass<any>):ReactNode{
+    buildMenuItem(item:MenuItem, mobile:MenuType,  MenuItem:React.ComponentClass<any>, subMenu?:boolean):ReactNode{
 
         //See if we should bother drawing the item
         if(item.reqPerm && !(this.props.permissions && this.props.permissions.allowed(item.reqPerm)))
             return null;
 
+
+        //Get the menu item
+        let menuItem;
+
         //Now see if we need to build a drop down menu
         if(item.subItems){
-            return this.buildSubMenu(item, mobile);
+            menuItem = this.buildSubMenu(item, mobile);
 
-        }else{
+        }else {
             //Determine if the link is active
             //Determine if it is active
-            const active = this.props.pathname? (this.props.pathname == item.to) : false;
+            const active = this.props.pathname ? (this.props.pathname == item.to) : false;
 
             //See if we should do anything with the on click
             let linkTo = undefined;
-            if(item.to)
+            if (item.to)
                 linkTo = () => this.props.reRoute(item.to)
 
             //Just return this item
-            return (
+            menuItem = (
                 <MenuItem
-                    key={item.name+(item.icon?item.icon.toString():"")}
+                    key={item.name + (item.icon ? item.icon.toString() : "")}
                     active={active}
-                    onClick={item.onClick? item.onClick :linkTo}//If there is an onclick use it, otherwise link
+                    onClick={item.onClick ? item.onClick : linkTo}//If there is an onclick use it, otherwise link
                 >
-                    {/*Now the icon if here*/}
-                    {item.icon}
+
                     {/*Now for the name*/}
-                    {item.name}
+                    {
+                        (mobile != MenuType.Tablet || subMenu) &&
+                        <>{item.icon} {item.name}</>
+                    }
+                    {/*Now output the item icon only if it is there*/
+                        mobile == MenuType.Tablet && !subMenu && item.icon != undefined && item.icon
+                    }
+                    {/*Now output the item name if there is no icon*/
+                        mobile == MenuType.Tablet && !subMenu && item.icon == undefined && item.name
+
+                    }
+
                 </MenuItem>
+            )
+        }
+
+        //See if we should use a tool tip
+        if (mobile == MenuType.Tablet && !subMenu && item.icon!= undefined){
+            return (
+                <Popup
+                    mouseEnterDelay={1250}
+                    trigger={
+                        menuItem
+                    }
+                    content={item.name}
+                    inverted
+                />
             );
+        }else{
+            return menuItem
         }
 
     }
@@ -79,7 +115,7 @@ class NavBar extends React.Component<Props> {
      * Build a drop down menu item
      * @param item
      */
-    buildSubMenu(item:MenuItem, mobile:boolean){
+    buildSubMenu(item:MenuItem,  mobile:MenuType){
         //Determine if the link is active
         //Determine if it is active
         const active = this.props.pathname? (this.props.pathname == item.to) : false;
@@ -90,7 +126,7 @@ class NavBar extends React.Component<Props> {
             linkTo = () => this.props.reRoute(item.to)
 
         //Draw the menu if it is mobile or not
-        if(mobile){
+        if(mobile == MenuType.Mobile){
             return (
                 <Menu.Item key={item.name+item.icon} active={active}>
                     {/*Now the icon if here*/}
@@ -98,11 +134,31 @@ class NavBar extends React.Component<Props> {
                     {/*Now for the name*/}
                     {item.name}
                     <Menu.Menu>
-                        {item.subItems && item.subItems.map(item => this.buildMenuItem(item, mobile, Menu.Item))}
+                        {item.subItems && item.subItems.map(item => this.buildMenuItem(item, mobile, Menu.Item, true))}
                     </Menu.Menu>
                 </Menu.Item>
             );
 
+        }else if (mobile == MenuType.Tablet){
+            //Desktop mode
+            return (
+                <Menu.Item key={item.name+item.icon} >
+                    {/*Now the icon if here*/}
+                    {item.icon}
+                    {/*Now for the name*/}
+                    <Dropdown key={item.name}
+                              text={item.icon == undefined? item.name: undefined}
+                              onClick={item.onClick? item.onClick :linkTo}//If there is an onclick use it, otherwise link
+                              icon={item.name ? undefined : <Icon name='ellipsis horizontal'/>}
+                    >
+                        <Dropdown.Menu>
+                            {/*Now the icon if here*/}
+                            {item.subItems && item.subItems.map(item => this.buildMenuItem(item, mobile, Dropdown.Item, true))}
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Menu.Item>
+            );
         }else {
             //Desktop mode
             return (
@@ -117,7 +173,7 @@ class NavBar extends React.Component<Props> {
                     >
                         <Dropdown.Menu>
                             {/*Now the icon if here*/}
-                            {item.subItems && item.subItems.map(item => this.buildMenuItem(item, mobile, Dropdown.Item))}
+                            {item.subItems && item.subItems.map(item => this.buildMenuItem(item, mobile, Dropdown.Item, true))}
 
                         </Dropdown.Menu>
                     </Dropdown>

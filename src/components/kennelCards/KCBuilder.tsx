@@ -92,6 +92,9 @@ interface SearchState  {
 
     //Define if it is full page
     fullPage:boolean;
+
+    //store an index
+    stateIndex:number;
 }
 
 
@@ -99,7 +102,7 @@ interface SearchState  {
  * This card shows the animal details
  */
 class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={searchTerm:"", idList:[] as number[], qrData: {} as { [id: number]: string; } , fullPage:true};
+    state={stateIndex:0, searchTerm:"", idList:[] as number[], qrData: {} as { [id: number]: string; } , fullPage:true};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -168,6 +171,10 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         this.buildQrCodes(ids, {} as { [id: number]: string; });
     }
 
+    bumpStateIndex = () =>{
+        this.setState({stateIndex:this.state.stateIndex+1})
+    }
+
     buildQrCodes = (ids:number[], newQr: { [id: number]: string; }) =>{
 
         //Get the next number
@@ -216,7 +223,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             //One page per kc
             listOfPages = aniDataList.map(data => {
                 return (
-                    <FullPageKC aniData={data} qrData={this.state.qrData[data.data.ID]}/>
+                    <FullPageKC key={this.state.stateIndex+data.data.ID} aniData={data} qrData={this.state.qrData[data.data.ID]}/>
                 );
             });
         }else {
@@ -236,7 +243,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
                 //Build a new page
                 listOfPages.push(
-                    <HalfPageKC key={"" + data1.data.ID + (data2 ? data2.data.ID : "")} aniDataFirst={data1}
+                    <HalfPageKC key={this.state.stateIndex+"" + data1.data.ID + (data2 ? data2.data.ID : "")} aniDataFirst={data1}
                                 aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2}/>
                 );
 
@@ -278,7 +285,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
                             {/*  Add Button to download  */}
                             <PDFDownloadLink
-                                key={this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}
+                                key={this.state.stateIndex+this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}
                                 className={"ui button"}
                                 document={
                                     <Document>
@@ -287,9 +294,14 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                                 }
                                 fileName="kennelCards.pdf"
                             >
-                                {({ blob, url, loading, error }) => (loading ? 'Loading...' : 'Download PDF')}
+                                {({ blob, url, loading, error }) => (loading ? 'Loading...' : <><Icon name='download' />'Download PDF'</>)}
                             </PDFDownloadLink>
 
+                            {/*Allow to redraw*/}
+                            <Button  onClick={this.bumpStateIndex}>
+                                <Icon name='refresh' />
+                                ReDraw
+                            </Button>
 
                             {/*    Allow switch between full and half*/}
                             <Button.Group>
@@ -305,7 +317,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                     <div>
                         <Loader active={this.state.idList.length != aniDataList.length} />
                         <PDFViewer style={{width: '100%', height: '80vh'}}
-                                   key={this.state.idList.toString() + JSON.stringify(aniDataList) + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
+                                   key={this.state.stateIndex +this.state.idList.toString() + JSON.stringify(aniDataList) + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
                             <Document>
                                 {this.buildPages(aniDataList)}
                             </Document>

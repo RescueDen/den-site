@@ -84,7 +84,19 @@ const FullPageKC =  (props:Props) => {
                     }
                 }
                 >
-                    <BioSection fontSize='0.2in' aniData={props.aniData}/>
+                    <BioSection
+                        aniData={props.aniData}
+                        fontUnit={"in"}
+                        defaultSize={{
+                            fontSize:0.2,
+                            numChars:2000
+                        }}
+                        minSize={{
+                            fontSize:0.15,
+                            numChars:4000
+                        }}
+
+                    />
                 </View>
 
             </View>

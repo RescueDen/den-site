@@ -106,7 +106,19 @@ const HalfPageContent = (props:HalfPageContentProps) => {
                     }
                 }
                 >
-                    <BioSection fontSize='0.15in' aniData={props.aniData}/>
+                    <BioSection
+                        aniData={props.aniData}
+                        defaultSize={{
+                            fontSize:0.15,
+                            numChars:1500
+                        }}
+                        minSize={{
+                            fontSize:0.08,
+                            numChars:4000
+                        }}
+                        fontUnit={"in"}
+
+                    />
                 </View>
 
             </View>

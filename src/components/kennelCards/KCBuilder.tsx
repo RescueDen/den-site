@@ -47,7 +47,7 @@ export const kcstyles = StyleSheet.create({
     page: { backgroundColor: 'white' },
     headerSection: {  backgroundColor:"#fafafa",color: 'black', textAlign: 'left'},
     aniNameSection: {
-        fontFamily:'LemonTuesday', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center', float:"left"
+        fontFamily:'LeagueSpartan-Bold', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center', float:"left"
     },
     footerSection: {
         backgroundColor:"#eae2ff",

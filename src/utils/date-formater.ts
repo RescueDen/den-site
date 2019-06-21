@@ -11,7 +11,7 @@ export function yearMonthDay(dateIn:string) {
         return ""
     }
 
-    return date.getFullYear() + "/" + (date.getMonth()+1) + "/"+(date.getDate()+1);
+    return date.getFullYear() + "/" + (date.getMonth()+1) + "/"+(date.getDate());
 }
 
 /**

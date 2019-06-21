@@ -149,8 +149,8 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
             //Add of all the events
             events.push(...this.props.eventsSummary.eventGroups[group].map(event => {
                     return {
-                        start: event.date ? formatDateLocalTime(event.date.toString()).toString() : "",
-                        end: event.date ? formatDateLocalTime(event.date.toString()).toString() : "",
+                        start: event.date ? new Date(event.date) : undefined,
+                        end: event.date ?  new Date(event.date) : undefined,
                         title: event.name,
                         id: event.id,
                         group: group,
@@ -250,27 +250,7 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
 };
 
 
-/**
- * Formats the date in a year month day format
- * @param dateIn
- */
-function formatDateLocalTime(dateIn:any) {
-    //Create a date object
-    const date = new Date(dateIn);
 
-    //If the date is not null
-    if(date.valueOf() < 0)
-        return date;
-
-    //Offset for the current time
-    const  offset = date.getTimezoneOffset() / 60;
-    const hours = date.getHours();
-
-    date.setHours(hours + offset);
-
-    return date;
-
-}
 
 /**
  * Map from the global state to things we need here

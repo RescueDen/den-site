@@ -22,7 +22,7 @@ import {
 } from "semantic-ui-react";
 import EventsSummary, {EventData} from "../../models/Events";
 import {eventsActions} from "../../actions/events.actions";
-import BigCalendar, {Event} from 'react-big-calendar';
+import  BigCalendar, {Event} from 'react-big-calendar';
 import moment from 'moment';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -34,6 +34,8 @@ import {successAutoDismiss} from "../../actions/alert.actions";
 
 //Use a localizer
 const localizer = BigCalendar.momentLocalizer(moment)
+// const localizer = momentLocalizer(moment)
+
 
 //Define the expected props
 interface LinkProps  extends RouteComponentProps<any> {
@@ -68,8 +70,8 @@ interface DispatchProps{
 
 export interface CawsEvent extends Event{
     group:string;
-    start: string;
-    end: string;
+    start?: Date;
+    end?: Date;
     title:string;
     id:string;
 }
@@ -307,8 +309,10 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
                 //Add of all the events
                 events.push(...this.props.eventsSummary.eventGroups[group].map(event => {
                         return {
-                            start: event.date ? formatDateLocalTime(event.date.toString()).toString() : "",
-                            end: event.date ? formatDateLocalTime(event.date.toString()).toString() : "",
+                            // start: event.date ? formatDateLocalTime(event.date.toString()).toString() : "",
+                            // end: event.date ? formatDateLocalTime(event.date.toString()).toString() : "",
+                            start: event.date ? new Date(event.date): undefined,
+                            end: event.date ?  new Date(event.date): undefined,
                             title: event.name,
                             id: event.id,
                             group: group,
@@ -453,23 +457,23 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
  * Formats the date in a year month day format
  * @param dateIn
  */
-function formatDateLocalTime(dateIn:any) {
-    //Create a date object
-    const date = new Date(dateIn);
-
-    //If the date is not null
-    if(date.valueOf() < 0)
-        return date;
-
-    //Offset for the current time
-    const  offset = date.getTimezoneOffset() / 60;
-    const hours = date.getHours();
-
-    date.setHours(hours + offset);
-
-    return date;
-
-}
+// function formatDateLocalTime(dateIn:any) {
+//     //Create a date object
+//     const date = new Date(dateIn);
+//
+//     //If the date is not null
+//     if(date.valueOf() < 0)
+//         return date;
+//
+//     //Offset for the current time
+//     const  offset = date.getTimezoneOffset() / 60;
+//     const hours = date.getHours();
+//
+//     date.setHours(hours + offset);
+//
+//     return date;
+//
+// }
 
 /**
  * Map from the global state to things we need here

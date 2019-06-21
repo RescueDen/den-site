@@ -134,7 +134,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                     return (
                         <Form.Select
                             disabled={disabled}
-                            label={name}
+                            label={option.name}
                             value={currentValue}
                             options={option.selection.map(opt => {
                                 return {
@@ -160,7 +160,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                     return (
                         <Form.Field
                             disabled={disabled}
-                            label={name}
+                            label={option.name}
                             control='input'
                             type='text'
                             value={currentValue}

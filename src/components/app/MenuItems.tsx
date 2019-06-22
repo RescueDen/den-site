@@ -71,11 +71,25 @@ export const leftMenuItems = [
         to: '/events',
         icon: <Icon name='calendar alternate outline'/>
     },
-    {
+    {//Now inside caws
         name: "Inside CAWS",
-        to: '/inside',
         reqPerm: "inside_caws",
-        icon: <Icon name='bullseye'/>
+        icon: <Icon name='bullseye'/>,
+        subItems: [
+            {
+                name: "Inside Documentation",
+                to: '/inside',
+                reqPerm: "inside_caws",
+                icon: <Icon name='bullseye'/>
+            },
+            {
+                name: "Kennel Card Generator",
+                to: '/kennelcard',
+                icon:<Icon name='id card outline'/>,
+
+            }
+        ]
+
     },
     {
         name: "Achievements",

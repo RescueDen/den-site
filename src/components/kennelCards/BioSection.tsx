@@ -44,16 +44,16 @@ const BioSection =  (props:Props) => {
     //Get the size
     let fontSize:number = props.defaultSize.fontSize;
 
-    //See if we are at the min
-    if (length > props.defaultSize.numChars){
-        //Just linear interpolation
-        fontSize =  props.defaultSize.fontSize + (length - props.defaultSize.numChars) * (props.defaultSize.fontSize - props.minSize.fontSize)/ (props.defaultSize.numChars - props.minSize.numChars);
-
-    }
-    //Add the limit
-    if(length > props.minSize.numChars){
-        fontSize = props.minSize.fontSize;
-    }
+    // //See if we are at the min
+    // if (length > props.defaultSize.numChars){
+    //     //Just linear interpolation
+    //     fontSize =  props.defaultSize.fontSize + (length - props.defaultSize.numChars) * (props.defaultSize.fontSize - props.minSize.fontSize)/ (props.defaultSize.numChars - props.minSize.numChars);
+    //
+    // }
+    // //Add the limit
+    // if(length > props.minSize.numChars){
+    //     fontSize = props.minSize.fontSize;
+    // }
 
 
 

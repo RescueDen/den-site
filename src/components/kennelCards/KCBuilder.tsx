@@ -284,18 +284,18 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                         <Grid.Column floated='right' textAlign='right' >
 
                             {/*  Add Button to download  */}
-                            <PDFDownloadLink
-                                key={this.state.stateIndex+this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}
-                                className={"ui button"}
-                                document={
-                                    <Document>
-                                        {this.buildPages(aniDataList)}
-                                    </Document>
-                                }
-                                fileName="kennelCards.pdf"
-                            >
-                                {({ blob, url, loading, error }) => (loading ? 'Loading...' : <><Icon name='download' />'Download PDF'</>)}
-                            </PDFDownloadLink>
+                            {/*<PDFDownloadLink*/}
+                            {/*    key={this.state.stateIndex+this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}*/}
+                            {/*    className={"ui button"}*/}
+                            {/*    document={*/}
+                            {/*        <Document>*/}
+                            {/*            {this.buildPages(aniDataList)}*/}
+                            {/*        </Document>*/}
+                            {/*    }*/}
+                            {/*    fileName="kennelCards.pdf"*/}
+                            {/*>*/}
+                            {/*    {({ blob, url, loading, error }) => (loading ? 'Loading...' : <><Icon name='download' />'Download PDF'</>)}*/}
+                            {/*</PDFDownloadLink>*/}
 
                             {/*Allow to redraw*/}
                             <Button  onClick={this.bumpStateIndex}>

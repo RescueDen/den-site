@@ -71,8 +71,14 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     <Header as='h1'>{this.props.animal.data.NAME}</Header>
 
                     {/*The animal gallery*/}
-                    <AnimalImageGallery animal={this.props.animal} />
-
+                    <div style={
+                        {
+                            margin: "auto",
+                            maxWidth: "60vh"
+                        }
+                    }>
+                        <AnimalImageGallery animal={this.props.animal} />
+                    </div>
                     {/*The animal Bio*/}
                     <Segment>
                         <Header as="h2">Biography</Header>

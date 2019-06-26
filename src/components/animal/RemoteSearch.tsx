@@ -2,10 +2,11 @@ import React from 'react'
 
 import AnimalState from "../../state/AnimalState";
 import {
-    Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon, Popup
+    Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon, Popup, Checkbox
 } from "semantic-ui-react";
 import CawsAnimal from "../../models/CawsAnimal";
 import {animalService} from "../../services/animal.service";
+import {on} from "cluster";
 
 
 //Define the expected props
@@ -22,6 +23,7 @@ interface SearchState  {
     isLoading: boolean;
     results: any;
     searchTerm:string;
+    onShelter:boolean;
     error?:string;
 }
 
@@ -36,7 +38,7 @@ const bioMax = 100;
  * This card shows the animal details
  */
 class RemoteSearch extends React.Component<IncomingProps, SearchState> {
-    state={isLoading:false, results: [] as CawsAnimal[], searchTerm:"" , error:undefined};
+    state={isLoading:false, results: [] as CawsAnimal[], searchTerm:"" , error:undefined, onShelter:true};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -51,7 +53,7 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
     /*
      reset the search state
      */
-    resetComponent = () => this.setState({ isLoading: false, results: [] as CawsAnimal[], searchTerm: '' })
+    resetComponent = () => this.setState({ isLoading: false, results: [] as CawsAnimal[], searchTerm: '' , onShelter:this.state.onShelter})
 
 
     /**
@@ -61,61 +63,71 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
         this.setState({searchTerm:term});
     }
 
+    toggleOnShelter = () => {
+        //Now perform the search
+        this.performSearch(this.state.searchTerm, !this.state.onShelter);
+    }
+
+
     handleSearchChange = (event: any, {searchQuery}: DropdownOnSearchChangeData) => {
 
         //If this value is defined
         if (searchQuery != undefined) {
+            this.performSearch(searchQuery, this.state.onShelter);
 
-            //If the length is below
-            if(searchQuery.length < minChar ){
-                //Set the fact that we are loading
-                this.setState({searchTerm: searchQuery});
-                return;
-
-            }
-
-            //Set the fact that we are loading
-            this.setState({isLoading: true, searchTerm: searchQuery})
-
-            //Now search
-            animalService.searchForAnimal(searchQuery).then((anList:CawsAnimal[]) => {
-
-                const resultList = anList.map((ani:CawsAnimal) =>{
-                    return {
-                        text:ani.data.NAME + " : " + ani.data.SHELTERCODE,
-                        value:ani.data.ID,
-                        content:
-                            <Comment.Group>
-                                <Comment>
-                                    <Comment.Avatar as='a' src={ani.data.THUMBNAILURL} />
-                                    <Comment.Content>
-                                        <Comment.Author>{ani.data.NAME}</Comment.Author>
-                                        <Comment.Metadata>
-                                            <div>{ani.data.SHELTERCODE}</div>
-                                            <Icon name='paw' />
-                                            <div>{ani.data.AGE}</div>
-                                            <Icon name='paw' />
-                                            <div>{ani.data.BREED}</div>
-                                        </Comment.Metadata>
-                                        <Comment.Text>
-                                            {ani.getBio(bioMax)}
-                                        </Comment.Text>
-                                    </Comment.Content>
-                                </Comment>
-                            </Comment.Group>,
-                    } as DropdownItemProps;
-
-                })
-
-                this.setState({results:resultList, error:undefined, isLoading:false})
-
-
-            }).catch((err:any)=>{
-                this.setState({error:"Could not search for " + searchQuery + ". Please try another term."});
-            })
 
 
         }
+    }
+
+    performSearch = (searchQuery :string, onShelter:boolean) =>{
+        //If the length is below
+        if(searchQuery.length < minChar ){
+            //Set the fact that we are loading
+            this.setState({searchTerm: searchQuery, onShelter:onShelter});
+            return;
+
+        }
+
+        //Set the fact that we are loading
+        this.setState({isLoading: true, searchTerm: searchQuery, onShelter:onShelter})
+
+        //Now search
+        animalService.searchForAnimal(searchQuery, onShelter).then((anList:CawsAnimal[]) => {
+
+            const resultList = anList.map((ani:CawsAnimal) =>{
+                return {
+                    text:ani.data.NAME + " : " + ani.data.SHELTERCODE,
+                    value:ani.data.ID,
+                    content:
+                        <Comment.Group>
+                            <Comment>
+                                <Comment.Avatar as='a' src={ani.data.THUMBNAILURL} />
+                                <Comment.Content>
+                                    <Comment.Author>{ani.data.NAME}</Comment.Author>
+                                    <Comment.Metadata>
+                                        <div>{ani.data.SHELTERCODE}</div>
+                                        <Icon name='paw' />
+                                        <div>{ani.data.AGE}</div>
+                                        <Icon name='paw' />
+                                        <div>{ani.data.BREED}</div>
+                                    </Comment.Metadata>
+                                    <Comment.Text>
+                                        {ani.getBio(bioMax)}
+                                    </Comment.Text>
+                                </Comment.Content>
+                            </Comment>
+                        </Comment.Group>,
+                } as DropdownItemProps;
+
+            })
+
+            this.setState({results:resultList, error:undefined, isLoading:false})
+
+
+        }).catch((err:any)=>{
+            this.setState({error:"Could not search for " + searchQuery + ". Please try another term."});
+        })
     }
 
     handleResultSelect = (event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
@@ -149,6 +161,12 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
                         onSearchChange={this.handleSearchChange}
                         loading={this.state.isLoading}
                         minCharacters={minChar}
+                        header={<div onClick={this.toggleOnShelter}
+                        >
+                            <Checkbox disabled={true} label={"search all animals (adopted and on shelter)"} checked={!this.state.onShelter}  />
+
+                        </div>}
+
                     />
 
                 }

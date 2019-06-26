@@ -171,6 +171,18 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         this.buildQrCodes(ids, {} as { [id: number]: string; });
     }
 
+    redraw = () =>{
+        //Force a redraw
+        this.bumpStateIndex();
+
+        //Redownload all of the animals
+        this.state.idList.forEach((id:number) =>{
+            this.props.downloadAnimal(id);
+
+
+        });
+    }
+
     bumpStateIndex = () =>{
         this.setState({stateIndex:this.state.stateIndex+1})
     }
@@ -283,22 +295,22 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                             </PermissionBlock>
                         <Grid.Column floated='right' textAlign='right' >
 
-                            {/*  Add Button to download  */}
-                            {/*<PDFDownloadLink*/}
-                            {/*    key={this.state.stateIndex+this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}*/}
-                            {/*    className={"ui button"}*/}
-                            {/*    document={*/}
-                            {/*        <Document>*/}
-                            {/*            {this.buildPages(aniDataList)}*/}
-                            {/*        </Document>*/}
-                            {/*    }*/}
-                            {/*    fileName="kennelCards.pdf"*/}
-                            {/*>*/}
-                            {/*    {({ blob, url, loading, error }) => (loading ? 'Loading...' : <><Icon name='download' />'Download PDF'</>)}*/}
-                            {/*</PDFDownloadLink>*/}
+                              {/*Add Button to download  */}
+                            <PDFDownloadLink
+                                key={this.state.stateIndex+this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}
+                                className={"ui button"}
+                                document={
+                                    <Document>
+                                        {this.buildPages(aniDataList)}
+                                    </Document>
+                                }
+                                fileName="kennelCards.pdf"
+                            >
+                                {({ blob, url, loading, error }) => (loading ? 'Loading...' : <><Icon name='download' />'Download PDF'</>)}
+                            </PDFDownloadLink>
 
                             {/*Allow to redraw*/}
-                            <Button  onClick={this.bumpStateIndex}>
+                            <Button  onClick={this.redraw}>
                                 <Icon name='refresh' />
                                 ReDraw
                             </Button>

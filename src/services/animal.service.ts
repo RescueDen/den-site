@@ -57,7 +57,7 @@ function getAnimal(id:number) : Promise<CawsAnimal> {
  * @param password
  * @returns
  */
-function searchForAnimal(search:string) : Promise<CawsAnimal[]> {
+function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[]> {
 
     //Get the headers
     const headers =authHeader();
@@ -67,7 +67,8 @@ function searchForAnimal(search:string) : Promise<CawsAnimal[]> {
         {
             headers: headers,
             params: {
-                search: search
+                search: search,
+                onshelter:onShelter
             }
         }
         );

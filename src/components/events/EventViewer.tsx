@@ -20,7 +20,7 @@ import CawsAnimal, {findAnimalByShelterId, findShelterIds, Species} from "../../
 import AnimalState from "../../state/AnimalState";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import customWidgets from "../forms/CustomWidgets";
 
 //Define the expected props
 interface LinkProps  {
@@ -46,7 +46,6 @@ interface MyState{
     signUpUpdating:boolean;
     formCount:number;
 }
-
 
 
 
@@ -90,50 +89,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
             this.editRow()
         }
     };
-    /**
-     * Define a custom widget for animalId
-     * @param props
-     * @constructor
-     */
-    dogIdWidget = (props:WidgetProps) => {
-        return (
-            <MyFosterSelection
-                allowMultiple={false}
-                species={[Species.dog] as Species[]}
-                widgetProps={props}
-            />
-        );
-    };
 
-    /**
-     * Define a custom widget for animalId
-     * @param props
-     * @constructor
-     */
-    catIdWidget = (props:WidgetProps) => {
-        return (
-            <MyFosterSelection
-                allowMultiple={true}
-                species={[Species.cat] as Species[]}
-                widgetProps={props}
-            />
-        );
-    };
-
-    /**
-     * Define a custom widget for animalId
-     * @param props
-     * @constructor
-     */
-    animalIdWidget = (props:WidgetProps) => {
-        return (
-            <MyFosterSelection
-                allowMultiple={false}
-                species={[Species.cat, Species.dog] as Species[]}
-                widgetProps={props}
-            />
-        );
-    };
 
     /**
      * Add function to edit a specific row
@@ -152,6 +108,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                 .then(
                     //If successful html will be returned
                     form => {
+
                         //Update the state
                         this.setState({signUpResponse: form, signUpUpdating:false})
                     },
@@ -392,52 +349,47 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
 
                 //If we have existing signups that means we want to edit each one by them selves
                 if(signUpInfo.existingSignUps) {
-                    components.push(
-                        <Dimmer.Dimmable key='dimmingSignUps' blurring dimmed={this.state.signUpUpdating}>
-                            {/*Add in the existing responses if they are avail*/}
-                            <SignUpsTable
-                                signups={signUpInfo.existingSignUps}
-                                selectRow={(rowId: number) => this.editRow(rowId)}
-                                deleteRow={(rowId: number) => this.deleteRow(rowId)}
-                                selectedRow={this.state.activeRow}
-                                filter={this.filterAniIds}
-                            />
+                        components.push(
+                            <Dimmer.Dimmable key='dimmingSignUps' blurring dimmed={this.state.signUpUpdating}>
+                                {/*Add in the existing responses if they are avail*/}
+                                <SignUpsTable
+                                    signups={signUpInfo.existingSignUps}
+                                    selectRow={(rowId: number) => this.editRow(rowId)}
+                                    deleteRow={(rowId: number) => this.deleteRow(rowId)}
+                                    selectedRow={this.state.activeRow}
+                                    filter={this.filterAniIds}
+                                />
 
-                            {/*Show the kennel card link there is one*/}
-                            {this.buildPrintKC()}
+                                {/*Show the kennel card link there is one*/}
+                                {this.buildPrintKC()}
 
-                            {/*Add in the signup form*/}
-                            <Form  key={this.state.formCount}
-                                schema={signUpInfo.signupForm.JSONSchema}
-                                  uiSchema={signUpInfo.signupForm.UISchema}
-                                  formData={signUpInfo.signupForm.formData}
-                                  widgets={
-                                      {
-                                          "animalIdWidget": this.animalIdWidget,
-                                          "dogIdWidget": this.dogIdWidget,
-                                          "catIdWidget": this.catIdWidget,
-                                      }
-                                  }
-                                  onSubmit={this.onSubmit}
-                            >
-                                {/*Render a custom Submit button*/}
-                                {this.state.activeRow &&
-                                <div>
-                                    <Button primary type="submit">Update SignUp</Button>
-                                    <Button
-                                        onClick={() => this.editRow()}
-                                        type="submit">Cancel</Button>
-                                </div>
-                                }
-                                {!this.state.activeRow &&
-                                <div>
-                                    <Button primary type="submit">SignUp</Button>
-                                </div>
-                                }
+                                {/*Add in the signup form*/}
+                                <Form
+                                    schema={signUpInfo.signupForm.JSONSchema}
+                                    uiSchema={signUpInfo.signupForm.UISchema}
+                                    formData={signUpInfo.signupForm.formData}
+                                    widgets={customWidgets}
+                                    onSubmit={this.onSubmit}
+                                >
+                                    {/*Render a custom Submit button*/}
+                                    {this.state.activeRow &&
+                                    <div>
+                                        <Button primary type="submit">Update SignUp</Button>
+                                        <Button
+                                            onClick={() => this.editRow()}
+                                            type="submit">Cancel</Button>
+                                    </div>
+                                    }
+                                    {!this.state.activeRow &&
+                                    <div>
+                                        <Button primary type="submit">SignUp</Button>
+                                    </div>
+                                    }
 
-                            </Form>
-                        </Dimmer.Dimmable>
-                    )
+                                </Form>
+                            </Dimmer.Dimmable>
+                        )
+
                 }else{
                     //Just show the one signup
                     components.push(
@@ -447,7 +399,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                                 schema={signUpInfo.signupForm.JSONSchema}
                                 uiSchema={signUpInfo.signupForm.UISchema}
                                 formData={signUpInfo.signupForm.formData}
-                                widgets={{"animalIdWidget": this.animalIdWidget}}
+                                widgets={customWidgets}
                                 onSubmit={this.onSubmit}
                             >
                                 {/*Render a custom/hidden Submit button*/}

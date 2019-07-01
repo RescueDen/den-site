@@ -14,6 +14,7 @@ import {extractMessageFromPossibleServerResponseStatus} from "../../models/Serve
 import MyFosterSelection from "./MyFosterSelection";
 import CawsUser from "../../models/CawsUser";
 import {Species} from "../../models/CawsAnimal";
+import customWidgets from "./CustomWidgets";
 
 
 
@@ -89,50 +90,7 @@ class FormViewer extends React.Component<LinkProps, State> {
         )
     };
 
-    /**
-     * Define a custom widget for animalId
-     * @param props
-     * @constructor
-     */
-    dogIdWidget = (props:WidgetProps) => {
-        return (
-            <MyFosterSelection
-                allowMultiple={false}
-                species={[Species.dog] as Species[]}
-                widgetProps={props}
-            />
-        );
-    };
 
-    /**
-     * Define a custom widget for animalId
-     * @param props
-     * @constructor
-     */
-    catIdWidget = (props:WidgetProps) => {
-        return (
-            <MyFosterSelection
-                allowMultiple={true}
-                species={[Species.cat] as Species[]}
-                widgetProps={props}
-            />
-        );
-    };
-
-    /**
-     * Define a custom widget for animalId
-     * @param props
-     * @constructor
-     */
-    animalIdWidget = (props:WidgetProps) => {
-        return (
-            <MyFosterSelection
-                allowMultiple={false}
-                species={[Species.cat, Species.dog] as Species[]}
-                widgetProps={props}
-            />
-        );
-    };
 
 
     /**
@@ -142,11 +100,7 @@ class FormViewer extends React.Component<LinkProps, State> {
     render() {
 
         //Merge the widgets to gether
-        let widgets={
-            "animalIdWidget":this.animalIdWidget,
-            "dogIdWidget":this.dogIdWidget,
-            "catIdWidget":this.catIdWidget
-        }
+        let widgets=customWidgets;
 
         //If there are other widgets add them
         if(this.props.formWidgets){

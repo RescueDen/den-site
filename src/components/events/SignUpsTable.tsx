@@ -2,7 +2,7 @@ import React from 'react';
 import JSX from 'react';
 
 import {
-    Icon,
+    Icon, Responsive,
     Table
 } from "semantic-ui-react";
 
@@ -115,15 +115,17 @@ class SignUpsTable extends React.Component<LinkProps> {
         return(
         <Table celled>
             {/*Add the table header*/}
-            <Table.Header>
-                <Table.Row>
-                    {this.props.signups.headers.map(header =>{
-                        return <Table.HeaderCell key={header}>{header}</Table.HeaderCell>
-                    })}
-                    {/*Add an extra row for edit*/}
-                    <Table.HeaderCell key="edit">Edit</Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
+            <Responsive as={Table.Header} minWidth={Responsive.onlyMobile.maxWidth}>
+                {/*<Table.Header>*/}
+                    <Table.Row>
+                        {this.props.signups.headers.map(header =>{
+                            return <Table.HeaderCell key={header}>{header}</Table.HeaderCell>
+                        })}
+                        {/*Add an extra row for edit*/}
+                        <Table.HeaderCell key="edit">Edit</Table.HeaderCell>
+                    </Table.Row>
+                {/*</Table.Header>*/}
+            </Responsive>
             {/*Now add each row*/}
             <Table.Body>
                 {this.buildTable()}

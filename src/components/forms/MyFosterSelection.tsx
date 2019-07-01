@@ -85,7 +85,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
     }
 
     //Add the code to seralize and deseralize the animals
-    combineAsString = (values:any) =>{
+    combineAsString = (values:any|undefined) =>{
 
         //See if it is a array
         if (values instanceof Array){
@@ -99,7 +99,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
     }
 
     //Add the code to seralize and deseralize the animals
-    separateString = (value: string) =>{
+    separateString = (value: string|undefined) =>{
 
         if(value != undefined) {
             //Split the string

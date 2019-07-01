@@ -15,6 +15,10 @@ interface LinkProps  {
     selectedRow?: number
     selectRow: (row:number) => any;
     deleteRow: (row:number) => any;
+
+    //Provide a way to filter the text as shown
+    filter?: (input:any) => any;
+
 }
 
 
@@ -59,12 +63,21 @@ class SignUpsTable extends React.Component<LinkProps> {
 
         //Add each value
         for(; h < values.length; h++){
-            rowValues.push(<Table.Cell>{values[h]}</Table.Cell>)
+            //Get the current value
+            let value:any = values[h];
+
+            //If there is a filter filter
+            if(this.props.filter){
+                value = this.props.filter(value);
+            }
+
+            rowValues.push(<Table.Cell>{value}</Table.Cell>)
+
         }
-        //Fill in any remaining blanks
-        for(; h < this.props.signups.headers.length; h++){
-            rowValues.push(<Table.Cell>{values[h]}</Table.Cell>)
-        }
+        // //Fill in any remaining blanks
+        // for(; h < this.props.signups.headers.length; h++){
+        //     rowValues.push(<Table.Cell>{values[h]}</Table.Cell>)
+        // }
 
         for(; h < this.props.signups.headers.length; h++ ){
             //If we have the number of values

@@ -16,6 +16,11 @@ import {SignUpResponse} from "../../models/SignUp";
 import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 import MyFosterSelection from "../forms/MyFosterSelection";
 import SignUpsTable from "./SignUpsTable";
+import CawsAnimal, {findAnimalByShelterId, findShelterIds, Species} from "../../models/CawsAnimal";
+import AnimalState from "../../state/AnimalState";
+import ApplicationState from "../../state/ApplicationState";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 //Define the expected props
 interface LinkProps  {
@@ -27,6 +32,10 @@ interface LinkProps  {
 
 }
 
+interface StateProps {
+    //Define the props we expect
+    cawsAnimalsDb: AnimalState;
+}
 
 //Keep a state of open documents
 interface MyState{
@@ -44,7 +53,7 @@ interface MyState{
 /**
  * Show the details of a single up coming event
  */
-class EventViewer extends React.Component<LinkProps, MyState> {
+class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
     state = {htmlInfo:"", signUpResponse:undefined, signUpErrorMessage:undefined,activeRow:undefined, signUpUpdating:false, formCount:0 };
 
     /**
@@ -86,9 +95,43 @@ class EventViewer extends React.Component<LinkProps, MyState> {
      * @param props
      * @constructor
      */
+    dogIdWidget = (props:WidgetProps) => {
+        return (
+            <MyFosterSelection
+                allowMultiple={false}
+                species={[Species.dog] as Species[]}
+                widgetProps={props}
+            />
+        );
+    };
+
+    /**
+     * Define a custom widget for animalId
+     * @param props
+     * @constructor
+     */
+    catIdWidget = (props:WidgetProps) => {
+        return (
+            <MyFosterSelection
+                allowMultiple={true}
+                species={[Species.cat] as Species[]}
+                widgetProps={props}
+            />
+        );
+    };
+
+    /**
+     * Define a custom widget for animalId
+     * @param props
+     * @constructor
+     */
     animalIdWidget = (props:WidgetProps) => {
         return (
-            <MyFosterSelection widgetProps={props}/>
+            <MyFosterSelection
+                allowMultiple={false}
+                species={[Species.cat, Species.dog] as Species[]}
+                widgetProps={props}
+            />
         );
     };
 
@@ -207,6 +250,93 @@ class EventViewer extends React.Component<LinkProps, MyState> {
 
 
 
+    //Define a filter to replace the animal id with an image
+    filterAniIds = (input :any ) =>{
+
+        //See if there are any
+        const codes = findShelterIds(input);
+
+        //If there is a list
+        if(codes != null){
+
+            //Replace the commas
+            input = input.toString().replace(/\,/g, '<br/>');
+            input = input.toString().replace(/\:/g, '');
+
+            //For each code
+            codes.forEach(code =>{
+
+                //See if there is an animal
+                const ani = findAnimalByShelterId(code, this.props.cawsAnimalsDb.animals)
+
+
+                //Replace the names
+                if(ani) {
+                    input = input.toString().replace(code,
+                        '<a href="/animal/'+ ani.data.ID+ '" target="_blank"> <img src="'+ani.getImageUrl() +'" class="ui avatar image"  /></a> ');
+
+                }
+
+
+
+            })
+
+            //Replace the input with a span
+            input = <span
+            dangerouslySetInnerHTML={{
+                __html : input
+            }} />
+        }
+
+        return input;
+    }
+
+    //Define a filter to replace the animal id with an image
+    buildPrintKC = ():any =>{
+
+        //Build a string out of all of the event info
+        let shelterCodes : string[] = [];
+
+        //Add in all of the data
+        if(this.state.signUpResponse){
+            //Extract so that it knows it is not null
+            const signUpInfo:SignUpResponse = this.state.signUpResponse!;
+
+            //Each each value
+            if(signUpInfo.existingSignUps){
+                signUpInfo.existingSignUps.values.forEach(arr => arr.forEach(item => {
+                    //If there are any shetler codes
+                    let foundCodes = findShelterIds(item.toString());
+
+                    if (foundCodes != null){
+                        shelterCodes = shelterCodes.concat(...foundCodes);
+                    }
+                }));
+            }
+        }
+
+        if(shelterCodes.length > 0){
+
+            //For each code
+            let ids = shelterCodes.map(code =>findAnimalByShelterId(code, this.props.cawsAnimalsDb.animals)).filter(ani => ani).map(ani => (ani as CawsAnimal).data.ID);
+
+            //Now build the params
+            let params = new URLSearchParams();
+            ids.forEach(id => {params.append("id", id.toString())});
+
+            return <Link className={"ui right floated button"} to={{
+                pathname:"/kennelcard",
+                search:"?" + params.toString()
+            }
+            } >Preview Kennel Cards</Link>;
+        }else{
+            return null;
+        }
+
+    }
+
+
+
     /**
      * Re-render every time this is called
      * @returns {*}
@@ -251,6 +381,8 @@ class EventViewer extends React.Component<LinkProps, MyState> {
             }
         }
 
+
+
         //See if we should show info
         if(this.props.eventInfo.signupId) {
             //Show the error message
@@ -272,13 +404,23 @@ class EventViewer extends React.Component<LinkProps, MyState> {
                                 selectRow={(rowId: number) => this.editRow(rowId)}
                                 deleteRow={(rowId: number) => this.deleteRow(rowId)}
                                 selectedRow={this.state.activeRow}
+                                filter={this.filterAniIds}
                             />
+
+                            {/*Show the kennel card link there is one*/}
+                            {this.buildPrintKC()}
 
                             {/*Add in the signup form*/}
                             <Form schema={signUpInfo.signupForm.JSONSchema}
                                   uiSchema={signUpInfo.signupForm.UISchema}
                                   formData={signUpInfo.signupForm.formData}
-                                  widgets={{"animalIdWidget": this.animalIdWidget}}
+                                  widgets={
+                                      {
+                                          "animalIdWidget": this.animalIdWidget,
+                                          "dogIdWidget": this.dogIdWidget,
+                                          "catIdWidget": this.catIdWidget,
+                                      }
+                                  }
                                   onSubmit={this.onSubmit}
                             >
                                 {/*Render a custom Submit button*/}
@@ -351,4 +493,28 @@ class EventViewer extends React.Component<LinkProps, MyState> {
     }
 };
 
-export default EventViewer;
+/**
+ * Map from the global state to things we need here
+ * @param state
+ * @returns {{authentication: WebAuthentication}}
+ */
+/**
+ * Map from the global state to things we need here
+ * @param state
+ * @returns {{authentication: WebAuthentication}}
+ */
+function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps&StateProps {
+    return {
+        ...myProps,
+        cawsAnimalsDb:state.animals
+    };
+}
+
+
+
+//TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
+export default  connect(
+    mapStateToProps
+)(EventViewer);
+
+

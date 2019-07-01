@@ -11,12 +11,18 @@ import {userActions} from "../../actions/user.actions";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
 import {Dropdown, DropdownItemProps} from "semantic-ui-react";
+import {Species} from "../../models/CawsAnimal";
 
 
 //Define the expected props
 interface LinkProps {
-    widgetProps:WidgetProps
+    widgetProps:WidgetProps;
 
+    //Store if we allow multiple
+    allowMultiple:boolean;
+
+    //Store if we allow multiple
+    species:Species[];
 
 }
 
@@ -63,7 +69,9 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
             const ani = this.props.cawsAnimalsDb.animals[id];
 
             return ani;
-        }).filter(ani =>  ani).map(ani =>{
+        }).filter(ani =>  ani).
+            filter(ani => ani.isSpecies(this.props.species))
+            .map(ani =>{
             return   {
                 text: ani.data.NAME,
                 value: ani.getCodeAndName(),
@@ -76,6 +84,31 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
 
     }
 
+    //Add the code to seralize and deseralize the animals
+    combineAsString = (values:any) =>{
+
+        //See if it is a array
+        if (values instanceof Array){
+            //If it is an array
+            return values.join(",");
+        }else{
+            return values;
+        }
+
+
+    }
+
+    //Add the code to seralize and deseralize the animals
+    separateString = (value: string) =>{
+
+        if(value != undefined) {
+            //Split the string
+            return value.split(",").map(tmp => tmp.trim()).filter(tmp => tmp.length > 0);
+        }else{
+            return value;
+        }
+
+    }
 
     /**
      * Re-render every time this is called
@@ -85,16 +118,32 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
 
 
         //For now just render
-        return(
+        if(this.props.allowMultiple) {
+            return(
+                <Dropdown
+                    placeholder='Select Foster(s)'
+                    fluid
+                    selection
+                    multiple={true}
+                    onChange={(event, value) => this.props.widgetProps.onChange(this.combineAsString(value.value))}
+                    value={this.separateString(this.props.widgetProps.value)}
+                    options={this.getFosterItems()}
+                />
+            )
+        }else{
+            return(
                 <Dropdown
                     placeholder='Select Foster'
                     fluid
                     selection
+                    multiple={false}
                     onChange={(event, value) => this.props.widgetProps.onChange(value.value)}
                     value={this.props.widgetProps.value}
                     options={this.getFosterItems()}
                 />
-        )
+            )
+        }
+
 
     }
 };

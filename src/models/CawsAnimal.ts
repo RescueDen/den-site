@@ -104,15 +104,42 @@ export enum Species{
 /**
  * Returns an empty caws user
  */
-// export function getEmptyCawsUser(): CawsUser{
-//     const data: CawsUserData = {
-//         email:"",token:"",firstname:"",lastname:"",address:"",city:"",state:"",zip:"",
-//         homephone:"",workphone:"",cellphone:"",isvolunteer:0,ismember:0,isfosterer:0,isbanned:0,
-//         additionalflags:"",firstfosterdate:new Date(),lastfosterin:new Date(), lastfosterout:new Date(),
-//         dayssincelastfoster:"",avgfostertime:"",currentFosters:[], pastFosters:[], lastUpdateFromAsm:new Date()
-//     };
-//     return new CawsUser(data)
-// }
+export function findShelterIds(input:any): string[]{
+    //Make sure this is defined
+    if(input == undefined){
+        return [] as string[];
+    }else{
+        //Specify the regex match
+        const regex  = /[ABCDEMNOS][0-9]{7}\b/g
+        return input.toString().match(regex);
+
+    }
+
+}
+
+/**
+ * Returns an empty caws user
+ */
+export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]: CawsAnimal; }):CawsAnimal|undefined{
+    //Make sure this is defined
+    for(let id of Object.keys(animals)){
+        //Get the id as anumber
+        const idAsNumb = parseInt(id);
+
+        //And the test shetler code
+        const testCode = animals[idAsNumb].data.SHELTERCODE;
+
+
+        if(testCode == (shetlerId)){
+            return animals[parseInt(id)];
+        }
+    }
+
+    return undefined;
+
+
+}
+
 
 /**
  * Define a class that uses the CAWS User data

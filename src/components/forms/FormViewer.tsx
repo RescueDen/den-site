@@ -13,6 +13,7 @@ import {Dimmer, Dropdown, Loader, Segment} from "semantic-ui-react";
 import {extractMessageFromPossibleServerResponseStatus} from "../../models/ServerStatus";
 import MyFosterSelection from "./MyFosterSelection";
 import CawsUser from "../../models/CawsUser";
+import {Species} from "../../models/CawsAnimal";
 
 
 
@@ -93,9 +94,43 @@ class FormViewer extends React.Component<LinkProps, State> {
      * @param props
      * @constructor
      */
+    dogIdWidget = (props:WidgetProps) => {
+        return (
+            <MyFosterSelection
+                allowMultiple={false}
+                species={[Species.dog] as Species[]}
+                widgetProps={props}
+            />
+        );
+    };
+
+    /**
+     * Define a custom widget for animalId
+     * @param props
+     * @constructor
+     */
+    catIdWidget = (props:WidgetProps) => {
+        return (
+            <MyFosterSelection
+                allowMultiple={true}
+                species={[Species.cat] as Species[]}
+                widgetProps={props}
+            />
+        );
+    };
+
+    /**
+     * Define a custom widget for animalId
+     * @param props
+     * @constructor
+     */
     animalIdWidget = (props:WidgetProps) => {
         return (
-            <MyFosterSelection widgetProps={props}/>
+            <MyFosterSelection
+                allowMultiple={false}
+                species={[Species.cat, Species.dog] as Species[]}
+                widgetProps={props}
+            />
         );
     };
 
@@ -109,6 +144,8 @@ class FormViewer extends React.Component<LinkProps, State> {
         //Merge the widgets to gether
         let widgets={
             "animalIdWidget":this.animalIdWidget,
+            "dogIdWidget":this.dogIdWidget,
+            "catIdWidget":this.catIdWidget
         }
 
         //If there are other widgets add them

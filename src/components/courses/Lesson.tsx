@@ -73,7 +73,7 @@ class Lesson extends React.Component<Props, State> {
         //Prerender the video so it doesn't not un render
         let contentComputerWidth = 16 as  SemanticWIDTHSNUMBER;
 
-        if(this.props.lesson.videoId) {
+        if(this.props.lesson.videoId && this.props.lesson.infoId) {
 
             contentComputerWidth = 12 as  SemanticWIDTHSNUMBER;
         }
@@ -87,7 +87,8 @@ class Lesson extends React.Component<Props, State> {
                     {/*Put everything in a single col*/}
                     <Grid.Column width={contentComputerWidth}>
                         <div>
-                                {this.props.lesson.videoId &&
+                                {/*Only put the video in the rail if info is defined */}
+                                {this.props.lesson.infoId != undefined && this.props.lesson.videoId &&
                                     <Rail style={{marginTop:"25px"}} position='right'>
                                         <Embed
                                             id={this.props.lesson.videoId}
@@ -111,6 +112,18 @@ class Lesson extends React.Component<Props, State> {
                                             <Placeholder.Line length='short' />
                                             <Placeholder.Line length='very short' />
                                         </Placeholder>
+                                        }
+
+                                        {/*Show the video as normal if there is no info*/}
+                                        {this.props.lesson.infoId == undefined &&
+                                            <Embed
+                                                id={this.props.lesson.videoId}
+                                                source='youtube'
+                                                active={true}
+                                                iframe={{
+                                                    allowFullScreen: true,
+                                                }}
+                                            />
                                         }
                                         {/*Show the data of the info*/}
                                         {this.props.lesson.infoId && this.state.html.length != 0 &&

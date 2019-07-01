@@ -324,11 +324,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
             let params = new URLSearchParams();
             ids.forEach(id => {params.append("id", id.toString())});
 
-            return <Link className={"ui right floated button"} to={{
-                pathname:"/kennelcard",
-                search:"?" + params.toString()
-            }
-            } >Preview Kennel Cards</Link>;
+            return <a href={"/kennelcard?"+ params.toString()}>Preview Kennel Cards</a>;
         }else{
             return null;
         }
@@ -411,7 +407,8 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                             {this.buildPrintKC()}
 
                             {/*Add in the signup form*/}
-                            <Form schema={signUpInfo.signupForm.JSONSchema}
+                            <Form  key={this.state.formCount}
+                                schema={signUpInfo.signupForm.JSONSchema}
                                   uiSchema={signUpInfo.signupForm.UISchema}
                                   formData={signUpInfo.signupForm.formData}
                                   widgets={

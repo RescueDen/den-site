@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment} from "semantic-ui-react";
+import {Image, Dimmer, Input, List, Loader, Segment, Button, Icon} from "semantic-ui-react";
 import {ArticleItemData} from "../../models/ArticlesSummary";
 import {infoService} from "../../services/info.service"
+import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
 interface MyProps  {
@@ -70,7 +71,14 @@ class ArticleViewer extends React.Component<MyProps, MyState> {
         }else {
             //Return the html
             return (
-                <div dangerouslySetInnerHTML={{__html:this.state.html}}/>
+                <>
+                    <PermissionBlock reqPerm="inside_caws">
+                        <a className="ui right floated button" href={`https://drive.google.com/open?id=${this.props.item.id}`} target="_blank">
+                            Open In <Icon name='google drive' />
+                        </a>
+                    </PermissionBlock>
+                    <div dangerouslySetInnerHTML={{__html:this.state.html}}/>
+                </>
 
             );
         }

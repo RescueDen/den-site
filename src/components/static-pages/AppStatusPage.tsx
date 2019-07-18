@@ -93,7 +93,7 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                             comment:"learn the ins-and-outs",
                             icon:'university' as SemanticICONS,
                             show:(
-                                <p  key='dog fosterer applicant'>We have reviewed your application and would really appreciate your help. The next step is orientation.  Once you complete the orientation. wavier it may take a day to process.</p>
+                                <p  key='dog fosterer applicant'>We have reviewed your application and would really appreciate your help. <Link to="learn/12XrSckITadwi_VhfWuQdr9tEFdeYuINMU7BxeSVHQdU">The next step is orientation.</Link>  Once you complete the orientation. wavier it may take a day to process.</p>
                             )
                         },
                         {
@@ -128,7 +128,7 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                             comment:"learn the ins-and-outs",
                             icon:'university' as SemanticICONS,
                             show:(
-                                <p  key='cat fosterer applicant'>We have reviewed your application and would really appreciate your help. The next step is orientation.  Once you complete the orientation. wavier it may take a day to process.</p>
+                                <p  key='cat fosterer applicant'>We have reviewed your application and would really appreciate your help. <Link to="learn/19sXvZvoJE2zXM7b1pyHpCpRAx-SF-gkUhRk-UXZzll4">The next step is orientation.</Link>  Once you complete the orientation. wavier it may take a day to process.</p>
                             )
                         },
                         {

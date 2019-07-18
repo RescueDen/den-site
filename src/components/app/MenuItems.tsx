@@ -35,7 +35,7 @@ export const leftMenuItems = [
             {
                 name: "Courses",
                 to: '/courses',
-                reqPerm: "get_courses",
+                reqPerm: "view_course_list",
                 icon: <Icon name='university'/>
             }
         ]

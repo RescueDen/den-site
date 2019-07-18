@@ -113,6 +113,12 @@ class CAWSHub extends React.Component<any, MyState> {
 
 
                             </Segment>
+                            {/*For authorized users, give they access to the log*/}
+                            <PermissionBlock reqPerm={"access_logs"}>
+                                <Button  onClick={this.downloadLog}>
+                                    Download Access Logs for the Hub
+                                </Button>
+                            </PermissionBlock>
                         </Container>
                     </Grid.Column>
                     <Grid.Column>
@@ -135,12 +141,12 @@ class CAWSHub extends React.Component<any, MyState> {
                         </Segment>
                     </Grid.Column>
                 </Grid>
-                {/*For authorized users, give they access to the log*/}
-                <PermissionBlock reqPerm={"access_logs"}>
-                    <Button  onClick={this.downloadLog}>
-                        Download Access Logs for the Hub
-                    </Button>
-                </PermissionBlock>
+
+                {/*Show the current supplies*/}
+                <Segment>
+                    <StaticComponent pagePath={"cawsSupplies"} public={false}/>
+                </Segment>
+
             </>
 
         );

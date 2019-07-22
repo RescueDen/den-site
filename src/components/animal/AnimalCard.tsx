@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal from "../../models/CawsAnimal";
-import {Card, Image, Icon, Placeholder} from "semantic-ui-react";
+import {Card, Image, Icon, Placeholder, Button} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {Link} from "react-router-dom";
 
@@ -73,7 +73,12 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
                             <Image src={this.props.ani.getImageUrl()}/>
                         </Link>
                         <Card.Content>
-                            <Card.Header>{this.props.ani.data.NAME}</Card.Header>
+                            <Card.Header>
+                                {this.props.ani.data.NAME}
+                                <Link  to={`${this.props.link}/${this.props.ani.data.ID}`}>
+                                    <Button compact floated='right' circular icon='settings' basic size='mini'>more<br/>info...</Button>
+                                </Link>
+                            </Card.Header>
                             <Card.Meta>
                                 <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.asmid)}</span>
                             </Card.Meta>

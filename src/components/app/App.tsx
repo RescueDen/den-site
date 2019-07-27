@@ -33,7 +33,7 @@ import {leftMenuItems, rightMenuItems} from "./MenuItems";
 import Welcome from "../static-pages/Welcome";
 import CAWSHub from "../static-pages/CAWSHub";
 import InsideCaws from "../newsAndInfo/InsideCaws";
-import StatsPage from "../static-pages/StatsPage";
+import LivesSavedPage from "../stats/LivesSavedPage";
 import MyPreferences from "../person/preferences/MyPreferences";
 import KCBuilder from "../kennelCards/KCBuilder";
 import AchievementSummary from "../person/achievement/AchievementSummary";
@@ -146,7 +146,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
                             <Route key={'logging'} path="/logging/" component={Logging} />
                             <Route key={'help'} path="/help" component={HelpViewier} />
-                            <Route key={'stats'} path="/stats" component={StatsPage} />
+                            <Route key={'lives-saved'} path="/lives-saved" component={LivesSavedPage} />
                             <Route key={'kennelcard'} path="/kennelcard" component={KCBuilder} />
                             <Route exact key={'achievements'} path="/achievements" component={Achievements} />
                             <Route key={'achievements/achId'+url} path="/achievements/:achId" component={AchievementSummary} />

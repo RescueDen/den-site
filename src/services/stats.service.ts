@@ -2,10 +2,11 @@ import axios from 'axios';
 import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
 import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
-import {Stats} from "../models/Stats";
+import {AdoptionStat, Stats} from "../models/Stats";
 
 export const statsService = {
-    getStats
+    getStats,
+    getAdoptionsByYear
     // register,
     // getAll,
     // getById,
@@ -39,6 +40,35 @@ function getStats() : Promise<Stats> {
         {//When the request returns
             //Get the user
             const stats = <Stats>response.data;
+
+
+            //Return just the user
+            return stats;
+        }
+    );
+
+
+}
+/**
+ * Get a list of adoptions by year
+ * @param username
+ * @param password
+ * @returns
+ */
+function getAdoptionsByYear(year:number) : Promise<AdoptionStat[]> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/stats/adoptions/${year}`,  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const stats = response.data as AdoptionStat[];
 
 
             //Return just the user

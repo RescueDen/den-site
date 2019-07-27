@@ -37,7 +37,15 @@ export const leftMenuItems = [
                 to: '/courses',
                 reqPerm: "view_course_list",
                 icon: <Icon name='university'/>
+            },
+            {
+                name: "Lives Saved!",
+                to: '/lives-saved',
+                reqPerm: "get_stats",
+                icon: <Icon name='paw'/>
             }
+
+
         ]
 
     },

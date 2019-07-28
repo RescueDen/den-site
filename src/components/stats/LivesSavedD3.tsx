@@ -60,13 +60,14 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
         //Map the adoption data to nodes
         let nodes = this.props.adoptions.map(d => {
+            //Compute a random radius
             return {
                 radius: radiusScale( Math.round(Math.random() * 100) ),
-                fill: colorScale(d.ID),
                 x: Math.random() * this.props.width,
-                y: heightScale(d.ID),
+                y: Math.random()*this.props.height,//heightScale(d.ID),
                 THUMBNAILURL: d.THUMBNAILURL,
-                ID:d.ID
+                ID:d.ID,
+                active:false
             }
         });
 
@@ -79,20 +80,23 @@ class LivesSavedD3 extends React.Component<MyProps> {
         //Append defs to the svg
         let defs = d3.select(this.myRef.current).append("defs");
 
-
+        //Basic guidelines https://stackoverflow.com/questions/22883994/crop-to-fit-an-svg-pattern
         // create an svg element
         let imgPattern = defs.selectAll("pattern").data(nodes)
             .enter()
             .append("pattern")
             .attr("id", img_id)
-            .attr("width", 1)
-            .attr("height", 1)
-            .attr("patternUnits", "objectBoundingBox")
-            .append("image")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("patternContentUnits", "objectBoundingBox")
+            .attr("viewBox", "0 0 150 150")
+            .attr("preserveAspectRatio", "xMidYMid slice")
+            .append("svg:image")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("width", d => { return 2.5*d.radius })
-            .attr("height", d => { return 2.5*d.radius })
+            .attr("width", 150)
+            .attr("height", 150)
+            .attr("preserveAspectRatio", "xMidYMid slice")
             .attr("xlink:href", function(d) {
                 return d.THUMBNAILURL;
             })
@@ -104,19 +108,33 @@ class LivesSavedD3 extends React.Component<MyProps> {
                 .data(nodes)
                 .enter()
                 .append('circle')
-                .attr('r', d => { return d.radius })
+                .attr('r', d => { return radius(d) })
                 .attr('stroke',"#aed957")
                 .attr('stroke-width', 3)
+                .style("fill", "#fff")
                 .style("fill", img_url)
                 .on('click',onClick)
+                .on('mouseover',function onClick(d: any) {
+                    d3.select(this)
+                        .transition()
+                        .attr('r', 100);
+                    //Bring to top
+                    d3.select(this).raise();
+
+
+                })
+                .on('mouseout',function onClick(d: any) {
+                        d3.select(this)
+                            .transition()
+                            .attr('r', d.radius);
+                    })
                 // @ts-ignore
                     .call(d3.drag()
-                    .on('start', dragStarted)
-                    .on('drag', dragged)
-                    .on('end', dragEnded)
+                        .on('start', dragStarted)
+                        .on('drag', dragged)
+                        .on('end', dragEnded)
+                    )
 
-
-            )
 
         //The force simulation causes all of the nodes to fit
         let forceSimulation: d3.Simulation<d3.SimulationNodeDatum, undefined> = d3.forceSimulation()
@@ -130,26 +148,23 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
         //Allow the movement of each of the particles
         function dragStarted(d:any) {
-            console.log('start');
             forceSimulation.alphaTarget(0.3).restart()
         }
 
         //Allow the movement of each of the particles
         function dragged(d: any) {
-            console.log('drag');
             /* bubbles.attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y); */
             d.fx = d3.event.x
             d.fy = d3.event.y
         }
         //Allow the movement of each of the particles
         function dragEnded(d: any) {
-            console.log('end');
             delete d.fx;
             delete d.fy;
             forceSimulation.alphaTarget(0);
         }
 
-        //Allow the movement of each of the particles
+        //Allow clicking away
         function onClick(d: any) {
             window.location.assign("/animal/"+d.ID);
         }
@@ -166,7 +181,11 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
         //Compute the radius as a function
         function radius(d:any) {
-            return d.radius + 1
+            if(d.active) {
+                return 100 + 1
+            }else{
+                return d.radius + 1
+            }
         }
 
         //The charge is used to compute the values

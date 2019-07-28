@@ -1,13 +1,15 @@
 import React from 'react';
-import {Header, Dropdown, DropdownProps} from "semantic-ui-react";
+import {Header, Dropdown, DropdownProps, Responsive} from "semantic-ui-react";
 
 import LivesSavedDisplay from "./LivesSavedDisplay";
+import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
 
 
 //Store the hub state
 interface MyState{
     //Keep the current year
     year:number;
+
 }
 
 
@@ -54,7 +56,8 @@ class LivesSavedPage extends React.Component<any, MyState> {
                         }
                     }
                 />
-                <LivesSavedDisplay key={this.state.year} year={this.state.year}/>
+                <LivesSavedDisplay year={this.state.year}/>
+
             </>
         );
 

@@ -1,10 +1,9 @@
 import React from 'react';
-import {Header, Dropdown, DropdownProps, Responsive} from "semantic-ui-react";
+import {Header, Dropdown, DropdownProps, Responsive, Image} from "semantic-ui-react";
 
 import LivesSavedDisplay from "./LivesSavedDisplay";
-import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
-
-
+import TableauWidthWrapper from "./TableauWidthWrapper";
+import BFImage from "../../assets/pictures/bestFriends2025.jpg";
 //Store the hub state
 interface MyState{
     //Keep the current year
@@ -39,9 +38,10 @@ class LivesSavedPage extends React.Component<any, MyState> {
      */
     render() {
 
+
         return (
             <>
-                <Header as={"h1"} textAlign='center'>Lives Saved!</Header>
+                <Header size='large' textAlign='center'>Lives Saved!</Header>
                 <Dropdown
                     placeholder='Compact'
                     compact
@@ -57,11 +57,18 @@ class LivesSavedPage extends React.Component<any, MyState> {
                     }
                 />
                 <LivesSavedDisplay
-                    style={{
-
-                    }}
+                    key={this.state.year}
                     year={this.state.year}
                 />
+                <Header size='large' textAlign='center'>CAWS Rescue Progress</Header>
+                <TableauWidthWrapper url={"https://public.tableau.com/views/CAWSRescueStatistics/CAWSRescueStatistics"} />
+                <Header size='large' textAlign='center'>Utah and USA Rescue Progress</Header>
+                <p>
+                    Check out how our community compares to Utah and the rest of the country using the Best Friends' Community Lifesaving Dashboard
+                </p>
+                <a href='https://bestfriends.org/2025-goal' target="_blank">
+                    <Image centered={true} size='medium' src={BFImage} />
+                </a>
 
             </>
         );

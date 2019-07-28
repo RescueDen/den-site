@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 
 import {Icon, Segment, Container, Grid, Placeholder, Label, Loader, Button, Responsive} from "semantic-ui-react";
 import {AdoptionStat, Stats} from "../../models/Stats";
@@ -10,6 +10,8 @@ import LivesSavedD3 from "./LivesSavedD3";
 interface MyProps{
     year: number;
 
+    //Include the style
+    style?:CSSProperties;
 }
 
 //Store the hub state
@@ -60,7 +62,7 @@ class LivesSavedDisplay extends React.Component<MyProps, MyState> {
     }
     //Update the width
     updateWidth = (event: React.SyntheticEvent<HTMLElement>, data: ResponsiveOnUpdateData) =>{
-        this.setState({width:data.width});
+        this.setState({width:data.width, height:window.innerHeight});
     }
 
 
@@ -71,7 +73,7 @@ class LivesSavedDisplay extends React.Component<MyProps, MyState> {
     render() {
 
         return (
-            <Responsive fireOnMount onUpdate={this.updateWidth}>
+            <Responsive fireOnMount onUpdate={this.updateWidth} style={{...this.props.style}}>
                 {this.state.adoptions &&
                     <LivesSavedD3
                         key={this.props.year + this.state.width + this.state.height}
@@ -80,6 +82,7 @@ class LivesSavedDisplay extends React.Component<MyProps, MyState> {
                         adoptions={this.state.adoptions!}
                     />
                 }
+
 
             </Responsive>
 

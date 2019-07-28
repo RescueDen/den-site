@@ -106,6 +106,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
                 .append('circle')
                 .attr('r', d => { return d.radius })
                 .attr('stroke',"#aed957")
+                .attr('stroke-width', 3)
                 .style("fill", img_url)
                 .on('click',onClick)
                 // @ts-ignore

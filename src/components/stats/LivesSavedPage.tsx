@@ -56,7 +56,12 @@ class LivesSavedPage extends React.Component<any, MyState> {
                         }
                     }
                 />
-                <LivesSavedDisplay year={this.state.year}/>
+                <LivesSavedDisplay
+                    style={{
+
+                    }}
+                    year={this.state.year}
+                />
 
             </>
         );

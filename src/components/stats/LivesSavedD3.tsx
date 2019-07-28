@@ -9,6 +9,7 @@ import {DSVRowArray,Simulation} from "d3";
 import {ValueFn} from "d3";
 // import "./LivesSavedDisplay.css";
 import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
+import {formatDate} from "../../utils/date-formater";
 //Pass in the year
 
 interface MyProps{
@@ -26,11 +27,14 @@ interface MyProps{
 
 
 class LivesSavedD3 extends React.Component<MyProps> {
-    private readonly myRef: React.RefObject<SVGSVGElement>;
+    private readonly svgRef: React.RefObject<SVGSVGElement>;
+    private readonly parentRef: React.RefObject<HTMLDivElement>;
 
     constructor(props:MyProps) {
         super(props);
-        this.myRef = React.createRef();
+        this.svgRef = React.createRef();
+        this.parentRef = React.createRef();
+
     }
     /**
      * No need to keep the article in the app state.  Keep locally to allow it to be removed from mem
@@ -38,7 +42,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
     componentDidMount(){
 
         //Set some basic params
-        const velocityDecay = 0.15;
+        const velocityDecay = 0.3;
         const forceStrength = 0.03;
 
 
@@ -67,9 +71,23 @@ class LivesSavedD3 extends React.Component<MyProps> {
                 y: Math.random()*this.props.height,//heightScale(d.ID),
                 THUMBNAILURL: d.THUMBNAILURL,
                 ID:d.ID,
-                active:false
+                active:false,
+                NAME: d.NAME,
+                Date:d.Date
+
             }
         });
+
+        // -1- Create a tooltip div that is hidden by default:
+        const tooltip = d3.select(this.parentRef.current)
+            .append("div")
+            .style("opacity", 1)
+            .style("position", "absolute")
+            .style("background-color", "black")
+            .style("border-radius", "5px")
+            .style("padding", "10px")
+            .style("color", "white")
+
 
         //Define function to make image txt
         const img_id = function(d:any){ return "img_" + d.ID; }
@@ -78,7 +96,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
 
         //Append defs to the svg
-        let defs = d3.select(this.myRef.current).append("defs");
+        let defs = d3.select(this.svgRef.current).append("defs");
 
         //Basic guidelines https://stackoverflow.com/questions/22883994/crop-to-fit-an-svg-pattern
         // create an svg element
@@ -103,7 +121,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
         //Define the actual bubbles based upon the nodes
         let bubbles: string & d3.Selection<SVGCircleElement, { radius: any; fill: any; x: number; y: any; /*  Math.random() * height */ }, d3.BaseType, unknown> =
-                d3.select(this.myRef.current)
+                d3.select(this.svgRef.current)
                 .selectAll('circle')
                 .data(nodes)
                 .enter()
@@ -121,13 +139,37 @@ class LivesSavedD3 extends React.Component<MyProps> {
                     //Bring to top
                     d3.select(this).raise();
 
+                    //Turn on the tool tip
+                    tooltip
+                        .transition()
+                        .duration(200)
+                    tooltip
+                        .style("opacity", 1)
+                        .html( d.NAME + '<br/> Adopted: '+ formatDate(d.Date))
+                        .style("left", (d3.mouse(this)[0]+30) + "px")
+                        .style("top", (d3.mouse(this)[1]+30) + "px")
+
 
                 })
                 .on('mouseout',function onClick(d: any) {
-                        d3.select(this)
-                            .transition()
-                            .attr('r', d.radius);
+                    //put the radius back
+                    d3.select(this)
+                        .transition()
+                        .attr('r', d.radius);
+
+                    //Turn off the tool tip
+                    tooltip
+                        .transition()
+                        .duration(200)
+                        .style("opacity", 0)
                     })
+                .on('mousemove',function onClick(d: any) {
+                        //Move the tool tip
+                        tooltip
+                            .style("left", (d3.mouse(this)[0]+30) + "px")
+                            .style("top", (d3.mouse(this)[1]+30) + "px")
+                    }
+                    )
                 // @ts-ignore
                     .call(d3.drag()
                         .on('start', dragStarted)
@@ -194,15 +236,30 @@ class LivesSavedD3 extends React.Component<MyProps> {
         }
 
 
-        // function generateRandomData() {
-        //     const data = [];
-        //     for (let i = 0; i < 200; i++) {
-        //         data.push(
-        //             { randomNumber: Math.round(Math.random() * 100) }
-        //         )
-        //     }
-        //     return data;
+
+        // // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+        // const showTooltip = function(d:any) {
+        //     tooltip
+        //         .transition()
+        //         .duration(200)
+        //     tooltip
+        //         .style("opacity", 1)
+        //         .html("Country: " + d.country)
+        //         .style("left", (d3.mouse(this)[0]+30) + "px")
+        //         .style("top", (d3.mouse(this)[1]+30) + "px")
         // }
+        // const moveTooltip = function(d:any) {
+        //     tooltip
+        //         .style("left", (d3.mouse(this)[0]+30) + "px")
+        //         .style("top", (d3.mouse(this)[1]+30) + "px")
+        // }
+        // const hideTooltip = function(d:any) {
+        //     tooltip
+        //         .transition()
+        //         .duration(200)
+        //         .style("opacity", 0)
+        // }
+
     };
 
 
@@ -213,11 +270,13 @@ class LivesSavedD3 extends React.Component<MyProps> {
     render() {
 
         return (
-            <svg className="container"
-                 ref={this.myRef}
-                 width={this.props.width}
-                 height={this.props.height}>
-            </svg>
+            <div ref={this.parentRef}>
+                <svg className="container"
+                     ref={this.svgRef}
+                     width={this.props.width}
+                     height={this.props.height}>
+                </svg>
+            </div>
 
 
         );

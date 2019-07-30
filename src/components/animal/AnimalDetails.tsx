@@ -13,6 +13,8 @@ import AnimalImageGallery from "./details-components/AnimalImageGallery";
 import AnimalBio from "./details-components/AnimalBio";
 import AnimalVaxxHistory from "./details-components/AnimalVaxxHistory";
 import {Link} from "react-router-dom";
+import PermissionBlock from "../authentication/PermissionBlock";
+import AnimalJournal from "./AnimalJournal";
 
 
 
@@ -87,6 +89,11 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     </Segment>
                     {/*The vaccine history*/}
                     <AnimalVaxxHistory animal={this.props.animal}/>
+                    {/* If the user can view the journal   */}
+                    <PermissionBlock reqPerm="view_public_journal">
+                        <AnimalJournal ani={this.props.animal} />
+                    </PermissionBlock>
+
                 </Container>
             );
 

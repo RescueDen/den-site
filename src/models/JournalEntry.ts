@@ -1,13 +1,13 @@
 export interface JournalEntry{
 
     //Basic params
-    id:number;
+    id?:number;
     type:string;
     date:Date;
 
     //Store an id for the animal and person
-    authorId:number;
-    authorName:string;
+    authorId?:number;
+    authorName?:string;
     animalId:number;
 
     //And the content

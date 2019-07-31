@@ -81,7 +81,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
         // -1- Create a tooltip div that is hidden by default:
         const tooltip = d3.select(this.parentRef.current)
             .append("div")
-            .style("opacity", 1)
+            .style("opacity", 0)
             .style("position", "absolute")
             .style("background-color", "black")
             .style("border-radius", "5px")

@@ -21,6 +21,7 @@ import AnimalState from "../../state/AnimalState";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import customWidgets from "../forms/CustomWidgets";
+import AnimalsAttending from "./AnimalsAttending";
 
 //Define the expected props
 interface LinkProps  {
@@ -411,6 +412,13 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                         </Dimmer.Dimmable>
                     )
                 }
+                //Add any existing animals if they are attending
+                components.push(
+                    <AnimalsAttending publicColumns={signUpInfo.publicColumns}>
+
+                    </AnimalsAttending>
+                )
+
 
             } else {
                 //Show a loading screen

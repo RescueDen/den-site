@@ -50,8 +50,8 @@ class AnimalItemCompact extends React.Component<MyProps> {
         }else {
             //Return the html
             return (
-                <List.Item>
-                    <Image avatar src={this.props.ani.getImageUrl()} />
+                <List.Item as='a' href={`${this.props.link}/${this.props.ani.data.ID}`}>
+                    <Image centered={true} avatar src={this.props.ani.getImageUrl()} />
                     <List.Content>
                         <Link to={`${this.props.link}/${this.props.ani.data.ID}`}>
                             <List.Header>

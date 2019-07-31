@@ -6,6 +6,10 @@ export interface SignUpResponse{
     //And the meta data
     signupForm: SignUpForm
     existingSignUps:ExistingSignUps|undefined
+
+    //Keep any public data that we can use
+    publicColumns:{ [id: string]: any[]; }
+
 }
 
 

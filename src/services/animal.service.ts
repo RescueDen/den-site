@@ -4,13 +4,14 @@ import {authHeader} from "../utils/auth-header";
 
 export const animalService = {
     getAnimal,
-    searchForAnimal
+    searchForAnimal,
 
     // register,
     // getAll,
     // getById,
     // update,
     // delete: _delete
+    getAnimalsFromCodes
 };
 
 // Create a default axios instance with the api
@@ -48,6 +49,35 @@ function getAnimal(id:number) : Promise<CawsAnimal> {
         }
     );
 
+
+}
+
+function getAnimalsFromCodes(shelterCodes: string[]): Promise<number[]>{
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/animal/shelterid`,
+        {
+            headers: headers,
+            params: {
+                code: shelterCodes
+            }
+        }
+    );
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const idList = response.data as number[];
+
+            //Return just the user
+            return idList;
+        }
+    );
 
 }
 

@@ -55,6 +55,17 @@ class SearchableAnimalListCompact extends React.Component<IncomingProps&Dispatch
     };
 
     /**
+     * Check to see if the props changed
+     * @param prevProps
+     */
+    componentDidUpdate(prevProps:IncomingProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.animalIdList.length !== prevProps.animalIdList.length) {
+            this.props.animalIdList.forEach(aniId => this.props.downloadAnimal(aniId));
+        }
+    }
+
+    /**
      * Function to update search
      */
     updateSearch(term:string){
@@ -116,7 +127,7 @@ class SearchableAnimalListCompact extends React.Component<IncomingProps&Dispatch
 
 
                 {/*//Create a list*/}
-                <List horizontal>
+                <List size='large' horizontal>
                     {/*If there are props*/}
                     {this.getItems()}
                 </List>

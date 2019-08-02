@@ -195,6 +195,20 @@ export default class CawsAnimal{
         return"";
 
     }
+    //Get the foster range based upon the movements
+    getCurrentLocation():string{
+        //March over each movement
+        for( let move of this.data.MOVEMENTS){
+            //If there is no end date
+            if(move.END.toString().length === 0){
+                return  move.MovementType + ": " + move.FIRSTNAME + " " + move.LASTNAME;
+            }
+
+
+        }
+        return"";
+
+    }
 
     //This is a search function for searching animals for now
     inSearch(term:string){

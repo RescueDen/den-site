@@ -74,6 +74,10 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
                                 <Header.Content>
                                     {ani.data.NAME}
                                     <Header.Subheader>{ani.data.SHELTERCODE}: {ani.data.AGE}</Header.Subheader>
+                                    <Header.Subheader>
+                                        {ani.getCurrentLocation()}
+                                    </Header.Subheader>
+
                                 </Header.Content>
                             </Header>
                         }
@@ -87,6 +91,7 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
 
                         }
                     </Table.Cell>
+
                     {this.props.onDelete &&
                         <Table.Cell textAlign='right'>
                             <Icon name='delete' onClick={() => {

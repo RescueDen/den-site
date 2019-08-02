@@ -39,6 +39,7 @@ import KCBuilder from "../kennelCards/KCBuilder";
 import AchievementSummary from "../person/achievement/AchievementSummary";
 import AgreementPopUp from "../agreement/AgreementPopUp";
 import PersonDetails from "../person/PersonDetails";
+import NewVoucher from "../voucher/NewVoucher";
 
 
 //Setup up path props to get the current path
@@ -151,6 +152,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route exact key={'achievements'} path="/achievements" component={Achievements} />
                             <Route key={'achievements/achId'+url} path="/achievements/:achId" component={AchievementSummary} />
                             <Route key={'people/personId'+url} path="/people/:personId" component={PersonDetails} />
+                            <Route key={'newvoucher'} path="/newvoucher" component={NewVoucher} />
 
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>

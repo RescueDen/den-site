@@ -1,6 +1,5 @@
 import React from 'react'
 
-import AnimalState from "../../state/AnimalState";
 import {
     Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon, Popup, Checkbox
 } from "semantic-ui-react";

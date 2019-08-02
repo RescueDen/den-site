@@ -1,0 +1,297 @@
+
+//Define the expected props
+import AnimalState from "../../state/AnimalState";
+import React from "react";
+import {
+    DropdownProps,
+    Form,
+    Grid,
+    Select,
+    Dropdown, TextAreaProps
+} from "semantic-ui-react";
+import {ThunkDispatch} from "redux-thunk";
+import ApplicationState from "../../state/ApplicationState";
+import {connect} from "react-redux";
+import {NonShelterAnimal, Voucher, VoucherInfo} from "../../models/Voucher";
+import RemoteSearch from "../animal/RemoteSearch";
+import AnimalListTable from "../animal/AnimalListTable";
+import NonShelterAnimalTable from "./NonShelterAnimalTable";
+import {Species} from "../../models/CawsAnimal";
+import {animalActions} from "../../actions/animal.actions";
+
+interface IncomingProps {
+    voucherInfo:VoucherInfo;
+
+    //Store the current voucher (could be empty default)
+    initVoucher:Voucher;
+
+}
+
+interface LinkProps {
+    //Define the props we expect
+    cawsAnimalsDb: AnimalState
+
+
+}
+
+//Store the local voucher instate
+interface VoucherFormState{
+    voucher:Voucher;
+}
+
+
+interface DispatchProps{
+    //And the actions that must be done
+    downloadAnimal: (id:number) => any;
+
+}
+
+
+/**
+ * This card shows the animal details
+ */
+class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,VoucherFormState> {
+    state={voucher:this.props.initVoucher};
+
+
+    /**
+     * Support call to get type options
+     */
+    getTypeOptions = () => {
+        return this.props.voucherInfo!.types.map( typ =>{
+            return {
+                key:typ.id,
+                text:typ.name,
+                value:typ.id
+            }
+        });
+    };
+
+    updateVoucher = (newParams:any) =>{
+        this.setState({voucher:{...this.state.voucher, ...newParams}});
+    }
+
+    //Add Shelter Animal
+    addShelterAnimal = (id:number) =>{
+        //Get the animal info
+        this.props.downloadAnimal(id);
+        //Update the state
+        this.updateVoucher({animalIds:[...this.state.voucher.animalIds, id]});
+    }
+
+    //Remove Shelter Animal
+    removeShelterAnimal = (id:number) =>{
+        this.updateVoucher({animalIds:this.state.voucher.animalIds.filter((test:number)=>{return test!==id})});
+    }
+
+    //Add Shelter Animal
+    updateNonShelterAnimals = (list:NonShelterAnimal[]) =>{
+        this.updateVoucher({animalInfo:list})
+    }
+
+    //Get a list of vets that will work on each species
+    getVetOptions = () =>{
+        //Start by getting the species
+        const species:Species[] = this.determineSpecies();
+
+        //Now filter the vet options
+        return this.props.voucherInfo!.vets.filter(vet =>{
+           for(let sp =0; sp < species.length; sp++){
+               if((vet.species.indexOf(species[sp]) < 0)){
+                   return false;
+               }
+               return true;
+           }
+        }).map(vet =>{
+            //Map them into options
+            return {
+                key:vet.id,
+                text:vet.name,
+                value:vet.id
+            }
+        });
+
+
+    };
+    //Get a list of vets that will work on each species
+    getTreatmentOptions = () =>{
+        //Start by getting the species
+        const species:Species[] = this.determineSpecies();
+
+        //Now filter the vet options
+        return this.props.voucherInfo!.treatments.map(treatment =>{
+            //Assume enabled
+            let enabled = true;
+
+            //see if the treatment can be used on the species
+            for(let sp =0; sp < species.length; sp++){
+                if((treatment.species.indexOf(species[sp]) < 0)){
+                    enabled = false;
+                }
+            }
+
+            //Get the current vet
+            const currentVet = this.props.voucherInfo.vets.find(vet => vet.id == this.state.voucher.vetId);
+            if(currentVet){
+                if(currentVet.treatments.indexOf(treatment.id) < 0 ){
+                    enabled = false;
+                }
+            }
+
+
+            //Map them into options
+            return {
+                key:treatment.id,
+                text:treatment.name,
+                value:treatment.id,
+                disabled:(!enabled)
+            }
+        });
+
+
+    };
+
+    //Determine the species
+    determineSpecies  = () =>{
+        //March over each animal and get the species used
+        let speciesSet = new Set<Species>();
+
+        //March over each animal in the list
+        this.state.voucher.animalIds.forEach( id =>{
+            //If we have this animal
+            if(this.props.cawsAnimalsDb.animals[id]){
+                speciesSet.add(this.props.cawsAnimalsDb.animals[id].data.SPECIES as Species)
+            }
+
+
+        });
+
+        //Also check the other animals
+        this.state.voucher.animalInfo.map( info =>{
+            //If we have this animal
+            speciesSet.add(info.species);
+
+        });
+
+
+        return Array.from(speciesSet);
+    }
+    /**
+     * Re-render every time this is called
+     * @returns {*}
+     */
+    render() {
+        return (
+            <>
+                <Form>
+                    <Form.Field control={Select} label='Voucher Type'
+                                value={this.state.voucher.type}
+                                placeholder='Select Voucher Type'
+                                options={this.getTypeOptions()}
+                                onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                    if(data.value)
+                                        this.updateVoucher({type:+data.value})
+                                }
+                                }
+                    />
+
+                    {/* Add the animal search*/}
+                    <Form.Field control={RemoteSearch} label='Find CAWS Animal' selectAnimal={this.addShelterAnimal} />
+                    {/*Center the tables*/}
+                    <Grid centered={true}>
+                        {/*  Keep the list of CAWS Animals  */}
+                        <AnimalListTable aniLink="/animal" animalIdList={this.state.voucher.animalIds} onDelete={this.removeShelterAnimal} />
+                    </Grid>
+                    {/* Always allow non caws animals   */}
+                    <Form.Field>
+                        <label>Non CAWS Animal</label>
+                        <NonShelterAnimalTable animals={this.state.voucher.animalInfo} updateList={this.updateNonShelterAnimals}/>
+                    </Form.Field>
+                    {/* Select a vet based upon the species    */}
+                    <Form.Field control={Select} label='Veterinarian'
+                                value={this.state.voucher.vetId}
+                                placeholder='Select Veterinarian'
+                                options={this.getVetOptions()}
+                                search
+                                onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                    if(data.value)
+                                        this.updateVoucher({vetId:+data.value})
+                                }
+                                }
+                    />
+                    {/* Add the available treatments for the vet and species   */}
+                    <Form.Field control={Dropdown} label='Treatments'
+                                value={this.state.voucher.treatmentIds}
+                                placeholder='Select Treatments'
+                                options={this.getTreatmentOptions()}
+                                search
+                                fluid
+                                multiple
+                                selection
+                                onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                    if(data.value)
+                                        this.updateVoucher({treatmentIds:data.value as number[]})
+                                }
+                                }
+                    />
+                    {/*Add Other Treatments*/}
+                    <Form.TextArea label='Other Treatments' placeholder='List any other treatments...'
+                                   value={this.state.voucher.other_treatment}
+                                   onChange={(event: React.SyntheticEvent<HTMLElement>, data: TextAreaProps) => {
+                                       if (data.value)
+                                           this.updateVoucher({other_treatment: data.value})
+                                    }
+                                   }
+                    />
+                    {/*And just general notes*/}
+                    <Form.TextArea label='Notes' placeholder='Any notes. This is to all involved.'
+                                   value={this.state.voucher.notes}
+                                   onChange={(event: React.SyntheticEvent<HTMLElement>, data: TextAreaProps) => {
+                                       if (data.value)
+                                           this.updateVoucher({notes: data.value})
+                                   }
+                                   }
+                    />
+
+                </Form>
+                {JSON.stringify(this.determineSpecies())}
+                {JSON.stringify(this.state.voucher)}
+            </>
+        )
+
+
+    }
+};
+
+/**
+ * All of them share the same mapDispatchToProps
+ * @param dispatch
+ * @param ownProps
+ */
+function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
+    return {
+        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+    };
+
+}
+
+
+/**
+ * Map from the global state to things we need here
+ * @param state
+ * @returns {{authentication: WebAuthentication}}
+ */
+function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps&LinkProps {
+
+    return {
+        ...props,
+        cawsAnimalsDb:state.animals,
+    };
+}
+
+
+//TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(VoucherForm);

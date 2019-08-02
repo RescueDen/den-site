@@ -12,6 +12,7 @@ import FeedState from "./FeedState";
 import LoggingState from "./LoggingState";
 import InNeedState from "./InNeedState";
 import PeopleState from "./PeopleState";
+import VoucherState from "./VoucherState";
 
 /**
  * This model describes the entire state of program
@@ -29,5 +30,6 @@ export default interface ApplicationState {
     courses: CoursesState,
     feed:FeedState,
     logging: LoggingState,
-    people:PeopleState
+    people:PeopleState,
+    voucher:VoucherState
 }

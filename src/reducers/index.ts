@@ -15,6 +15,7 @@ import {logging} from "./logging.reducer";
 import {people} from "./people.reducer";
 
 import ApplicationState from '../state/ApplicationState';
+import {voucher} from "./voucher.reducer";
 
 
 //Define the root reducer
@@ -31,7 +32,8 @@ const rootReducer = combineReducers<ApplicationState>({
     courses,
     feed,
     logging,
-    people
+    people,
+    voucher
 });
 
 export default rootReducer;

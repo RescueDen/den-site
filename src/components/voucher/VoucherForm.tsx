@@ -7,7 +7,7 @@ import {
     Form,
     Grid,
     Select,
-    Dropdown, TextAreaProps
+    Dropdown, TextAreaProps, Segment, Header
 } from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import ApplicationState from "../../state/ApplicationState";
@@ -184,6 +184,7 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
         return (
             <>
                 <Form>
+
                     <Form.Field control={Select} label='Voucher Type'
                                 value={this.state.voucher.type}
                                 placeholder='Select Voucher Type'
@@ -194,64 +195,72 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                                 }
                                 }
                     />
-
-                    {/* Add the animal search*/}
-                    <Form.Field control={RemoteSearch} label='Find CAWS Animal' selectAnimal={this.addShelterAnimal} />
-                    {/*Center the tables*/}
-                    <Grid centered={true}>
-                        {/*  Keep the list of CAWS Animals  */}
-                        <AnimalListTable aniLink="/animal" animalIdList={this.state.voucher.animalIds} onDelete={this.removeShelterAnimal} />
-                    </Grid>
-                    {/* Always allow non caws animals   */}
-                    <Form.Field>
-                        <label>Non CAWS Animal</label>
-                        <NonShelterAnimalTable animals={this.state.voucher.animalInfo} updateList={this.updateNonShelterAnimals}/>
-                    </Form.Field>
-                    {/* Select a vet based upon the species    */}
-                    <Form.Field control={Select} label='Veterinarian'
-                                value={this.state.voucher.vetId}
-                                placeholder='Select Veterinarian'
-                                options={this.getVetOptions()}
-                                search
-                                onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-                                    if(data.value)
-                                        this.updateVoucher({vetId:+data.value})
-                                }
-                                }
-                    />
-                    {/* Add the available treatments for the vet and species   */}
-                    <Form.Field control={Dropdown} label='Treatments'
-                                value={this.state.voucher.treatmentIds}
-                                placeholder='Select Treatments'
-                                options={this.getTreatmentOptions()}
-                                search
-                                fluid
-                                multiple
-                                selection
-                                onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-                                    if(data.value)
-                                        this.updateVoucher({treatmentIds:data.value as number[]})
-                                }
-                                }
-                    />
-                    {/*Add Other Treatments*/}
-                    <Form.TextArea label='Other Treatments' placeholder='List any other treatments...'
-                                   value={this.state.voucher.other_treatment}
-                                   onChange={(event: React.SyntheticEvent<HTMLElement>, data: TextAreaProps) => {
-                                       if (data.value)
-                                           this.updateVoucher({other_treatment: data.value})
+                    {/*Animal Information*/}
+                    <Segment vertical>
+                        <Header size='small'>Animal Information</Header>
+                        {/* Add the animal search*/}
+                        <Form.Field control={RemoteSearch} label='Find CAWS Animal' selectAnimal={this.addShelterAnimal} />
+                        {/*Center the tables*/}
+                        <Grid centered={true}>
+                            {/*  Keep the list of CAWS Animals  */}
+                            <AnimalListTable aniLink="/animal" animalIdList={this.state.voucher.animalIds} onDelete={this.removeShelterAnimal} />
+                        </Grid>
+                        {/* Always allow non caws animals   */}
+                        <Form.Field>
+                            <label>Non CAWS Animal</label>
+                            <NonShelterAnimalTable animals={this.state.voucher.animalInfo} updateList={this.updateNonShelterAnimals}/>
+                        </Form.Field>
+                    </Segment>
+                    <Segment vertical>
+                        <Header size='small'>Appointment Information</Header>
+                        {/* Select a vet based upon the species    */}
+                        <Form.Field control={Select} label='Veterinarian'
+                                    value={this.state.voucher.vetId}
+                                    placeholder='Select Veterinarian'
+                                    options={this.getVetOptions()}
+                                    search
+                                    onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                        if(data.value)
+                                            this.updateVoucher({vetId:+data.value})
                                     }
-                                   }
-                    />
-                    {/*And just general notes*/}
-                    <Form.TextArea label='Notes' placeholder='Any notes. This is to all involved.'
-                                   value={this.state.voucher.notes}
-                                   onChange={(event: React.SyntheticEvent<HTMLElement>, data: TextAreaProps) => {
-                                       if (data.value)
-                                           this.updateVoucher({notes: data.value})
-                                   }
-                                   }
-                    />
+                                    }
+                        />
+                        {/* Add the available treatments for the vet and species   */}
+                        <Form.Field control={Dropdown} label='Treatments'
+                                    value={this.state.voucher.treatmentIds}
+                                    placeholder='Select Treatments'
+                                    options={this.getTreatmentOptions()}
+                                    search
+                                    fluid
+                                    multiple
+                                    selection
+                                    onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                        if(data.value)
+                                            this.updateVoucher({treatmentIds:data.value as number[]})
+                                    }
+                                    }
+                        />
+                        {/*Add Other Treatments*/}
+                        <Form.TextArea label='Other Treatments' placeholder='List any other treatments...'
+                                       value={this.state.voucher.other_treatment}
+                                       onChange={(event: React.SyntheticEvent<HTMLElement>, data: TextAreaProps) => {
+                                           if (data.value)
+                                               this.updateVoucher({other_treatment: data.value})
+                                        }
+                                       }
+                        />
+                    </Segment>
+                    <Segment vertical>
+                        {/*And just general notes*/}
+                        <Form.TextArea label='Notes' placeholder='Any notes. This is to all involved.'
+                                       value={this.state.voucher.notes}
+                                       onChange={(event: React.SyntheticEvent<HTMLElement>, data: TextAreaProps) => {
+                                           if (data.value)
+                                               this.updateVoucher({notes: data.value})
+                                       }
+                                       }
+                        />
+                    </Segment>
 
                 </Form>
                 {JSON.stringify(this.determineSpecies())}

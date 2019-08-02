@@ -29,7 +29,7 @@ function getVoucherInfo() : Promise<VoucherInfo> {
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/voucher/info/',  {headers:headers});
+    const responsePromise = apiServer.get('/voucher/info',  {headers:headers});
 
 
     //We need to do some work here

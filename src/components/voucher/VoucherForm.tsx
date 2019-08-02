@@ -18,6 +18,10 @@ import AnimalListTable from "../animal/AnimalListTable";
 import NonShelterAnimalTable from "./NonShelterAnimalTable";
 import {Species} from "../../models/CawsAnimal";
 import {animalActions} from "../../actions/animal.actions";
+import {DateTimeInput} from "semantic-ui-calendar-react";
+import moment from 'moment';
+import {PersonData} from "../../models/People";
+import NonShelterPeopleTable from "./NonShelterPeopleTable";
 
 interface IncomingProps {
     voucherInfo:VoucherInfo;
@@ -87,6 +91,10 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
     //Add Shelter Animal
     updateNonShelterAnimals = (list:NonShelterAnimal[]) =>{
         this.updateVoucher({animalInfo:list})
+    }
+    //Add Shelter Animal
+    updateNonShelterPeople = (list:PersonData[]) =>{
+        this.updateVoucher({other_people:list})
     }
 
     //Get a list of vets that will work on each species
@@ -213,18 +221,36 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                     </Segment>
                     <Segment vertical>
                         <Header size='small'>Appointment Information</Header>
-                        {/* Select a vet based upon the species    */}
-                        <Form.Field control={Select} label='Veterinarian'
-                                    value={this.state.voucher.vetId}
-                                    placeholder='Select Veterinarian'
-                                    options={this.getVetOptions()}
-                                    search
-                                    onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-                                        if(data.value)
-                                            this.updateVoucher({vetId:+data.value})
-                                    }
-                                    }
-                        />
+                        <Form.Group widths='equal'>
+                            {/* Select a vet based upon the species    */}
+                            <Form.Field control={Select} label='Veterinarian'
+                                        value={this.state.voucher.vetId}
+                                        placeholder='Select Veterinarian'
+                                        options={this.getVetOptions()}
+                                        search
+                                        onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                            if(data.value)
+                                                this.updateVoucher({vetId:+data.value})
+                                        }
+                                        }
+                            />
+
+                            {/*Add a date/time for the appointment time*/}
+                            <Form.Field
+                                control={DateTimeInput}
+                                label='Appointment Date and Time'
+                                name="dateTime"
+                                value={this.state.voucher.appointment_date?moment(this.state.voucher.appointment_date).format("MMMM Do YYYY, h:mm:ss a"):""}
+                                iconPosition="left"
+                                timeFormat={"AMPM"}
+                                dateTimeFormat={"MMMM Do YYYY, h:mm:ss a"}
+                                onChange={(e: React.SyntheticEvent<HTMLElement>, data: any) => {
+                                    if (data.value)
+                                        this.updateVoucher({appointment_date: moment(data.value, "MMMM Do YYYY, h:mm:ss a").toDate()})
+                                }
+                                }
+                                    />
+                        </Form.Group>
                         {/* Add the available treatments for the vet and species   */}
                         <Form.Field control={Dropdown} label='Treatments'
                                     value={this.state.voucher.treatmentIds}
@@ -260,10 +286,14 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                                        }
                                        }
                         />
+                        <Form.Field>
+                            <label>Non CAWS Person</label>
+                            <NonShelterPeopleTable people={this.state.voucher.other_people} updateList={this.updateNonShelterPeople}/>
+                        </Form.Field>
                     </Segment>
 
                 </Form>
-                {JSON.stringify(this.determineSpecies())}
+
                 {JSON.stringify(this.state.voucher)}
             </>
         )

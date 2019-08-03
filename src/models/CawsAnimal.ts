@@ -12,6 +12,7 @@ export interface CawsAnimalData{
     SHELTERCODE:string;
     ID:number;
     NAME:string;
+    MICROCHIPED:number;
     MICROCHIP:string;
 
     //The animal info
@@ -29,6 +30,7 @@ export interface CawsAnimalData{
     DATEBROUGHTIN:Date;
     DATEOFBIRTH:Date;
     ESTIMATEDDOB:string;
+    NEUTERED:number;
     NEUTEREDDATE:Date;
 
     //Good with
@@ -234,9 +236,27 @@ export default class CawsAnimal{
             const aDate:Date = new Date(a.DATE.toString());
             const bDate:Date = new Date(b.DATE.toString());
 
-            if(aDate > bDate)
+            //Get as value Date.valueOf()
+            const aValue = aDate.valueOf();
+            const bValue = bDate.valueOf();
+
+            //Check for nan
+            if(isNaN(aValue )|| isNaN(bValue)){
+                //If they both are
+                if(isNaN(aValue )&& isNaN(bValue)){
+                    return 0
+                }else{
+                    if(isNaN(aValue)){
+                        return -1
+                    }else{
+                        return 1;
+                    }
+                }
+            }
+            //Both are real values
+            if(aValue > bValue)
                 return 1
-            else if (aDate < bDate)
+            else if (aValue < bValue)
                 return -1
 
             return 0;

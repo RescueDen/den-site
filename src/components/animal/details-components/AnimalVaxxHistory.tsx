@@ -7,6 +7,7 @@ import {formatDate} from "../../../utils/date-formater";
 //Add in the props
 interface Props {
     animal:CawsAnimal;
+    hideHeader?:boolean;
 }
 
 
@@ -15,7 +16,9 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
 
     return (
         <Segment>
-            <Header as="h2">{myProps.animal.data.NAME}'s Vaccine History</Header>
+            {!myProps.hideHeader &&
+                < Header as = "h2" > {myProps.animal.data.NAME}'s Vaccine History</Header>
+            }
 
             <Table basic='very' style={{margin:"auto"}} celled collapsing>
                 {/*Add the header info*/}

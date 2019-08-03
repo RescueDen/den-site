@@ -108,8 +108,9 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                if((vet.species.indexOf(species[sp]) < 0)){
                    return false;
                }
-               return true;
            }
+            return true;
+
         }).map(vet =>{
             //Map them into options
             return {
@@ -132,9 +133,11 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
             let enabled = true;
 
             //see if the treatment can be used on the species
-            for(let sp =0; sp < species.length; sp++){
-                if((treatment.species.indexOf(species[sp]) < 0)){
-                    enabled = false;
+            if(species.length > 0) {
+                for (let sp = 0; sp < species.length; sp++) {
+                    if ((treatment.species.indexOf(species[sp]) < 0)) {
+                        enabled = false;
+                    }
                 }
             }
 

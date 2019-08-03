@@ -7,6 +7,9 @@ import {Header, Icon, Image, List, Placeholder, Table} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import AnimalItemCompact from "./AnimalItemCompact";
 import {Link} from "react-router-dom";
+import AnimalVaxxHistory from "./details-components/AnimalVaxxHistory";
+import {formatDate} from "../../utils/date-formater";
+import NonEditCheck from "../utils/NonEditCheck";
 
 //Define the expected props
 interface IncomingProps  {
@@ -66,20 +69,29 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
             const ani = this.props.cawsAnimalsDb.animals[id];
 
             return (
-                <Table.Row>
-                    <Table.Cell key={id} as='a' href={`${this.props.aniLink}/${id}`} target="_blank">
+                <Table.Row verticalAlign={"middle"} textAlign='center'>
+                    <Table.Cell key={id} textAlign='center' verticalAlign={"middle"}>
                         {ani &&
-                            <Header as='h4' image>
-                                <Image src={ani.data.THUMBNAILURL} rounded size='mini'/>
-                                <Header.Content>
-                                    {ani.data.NAME}
-                                    <Header.Subheader>{ani.data.SHELTERCODE}: {ani.data.AGE}</Header.Subheader>
-                                    <Header.Subheader>
-                                        {ani.getCurrentLocation()}
-                                    </Header.Subheader>
+                            <>
+                                <Image src={ani.data.THUMBNAILURL} rounded size='mini' centered={true}/>
+                                <Header as='h4' image textAlign={"center"}  >
+                                    <Header.Content as='a' href={`${this.props.aniLink}/${id}`} target="_blank">
+                                        {ani.data.NAME}
+                                        <Header.Subheader>{ani.data.SHELTERCODE}: {ani.data.AGE}</Header.Subheader>
+                                        <Header.Subheader>
+                                            {ani.getCurrentLocation()}
+                                        </Header.Subheader>
+                                        <Header.Subheader>
+                                            S/N: <NonEditCheck value={ani.data.NEUTERED}/>{formatDate(ani.data.NEUTEREDDATE)}
+                                        </Header.Subheader>
+                                        <Header.Subheader>
+                                            Chip: <NonEditCheck value={ani.data.MICROCHIPED}/>{ani.data.MICROCHIP}
+                                        </Header.Subheader>
+                                    </Header.Content>
+                                </Header>
+                        </>
 
-                                </Header.Content>
-                            </Header>
+
                         }
                         {!ani &&
                         <Header as='h4' image>
@@ -91,7 +103,12 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
 
                         }
                     </Table.Cell>
+                    <Table.Cell key={id+"vax"} >
+                        {ani &&
+                        <AnimalVaxxHistory hideHeader={true} animal={ani}/>
+                        }
 
+                    </Table.Cell>
                     {this.props.onDelete &&
                         <Table.Cell textAlign='right'>
                             <Icon name='delete' onClick={() => {
@@ -116,7 +133,7 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
      */
     render() {
         return (
-            <Table basic='very'  collapsing>
+            <Table basic='very'  collapsing >
                 <Table.Body>
                     {this.getItems()}
 

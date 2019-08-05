@@ -95,6 +95,12 @@ export const leftMenuItems = [
                 to: '/kennelcard',
                 icon:<Icon name='id card outline'/>,
 
+            },
+            {
+                name: "Vouchers",
+                to: '/vouchers',
+                icon:<Icon name='edit'/>,
+
             }
         ]
 

@@ -20,7 +20,7 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
                 < Header as = "h2" > {myProps.animal.data.NAME}'s Vaccine History</Header>
             }
 
-            <Table basic='very' style={{margin:"auto"}} celled collapsing>
+            <Table basic='very' style={{margin:"auto"}} celled className={"unstackable"}>
                 {/*Add the header info*/}
                 <thead>
                     <tr>
@@ -36,7 +36,7 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
                 {/*//Get the vaccine history in order*/}
                 {myProps.animal.getVaccineHistoryInOrder().map(vax =>{
                     return (
-                        <Table.Row key={vax.TYPE+vax.DATEREQUIRED}>
+                        <Table.Row key={vax.TYPE+vax.DATEREQUIRED} >
                             <Table.Cell>
                                 <Header as='h4' >
                                     <Header.Content>

@@ -39,7 +39,8 @@ import KCBuilder from "../kennelCards/KCBuilder";
 import AchievementSummary from "../person/achievement/AchievementSummary";
 import AgreementPopUp from "../agreement/AgreementPopUp";
 import PersonDetails from "../person/PersonDetails";
-import NewVoucher from "../voucher/NewVoucher";
+import VoucherOverview from "../voucher/VoucherOverview";
+import VoucherViewer from "../voucher/VoucherViewer";
 
 
 //Setup up path props to get the current path
@@ -152,7 +153,9 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route exact key={'achievements'} path="/achievements" component={Achievements} />
                             <Route key={'achievements/achId'+url} path="/achievements/:achId" component={AchievementSummary} />
                             <Route key={'people/personId'+url} path="/people/:personId" component={PersonDetails} />
-                            <Route key={'newvoucher'} path="/newvoucher" component={NewVoucher} />
+                            <Route exact key={'vouchers'} path="/vouchers" component={VoucherOverview} />
+                            <Route exact key={'voucher'} path="/voucher" component={VoucherViewer} />
+                            <Route key={'voucher/vouchers'+url} path="/voucher/:voucherId" component={VoucherViewer} />
 
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>

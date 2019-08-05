@@ -1,7 +1,7 @@
 /**
  * Specifies the caws user data
  */
-import {Species} from "./CawsAnimal";
+import CawsAnimal, {Species} from "./CawsAnimal";
 import {PersonData} from "./People";
 
 //Define the caws user, this comes from the json decode
@@ -64,7 +64,7 @@ export interface Voucher{
     //Store the baseline voucher info
     id:number;
     code:string;
-    status:string;
+    status:number;
 
     //Voucher type and info
     type:number;
@@ -88,7 +88,7 @@ export interface Voucher{
     animalInfo:NonShelterAnimal[];// []NonShelterAnimal `json:"animalInfo,omitempty"`
 
     //Store the medical treatment
-    treatmentIds:number;//TreatmentIds   []int  `json:"treatmentIds"`
+    treatmentIds:number[];//TreatmentIds   []int  `json:"treatmentIds"`
     other_treatment:string;//OtherTreatment string `json:"otherTreatment"`
 
     //And just some general nodes
@@ -108,4 +108,34 @@ export interface  NonShelterAnimal {
 
     //And just some general comments
     comments:string;
+}
+//Store the basic search
+export interface  VoucherSearch {
+    status?:number;
+    issuer?:number;
+    animalId?:number;
+    type?:number;
+    code?:string;
+    page:number;
+    pageSize:number;
+
+}
+
+//Store the results from a  search
+export interface  VoucherSearchResults {
+    page:number;
+    pageSize:number;
+    numberPages:number
+
+    //And the results
+    results:Voucher[];
+}
+
+
+export const  VoucherStatus: { [id: number]: string; } = {
+    1:"Available",
+    2:'New',
+    3:'Issued',
+    4:'Redeemed',
+    5:'Void'
 }

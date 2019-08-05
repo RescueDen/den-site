@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-pdf/renderer": "^1.5.4",
+    "@react-pdf/renderer": "1.5.4",
     "@types/axios": "^0.14.0",
     "@types/d3": "^5.7.2",
     "@types/jest": "^24.0.15",

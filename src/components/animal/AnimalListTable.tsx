@@ -133,7 +133,7 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
      */
     render() {
         return (
-            <Table basic='very'  collapsing >
+            <Table basic='very' >
                 <Table.Body>
                     {this.getItems()}
 

@@ -4,7 +4,19 @@ import {RouteComponentProps} from "react-router";
 import AnimalState from "../../state/AnimalState";
 import FormsSummary, {isFormItemData} from "../../models/FormsSummary";
 import React from "react";
-import {Container, Dimmer, DropdownProps, Form, Header, Image, Loader, Segment, Select} from "semantic-ui-react";
+import {
+    Button,
+    Container,
+    Dimmer,
+    DropdownProps,
+    Form,
+    Header,
+    Icon,
+    Image,
+    Loader,
+    Segment,
+    Select
+} from "semantic-ui-react";
 import {DocumentItemData, isDirectory} from "../../models/DocumentSummary";
 import Breadcrumbs from "../newsAndInfo/Breadcrumbs";
 import DocumentHierarchy from "../newsAndInfo/DocumentHierarchy";
@@ -16,6 +28,9 @@ import {connect} from "react-redux";
 import {voucherActions} from "../../actions/voucher.actions";
 import {Voucher, VoucherInfo} from "../../models/Voucher";
 import VoucherForm from "./VoucherForm";
+import VoucherSearchParams from "./VoucherSearchParams";
+import VoucherList from "./VoucherList";
+import {Link} from "react-router-dom";
 
 interface LinkProps {
     voucherInfo?:VoucherInfo;
@@ -54,15 +69,22 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
         return(
             <Container>
                 <Segment>
-                    <Header>New Voucher</Header>
+                    <Header>Voucher Search</Header>
                     {this.props.voucherInfo &&
-                        <VoucherForm
-                            initVoucher={this.props.voucherInfo.default_voucher}
+                        <VoucherSearchParams
                             voucherInfo={this.props.voucherInfo}
-                        >
-
-                        </VoucherForm>
+                        />
                     }
+                    {this.props.voucherInfo &&
+                        <VoucherList voucherInfo={this.props.voucherInfo}/>
+
+                    }
+                    <Link
+                        to={`/voucher`}
+                    >
+                        <Button icon='add'> New Voucher </Button>
+
+                    </Link>
                 </Segment>
             </Container>
         );

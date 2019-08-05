@@ -7,7 +7,7 @@ import {
     Form,
     Grid,
     Select,
-    Dropdown, TextAreaProps, Segment, Header
+    Dropdown, TextAreaProps, Segment, Header, Button
 } from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import ApplicationState from "../../state/ApplicationState";
@@ -29,6 +29,11 @@ interface IncomingProps {
     //Store the current voucher (could be empty default)
     initVoucher:Voucher;
 
+    //Pass in a onSubmit
+    onSubmit:(voucher:Voucher) => any;
+
+    //And the button
+    buttonText:string;
 }
 
 interface LinkProps {
@@ -296,6 +301,12 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                     </Segment>
 
                 </Form>
+                <Button
+                    primary
+                    onClick={() => this.props.onSubmit(this.state.voucher)}
+                    >
+                    {this.props.buttonText}
+                </Button>
 
                 {JSON.stringify(this.state.voucher)}
             </>

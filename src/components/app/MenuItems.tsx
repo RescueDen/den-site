@@ -97,9 +97,15 @@ export const leftMenuItems = [
 
             },
             {
-                name: "Vouchers",
+                name: "Vouchers Listing",
                 to: '/vouchers',
                 icon:<Icon name='edit'/>,
+
+            },
+            {
+                name: "New Voucher",
+                to: '/voucher',
+                icon:<Icon corner name='add' />
 
             }
         ]

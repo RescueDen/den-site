@@ -69,7 +69,7 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
         return(
             <Container>
                 <Segment>
-                    <Header>Voucher Search</Header>
+                    <Header>Existing Voucher Search <Button primary icon='add' floated='right'> New Voucher </Button></Header>
                     {this.props.voucherInfo &&
                         <VoucherSearchParams
                             voucherInfo={this.props.voucherInfo}
@@ -82,7 +82,7 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
                     <Link
                         to={`/voucher`}
                     >
-                        <Button icon='add'> New Voucher </Button>
+
 
                     </Link>
                 </Segment>

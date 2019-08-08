@@ -99,12 +99,14 @@ export const leftMenuItems = [
             {
                 name: "Vouchers Listing",
                 to: '/vouchers',
+                reqPerm:"issue_voucher",
                 icon:<Icon name='edit'/>,
 
             },
             {
                 name: "New Voucher",
                 to: '/voucher',
+                reqPerm:"issue_voucher",
                 icon:<Icon corner name='add' />
 
             }

@@ -9,7 +9,7 @@ import {
     Container,
     Dimmer,
     DropdownProps,
-    Form,
+    Form, Grid,
     Header,
     Icon,
     Image,
@@ -58,6 +58,7 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
         // get the forms
         this.props.getGetVoucherInfo();
 
+        alert("The voucher UI is only a preview and cannot be used to send vouchers to vets yet. Please send feedback to matt");
     };
 
     /**
@@ -69,7 +70,23 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
         return(
             <Container>
                 <Segment>
-                    <Header>Existing Voucher Search <Button primary icon='add' floated='right'> New Voucher </Button></Header>
+                    {/*Add a simple header*/}
+                    <Grid columns={2}>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Header>Existing Voucher Search & Listings</Header>
+                            </Grid.Column>
+                            {/*The add voucher button on right*/}
+                            <Grid.Column textAlign='right'>
+                                <Link
+                                    to={`/voucher`}
+                                >
+                                    <Button primary icon='add' floated='right'> New Voucher </Button>
+                                </Link>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+
                     {this.props.voucherInfo &&
                         <VoucherSearchParams
                             voucherInfo={this.props.voucherInfo}
@@ -79,12 +96,7 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
                         <VoucherList voucherInfo={this.props.voucherInfo}/>
 
                     }
-                    <Link
-                        to={`/voucher`}
-                    >
 
-
-                    </Link>
                 </Segment>
             </Container>
         );

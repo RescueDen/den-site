@@ -113,7 +113,16 @@ export function findShelterIds(input:any): string[]{
     }else{
         //Specify the regex match
         const regex  = /[ABCDEMNOS][0-9]{7}\b/g
-        return input.toString().match(regex);
+
+        //Get the test array
+        const testArray: RegExpMatchArray|null= input.toString().match(regex);
+
+        //If null return an empty array
+        if(testArray === null){
+            return [] as string[];
+        }else{
+            return testArray;
+        }
 
     }
 

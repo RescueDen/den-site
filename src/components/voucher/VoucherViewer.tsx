@@ -52,6 +52,8 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
      * Gets called once when the page loads.  Tell the system to download that animal
      */
     componentDidMount(){
+        alert("The voucher UI is only a preview and cannot be used to send vouchers to vets yet. Please send feedback to matt");
+
         // get the forms
         this.props.getGetVoucherInfo();
 
@@ -121,9 +123,12 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
             return (
                 <Container>
                     <Segment>
-                        <Dimmer inverted active={this.state.voucher == undefined || this.state.loading}>
-                            <Loader inverted>Loading</Loader>
-                        </Dimmer>
+                        {/*Add a dimmer if needed*/}
+                        {this.state.voucher == undefined || this.state.loading &&
+                            <Dimmer inverted active={true}>
+                                <Loader inverted>Loading</Loader>
+                            </Dimmer>
+                        }
                         <Header>Edit Voucher</Header>
                         {this.props.voucherInfo && this.state.voucher &&
                         <VoucherForm
@@ -144,9 +149,12 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
             return(
                 <Container>
                     <Segment>
-                        <Dimmer inverted inactive={this.state.voucher == undefined || this.state.loading}>
+                        {/*Add a dimmer if needed*/}
+                        {this.state.voucher == undefined || this.state.loading &&
+                        <Dimmer inverted active={true}>
                             <Loader inverted>Loading</Loader>
                         </Dimmer>
+                        }
                         <Header>New Voucher </Header>
                         {this.props.voucherInfo &&
                         <VoucherForm

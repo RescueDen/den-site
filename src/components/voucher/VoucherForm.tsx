@@ -200,7 +200,6 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
         return (
             <>
                 <Form>
-
                     <Form.Field control={Select} label='Voucher Type'
                                 value={this.state.voucher.type}
                                 placeholder='Select Voucher Type'

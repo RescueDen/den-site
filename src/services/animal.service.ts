@@ -1,11 +1,12 @@
 import axios from 'axios';
 import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
+import InNeedOfFoster, {InNeedOfFosterData, NonCawsAnimal} from "../models/InNeedOfFosterModel";
 
 export const animalService = {
     getAnimal,
     searchForAnimal,
-
+    uploadPicture,
     // register,
     // getAll,
     // getById,
@@ -119,4 +120,37 @@ function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[
     );
 
 
+}
+
+
+function uploadPicture(id:number, notes:string, file: File) : Promise<CawsAnimal> {
+
+    //Make a new form data
+    let dataInForm = new FormData()
+    dataInForm.append("notes", notes)
+    dataInForm.append("image", file)
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Add it the type
+    headers['Content-Type'] = 'multipart/form-data';
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post(`/animal/picture/`+id, dataInForm,{headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const data = response.data as CawsAnimalData;
+
+            //Make a caws user
+            const cawAnimal = new CawsAnimal(data)
+
+            //Return just the user
+            return cawAnimal;
+        }
+    );
 }

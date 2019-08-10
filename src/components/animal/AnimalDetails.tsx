@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal from "../../models/CawsAnimal";
-import {Button,Segment, Dimmer, Loader, Container, Header} from "semantic-ui-react";
+import {Button, Segment, Dimmer, Loader, Container, Header, Icon} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
@@ -15,6 +15,8 @@ import AnimalVaxxHistory from "./details-components/AnimalVaxxHistory";
 import {Link} from "react-router-dom";
 import PermissionBlock from "../authentication/PermissionBlock";
 import AnimalJournal from "./AnimalJournal";
+import UploadPicture from "./details-components/UploadPicture";
+import Permissions from "../../models/Permissions";
 
 
 
@@ -23,6 +25,7 @@ interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
     animal: CawsAnimal;
     user:CawsUser;
+    permissions?:Permissions
 
 }
 
@@ -79,7 +82,27 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                             maxWidth: "60vh"
                         }
                     }>
-                        <AnimalImageGallery animal={this.props.animal} />
+                        <AnimalImageGallery
+                            key={this.props.animal.data.IMGURLS.length}
+                            animal={this.props.animal}
+                            additionalItem={
+                                this.props.permissions && this.props.permissions.allowed("post_animal_picture") ?
+                                    {
+                                        renderItem: () => {
+                                            return (
+                                                <Segment>
+                                                    <Header as="h3" textAlign="center">Upload photos
+                                                        of {this.props.animal.data.NAME} to share</Header>
+                                                    <UploadPicture ani={this.props.animal}/>
+                                                </Segment>
+                                            )
+                                        },
+                                        renderThumbInner: () => <Icon circular name='upload' size='big'/>
+                                    }
+                                    : undefined
+                            }
+
+                        />
                     </div>
                     {/*The animal Bio*/}
                     <Segment>
@@ -111,6 +134,7 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
         ...myProps,
         animal: state.animals.animals[myProps.match.params.aniId] ,
         user:state.authentication.loggedInUser || getEmptyCawsUser(),
+        permissions : state.authentication.permissions
     };
 }
 

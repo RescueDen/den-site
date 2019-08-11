@@ -1,7 +1,7 @@
 import axios from 'axios';
 import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
 import {authHeader} from "../utils/auth-header";
-import InNeedOfFoster, {InNeedOfFosterData, NonCawsAnimal} from "../models/InNeedOfFosterModel";
+import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/InNeedOfFosterModel";
 
 export const animalService = {
     getAnimal,

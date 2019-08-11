@@ -4,7 +4,7 @@ import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {UserData} from "../models/UserData";
 import {animalService} from "../services/animal.service"
-import {NonCawsAnimal} from "../models/InNeedOfFosterModel";
+import {NonShelterAnimal} from "../models/InNeedOfFosterModel";
 import {inNeedOfFosterService} from "../services/inNeedOfFoster.service";
 import {inNeedConstants} from "./inNeedFoster.actions";
 

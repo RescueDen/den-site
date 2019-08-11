@@ -7,7 +7,7 @@ import AnimalState from "../../state/AnimalState";
 import AnimalCard from "../animal/AnimalCard";
 import {Card, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
-import InNeedOfFosterModel, {NonCawsAnimal} from "../../models/InNeedOfFosterModel";
+import InNeedOfFosterModel, {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 import {inNeedActions} from "../../actions/inNeedFoster.actions";
 import SearchableAnimalListFull from "./SearchableAnimalListFull";
 

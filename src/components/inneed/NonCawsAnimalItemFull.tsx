@@ -4,14 +4,14 @@ import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon, P
 import {Link} from "react-router-dom";
 import CawsAnimal from "../../models/CawsAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
-import {NonCawsAnimal} from "../../models/InNeedOfFosterModel";
+import {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 
 
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    ani:NonCawsAnimal;
+    ani:NonShelterAnimal;
 
     //A foster button
     extraButton?: any

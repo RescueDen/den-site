@@ -4,7 +4,7 @@ import {ThunkAction} from 'redux-thunk';
 import {newsService} from "../services/news.service";
 import {inNeedOfFosterService} from "../services/inNeedOfFoster.service";
 import {animalActions} from "./animal.actions";
-import {NonCawsAnimal} from "../models/InNeedOfFosterModel";
+import {NonShelterAnimal} from "../models/InNeedOfFosterModel";
 
 export const inNeedConstants = {
     FETCH_INNEEDOFFOSTER: 'FETCH_INNEEDOFFOSTER',
@@ -72,7 +72,7 @@ function getInNeedOfFoster(): ThunkAction<any, any,any, any> {
  * @param password
  * @returns {Function}
  */
-function uploadAnimal(data: NonCawsAnimal, file: File): ThunkAction<any, any,any, any> {
+function uploadAnimal(data: NonShelterAnimal, file: File): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<any>) => {
         //dispatch a login success

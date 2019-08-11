@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 import AnimalItemFull from "./AnimalItemFull";
 import CawsUser from "../../models/CawsUser";
 import CawsAnimal, {Species} from "../../models/CawsAnimal";
-import {inSearch, inSpecies, NonCawsAnimal} from "../../models/InNeedOfFosterModel";
+import {inSearch, inSpecies, NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 import NonCawsAnimalItemFull from "./NonCawsAnimalItemFull";
 import AddInNeed from "./AddInNeed";
 import {inNeedActions} from "../../actions/inNeedFoster.actions";
@@ -21,7 +21,7 @@ interface IncomingProps  {
     animalIdList: number[]
     title:string
     link:string
-    nonCaws:NonCawsAnimal[]
+    nonCaws:NonShelterAnimal[]
 
 
 }
@@ -40,7 +40,7 @@ interface DispatchProps{
     downloadAnimal: (id:number) => any;
     removeAnimal: (id:string) =>any;
     // addGeometry:(name:string) =>any;
-    uploadAnimal:(data: NonCawsAnimal, file: File) => any;
+    uploadAnimal:(data: NonShelterAnimal, file: File) => any;
 }
 
 //Define the expected props
@@ -116,7 +116,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
         }
 
     }
-    buildNonCawsFosterButton(ani:NonCawsAnimal): any {
+    buildNonCawsFosterButton(ani:NonShelterAnimal): any {
         //If this foster needs a button
             //Build the name
         let name = "Someone ";
@@ -195,7 +195,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
 
     }
 
-    uploadNewAni = (data: NonCawsAnimal, file: File) => {
+    uploadNewAni = (data: NonShelterAnimal, file: File) => {
         this.props.uploadAnimal(data, file);
 
         //Also close the upload
@@ -276,7 +276,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
     return {
         downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
-        uploadAnimal:(data: NonCawsAnimal, file: File) => dispatch(inNeedActions.uploadAnimal(data, file)),
+        uploadAnimal:(data: NonShelterAnimal, file: File) => dispatch(inNeedActions.uploadAnimal(data, file)),
         removeAnimal:(id:string) =>   dispatch(inNeedActions.removeAnimal(id))
 
     };

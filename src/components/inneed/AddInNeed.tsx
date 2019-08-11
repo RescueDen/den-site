@@ -8,7 +8,7 @@ import {
 
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
-import {NonCawsAnimal} from "../../models/InNeedOfFosterModel";
+import {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 import CawsAnimal, {Species} from "../../models/CawsAnimal";
 
 //Define the expected props
@@ -16,12 +16,12 @@ interface IncomingProps{
 }
 
 interface LinkProps {
-    uploadAnimal: (data: NonCawsAnimal, file: File) => any;
+    uploadAnimal: (data: NonShelterAnimal, file: File) => any;
 }
 
 
 interface LocalState{
-    anData:NonCawsAnimal
+    anData:NonShelterAnimal
     files?:FileList
 
 }

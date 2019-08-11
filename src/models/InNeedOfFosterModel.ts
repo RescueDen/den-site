@@ -12,16 +12,16 @@ export interface InNeedOfFosterData{
     from_database:number[];
 
     //Get the non caws
-    nonCaws?: NonCawsAnimal[]
+    nonShelter?: NonShelterAnimal[]
 }
 
 
 //This is a search function for searching animals for now
-export function inSearch(ani: NonCawsAnimal , term:string){
+export function inSearch(ani: NonShelterAnimal , term:string){
     return ani.name.toLowerCase().indexOf(term.toLowerCase()) >=0;
 }
 
-export function inSpecies(ani: NonCawsAnimal, searchSpecies: Species[]):boolean {
+export function inSpecies(ani: NonShelterAnimal, searchSpecies: Species[]):boolean {
     const mySpecies = ani.species;
 
     for(let i =0; i < searchSpecies.length; i++){
@@ -36,7 +36,7 @@ export function inSpecies(ani: NonCawsAnimal, searchSpecies: Species[]):boolean 
 }
 
 /**Store the basic information for non caws animal**/
-export interface  NonCawsAnimal {
+export interface  NonShelterAnimal {
     //And the animal id
     id:string
 
@@ -72,8 +72,8 @@ export default class InNeedOfFoster{
         this.data = data;
 
         //Update the img url
-        if (data.nonCaws) {
-            data.nonCaws.forEach(itm => {
+        if (data.nonShelter) {
+            data.nonShelter.forEach(itm => {
                 itm.imgUrl = imgUrlBase +"/inneed/image/"+ itm.imgId
             })
         }
@@ -87,8 +87,8 @@ export default class InNeedOfFoster{
     }
 
     //Add a function to get all animals in need
-    public getNonCawsAnimals(): NonCawsAnimal[]{
-        return this.data.nonCaws? this.data.nonCaws: []
+    public getNonCawsAnimals(): NonShelterAnimal[]{
+        return this.data.nonShelter? this.data.nonShelter: []
     }
 
 

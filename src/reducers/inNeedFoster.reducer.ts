@@ -7,7 +7,7 @@ import ArticlesSummary from "../models/ArticlesSummary";
 import {infoConstants} from "../actions/info.actions";
 import NewsState from "../state/NewsState";
 import {newsConstants} from "../actions/news.actions";
-import InNeedOfFoster, {NonCawsAnimal} from "../models/InNeedOfFosterModel";
+import InNeedOfFoster, {NonShelterAnimal} from "../models/InNeedOfFosterModel";
 import {inNeedConstants} from "../actions/inNeedFoster.actions";
 import InNeedState from "../state/InNeedState";
 

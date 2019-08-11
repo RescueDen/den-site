@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import InNeedOfFoster, {InNeedOfFosterData, NonCawsAnimal} from "../models/InNeedOfFosterModel";
+import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/InNeedOfFosterModel";
 
 export const inNeedOfFosterService = {
     getInNeedOfFosterList,
@@ -54,7 +54,7 @@ function getInNeedOfFosterList() : Promise<InNeedOfFoster> {
 
 }
 
-function uploadAnimal(data: NonCawsAnimal, file?: File) : Promise<InNeedOfFoster> {
+function uploadAnimal(data: NonShelterAnimal, file?: File) : Promise<InNeedOfFoster> {
 
     //Make a new form data
     let dataInForm = new FormData()

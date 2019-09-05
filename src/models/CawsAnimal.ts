@@ -195,13 +195,15 @@ export default class CawsAnimal{
     //Get the foster range based upon the movements
     getCurrentStatus():string{
         //March over each movement
-        for( let move of this.data.MOVEMENTS){
-            //If there is no end date
-            if(move.END.toString().length === 0){
-               return  move.MovementType + " " +formatDate(move.START.toString());
+        if(this.data.MOVEMENTS) {
+            for (let move of this.data.MOVEMENTS) {
+                //If there is no end date
+                if (move.END.toString().length === 0) {
+                    return move.MovementType + " " + formatDate(move.START.toString());
+                }
+
+
             }
-
-
         }
         return"";
 

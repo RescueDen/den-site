@@ -129,12 +129,18 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                 );
             }break;
             case "string":
+                //Build the name
+                let name = option.name;
+                if (option.description && option.description.length > 0) {
+                    name += ": " + option.description;
+                }
+
                 //If it a drop down
                 if (option.selection) {
                     return (
                         <Form.Select
                             disabled={disabled}
-                            label={option.name}
+                            label={name}
                             value={currentValue}
                             options={option.selection.map(opt => {
                                 return {
@@ -156,11 +162,12 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                     );
 
                 } else {
+
                     //Just free flow
                     return (
                         <Form.Field
                             disabled={disabled}
-                            label={option.name}
+                            label={name}
                             control='input'
                             type='text'
                             value={currentValue}

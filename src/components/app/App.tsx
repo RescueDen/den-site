@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import routes
-import {Container, Image, Icon} from 'semantic-ui-react';
+import {Container, Icon} from 'semantic-ui-react';
 import {Redirect, Route, RouteProps} from "react-router";
 
 //Import Pages
@@ -11,7 +11,7 @@ import MyDetails from "../person/MyDetails";
 import Information from "../newsAndInfo/Information";
 import News from "../newsAndInfo/News";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
-import ResponsiveMenu, {MenuMode} from "../menu/ResponsiveNavBar";
+import {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
 import FormSelector from "../forms/FormSelector";
 import EventsSelector from "../events/EventsSelector";
@@ -82,7 +82,6 @@ class App extends React.Component<AppProps&DispatchProps> {
 
         //Get the current url
         const url = this.props.location? this.props.location.pathname: "";
-        console.log(url);
 
         return (
 

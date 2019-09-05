@@ -49,7 +49,9 @@ const AnimalBio =  (myProps:Props) =>{
                         {createRow("Is Good With Dogs?", myProps.animal.formatYesNoUnknown(myProps.animal.data.ISGOODWITHDOGS))}
                         {createRow("Is Good With Children?", myProps.animal.formatYesNoUnknown(myProps.animal.data.ISGOODWITHCHILDREN), "child")}
                         {createRow("Is House Trained?", myProps.animal.formatYesNoUnknown(myProps.animal.data.ISHOUSETRAINED), "home")}
-                        {createRow("Current Location", myProps.animal.getCurrentStatus(), "location arrow")}
+                        {myProps.animal.getCurrentStatus().length > 0 &&
+                            createRow("Current Location", myProps.animal.getCurrentStatus(), "location arrow")
+                        }
 
                     </Table.Body>
                 </Table>

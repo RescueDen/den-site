@@ -32,11 +32,19 @@ interface PrivateRouteProps extends RouteComponentProps{
 }
 
 
+const Includes = (pathname: string, exclude: string[]):boolean  =>{
+    for(let testPath of exclude){
+        if(pathname.startsWith(testPath)){
+            return true;
+        }
+    }
+    return false;
+}
 
 const PrivateRouteWithOutState = ({exactRoute, to, currentUser,reqPermission, permissions, exclude, component: Component, ...rest }:PrivateRouteProps) => {
     //Check to see if any of the routes are excluded
 
-    if(exclude && exclude.indexOf(rest.location.pathname) > -1){
+    if(exclude && Includes(rest.location.pathname, exclude)){
         //Return null, so we don't render
         return null;
     }

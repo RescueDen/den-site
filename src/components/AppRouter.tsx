@@ -15,6 +15,7 @@ import RegisterPage from "./authentication/RegisterPage";
 import ActivationPage from "./authentication/ActivationPage";
 import PasswordResetPage from "./authentication/PasswordResetPage";
 import HelpViewier from "./static-pages/HelpViewier";
+import PublicVoucherView from "./voucher/PublicVoucherView";
 
 //Define the class
 class AppRouter extends React.Component{
@@ -36,9 +37,11 @@ class AppRouter extends React.Component{
                             <Route path="/activate" component={ActivationPage} />
                             <Route path="/passwordreset" component={PasswordResetPage} />
                             <Route path="/loginhelp" component={HelpViewier} />
+                            <Route path="/loginhelp" component={HelpViewier} />
+                            <Route key={'/public/voucher/vouchers'} path="/public/voucher/:voucherSecret" component={PublicVoucherView} />
 
                         </Container>
-                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset", "/loginhelp", "/loginhelp/"]} path="/" component={App} />
+                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset", "/loginhelp", "/loginhelp/",'/public/voucher']} path="/" component={App} />
 
                     </div>
                 </BrowserRouter>

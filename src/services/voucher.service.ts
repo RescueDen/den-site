@@ -1,11 +1,12 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import {Voucher, VoucherInfo, VoucherSearch, VoucherSearchResults} from "../models/Voucher";
+import {PublicVoucherViewData, Voucher, VoucherInfo, VoucherSearch, VoucherSearchResults} from "../models/Voucher";
 
 export const voucherService = {
     getVoucherInfo,
     performVoucherSearch,
     getVoucherById,
+    getPublicVoucherView,
     // getAll,
     // getById,
     // update,
@@ -127,4 +128,32 @@ function updateVoucher(voucher: Voucher): Promise<Voucher> {
             return stats;
         }
     );
+}
+
+
+/**
+ * Get the info summary
+ * @param username
+ * @param password
+ * @returns
+ */
+function getPublicVoucherView(secret:string) : Promise<PublicVoucherViewData> {
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get('/voucher/public/' + secret);
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const stats = response.data as PublicVoucherViewData;
+
+
+            //Return just the user
+            return stats;
+        }
+    );
+
+
 }

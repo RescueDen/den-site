@@ -1,7 +1,7 @@
 /**
  * Specifies the caws user data
  */
-import CawsAnimal, {Species} from "./CawsAnimal";
+import CawsAnimal, {CawsAnimalData, MovementData, Species} from "./CawsAnimal";
 import {PersonData} from "./People";
 
 //Define the caws user, this comes from the json decode
@@ -138,4 +138,19 @@ export const  VoucherStatus: { [id: number]: string; } = {
     3:'Issued',
     4:'Redeemed',
     5:'Void'
+}
+
+
+export interface PublicVoucherViewData {
+    //Hold the voucher
+    voucher:Voucher;
+
+    //Any open movements
+    movements:MovementData[];
+
+    //Animal data
+    animals: CawsAnimalData[];
+
+    //And treatments
+    treatments:Treatment[];
 }

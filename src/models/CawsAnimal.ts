@@ -222,6 +222,19 @@ export default class CawsAnimal{
         return"";
 
     }
+    getCurrentMovement():MovementData|undefined{
+        //March over each movement
+        for( let move of this.data.MOVEMENTS){
+            //If there is no end date
+            if(move.END.toString().length === 0){
+                return  move;
+            }
+
+
+        }
+        return undefined;
+
+    }
 
     //This is a search function for searching animals for now
     inSearch(term:string){
@@ -288,6 +301,24 @@ export default class CawsAnimal{
 
         return false;
 
+    }
+
+    getCSVRow():string{
+        let row = "";
+
+        //Add in the required data
+        row += this.data.NAME+ ",";
+        row += this.data.SHELTERCODE + ",";
+        //Add in the current movement data
+        const movement = this.getCurrentMovement();
+        if(movement){
+            row += movement.MovementType+ ",";
+            row += '' + movement.START+ ',';
+            row += '"' + movement.FIRSTNAME+ '",';
+            row += '"' + movement.EMAIL+ '",';
+        }
+        row += this.getImageUrl() + ",";
+        return row;
     }
 
     //Get to download

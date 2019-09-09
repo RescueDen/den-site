@@ -308,7 +308,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                     )}
 
                     {/*Add a button bar to switch between the modes*/}
-                    <Button.Group >
+                    <Button.Group style={{marginBottom:"50px"}} >
                         {editMode &&
                         <Button secondary onClick={this.cancelChanges}>Cancel</Button>
                         }

@@ -6,7 +6,7 @@ export const voucherService = {
     getVoucherInfo,
     performVoucherSearch,
     getVoucherById,
-    getPublicVoucherView,
+    getPublicVoucherView: getVetVoucherView,
     // getAll,
     // getById,
     // update,
@@ -137,10 +137,10 @@ function updateVoucher(voucher: Voucher): Promise<Voucher> {
  * @param password
  * @returns
  */
-function getPublicVoucherView(secret:string) : Promise<PublicVoucherViewData> {
+function getVetVoucherView(secret:string) : Promise<PublicVoucherViewData> {
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/voucher/public/' + secret);
+    const responsePromise = apiServer.get('/voucher/vet/' + secret);
 
 
     //We need to do some work here

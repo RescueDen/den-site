@@ -14,8 +14,8 @@ import {Container} from "semantic-ui-react";
 import RegisterPage from "./authentication/RegisterPage";
 import ActivationPage from "./authentication/ActivationPage";
 import PasswordResetPage from "./authentication/PasswordResetPage";
-import HelpViewier from "./static-pages/HelpViewier";
-import PublicVoucherView from "./voucher/PublicVoucherView";
+import HelpViewer from "./static-pages/HelpViewier";
+import VetVoucherView from "./voucher/VetVoucherView";
 
 //Define the class
 class AppRouter extends React.Component{
@@ -36,12 +36,12 @@ class AppRouter extends React.Component{
                             <Route path="/register" component={RegisterPage} />
                             <Route path="/activate" component={ActivationPage} />
                             <Route path="/passwordreset" component={PasswordResetPage} />
-                            <Route path="/loginhelp" component={HelpViewier} />
-                            <Route path="/loginhelp" component={HelpViewier} />
-                            <Route key={'/public/voucher/vouchers'} path="/public/voucher/:voucherSecret" component={PublicVoucherView} />
+                            <Route path="/loginhelp" component={HelpViewer} />
+                            <Route path="/loginhelp" component={HelpViewer} />
+                            <Route key={'/vet/voucher/vouchers'} path="/vet/voucher/:voucherSecret" component={VetVoucherView} />
 
                         </Container>
-                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset", "/loginhelp", "/loginhelp/",'/public/voucher']} path="/" component={App} />
+                        <PrivateRoute to={'/login'} exclude={["/login", "/register","/activate", "/passwordreset", "/loginhelp", "/loginhelp/",'/vet/voucher']} path="/" component={App} />
 
                     </div>
                 </BrowserRouter>

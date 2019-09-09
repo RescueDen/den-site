@@ -145,6 +145,9 @@ export interface PublicVoucherViewData {
     //Hold the voucher
     voucher:Voucher;
 
+    //Hold the voucher type
+    type:Type;
+
     //Any open movements
     movements:MovementData[];
 

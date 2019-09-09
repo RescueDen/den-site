@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal, {Species} from "../../models/CawsAnimal";
 import {Button, Segment, Dimmer, Loader, Container, Header, Icon} from "semantic-ui-react";
 import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
 import {RouteComponentProps} from "react-router";
@@ -113,6 +113,9 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     {/*The vaccine history*/}
                     <AnimalVaxxHistory animal={this.props.animal}/>
                     {/* If the user can view the journal   */}
+                    {this.props.animal.isSpecies([Species.dog]) &&
+                    <p>To update the dog's bio or pictures please use this <Link to="/forms/1LID8RWvBMux4FzXNzI7Yq9560Cf5ptFo">form</Link>.</p>
+                        }
                     <PermissionBlock reqPerm="view_public_journal">
                         <AnimalJournal ani={this.props.animal} />
                     </PermissionBlock>

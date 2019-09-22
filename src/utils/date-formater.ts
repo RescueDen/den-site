@@ -25,12 +25,28 @@ export function formatDate(dateIn:any) {
 
     //If the date is empty
     const dateString = dateIn.toString();
-    if(dateString.length == 0)
+    if(dateString.length === 0)
         return "";
 
     return yearMonthDay(dateString);
 }
 
+/**
+ * Formats the date in a year month day format
+ * @param dateIn
+ */
+export function formatDateTime(dateIn:any) {
+    if(!dateIn){
+        return "";
+    }
+
+    //If the date is empty
+    const dateString = dateIn.toString();
+    if(dateString.length === 0)
+        return "";
+
+    return (new Date(dateString)).toLocaleString();
+}
 
 
 /**

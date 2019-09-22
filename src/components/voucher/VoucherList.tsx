@@ -205,7 +205,7 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row textAlign='right'>
-                        <Table.HeaderCell colSpan='6'>
+                        <Table.HeaderCell colSpan='7'>
                         {this.props.results &&
                             <Pagination
                                 activePage={this.props.results!.page}

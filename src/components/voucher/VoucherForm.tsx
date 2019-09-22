@@ -34,12 +34,15 @@ interface IncomingProps {
 
     //And the button
     buttonText:string;
+
 }
 
 interface LinkProps {
     //Define the props we expect
     cawsAnimalsDb: AnimalState
 
+    //Updating
+    updating:boolean;
 
 }
 
@@ -303,6 +306,7 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                 <Button
                     primary
                     onClick={() => this.props.onSubmit(this.state.voucher)}
+                    loading={this.props.updating}
                     >
                     {this.props.buttonText}
                 </Button>
@@ -338,6 +342,7 @@ function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingP
     return {
         ...props,
         cawsAnimalsDb:state.animals,
+        updating:state.voucher.updating
     };
 }
 

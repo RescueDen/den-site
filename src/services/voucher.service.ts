@@ -7,7 +7,7 @@ export const voucherService = {
     performVoucherSearch,
     getVoucherById,
     getPublicVoucherView: getVetVoucherView,
-    // getAll,
+    getMyVouchers,
     // getById,
     // update,
     // delete: _delete
@@ -154,6 +154,29 @@ function getVetVoucherView(secret:string) : Promise<PublicVoucherViewData> {
             return stats;
         }
     );
+}
 
+function getMyVouchers() : Promise<PublicVoucherViewData[]|undefined> {
 
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get('/voucher/mine' , {headers:headers});
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            if(response.data === undefined){
+                return undefined;
+            }else{
+                const stats = response.data as PublicVoucherViewData[];
+
+                //Return just the user
+                return stats;
+            }
+
+        }
+    );
 }

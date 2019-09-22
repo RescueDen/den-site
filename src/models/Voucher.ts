@@ -32,7 +32,8 @@ export interface Vet{
     phone:string;
     address:string;
     site:string;
-
+    notes:string;
+    logoUrl?:string;
 }
 
 /**
@@ -156,4 +157,6 @@ export interface PublicVoucherViewData {
 
     //And treatments
     treatments:Treatment[];
+
+    vet:Vet;
 }

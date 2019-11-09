@@ -203,13 +203,8 @@ function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
     };
 }
 
-
-//TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-const VoucherViewerWithOutRouter =  connect(
+//Wrap with a withRouter so we get the current location
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(VoucherViewer);
-
-
-//Wrap with a withRouter so we get the current location
-export default withRouter<LinkProps>(props => <VoucherViewerWithOutRouter {...props}/>);
+)(VoucherViewer));

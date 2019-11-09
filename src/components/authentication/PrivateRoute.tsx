@@ -16,7 +16,7 @@ import Permissions from "../../models/Permissions";
 
 
 //Define a private route interface for props
-interface PrivateRouteProps extends RouteComponentProps{
+interface PrivateRouteProps extends RouteComponentProps<any>{
     exclude: string[]
     path:string
     component:any
@@ -103,12 +103,5 @@ function mapStateToProps(state:ApplicationState,myProps:PrivateRouteProps ):Priv
     };
 }
 
-
-const PrivateRoute = connect (
-    mapStateToProps
-)(PrivateRouteWithOutState);
-
-
-
 //Wrap with a withRouter so we get the current location
-export default withRouter<PrivateRouteProps>(props => <PrivateRoute {...props}/>);
+export default withRouter(connect(mapStateToProps)(PrivateRouteWithOutState))

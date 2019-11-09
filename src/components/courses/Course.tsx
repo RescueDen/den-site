@@ -178,12 +178,5 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
 
 }
 
-//https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-const CourseWithOutRouter = connect (
-    mapStateToProps,
-    mapDispatchToProps
-)(Course);
-
-
 //Wrap with a withRouter so we get the current location
-export default withRouter<LinkProps>(props => <CourseWithOutRouter {...props}/>);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Course))

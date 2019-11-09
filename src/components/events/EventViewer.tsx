@@ -371,6 +371,8 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                                     formData={signUpInfo.signupForm.formData}
                                     widgets={customWidgets}
                                     onSubmit={this.onSubmit}
+                                    liveValidate={true}
+                                    showErrorList={false}
                                 >
                                     {/*Render a custom Submit button*/}
                                     {this.state.activeRow &&
@@ -402,6 +404,8 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                                 formData={signUpInfo.signupForm.formData}
                                 widgets={customWidgets}
                                 onSubmit={this.onSubmit}
+                                liveValidate={true}
+                                showErrorList={false}
                             >
                                 {/*Render a custom/hidden Submit button*/}
                                 <Button  primary type="submit">Save</Button>

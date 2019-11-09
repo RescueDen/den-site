@@ -35,6 +35,7 @@ interface IncomingProps {
     //And the button
     buttonText:string;
 
+    children:any;
 }
 
 interface LinkProps {
@@ -326,6 +327,7 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
  */
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
     return {
+        ...ownProps,
         downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
     };
 

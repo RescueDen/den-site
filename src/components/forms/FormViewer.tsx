@@ -140,6 +140,8 @@ class FormViewer extends React.Component<LinkProps, State> {
                       widgets={widgets}
                       onSubmit={this.onSubmit}
                       formData={formData}
+                      liveValidate={true}
+                      showErrorList={false}
                 />
 
             </Segment>

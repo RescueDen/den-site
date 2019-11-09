@@ -273,12 +273,6 @@ function mapStateToProps(state:ApplicationState,myProps:Props ):StateProps&Props
     };
 }
 
-//Wrap with state connect
-const ResponsiveMenuState = connect(
-    mapStateToProps
-)(ResponsiveNavBar);
-
 //Wrap with router
-export default withRouter<Props>(props =>
-    <ResponsiveMenuState {...props}/>);
+export default withRouter(connect(mapStateToProps)(ResponsiveNavBar));
 

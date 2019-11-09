@@ -105,7 +105,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
             //Split the string
             return value.split(",").map(tmp => tmp.trim()).filter(tmp => tmp.length > 0);
         }else{
-            return value;
+            return '';
         }
 
     }
@@ -116,6 +116,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
      */
     render() {
 
+        const myFosterItems = this.getFosterItems();
 
         //For now just render
         if(this.props.allowMultiple) {
@@ -138,7 +139,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
                     selection
                     multiple={false}
                     onChange={(event, value) => this.props.widgetProps.onChange(value.value)}
-                    value={this.props.widgetProps.value}
+                    value={this.props.widgetProps.value ? this.props.widgetProps.value : '' }
                     options={this.getFosterItems()}
                 />
             )

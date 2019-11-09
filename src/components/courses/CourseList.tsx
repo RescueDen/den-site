@@ -82,7 +82,7 @@ class CourseList extends React.Component<LinkProps&DispatchProps, any> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state:ApplicationState,myProps:any ):LinkProps {
     return {
         ...myProps,
         courses: state.courses.courses
@@ -105,4 +105,4 @@ const CourseListWithOutRouter =connect (
 
 
 //Wrap with a withRouter so we get the current location
-export default withRouter<LinkProps>(props => <CourseListWithOutRouter {...props}/>);
+export default withRouter(props => <CourseListWithOutRouter {...props}/>);

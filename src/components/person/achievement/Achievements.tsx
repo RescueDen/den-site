@@ -76,7 +76,7 @@ class Achievements extends React.Component<LinkProps&DispatchProps, State> {
      * Get the drop down items
      */
     getBadgeItems(): DropdownItemProps[] {
-        return this.state.allAchievements.map(ach =>{
+        return this.state.allAchievements.filter(ach => !ach.automatic).map(ach =>{
             return   {
                 text: ach.name,
                 value: ach.id + ":" + ach.name,

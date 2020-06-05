@@ -144,8 +144,8 @@ export const rightMenuItems = [
             },
             {
                 name:"Supplies",
-                to:'/supplies',
-                reqPerm:"foster_supplies",
+                to:'/cawshub',
+                reqPerm:"access_hub",
                 icon:<Icon name='shopping basket' />
             },
             {

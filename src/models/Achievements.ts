@@ -10,6 +10,8 @@ export interface AchievementData{
     badge:string;//This is the badge name
     date?:Date;
 
+    automatic:boolean;
+
     //Also set the url
     badgeUrl:string;
 

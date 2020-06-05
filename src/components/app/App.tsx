@@ -15,7 +15,6 @@ import {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
 import FormSelector from "../forms/FormSelector";
 import EventsSelector from "../events/EventsSelector";
-import SuppliesPage from "../static-pages/SuppliesPage";
 import AppStatusPage from "../static-pages/AppStatusPage";
 import PrivateRoute from "../authentication/PrivateRoute";
 import Achievements from "../person/achievement/Achievements";
@@ -141,7 +140,6 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'forms/formid'+url} path="/forms/:formId" component={FormSelector} />
                             <Route key='events' exact path="/events/" component={EventsSelector} />
                             <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
-                            <Route key={'supplies'} path="/supplies" component={SuppliesPage} />
                             <Route key={'gettingstarted'} path="/gettingstarted" component={AppStatusPage} />
                             <Route key='courses' exact path="/courses/" component={CourseList} />
                             <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />

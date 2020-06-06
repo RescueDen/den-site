@@ -7,11 +7,6 @@ import {AchievementData} from "../models/Achievements";
 export const peopleService = {
     getPerson,
     getAchievements
-    // register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
 };
 
 // Create a default axios instance with the api

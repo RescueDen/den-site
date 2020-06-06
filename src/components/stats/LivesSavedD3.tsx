@@ -69,11 +69,11 @@ class LivesSavedD3 extends React.Component<MyProps> {
                 radius: radiusScale( Math.round(Math.random() * 100) ),
                 x: Math.random() * this.props.width,
                 y: Math.random()*this.props.height,//heightScale(d.ID),
-                THUMBNAILURL: d.THUMBNAILURL,
-                ID:d.ID,
+                THUMBNAILURL: d.thumbnailUrl,
+                ID:d.id,
                 active:false,
-                NAME: d.NAME,
-                Date:d.Date
+                NAME: d.name,
+                Date:d.date
 
             }
         });

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal, {Species} from "../../models/ShelterAnimal";
-import {Button, Segment, Dimmer, Loader, Container, Header, Icon} from "semantic-ui-react";
+import {Container, Dimmer, Header, Icon, Loader, Segment} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
@@ -17,7 +17,6 @@ import PermissionBlock from "../authentication/PermissionBlock";
 import AnimalJournal from "./AnimalJournal";
 import UploadPicture from "./details-components/UploadPicture";
 import Permissions from "../../models/Permissions";
-
 
 
 //Define the expected props
@@ -116,10 +115,9 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     {this.props.animal.isSpecies([Species.dog]) &&
                     <p>To update the dog's bio or pictures please use this <Link to="/forms/1LID8RWvBMux4FzXNzI7Yq9560Cf5ptFo">form</Link>.</p>
                         }
-                    <PermissionBlock reqPerm="view_public_journal">
-                        <AnimalJournal ani={this.props.animal} />
-                    </PermissionBlock>
-
+                    {/*<PermissionBlock reqPerm="view_public_journal">*/}
+                    {/*    <AnimalJournal ani={this.props.animal} />*/}
+                    {/*</PermissionBlock>*/}
                 </Container>
             );
 

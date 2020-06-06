@@ -10,9 +10,6 @@ export const peopleConstants = {
 
 export const peopleActions = {
     getPerson
-    // logout,
-    // getAll,
-    // delete: _delete
 };
 
 /**

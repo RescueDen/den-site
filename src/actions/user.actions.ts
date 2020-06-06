@@ -330,8 +330,8 @@ function getOtherUserInfo(dispatch:Dispatch<Action>,user:ShelterUser ):void{
     //Update the user pref
     updateUserPreferences(dispatch);
 
-    //Also get this persons achievments
-    achievementsActions.getAchievementsWithDispatch(dispatch, user)
+    //Also get this persons achievements
+    achievementsActions.getAchievementsWithDispatch(dispatch)
 
     //Get info for each foster
     if(user.data.currentFosters){
@@ -374,8 +374,6 @@ function updateLoggedInUser(): ThunkAction<any, any,any, any> {
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
-
-
                 }
             );
     };

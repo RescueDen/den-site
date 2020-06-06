@@ -8,20 +8,14 @@ import {achievementsConstants} from "../actions/achievements.actions";
  * @param action
  * @returns {*}
  */
-export function achievements(state:AchievementsState = {achievements:{}}, action:Action): AchievementsState {
+export function achievements(state:AchievementsState = {achievements:[]}, action:Action): AchievementsState {
 
     //Ok, we now know that it is an alert action
     switch (action.type) {
         case achievementsConstants.FETCH_USER_ACHIEVEMENTS:
-            //Copy the hide item state
-            const achievementsState = {...state.achievements, ...action.payload};
-
-            //Now update the state
             return {
-                ...state,
-                achievements:achievementsState
+                achievements:action.payload
             };
-
         default:
             return state
     }

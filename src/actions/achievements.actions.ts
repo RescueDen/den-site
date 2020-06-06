@@ -1,11 +1,6 @@
-import {  error } from './alert.actions';
+import {error} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {contentService} from "../services/content.service";
-import {formsService} from "../services/forms.service";
-import {FormSubmision} from "../models/FormSubmision";
-import {AchievementData} from "../models/Achievements";
-import ShelterUser from "../models/ShelterUser";
 import {achievementsService} from "../services/achievements.service";
 
 export const achievementsConstants = {
@@ -14,10 +9,7 @@ export const achievementsConstants = {
 };
 
 export const achievementsActions = {
-    getAchievements,
     getAchievementsWithDispatch
-    // getAll,
-    // delete: _delete
 };
 
 /**
@@ -26,12 +18,10 @@ export const achievementsActions = {
  * @param password
  * @returns {Function}
  */
-function getAchievements(user:ShelterUser): ThunkAction<any, any,any, any> {
+function getAchievements(): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<Action>) => {
-
-        return getAchievementsWithDispatch(dispatch, user);
-
+        return getAchievementsWithDispatch(dispatch);
     };
 
 }
@@ -41,21 +31,17 @@ function getAchievements(user:ShelterUser): ThunkAction<any, any,any, any> {
  * @param dispatch
  * @param user
  */
-function getAchievementsWithDispatch(dispatch:Dispatch<Action>, user:ShelterUser) {
+function getAchievementsWithDispatch(dispatch:Dispatch<Action>) {
 
     //Ask the user service to login
-    achievementsService.getAchievements(user.data.shelterId)
+    achievementsService.getMyAchievements()
         .then(
             //If successful a user will be returned
             achList => {
-                //Make the payload
-                let payload:{ [asmId: number]: AchievementData[]; } = {}
-                payload[user.data.shelterId] = achList
-
                 //dispatch a login success
                 dispatch({
                     type: achievementsConstants.FETCH_USER_ACHIEVEMENTS,
-                    payload:payload
+                    payload:achList
                 });
             },
             //If there was an error, dispatch a login failure and alert the user why
@@ -65,9 +51,7 @@ function getAchievementsWithDispatch(dispatch:Dispatch<Action>, user:ShelterUser
                     dispatch(error(errorResponse.response.data.message));
                 }catch(e){
                     dispatch(error(errorResponse.toString()));
-
                 }
-
             }
         );
 };

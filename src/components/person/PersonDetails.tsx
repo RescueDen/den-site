@@ -66,9 +66,6 @@ class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
 
         //Make sure we have this person
         this.props.getPerson(this.props.personId);
-
-
-
     }
 
     /**

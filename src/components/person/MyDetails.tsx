@@ -102,8 +102,7 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
     return {
         ...myProps,
         user:state.authentication.loggedInUser? state.authentication.loggedInUser : getEmptyCawsUser(),
-        achievements:state.authentication.loggedInUser && state.achievements? state.achievements.achievements[state.authentication.loggedInUser.data.shelterId] :[]
-
+        achievements:state.achievements?.achievements ?? []
     };
 }
 

@@ -3,13 +3,9 @@ import {authHeader} from "../utils/auth-header";
 import {AchievementData, AchievementSummaryData} from "../models/Achievements";
 
 export const achievementsService = {
-    getAchievements,
+    getMyAchievements,
     getAllAchievements,
     getAchievementSummary
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
 };
 
 // Create a default axios instance with the api
@@ -24,13 +20,13 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getAchievements(asmId: number) : Promise<AchievementData[]> {
+function getMyAchievements() : Promise<AchievementData[]> {
 
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/users/achievements/${asmId}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/users/achievements/`,  {headers:headers});
 
 
     //We need to do some work here

@@ -1,12 +1,8 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import FormsSummary, {FormItemData} from "../models/FormsSummary";
-import {FormSubmision} from "../models/FormSubmision";
-import {ServerResponse} from "http";
-import {ServerResponseStatus} from "../models/ServerStatus";
-import {DocumentItemData} from "../models/DocumentSummary";
 import EventsSummary from "../models/Events";
 import {SignUpResponse} from "../models/SignUp";
+import {ItemData} from "../models/ItemData";
 
 export const eventsService = {
     getEventsSummary,
@@ -44,7 +40,7 @@ function getEventsSummary() : Promise<EventsSummary> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const data = <DocumentItemData>response.data;
+            const data = <ItemData>response.data;
 
             //Make a caws user
             const info = new EventsSummary(data)

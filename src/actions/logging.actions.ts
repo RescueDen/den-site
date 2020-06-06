@@ -1,7 +1,7 @@
 import {clearByMessage, error, success} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {newsService} from "../services/news.service";
+import {contentService} from "../services/content.service";
 import {loggingService} from "../services/logging.service";
 import {LogData} from "../models/Logging";
 import {formatDate} from "../utils/date-formater";

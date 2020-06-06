@@ -1,7 +1,7 @@
 import {  error } from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {newsService} from "../services/news.service";
+import {contentService} from "../services/content.service";
 import {formsService} from "../services/forms.service";
 import {FormSubmision} from "../models/FormSubmision";
 import {AchievementData} from "../models/Achievements";

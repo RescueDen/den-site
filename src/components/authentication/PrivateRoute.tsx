@@ -64,10 +64,7 @@ const PrivateRouteWithOutState = ({exactRoute, to, currentUser,reqPermission, pe
 
             }else{
                 allowed = false;
-
             }
-
-
         }
 
 

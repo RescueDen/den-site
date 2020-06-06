@@ -1,10 +1,9 @@
-import CawsAnimal from "../models/ShelterAnimal";
-import ArticlesSummary from "../models/ArticlesSummary";
-
 /**
  * This model describes the authorisation
  */
+import {Listing} from "../models/ContentListing";
+
 export default interface InfoState {
-    infoSummary: ArticlesSummary;
-    insideSummary?:ArticlesSummary;
+    infoSummary: Listing;
+    insideSummary?:Listing;
 }

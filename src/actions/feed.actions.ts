@@ -1,11 +1,6 @@
-import { userService } from '../services';
-import { success, error } from './alert.actions';
+import {error} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {UserData} from "../models/UserData";
-import {animalService} from "../services/animal.service"
-import {infoService} from "../services/info.service";
-import {infoConstants} from "./info.actions";
 import {feedService} from "../services/feed.service";
 
 export const feedConstants = {

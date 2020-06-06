@@ -6,10 +6,9 @@ import ApplicationState from "../../state/ApplicationState";
 import AnimalState from "../../state/AnimalState";
 import {ThunkDispatch} from "redux-thunk";
 import {formsActions} from "../../actions/forms.actions";
-import FormsSummary, {FormItemData, isFormItemData} from "../../models/FormsSummary";
+import FormsSummary, {isFormItemData} from "../../models/FormsSummary";
 import {RouteComponentProps} from "react-router";
 import {Dimmer, Header, Image, Loader, Segment} from "semantic-ui-react";
-import {DocumentItemData, isDirectory} from "../../models/DocumentSummary";
 import Breadcrumbs from "../newsAndInfo/Breadcrumbs";
 import DocumentHierarchy from "../newsAndInfo/DocumentHierarchy";
 import FormViewer from "./FormViewer";
@@ -23,7 +22,6 @@ interface LinkProps  extends RouteComponentProps<any> {
     formId?:string;
 
     //Determine the menuType
-
 }
 
 
@@ -38,8 +36,6 @@ interface DispatchProps{
  * This card shows the animal details
  */
 class FormSelector extends React.Component<DispatchProps&LinkProps> {
-
-
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
@@ -70,52 +66,48 @@ class FormSelector extends React.Component<DispatchProps&LinkProps> {
 
         }
 
-        //Get the articleItem we are showing is specified.  If not get the root
-        const item: DocumentItemData = this.props.formId? this.props.formsSummary.findArticleItem(this.props.formId): this.props.formsSummary.data;
-
-        //Start to build the list of React
-        let components: JSX.ReactNode[] = [];
-
-        //Start out with a title
-        components.push(
-            <Header key={"header"} as="h1">Forms</Header>
-        );
-
-        //Add in the bread crumbs
-        const breadCrumbs = <Breadcrumbs key={"breadCrumbs"+item.id} breadCrumbs={this.props.formsSummary.buildBreadcrumbs(item.id)} link={"/forms"}/>
-
-
-        //If this is an folder show the folder information
-        if(isDirectory(item)){
-            components.push(
-                <DocumentHierarchy
-                    header={breadCrumbs}
-                    key={"heir"+item.id}
-                    linkPath={"/forms"}
-                    item={item}/>
-            );
-        }else{
-            //Add in the bread crumbs
-            components.push(breadCrumbs);
-            //Check to see if a valid form
-            if(isFormItemData(item) ){
-                //Load up the article
-                components.push(<FormViewer key={item.id} formData={item} />);
-            }else{
-                components.push(<div key={item.id}>Invalid form {item.id}</div>);
-
-            }
-
-
-        }
+        // //Get the articleItem we are showing is specified.  If not get the root
+        // const item: ItemData = this.props.formId? this.props.formsSummary.findArticleItem(this.props.formId): this.props.formsSummary.data;
+        //
+        // //Start to build the list of React
+        // let components: JSX.ReactNode[] = [];
+        //
+        // //Start out with a title
+        // components.push(
+        //     <Header key={"header"} as="h1">Forms</Header>
+        // );
+        //
+        // //Add in the bread crumbs
+        // const breadCrumbs = <Breadcrumbs key={"breadCrumbs"+item.id} breadCrumbs={this.props.formsSummary.buildBreadcrumbs(item.id)} link={"/forms"}/>
+        //
+        //
+        // //If this is an folder show the folder information
+        // if(isDirectory(item)){
+        //     components.push(
+        //         <DocumentHierarchy
+        //             header={breadCrumbs}
+        //             key={"heir"+item.id}
+        //             linkPath={"/forms"}
+        //             item={item}/>
+        //     );
+        // }else{
+        //     //Add in the bread crumbs
+        //     components.push(breadCrumbs);
+        //     //Check to see if a valid form
+        //     if(isFormItemData(item) ){
+        //         //Load up the article
+        //         components.push(<FormViewer key={item.id} formData={item} />);
+        //     }else{
+        //         components.push(<div key={item.id}>Invalid form {item.id}</div>);
+        //     }
+        // }
 
         //Start rendering
         return (
             <div>
-                {components}
+                {/*{components}*/}
             </div>
         );
-
     }
 };
 

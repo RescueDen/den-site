@@ -11,7 +11,7 @@ import EventsSummary from "../models/Events";
  */
 export function events(state:EventsState =
                            {
-                               eventsSummary:(new EventsSummary({id:"",type:"",name:"", parentid:""})),
+                               eventsSummary:(new EventsSummary({id:"",type:"",name:"", parentId:""})),
                                //view:EventView.Cal,
                                hideCal:{} as {[id: string]: boolean}
                            }, action:Action): EventsState {

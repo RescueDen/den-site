@@ -3,16 +3,12 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import {Segment, Container, Header, Label, Loader} from "semantic-ui-react";
-import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import {Container, Header, Loader, Segment} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
-import MySummary from "./MySummary";
 import AnimalList from "../animal/SearchableAnimalListCompact";
 import {ThunkDispatch} from "redux-thunk";
-import {userActions} from "../../actions/user.actions";
 import {AchievementData} from "../../models/Achievements";
 import AchievementList from "./achievement/AchievementList";
-import {Link} from "react-router-dom";
 import {PersonData} from "../../models/People";
 import {peopleActions} from "../../actions/people.actions";
 import {peopleService} from "../../services/people.service";
@@ -137,8 +133,6 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
         ...myProps,
         personId:myProps.match.params.personId,
         peopleInfo:state.people.people
-
-
     };
 }
 
@@ -146,7 +140,6 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
     return {
         getPerson:(personId:number) =>  dispatch(peopleActions.getPerson(personId)),
     };
-
 }
 
 export default connect (

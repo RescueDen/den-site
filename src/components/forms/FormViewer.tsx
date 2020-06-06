@@ -5,17 +5,14 @@ import {connect} from "react-redux";
 import {FormItemData} from "../../models/FormsSummary";
 
 
-import Form, {Widget, WidgetProps} from "react-jsonschema-form-semanticui-fixed";
+import Form, {Widget} from "react-jsonschema-form-semanticui-fixed";
 import {FormSubmision} from "../../models/FormSubmision";
 import ApplicationState from "../../state/ApplicationState";
 import {formsService} from "../../services/forms.service";
-import {Dimmer, Dropdown, Loader, Segment} from "semantic-ui-react";
+import {Dimmer, Loader, Segment} from "semantic-ui-react";
 import {extractMessageFromPossibleServerResponseStatus} from "../../models/ServerStatus";
-import MyFosterSelection from "./MyFosterSelection";
 import ShelterUser from "../../models/ShelterUser";
-import {Species} from "../../models/ShelterAnimal";
 import customWidgets from "./CustomWidgets";
-
 
 
 //Define the expected props

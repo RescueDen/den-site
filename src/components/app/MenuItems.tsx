@@ -97,7 +97,7 @@ export const leftMenuItems = [
 
             },
             {
-                name: "Vouchers Listing",
+                name: "Vouchers Listing.ts",
                 to: '/vouchers',
                 reqPerm:"issue_voucher",
                 icon:<Icon name='edit'/>,

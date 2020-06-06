@@ -1,21 +1,18 @@
-import React, {ReactNode} from 'react';
-import JSX from 'react';
-
-import {Input, List} from "semantic-ui-react";
+import React from 'react';
+import JSX, {ReactNode} from 'react';
+import {Grid, Input, List} from "semantic-ui-react";
+import {ItemData} from "../../models/ItemData";
+import {inSearchResults, ListingData} from "../../models/ContentListing";
 import {Link} from "react-router-dom";
-import {DocumentItemData, inSearchResults, isDirectory} from "../../models/DocumentSummary";
-import {Grid} from "semantic-ui-react";
 import {formatDate} from "../../utils/date-formater";
-
 
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    item:DocumentItemData;
+    listing:ListingData;
     linkPath:string;
     header?:ReactNode;
-
 }
 
 //Keep a state of open documents
@@ -34,14 +31,12 @@ const defaultHide = true;
 class DocumentHierarchy extends React.Component<MyProps, MyState> {
     state = {hidden:{} as { [id: string]: boolean }, searchTerm:""};
 
-
     /**
      * Function to update search
      */
     updateSearch(term:string){
         this.setState({searchTerm:term});
     }
-
 
     //Add a function to update hidden on dir
     updateHiddenOnDir(id:string){
@@ -51,68 +46,63 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
         this.setState({hidden:{...this.state.hidden, [id]:!currentStatus}});
     }
 
-    //Build the list
-    buildHierarchy(item: DocumentItemData): JSX.ReactNode{
-        //If this is a directory it
-        if(isDirectory(item)){
-            //Determine if this directory is hidden
-            let hidden:boolean = this.state.hidden[item.id] != undefined && this.state.hidden[item.id];
+    buildHierarchy(listing: ListingData): JSX.ReactNode {
+        //Determine if this directory is hidden
+        let hidden:boolean = this.state.hidden[listing.id] != undefined && this.state.hidden[listing.id];
 
-            //See if we should flip the default behavior
-            if(defaultHide)
-                hidden = ! hidden;
+        //See if we should flip the default behavior
+        if(defaultHide)
+            hidden = ! hidden;
 
-            //Force to not be hidden if searching
-            if(this.state.searchTerm.length > 0){
-                hidden = false;
-            }
-
-            return (
-                <List.Item size='big' key={item.id}>
-                    <List.Icon size='big' onClick={() => this.updateHiddenOnDir(item.id)} name={hidden? "folder outline":"folder open outline" } />
-                    <List.Content >
-                        <List.Header as="h3" ><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
-                    </List.Content>
-
-                    {/*Now add a list of children if not hidden*/}
-                    {!hidden &&
-                        <List.List>
-                            {item.items && item.items.map(subItem => {
-                                return this.buildHierarchy(subItem);
-                            })
-                            }
-                        </List.List>
-                    }
-
-                </List.Item>
-            );
-        }else{
-            //If this is just a document, see if it included in the search
-            if(inSearchResults(item, this.state.searchTerm) && !item.hideListing) {
-
-                // this is just a document
-                return (
-
-
-                        <List.Item key={item.id}>
-                            <List.Icon name='file alternate outline'/>
-                                <List.Content>
-                                    <List.Header as="h3"><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
-                                    {item.date &&
-                                        <List.Header as="h4">{formatDate(item.date)}</List.Header>
-                                    }
-                                    <List.Description>{item.preview}</List.Description>
-                                </List.Content>
-                        </List.Item>
-
-
-                );
-            }else {
-                return;
-            }
+        //Force to not be hidden if searching
+        if(this.state.searchTerm.length > 0){
+            hidden = false;
         }
 
+        return (
+            <List.Item size='big' key={listing.id}>
+                <List.Icon size='big' onClick={() => this.updateHiddenOnDir(listing.id)} name={hidden? "folder outline":"folder open outline" } />
+                <List.Content >
+                    <List.Header as="h3" ><Link to={`${this.props.linkPath}/${listing.id}`}>{listing.name}</Link></List.Header>
+                </List.Content>
 
+                {/*Now add a list of children if not hidden*/}
+                {!hidden &&
+                <List.List>
+                    {listing.listings && listing.listings.map(subList =>{
+                        return this.buildHierarchy(subList);
+                    })}
+
+                    {listing.items && listing.items.map(subItem => {
+                        return this.getItemListing(subItem);
+                    })
+                    }
+                </List.List>
+                }
+
+            </List.Item>
+        );
+    }
+    //Build the list
+    getItemListing(item: ItemData): JSX.ReactNode{
+        //If this is just a document, see if it included in the search
+        if(inSearchResults(item, this.state.searchTerm) && !item.hideListing) {
+            // this is just a document
+            return (
+                <List.Item key={item.id}>
+                    <List.Icon name='file alternate outline'/>
+                    <List.Content>
+                        <List.Header as="h3"><Link to={`${this.props.linkPath}/${item.id}`}>{item.name}</Link></List.Header>
+                        {item.date &&
+                        <List.Header as="h4">{formatDate(item.date)}</List.Header>
+                        }
+                        <List.Description>{item.preview}</List.Description>
+                    </List.Content>
+                </List.Item>
+            );
+        }else {
+            return;
+        }
     }
 
 
@@ -137,14 +127,13 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
                     </Grid.Column>
                 </Grid>
 
-
-
-
-
                 <List>
-                    {/*Skip the root level and add in first of the children*/}
-                    {this.props.item.items && this.props.item.items.map(subItem => {
-                        return this.buildHierarchy(subItem);
+                    {this.props.listing.listings && this.props.listing.listings.map(subList =>{
+                        return this.buildHierarchy(subList);
+                    })}
+
+                    {this.props.listing.items && this.props.listing.items.map(subItem => {
+                        return this.getItemListing(subItem);
                     })
                     }
                 </List>

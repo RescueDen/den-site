@@ -8,8 +8,8 @@ import {Redirect, Route, RouteProps} from "react-router";
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
 import AnimalDetails from "../animal/AnimalDetails";
 import MyDetails from "../person/MyDetails";
-import Information from "../newsAndInfo/Information";
-import News from "../newsAndInfo/News";
+import Information from "../newsAndInfo/DocumentView";
+import ArticleListView from "../newsAndInfo/ArticleListView";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 import {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
@@ -31,7 +31,6 @@ import FullPageMenu from "../menu/FullPageMenu";
 import {leftMenuItems, rightMenuItems} from "./MenuItems";
 import Welcome from "../static-pages/Welcome";
 import CAWSHub from "../static-pages/CAWSHub";
-import InsideCaws from "../newsAndInfo/InsideCaws";
 import LivesSavedPage from "../stats/LivesSavedPage";
 import MyPreferences from "../person/preferences/MyPreferences";
 import KCBuilder from "../kennelCards/KCBuilder";
@@ -40,6 +39,7 @@ import AgreementPopUp from "../agreement/AgreementPopUp";
 import PersonDetails from "../person/PersonDetails";
 import VoucherOverview from "../voucher/VoucherOverview";
 import VoucherViewer from "../voucher/VoucherViewer";
+import DocumentView from "../newsAndInfo/DocumentView";
 
 
 //Setup up path props to get the current path
@@ -54,10 +54,6 @@ interface DispatchProps {
 
 }
 
-
-
-
-
 class App extends React.Component<AppProps&DispatchProps> {
     state={showFeed:false}
     /**
@@ -66,11 +62,6 @@ class App extends React.Component<AppProps&DispatchProps> {
     componentDidMount(){
 
     };
-
-
-
-
-
 
     //Return the real div
     /**
@@ -129,12 +120,12 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key={'animal'+url} path="/animal/:aniId" component={AnimalDetails} />
                             <Route key='myinfo' path="/myinfo" component={MyDetails} />
                             <Route key='preferences' path="/preferences" component={MyPreferences} />
-                            <Route key='info' exact path="/info/" reqPermission='get_info'  component={Information} />
-                            <Route key='inside' exact path="/inside/" reqPermission='inside_caws'  component={InsideCaws} />
-                            <Route key='news' exact path="/news/" reqPermission='get_news' component={News} />
-                            <Route key={'info/articleId'+url} path="/info/:articleId" component={Information} />
-                            <Route key={'inside/articleId'+url} path="/inside/:articleId" component={InsideCaws} />
-                            <Route key={'news:articleID'+url} path="/news/:articleId" component={News} />
+                            <Route key='info' exact path="/info/" render={(props) => <DocumentView {...props} category={"info"} />} />
+                            <Route key={'info/articleId'+url} path="/info/:articleId" render={(props) => <DocumentView {...props} category={"info"} />}  />
+                            <Route key='inside' exact path="/inside/" render={(props) => <DocumentView {...props} category={"inside"} />}  />
+                            <Route key={'inside/articleId'+url} path="/inside/:articleId" render={(props) => <DocumentView {...props} category={"inside"} />}  />
+                            <Route key='news' exact path="/news/" render={(props) => <ArticleListView {...props} category={"news"} />} />
+                            <Route key={'news:articleID'+url} path="/news/:articleId" render={(props) => <ArticleListView {...props} category={"news"} />} />
                             <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
                             <Route key='forms' exact path="/forms/" component={FormSelector} />
                             <Route key={'forms/formid'+url} path="/forms/:formId" component={FormSelector} />

@@ -1,10 +1,9 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 
-import { authentication } from './authentication.reducer';
-import { alerts } from './alerts.reducer'
-import { animals } from './animals.reducer'
-import {info} from "./info.reducer";
-import {news} from "./news.reducer";
+import {authentication} from './authentication.reducer';
+import {alerts} from './alerts.reducer'
+import {animals} from './animals.reducer'
+import {content} from "./content.reducer";
 import {inNeedFoster} from "./inNeedFoster.reducer";
 import {forms} from "./forms.reducer";
 import {events} from "./events.reducer";
@@ -23,8 +22,7 @@ const rootReducer = combineReducers<ApplicationState>({
     authentication,
     alerts,
     animals,
-    info,
-    news,
+    content,
     inNeedFoster,
     forms,
     events,

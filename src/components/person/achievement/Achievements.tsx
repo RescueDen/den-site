@@ -113,7 +113,7 @@ class Achievements extends React.Component<LinkProps&DispatchProps, State> {
     render() {
 
         //If undefined show a loading icon
-        const badgeRequestForm  = this.props.formsSummary.findArticleItem(badgeFormId)
+        const badgeRequestForm  = this.props.formsSummary.findItem(badgeFormId)
 
         //Get the animal details
         return (

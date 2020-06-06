@@ -111,7 +111,7 @@ class AddInNeed extends React.Component<IncomingProps&LinkProps, LocalState> {
                 />
                 <Form.TextArea
                     fluid
-                    label='Information'
+                    label='DocumentView'
                     placeholder='Please provide available information'
                     value={this.state.anData.information}
                     onChange={(event: React.FormEvent<HTMLTextAreaElement>) => {

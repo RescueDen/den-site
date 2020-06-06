@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment, Container} from "semantic-ui-react";
-import {ArticleItemData} from "../../models/ArticlesSummary";
-import {infoService} from "../../services/info.service"
+import {Container, Segment} from "semantic-ui-react";
 import ShelterUser from "../../models/ShelterUser";
-import {staticService} from "../../services/static.service";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import StaticComponent from "./StaticComponent";

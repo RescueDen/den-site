@@ -1,27 +1,16 @@
-import React, {ReactElement, ReactNode} from 'react';
-import {connect} from 'react-redux';
-import JSX from 'react';
-import ApplicationState from "../../state/ApplicationState";
+import React, {ReactNode} from 'react';
 
-import {Image, Segment, Dimmer, Loader, Container, Header, Item, Input, Grid} from "semantic-ui-react";
-import {RouteComponentProps} from "react-router";
-import {ThunkDispatch} from "redux-thunk";
-import ArticlesSummary, {ArticleItemData} from "../../models/ArticlesSummary";
-import {infoActions} from "../../actions/info.actions";
-import DocumentHierarchy from "./DocumentHierarchy";
-import ArticleViewer from "./ArticleViewer";
-import {newsActions} from "../../actions/news.actions";
+import {Grid, Input, Item} from "semantic-ui-react";
 import ArticleItem from "./ArticleItem";
-import {inSearchResults} from "../../models/DocumentSummary";
+import {inSearchResults, ContentListing} from "../../models/ContentListing";
 
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    item:ArticleItemData;
+    item:ContentListing;
     linkPath:string;
     header?:ReactNode;
-
 }
 
 //Keep a state of open documents
@@ -36,7 +25,6 @@ interface MyState{
 class ArticleItemList extends React.Component<MyProps, MyState> {
     state = {searchTerm:""};
 
-
     /**
      * Function to update search
      */
@@ -46,9 +34,9 @@ class ArticleItemList extends React.Component<MyProps, MyState> {
 
     getItems(){
         //If we have items
-        if(this.props.item.items){
+        if(this.props.item.data.items){
             //Now search and map
-            return this.props.item.items.filter(item =>{
+            return this.props.item.data.items.filter(item =>{
                 //Check if in results
                 return(inSearchResults(item, this.state.searchTerm))
             }).map(item => {
@@ -80,13 +68,9 @@ class ArticleItemList extends React.Component<MyProps, MyState> {
                     </Grid.Column>
                 </Grid>
 
-
-
-
                 <Item.Group divided>
                     {/*If there are props*/}
                     {this.getItems()}
-
                 </Item.Group>
             </div>
         );

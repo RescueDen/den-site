@@ -1,7 +1,5 @@
 import axios from 'axios';
-import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
-import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
 import {AdoptionStat, Stats} from "../models/Stats";
 
 export const statsService = {

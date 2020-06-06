@@ -110,7 +110,7 @@ export enum Species{
  */
 export function findShelterIds(input:any): string[]{
     //Make sure this is defined
-    if(input == undefined){
+    if(input === undefined){
         return [] as string[];
     }else{
         //Specify the regex match
@@ -143,7 +143,7 @@ export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]:
         const testCode = animals[idAsNumb].data.code;
 
 
-        if(testCode == (shetlerId)){
+        if(testCode === (shetlerId)){
             return animals[parseInt(id)];
         }
     }
@@ -295,7 +295,7 @@ export default class CawsAnimal{
         const mySpecies = this.data.species;
 
         for(let i =0; i < searchSpecies.length; i++){
-            if(searchSpecies[i].toString() == mySpecies){
+            if(searchSpecies[i].toString() === mySpecies){
                 return true
             }
         }
@@ -349,7 +349,7 @@ export default class CawsAnimal{
             fee /= 100;
 
             //Return if it is not zero
-            if (fee != 0){
+            if (fee !== 0){
                 return "$"+fee.toFixed(2);
             }else{
                 return undefined;
@@ -367,7 +367,7 @@ export default class CawsAnimal{
             fee /= 100;
 
             //Return if it is not zero
-            if (fee != 0){
+            if (fee !== 0){
                 return "$"+fee.toFixed(2);
             }else{
                 return undefined;

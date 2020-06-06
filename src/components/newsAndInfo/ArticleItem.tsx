@@ -1,16 +1,15 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon} from "semantic-ui-react";
-import {ArticleItemData} from "../../models/ArticlesSummary";
+import {Button, Icon, Item} from "semantic-ui-react";
+import {ItemData} from "../../models/ItemData";
 import {formatDate} from "../../utils/date-formater";
 import {Link} from "react-router-dom";
-
 
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    item:ArticleItemData;
+    item:ItemData;
 
     //add a link to link to
     link:string;

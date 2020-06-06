@@ -1,9 +1,7 @@
 import {Alert} from "../models/Alert";
 import AuthenticationState from "./AuthenticationState";
 import AnimalState from "./AnimalState";
-import InfoState from "./InfoState";
-import NewsState from "./NewsState";
-import InNeedOfFoster from "../models/InNeedOfFosterModel";
+import ContentState from "./ContentState";
 import FormsState from "./FormsState";
 import EventsState from "./EventsState";
 import AchievementsState from "./AchievementsState";
@@ -21,8 +19,7 @@ export default interface ApplicationState {
     authentication: AuthenticationState,
     alerts: Alert[],
     animals: AnimalState,
-    info:InfoState,
-    news:NewsState,
+    content:ContentState,
     inNeedFoster: InNeedState,
     forms: FormsState,
     events:EventsState,

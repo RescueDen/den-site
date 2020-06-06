@@ -1,16 +1,8 @@
-
 //Define the expected props
 import {RouteComponentProps, withRouter} from "react-router";
-import AnimalState from "../../state/AnimalState";
-import FormsSummary, {isFormItemData} from "../../models/FormsSummary";
 import React from "react";
-import {Container, Dimmer, DropdownProps, Form, Header, Image, Loader, Segment, Select} from "semantic-ui-react";
-import {DocumentItemData, isDirectory} from "../../models/DocumentSummary";
-import Breadcrumbs from "../newsAndInfo/Breadcrumbs";
-import DocumentHierarchy from "../newsAndInfo/DocumentHierarchy";
-import FormViewer from "../forms/FormViewer";
+import {Container, Dimmer, Header, Loader, Segment} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
-import {formsActions} from "../../actions/forms.actions";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import {voucherActions} from "../../actions/voucher.actions";

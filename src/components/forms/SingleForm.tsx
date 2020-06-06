@@ -53,7 +53,7 @@ class SingleForm extends React.Component<IncomingProps&LinkProps&DispatchProps >
     render() {
 
         //See if there is a suppliesForm
-        const form  = this.props.formsSummary.findArticleItem(this.props.formId)
+        const form  = this.props.formsSummary.findItem(this.props.formId)
 
         return (
             <div>

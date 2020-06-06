@@ -1,9 +1,6 @@
 import axios from 'axios';
-import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
-import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
 import {CodeResponse} from "../models/Access";
-import * as FileSaver from "file-saver";
 
 export const accessService = {
     getCode,

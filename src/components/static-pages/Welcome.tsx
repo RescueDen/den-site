@@ -1,22 +1,12 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment, Container, Grid} from "semantic-ui-react";
-import {ArticleItemData} from "../../models/ArticlesSummary";
-import {infoService} from "../../services/info.service"
-import ShelterUser from "../../models/ShelterUser";
-import {staticService} from "../../services/static.service";
-import ApplicationState from "../../state/ApplicationState";
-import {connect} from "react-redux";
+import {Container, Grid, Segment} from "semantic-ui-react";
 import StaticComponent from "./StaticComponent";
 import TheFeed from "../feed/TheFeed";
 import EventsList from "../events/EventsList";
 
 
-
 class Welcome extends React.Component<any> {
-
-
-
     /**
      * Re-render every time this is called
      * @returns {*}

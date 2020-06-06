@@ -1,24 +1,16 @@
-import React, {ReactElement} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import JSX from 'react';
-import ApplicationState from "../../state/ApplicationState";
 
-import {Image, Segment, Dimmer, Loader, Container, Header, Breadcrumb} from "semantic-ui-react";
-import {RouteComponentProps} from "react-router";
-import {ThunkDispatch} from "redux-thunk";
-import ArticlesSummary, {ArticleItemData} from "../../models/ArticlesSummary";
-import {infoActions} from "../../actions/info.actions";
-import DocumentHierarchy from "./DocumentHierarchy";
-import ArticleViewer from "./ArticleViewer";
+import {Breadcrumb} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import {isDirectory} from "../../models/DocumentSummary";
-
+import {ItemData} from "../../models/ItemData";
+import {ListingData} from "../../models/ContentListing";
 
 
 //Define the expected props
 interface LinkProps {
     //Define the props we expect
-    breadCrumbs: ArticleItemData[];
+    breadCrumbs: (ItemData|ListingData)[];
     link:string;
 }
 

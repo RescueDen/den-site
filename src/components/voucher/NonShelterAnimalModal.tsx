@@ -1,35 +1,7 @@
-
 //Define the expected props
-import {RouteComponentProps} from "react-router";
-import AnimalState from "../../state/AnimalState";
-import FormsSummary, {isFormItemData} from "../../models/FormsSummary";
 import React from "react";
-import {
-    Button,
-    Container,
-    Dimmer,
-    DropdownProps,
-    Form, Grid,
-    Header,
-    Icon,
-    Image, Input, InputProps,
-    Loader, Modal, Radio,
-    Segment,
-    Select,
-    Table, TextArea, TextAreaProps
-} from "semantic-ui-react";
-import {DocumentItemData, isDirectory} from "../../models/DocumentSummary";
-import Breadcrumbs from "../newsAndInfo/Breadcrumbs";
-import DocumentHierarchy from "../newsAndInfo/DocumentHierarchy";
-import FormViewer from "../forms/FormViewer";
-import {ThunkDispatch} from "redux-thunk";
-import {formsActions} from "../../actions/forms.actions";
-import ApplicationState from "../../state/ApplicationState";
-import {connect} from "react-redux";
-import {voucherActions} from "../../actions/voucher.actions";
-import {NonShelterAnimal, Voucher, VoucherInfo} from "../../models/Voucher";
-import RemoteSearch from "../animal/RemoteSearch";
-import AnimalListTable from "../animal/AnimalListTable";
+import {Button, Form, Header, Icon, Input, InputProps, Modal, Radio, TextArea, TextAreaProps} from "semantic-ui-react";
+import {NonShelterAnimal} from "../../models/Voucher";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 import {Species} from "../../models/ShelterAnimal";
 

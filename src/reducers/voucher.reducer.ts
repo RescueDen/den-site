@@ -1,12 +1,4 @@
 import Action from '../actions/Action'
-import CawsAnimal from "../models/ShelterAnimal"
-import {animalConstants} from "../actions/animal.actions";
-import AnimalState from "../state/AnimalState";
-import InfoState from "../state/InfoState";
-import ArticlesSummary from "../models/ArticlesSummary";
-import {infoConstants} from "../actions/info.actions";
-import NewsState from "../state/NewsState";
-import {newsConstants} from "../actions/news.actions";
 import VoucherState from "../state/VoucherState";
 import {voucherConstants} from "../actions/voucher.actions";
 

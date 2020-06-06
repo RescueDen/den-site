@@ -1,13 +1,7 @@
 import Action from '../actions/Action'
-import CawsAnimal from "../models/ShelterAnimal"
-import {animalConstants} from "../actions/animal.actions";
-import AnimalState from "../state/AnimalState";
-import InfoState from "../state/InfoState";
-import ArticlesSummary from "../models/ArticlesSummary";
-import {infoConstants} from "../actions/info.actions";
 import LoggingState from "../state/LoggingState";
 import {CategoryInfoSummary, LogSummary} from "../models/Logging";
-import {loggingActions, loggingConstants} from "../actions/logging.actions";
+import {loggingConstants} from "../actions/logging.actions";
 
 /**
  * The alert reducer maintains a list of alerts

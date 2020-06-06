@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import {Segment, Container, Header, Label} from "semantic-ui-react";
+import {Container, Header, Label, Segment} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import MySummary from "./MySummary";
@@ -13,7 +13,6 @@ import {userActions} from "../../actions/user.actions";
 import {AchievementData} from "../../models/Achievements";
 import AchievementList from "./achievement/AchievementList";
 import {Link} from "react-router-dom";
-import MyVoucherList from "../voucher/MyVoucherList";
 
 
 //Define the expected props

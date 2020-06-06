@@ -1,13 +1,5 @@
 import Action from '../actions/Action'
-import CawsAnimal from "../models/ShelterAnimal"
-import {animalConstants} from "../actions/animal.actions";
-import AnimalState from "../state/AnimalState";
-import InfoState from "../state/InfoState";
-import ArticlesSummary from "../models/ArticlesSummary";
-import {infoConstants} from "../actions/info.actions";
-import NewsState from "../state/NewsState";
-import {newsConstants} from "../actions/news.actions";
-import InNeedOfFoster, {NonShelterAnimal} from "../models/InNeedOfFosterModel";
+import InNeedOfFoster from "../models/InNeedOfFosterModel";
 import {inNeedConstants} from "../actions/inNeedFoster.actions";
 import InNeedState from "../state/InNeedState";
 

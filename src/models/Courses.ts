@@ -1,10 +1,7 @@
 /**
  * Specifies the caws user data
  */
-import {formatDate} from "../utils/date-formater";
-import {DocumentItemData} from "./DocumentSummary";
 
-//Define the caws user, this comes from the json decode
 export interface CourseData{
     id:string;
     name:string;

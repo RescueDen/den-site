@@ -1,7 +1,8 @@
 /**
  * Specifies the caws user data
  */
-import DocumentSummary, {DocumentItemData} from "./DocumentSummary";
+import {ItemData} from "./ItemData";
+import {Listing, ListingData} from "./ContentListing";
 
 export interface FormMetaData {
     title:string;
@@ -10,7 +11,7 @@ export interface FormMetaData {
 
 
 //Store the info coming back from the server
-export interface FormItemData extends DocumentItemData{
+export interface FormItemData extends ItemData{
 
     //Store the form metadata
     metadata:FormMetaData;
@@ -25,12 +26,12 @@ export interface FormItemData extends DocumentItemData{
 /**
  * Define a class that uses the CAWS User data
  */
-export default class FormsSummary implements DocumentSummary{
+export default class FormsSummary implements Listing{
     //Set to read only for now
     public readonly data:FormItemData;
 
     //Build a flat list for fast look ups
-    itemList: { [id: string]: DocumentItemData; } = {};
+    itemList: { [id: string]: ItemData; } = {};
 
     //The main constructor
     constructor(data: FormItemData) {
@@ -41,14 +42,14 @@ export default class FormsSummary implements DocumentSummary{
     }
 
     //Add to itemList
-    private addToList(data: DocumentItemData){
+    private addToList(data: ItemData){
 
         //Add the current item
         this.itemList[data.id] = data;
 
         //Now add each of the children
-        if(data.items)
-            data.items.forEach(item => this.addToList(item));
+        // if(data.items)
+        //     data.items.forEach(item => this.addToList(item));
 
     }
 
@@ -58,7 +59,7 @@ export default class FormsSummary implements DocumentSummary{
     }
 
     //Check to see if it empty
-    public findArticleItem(id:string){
+    public findItem(id:string){
         return this.itemList[id];
     }
     //Check to see if it empty
@@ -67,9 +68,9 @@ export default class FormsSummary implements DocumentSummary{
     }
 
     //Build breadCrumbs
-    public buildBreadcrumbs(id:string) :DocumentItemData[]{
+    public buildBreadcrumbs(id:string) :ItemData[]{
         //Build a list list
-        let breadCrumbs: DocumentItemData[] = [];
+        let breadCrumbs: ItemData[] = [];
 
         //If there is no id return
         if(id === undefined || this.empty())
@@ -78,18 +79,22 @@ export default class FormsSummary implements DocumentSummary{
         //While the id is not null
         while(id.length > 0){
             //Get the article
-            const breadCrumb: DocumentItemData = this.findArticleItem(id);
+            const breadCrumb: ItemData = this.findItem(id);
 
             //Add it to the list
             breadCrumbs.push(breadCrumb);
 
             //Set the current parent
-            id = breadCrumb.parentid;
+            // id = breadCrumb.parentid;
         }
 
 
         //Return
         return breadCrumbs.reverse();
+    }
+
+    findListing(id: string | undefined): ListingData | undefined {
+        return undefined;
     }
 }
 

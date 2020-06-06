@@ -1,22 +1,21 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment, Button, Icon} from "semantic-ui-react";
-import {ArticleItemData} from "../../models/ArticlesSummary";
-import {infoService} from "../../services/info.service"
+import {Dimmer, Icon, Image, Loader, Segment} from "semantic-ui-react";
 import PermissionBlock from "../authentication/PermissionBlock";
+import {ItemData} from "../../models/ItemData";
+import {contentService} from "../../services/content.service";
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    item:ArticleItemData;
+    item:ItemData;
+    category:string;
 }
 
 //Keep a state of open documents
 interface MyState{
     html: string;
-
 }
-
 
 /**
  * This card shows the animal details
@@ -29,7 +28,7 @@ class ArticleViewer extends React.Component<MyProps, MyState> {
      */
     componentDidMount(){
         // reset login status
-        infoService.downloadInfoArticle(this.props.item.id)
+        contentService.downloadContent(this.props.category, this.props.item.id)
             .then(
             //If successful html will be returned
             article => {

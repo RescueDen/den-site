@@ -1,14 +1,10 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
+import {ContentListing, Listing, ListingData} from "../models/ContentListing";
 
-export const staticService = {
-    getPublicPage,
-    getPrivatePage
-    // register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
+export const contentService = {
+    getContentListing,
+    downloadContent
 };
 
 // Create a default axios instance with the api
@@ -17,46 +13,36 @@ const apiServer =  axios.create({
 
 });
 
-
-/**
- * Get the public help
- * @param username
- * @param password
- * @returns
- */
-function getPublicPage(page:string) : Promise<string> {
-
-    //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/static/public/${page}`);
-
-
-    //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const artData = <string>response.data;
-
-            return artData;
-        }
-    );
-
-
-}
-
-
-/**
- * Get the public help
- * @param username
- * @param password
- * @returns
- */
-function getPrivatePage(page:string) : Promise<string> {
+function getContentListing(category :string) : Promise<ContentListing> {
 
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/static/private/${page}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/content/${category}`,  {headers:headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {//When the request returns
+            const data = <ListingData>response.data;
+
+            const listing = new ContentListing(data)
+
+            return listing;
+        }
+    );
+
+
+}
+
+function downloadContent(category :string, id:string) : Promise<string> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/content/${category}/${id}`,  {headers:headers});
 
 
     //We need to do some work here
@@ -68,6 +54,5 @@ function getPrivatePage(page:string) : Promise<string> {
             return artData;
         }
     );
-
-
 }
+

@@ -132,8 +132,8 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key='events' exact path="/events/" component={EventsSelector} />
                             <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
                             <Route key={'gettingstarted'} path="/gettingstarted" component={AppStatusPage} />
-                            <Route key='courses' exact path="/courses/" component={CourseList} />
-                            <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" component={Course} />
+                            <Route key='courses' exact path="/courses/" render={(props) => <CourseList {...props} category={"learn"} />} />
+                            <Route key={'learn/courseId'+url} path="/learn/:courseId/:lessonNumber?" render={(props) => <Course {...props} category={"learn"} />} />
                             <Route key={'logging'} path="/logging/" component={Logging} />
                             <Route key={'help'} path="/help" component={HelpViewier} />
                             <Route key={'lives-saved'} path="/lives-saved" component={LivesSavedPage} />

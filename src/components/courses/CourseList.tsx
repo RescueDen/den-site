@@ -5,40 +5,38 @@ import ApplicationState from "../../state/ApplicationState";
 import {Card, Placeholder} from "semantic-ui-react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
-import {coursesActions} from "../../actions/courses.actions";
-import CourseListing, {CourseData} from "../../models/Courses";
+import CourseListing from "../../models/Courses";
 import CourseItem from "./CourseItem";
+import {coursesActions} from "../../actions/courses.actions";
 
-
+interface MyProps extends RouteComponentProps<any> {
+    category : string;
+}
 
 //Define the expected props
-interface LinkProps extends RouteComponentProps<any> {
+interface LinkProps {
     //Define the props we expect
-    courses: CourseListing;
+    courses?: CourseListing;
 }
 
 
 interface DispatchProps{
     //And the actions that must be done
-    getCourseList: () => any;
-
+    getCourseList: (category:string) => any;
 }
-
 
 /**
  * This card shows the animal details
  */
-class CourseList extends React.Component<LinkProps&DispatchProps, any> {
+class CourseList extends React.Component<MyProps&LinkProps&DispatchProps, any> {
 
     /**
      * Gets called once when the page loads.  Tell the system to download or update the summary
      */
     componentDidMount(){
         // reset login status
-        this.props.getCourseList()
+        this.props.getCourseList(this.props.category)
     };
-
-
 
     /**
      * Re-render every time this is called
@@ -49,20 +47,20 @@ class CourseList extends React.Component<LinkProps&DispatchProps, any> {
             <Card.Group stackable >
                 {this.props.courses &&
 
-                    this.props.courses.list.map(course => {
+                    this.props.courses.courseListingData.items?.map(course => {
                         return <CourseItem
                             key={course.id}
                             course={course}
                             navigate={
                                 (id:string) =>{
-                                    this.props.history.push(`/learn/${id}`)
+                                    this.props.history.push(`/${this.props.category}/${id}`)
                                 }
                             }
                         />
                     })
 
                 }
-                {!this.props.courses || this.props.courses.list.length == 0 &&
+                {!this.props.courses || this.props.courses.courseListingData.items?.length == 0 &&
                     <Card>
                         <Card.Content>
                             <Placeholder>
@@ -77,32 +75,18 @@ class CourseList extends React.Component<LinkProps&DispatchProps, any> {
     }
 }
 
-/**
- * Map from the global state to things we need here
- * @param state
- * @returns {{authentication: WebAuthentication}}
- */
-function mapStateToProps(state:ApplicationState,myProps:any ):LinkProps {
+function mapStateToProps(state:ApplicationState,myProps:MyProps ):MyProps&LinkProps {
     return {
         ...myProps,
-        courses: state.courses.courses
+        courses: state.courses.coursesListings[myProps.category]
     };
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        getCourseList:() =>  dispatch(coursesActions.getCourses())
+        getCourseList:(category:string) => dispatch(coursesActions.getCourses(category))
     };
 
 }
 
-//https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-const CourseListWithOutRouter =connect (
-    mapStateToProps,
-    mapDispatchToProps
-)(CourseList);
-
-
-
-//Wrap with a withRouter so we get the current location
-export default withRouter(props => <CourseListWithOutRouter {...props}/>);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CourseList))

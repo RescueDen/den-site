@@ -21,10 +21,10 @@ import SingleForm from "../forms/SingleForm";
 interface Props{
     //Define the props we expect
     lesson: LessonData
+    category:string
 }
 interface State{
     html: string;
-
 }
 
 /**
@@ -38,12 +38,11 @@ class Lesson extends React.Component<Props, State> {
 
     }
 
-
     componentDidMount() {
         // reset login status
         if (this.props.lesson.infoId) {
 
-            coursesService.downloadLessonInfo(this.props.lesson.infoId)
+            coursesService.downloadLessonInfo(this.props.category, this.props.lesson.infoId)
                 .then(
                     //If successful html will be returned
                     article => {

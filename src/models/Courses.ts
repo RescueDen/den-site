@@ -1,53 +1,42 @@
-/**
- * Specifies the caws user data
- */
+import {ListingData} from "./ContentListing";
+import {ItemData} from "./ItemData";
 
-export interface CourseData{
-    id:string;
-    name:string;
-    preview:string;
-    thumbnail:string;
-    lessons:LessonData[]
-
+export interface CourseListingData extends ListingData{
+    items?:CourseData[]
 }
-//The animal media structure
+
+export interface CourseData extends ItemData{
+    lessons:LessonData[]
+}
+
 export interface LessonData {
     name:number;
     infoId?:string;
     videoId?:string;
     formId?:string;
     embeddedUrl?:string;
-
 }
 
-/**
- * Define a class that uses the CAWS User data
- */
 export default class CourseListing {
-    //Set to read only for now
-    public readonly list: CourseData[];
+    public readonly courseListingData: CourseListingData
 
-
-    //The main constructor
-    constructor(list: CourseData[]) {
-        this.list = list;
+    constructor(courseListingData: CourseListingData) {
+        this.courseListingData = courseListingData;
     }
 
-
     public getCourse(id:string): CourseData|undefined{
-        for(let l =0; l < this.list.length; l++){
-            if(this.list[l].id === id){
-                return this.list[l];
+        if (this.courseListingData.items) {
+            for (let l = 0; l < this.courseListingData.items.length; l++) {
+                if (this.courseListingData.items[l].id === id) {
+                    return this.courseListingData.items[l];
+                }
             }
         }
         return undefined
     }
 
     public empty() :boolean{
-        return this.list.length == 0;
+        return this.courseListingData.items?.length == 0;
     }
-
-
-
 }
 

@@ -1,15 +1,10 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import CourseListing, {CourseData} from "../models/Courses";
+import CourseListing, {CourseData, CourseListingData} from "../models/Courses";
 
 export const coursesService = {
     getCoursesSummary,
     downloadLessonInfo: getLessonInfo,
-    // register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
 };
 
 // Create a default axios instance with the api
@@ -18,48 +13,31 @@ const apiServer =  axios.create({
 
 });
 
-/**
- * Get the info summary
- * @param username
- * @param password
- * @returns
- */
-function getCoursesSummary() : Promise<CourseListing> {
+function getCoursesSummary(category:string) : Promise<CourseListing> {
 
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/courses/',  {headers:headers});
-
+    const responsePromise = apiServer.get(`/courses/${category}`,  {headers:headers});
 
     //We need to do some work here
     return responsePromise.then(response =>
         {//When the request returns
-            //Get the user
-            const data = <CourseData[]>response.data;
+            const data = <CourseListingData>response.data;
 
-            //Return just the user
             return new CourseListing(data);
         }
     );
-
-
 }
-/**
- * Get the lesson information
- * @param username
- * @param password
- * @returns
- */
-function getLessonInfo(id:string) : Promise<string> {
+
+function getLessonInfo(category:string, id:string) : Promise<string> {
 
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/courses/${id}`,  {headers:headers});
-
+    const responsePromise = apiServer.get(`/courses/${category}/${id}`,  {headers:headers});
 
     //We need to do some work here
     return responsePromise.then(response =>

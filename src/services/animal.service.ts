@@ -7,18 +7,13 @@ export const animalService = {
     getAnimal,
     searchForAnimal,
     uploadPicture,
-    // register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
+
     getAnimalsFromCodes
 };
 
 // Create a default axios instance with the api
 const apiServer =  axios.create({
     baseURL:process.env.REACT_APP_API_URL
-
 });
 
 /**
@@ -34,7 +29,6 @@ function getAnimal(id:number) : Promise<CawsAnimal> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.get(`/animal/${id}`,  {headers:headers});
-
 
     //We need to do some work here
     return responsePromise.then(response =>

@@ -2,18 +2,19 @@ import React from 'react';
 import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
-import {Button, Card, Dropdown, DropdownItemProps, Grid, Message, Placeholder, Progress} from "semantic-ui-react";
+import {Button, Dropdown, Grid, Message, Placeholder, Progress} from "semantic-ui-react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
-import {coursesActions} from "../../actions/courses.actions";
-import CourseListing, {CourseData} from "../../models/Courses";
-import CourseItem from "./CourseItem";
+import CourseListing from "../../models/Courses";
 import Lesson from "./Lesson";
+import {coursesActions} from "../../actions/courses.actions";
 
-
+interface MyProps extends RouteComponentProps<any>  {
+    category : string;
+}
 
 //Define the expected props
-interface LinkProps extends RouteComponentProps<any> {
+interface LinkProps {
     //Define the props we expect
     courses: CourseListing;
     courseId?:string;
@@ -21,31 +22,26 @@ interface LinkProps extends RouteComponentProps<any> {
 
 }
 
-
 interface DispatchProps{
     //And the actions that must be done
-    getCourseList: () => any;
-
+    getCourseList: (category:string) => any;
 }
 
-
-
-class Course extends React.Component<LinkProps&DispatchProps, any> {
+class Course extends React.Component<MyProps&LinkProps&DispatchProps, any> {
 
     /**
      * Gets called once when the page loads.  Tell the system to download or update the summary
      */
     componentDidMount(){
         // reset login status
-        this.props.getCourseList()
+        this.props.getCourseList(this.props.category)
     };
 
     //Navigate to lesson
     moveToLesson(lesson:number){
         const courseLesson = this.props.courseId + "/" + lesson
-        this.props.history.push(`/learn/${courseLesson}`)
+        this.props.history.push(`/${this.props.category}/${courseLesson}`)
     }
-
 
     /**
      * Re-render every time this is called
@@ -135,7 +131,7 @@ class Course extends React.Component<LinkProps&DispatchProps, any> {
                         />
 
                         {/*Show the lesson*/}
-                        <Lesson lesson={courseData.lessons[lessonIndex]} />
+                        <Lesson category={this.props.category} lesson={courseData.lessons[lessonIndex]} />
 
                         {/*Add a progress bar*/}
                         <br/>
@@ -144,7 +140,6 @@ class Course extends React.Component<LinkProps&DispatchProps, any> {
                                 <Grid.Column textAlign='right' width={2}>{prevButton}</Grid.Column>
                                 <Grid.Column textAlign='center' size='tiny'  as={Progress} percent={percent}>{courseData.lessons[lessonIndex].name}</Grid.Column>
                                 <Grid.Column textAlign='left' width={2}>{nextButton}</Grid.Column>
-
                             </Grid>
                         }
                     </div>
@@ -161,10 +156,10 @@ class Course extends React.Component<LinkProps&DispatchProps, any> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state:ApplicationState,myProps:MyProps ):MyProps&LinkProps {
     return {
         ...myProps,
-        courses: state.courses.courses,
+        courses: state.courses.coursesListings[myProps.category],
         courseId:myProps.match.params.courseId,
         lessonNumber:myProps.match.params.lessonNumber
 
@@ -173,7 +168,7 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        getCourseList:() =>  dispatch(coursesActions.getCourses())
+        getCourseList:(category:string) => dispatch(coursesActions.getCourses(category))
     };
 
 }

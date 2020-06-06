@@ -16,7 +16,7 @@ import {SignUpResponse} from "../../models/SignUp";
 import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 import MyFosterSelection from "../forms/MyFosterSelection";
 import SignUpsTable from "./SignUpsTable";
-import CawsAnimal, {findAnimalByShelterId, findShelterIds, Species} from "../../models/CawsAnimal";
+import CawsAnimal, {findAnimalByShelterId, findShelterIds, Species} from "../../models/ShelterAnimal";
 import AnimalState from "../../state/AnimalState";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
@@ -231,7 +231,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
                 //Replace the names
                 if(ani) {
                     input = input.toString().replace(code,
-                        '<a href="/animal/'+ ani.data.ID+ '" target="_blank"> <img src="'+ani.getImageUrl() +'" class="ui avatar image"  /></a> ');
+                        '<a href="/animal/'+ ani.data.id+ '" target="_blank"> <img src="'+ani.getImageUrl() +'" class="ui avatar image"  /></a> ');
 
                 }
 
@@ -276,7 +276,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
         if(shelterCodes.length > 0){
 
             //For each code
-            let ids = shelterCodes.map(code =>findAnimalByShelterId(code, this.props.cawsAnimalsDb.animals)).filter(ani => ani).map(ani => (ani as CawsAnimal).data.ID);
+            let ids = shelterCodes.map(code =>findAnimalByShelterId(code, this.props.cawsAnimalsDb.animals)).filter(ani => ani).map(ani => (ani as CawsAnimal).data.id);
 
             //Now build the params
             let params = new URLSearchParams();

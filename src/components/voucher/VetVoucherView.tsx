@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {PublicVoucherViewData, Voucher, VoucherInfo} from "../../models/Voucher";
 import {voucherService} from "../../services/voucher.service";
 import {Container, Dimmer, Header, Icon, Image, Loader, Segment, Table} from "semantic-ui-react";
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
 import AnimalVaxxHistory from "../animal/details-components/AnimalVaxxHistory";
 import VoucherInfoView from "./VoucherInfoView";
@@ -158,10 +158,10 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                             {voucherPublicData.movements.map(movement =>{
                                 return (
                                     <Table.Row>
-                                        <Table.Cell>{movement.MovementType}</Table.Cell>
-                                        <Table.Cell>{movement.FIRSTNAME} {movement.LASTNAME}</Table.Cell>
-                                        <Table.Cell>{movement.EMAIL}</Table.Cell>
-                                        <Table.Cell>{movement.PHONE}</Table.Cell>
+                                        <Table.Cell>{movement.movementType}</Table.Cell>
+                                        <Table.Cell>{movement.firstName} {movement.lastName}</Table.Cell>
+                                        <Table.Cell>{movement.email}</Table.Cell>
+                                        <Table.Cell>{movement.phone}</Table.Cell>
                                     </Table.Row>
 
                                 );

@@ -53,3 +53,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
 
 ```
+
+## Develop Info
+Hosted on netlify.com

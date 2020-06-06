@@ -1,6 +1,4 @@
-/**
- * Specifies the caws user data
- */
+
 import DocumentSummary, {DocumentItemData} from "./DocumentSummary";
 
 //Store the info coming back from the server
@@ -8,10 +6,6 @@ export interface ArticleItemData extends DocumentItemData{
 
 }
 
-
-/**
- * Define a class that uses the CAWS User data
- */
 export default class ArticlesSummary implements DocumentSummary{
     //Set to read only for now
     public readonly data:ArticleItemData;

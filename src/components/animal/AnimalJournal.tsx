@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import {Button, Dimmer, Feed, Form, FormProps, Icon, Loader, Segment, TextArea, TextAreaProps} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {JournalEntry} from "../../models/JournalEntry";
 import {journalService} from "../../services/journal.service";
 import {formatDate} from "../../utils/date-formater";
@@ -71,7 +71,7 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
      */
     componentDidMount(){
         //If the user is logged in get the logged in
-        this.loadEntries(journalService.getJournalEntriesForAnimal(this.props.ani.data.ID));
+        this.loadEntries(journalService.getJournalEntriesForAnimal(this.props.ani.data.id));
 
     };
 
@@ -122,7 +122,7 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
         let journal:JournalEntry = {
             type:"General Info.",
             date:new Date(),
-            animalId:this.props.ani.data.ID,
+            animalId:this.props.ani.data.id,
             content:this.state.newPost
         }
 
@@ -185,7 +185,7 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
                     <Segment attached='bottom'>
                         <Form loading={this.state.loading} onSubmit={this.submitJournal}>
                             <TextArea
-                                placeholder={'Tell us more about ' + this.props.ani.data.NAME}
+                                placeholder={'Tell us more about ' + this.props.ani.data.name}
                                 value={this.state.newPost}
                                 onChange={ (event: React.FormEvent<HTMLTextAreaElement>, data: TextAreaProps) =>{
                                     if(data.value) {

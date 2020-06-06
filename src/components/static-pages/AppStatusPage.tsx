@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
-import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {userActions} from "../../actions/user.actions";
 import AppStatusWidget from "./AppStatusWidget";

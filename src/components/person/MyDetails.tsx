@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import {Segment, Container, Header, Label} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import MySummary from "./MySummary";
 import AnimalList from "../animal/SearchableAnimalListCompact";
@@ -53,10 +53,10 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
             <div>
                 <Container text>
                     {/*The simple header*/}
-                    <Header as='h1'>{this.props.user.data.firstname} {this.props.user.data.lastname}</Header>
+                    <Header as='h1'>{this.props.user.data.firstName} {this.props.user.data.lastName}</Header>
 
                     {/*We may have upcoming appointments*/}
-                    <MyVoucherList/>
+                    {/*<MyVoucherList/>*/}
 
                     {/*If we have achievements*/}
                     <Segment>
@@ -103,7 +103,7 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
     return {
         ...myProps,
         user:state.authentication.loggedInUser? state.authentication.loggedInUser : getEmptyCawsUser(),
-        achievements:state.authentication.loggedInUser && state.achievements? state.achievements.achievements[state.authentication.loggedInUser.data.asmid] :[]
+        achievements:state.authentication.loggedInUser && state.achievements? state.achievements.achievements[state.authentication.loggedInUser.data.shelterId] :[]
 
     };
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
+import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
 import {PersonData} from "../models/People";
 import {AchievementData} from "../models/Achievements";
@@ -75,7 +75,7 @@ function searchForAnimal(search:string) : Promise<CawsAnimal[]> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const anData = <CawsAnimalData[]>response.data;
+            const anData = <ShelterAnimalData[]>response.data;
 
             //Make a caws user for the search
             const cawAnimal = anData.map(data => new CawsAnimal(data));

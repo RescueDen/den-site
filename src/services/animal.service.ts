@@ -1,5 +1,5 @@
 import axios from 'axios';
-import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
+import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
 import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/InNeedOfFosterModel";
 
@@ -40,7 +40,7 @@ function getAnimal(id:number) : Promise<CawsAnimal> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const anData = <CawsAnimalData>response.data;
+            const anData = <ShelterAnimalData>response.data;
 
             //Make a caws user
             const cawAnimal = new CawsAnimal(anData)
@@ -109,7 +109,7 @@ function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const anData = <CawsAnimalData[]>response.data;
+            const anData = <ShelterAnimalData[]>response.data;
 
             //Make a caws user for the search
             const cawAnimal = anData.map(data => new CawsAnimal(data));
@@ -144,7 +144,7 @@ function uploadPicture(id:number, notes:string, file: File) : Promise<CawsAnimal
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const data = response.data as CawsAnimalData;
+            const data = response.data as ShelterAnimalData;
 
             //Make a caws user
             const cawAnimal = new CawsAnimal(data)

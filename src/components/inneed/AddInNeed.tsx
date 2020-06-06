@@ -9,7 +9,7 @@ import {
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
-import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 
 //Define the expected props
 interface IncomingProps{

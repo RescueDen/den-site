@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
 import cawsLogo from "../../assets/logos/xCAWS_logo_full.png";
 import {kcstyles} from "./KCBuilder";
@@ -23,10 +23,10 @@ const InfoSection =  (props:Props) => {
     return (
         <View style={{display: "flex",flexDirection: "row", justifyContent:"space-around"}}>
             <View style={{maxWidth:"50%"}}>
-                <Text style={headerStyle}>{props.aniData.data.SPECIES.toUpperCase()} INFORMATION</Text>
-                <Text style={textStyle}>Breed: {props.aniData.data.BREED}</Text>
-                <Text style={textStyle}>Age: {props.aniData.data.AGE}</Text>
-                <Text style={textStyle}>Sex: {props.aniData.data.SEX}</Text>
+                <Text style={headerStyle}>{props.aniData.data.species.toUpperCase()} INFORMATION</Text>
+                <Text style={textStyle}>Breed: {props.aniData.data.breed}</Text>
+                <Text style={textStyle}>Age: {props.aniData.data.age}</Text>
+                <Text style={textStyle}>Sex: {props.aniData.data.sex}</Text>
                 {props.aniData.getAdoptionFee() &&
                     <Text style={textStyle}>Adoption Fee: {props.aniData.getAdoptionFee()}</Text>
                 }
@@ -37,11 +37,11 @@ const InfoSection =  (props:Props) => {
             <View style={{maxWidth: "50%"}}>
                 <Text style={headerStyle}>MY FAMILY</Text>
                 {props.aniData.isSpecies([Species.dog]) &&
-                    <Text style={textStyle}>Housetrained: {props.aniData.formatYesNoUnknown(props.aniData.data.ISHOUSETRAINED)}</Text>
+                    <Text style={textStyle}>Housetrained: {props.aniData.formatYesNoUnknown(props.aniData.data.isHouseTrained)}</Text>
                 }
-                <Text style={textStyle}>Good with dogs: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHDOGS)}</Text>
-                <Text style={textStyle}>Good with cats: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHCATS)}</Text>
-                <Text style={textStyle}>Good with children: {props.aniData.formatYesNoUnknown(props.aniData.data.ISGOODWITHCHILDREN)}</Text>
+                <Text style={textStyle}>Good with dogs: {props.aniData.formatYesNoUnknown(props.aniData.data.isGoodWithDogs)}</Text>
+                <Text style={textStyle}>Good with cats: {props.aniData.formatYesNoUnknown(props.aniData.data.isGoodWithCats)}</Text>
+                <Text style={textStyle}>Good with children: {props.aniData.formatYesNoUnknown(props.aniData.data.isGoodWithChildren)}</Text>
             </View>
 
         </View>

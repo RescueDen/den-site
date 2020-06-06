@@ -3,7 +3,7 @@ import React from "react";
 import {Button, Form, Header, Icon, Table} from "semantic-ui-react";
 import {NonShelterAnimal} from "../../models/Voucher";
 import NonShelterAnimalModal from "./NonShelterAnimalModal";
-import {Species} from "../../models/CawsAnimal";
+import {Species} from "../../models/ShelterAnimal";
 import {PersonData} from "../../models/People";
 import NonShelterPersonModal from "./NonShelterPersonModal";
 

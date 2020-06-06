@@ -98,7 +98,7 @@ class Logging extends React.Component<LinkProps&StateProps&DispatchProps, any> {
 function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps&StateProps {
     return {
         ...myProps,
-        userAsmId:state.authentication.loggedInUser? state.authentication.loggedInUser.data.asmid : -1,
+        userAsmId:state.authentication.loggedInUser? state.authentication.loggedInUser.data.shelterId : -1,
         categorySummary: state.logging.categorySummary,
         logSummary: state.logging.loggingSummary
     };

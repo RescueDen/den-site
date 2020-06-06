@@ -6,7 +6,7 @@ import {UserData} from "../models/UserData";
 import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
 import {achievementsActions} from "./achievements.actions";
 import {SettingGroup} from "../models/UserPreferences";
-import CawsUser from "../models/CawsUser";
+import CawsUser from "../models/ShelterUser";
 import {animalActions} from "./animal.actions";
 
 
@@ -183,10 +183,6 @@ function loginGoogle(googleLogin :any): ThunkAction<any, any,any, any> {
                     });
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
-
-
-
-
                 },
                 //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {

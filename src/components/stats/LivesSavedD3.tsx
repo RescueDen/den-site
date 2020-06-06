@@ -120,6 +120,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
             })
 
         //Define the actual bubbles based upon the nodes
+        // @ts-ignore
         let bubbles: string & d3.Selection<SVGCircleElement, { radius: any; fill: any; x: number; y: any; /*  Math.random() * height */ }, d3.BaseType, unknown> =
                 d3.select(this.svgRef.current)
                 .selectAll('circle')

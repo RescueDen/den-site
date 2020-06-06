@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {getEmptyCawsUser} from "../../models/CawsUser";
+import {getEmptyCawsUser} from "../../models/ShelterUser";
 import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";

@@ -1,4 +1,4 @@
-import CawsUser from "../models/CawsUser";
+import CawsUser from "../models/ShelterUser";
 import Permissions from "../models/Permissions";
 import {UserPreferences} from "../models/UserPreferences";
 

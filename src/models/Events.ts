@@ -14,11 +14,6 @@ export interface EventData{
 
 }
 
-
-
-/**
- * Define a class that uses the CAWS User data
- */
 export default class EventsSummary{
     //Set to read only for now
     public readonly data:DocumentItemData;

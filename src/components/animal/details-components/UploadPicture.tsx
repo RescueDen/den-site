@@ -7,7 +7,7 @@ import {
 } from "semantic-ui-react";
 
 import {connect} from "react-redux";
-import CawsAnimal from "../../../models/CawsAnimal";
+import CawsAnimal from "../../../models/ShelterAnimal";
 import ApplicationState from "../../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {animalActions} from "../../../actions/animal.actions";
@@ -51,7 +51,7 @@ class UploadPicture extends React.Component<IncomingProps&LinkProps&DispatchProp
 
         //Now upload the data
         if (files) {
-            this.props.uploadPicture(this.props.ani.data.ID, this.state.comments, files[0])
+            this.props.uploadPicture(this.props.ani.data.id, this.state.comments, files[0])
         }
 
         event.preventDefault();

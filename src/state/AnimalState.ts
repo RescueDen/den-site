@@ -1,4 +1,4 @@
-import CawsAnimal from "../models/CawsAnimal";
+import CawsAnimal from "../models/ShelterAnimal";
 
 /**
  * This model describes the authorisation

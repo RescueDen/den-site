@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon, Placeholder} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
 
 
@@ -60,7 +60,7 @@ class AnimalItemFull extends React.Component<MyProps> {
                     <Item.Image size='small' src={this.props.ani.getImageUrl()}/>
 
                     <Item.Content>
-                        <Item.Header>{this.props.ani.data.NAME}</Item.Header>
+                        <Item.Header>{this.props.ani.data.name}</Item.Header>
                         <Item.Meta>
                             {/*<span className='date'>{formatDate(this.props.item.date)}</span>*/}
                         </Item.Meta>
@@ -70,7 +70,7 @@ class AnimalItemFull extends React.Component<MyProps> {
                         <Item.Extra>
                             <Button.Group floated='right'>
                                 {this.props.extraButton}
-                                <Link to={`${this.props.link}/${this.props.ani.data.ID}`} >
+                                <Link to={`${this.props.link}/${this.props.ani.data.id}`} >
                                     <Button primary>
                                         Read More
                                         <Icon name='chevron right'/>

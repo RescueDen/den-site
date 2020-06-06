@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {Text, View, Image, StyleSheet} from "@react-pdf/renderer";
 import facebookIcon from "../../assets/kc/facebookClear.png";
 import instagramIcon from "../../assets/kc/instagramClear.png";
@@ -50,7 +50,7 @@ const Footer = (props:Props) => {
             </View>
             <View style={footerStyles.footerGroup}>
                 <Image style={footerStyles.footerImg} src={mailIcon}/>
-                <Text style={footer}>{props.aniData.data.SPECIES}s@caws.org</Text>
+                <Text style={footer}>{props.aniData.data.species}s@caws.org</Text>
             </View>
 
             {props.qrData &&

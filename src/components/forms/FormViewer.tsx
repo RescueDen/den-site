@@ -12,8 +12,8 @@ import {formsService} from "../../services/forms.service";
 import {Dimmer, Dropdown, Loader, Segment} from "semantic-ui-react";
 import {extractMessageFromPossibleServerResponseStatus} from "../../models/ServerStatus";
 import MyFosterSelection from "./MyFosterSelection";
-import CawsUser from "../../models/CawsUser";
-import {Species} from "../../models/CawsAnimal";
+import CawsUser from "../../models/ShelterUser";
+import {Species} from "../../models/ShelterAnimal";
 import customWidgets from "./CustomWidgets";
 
 

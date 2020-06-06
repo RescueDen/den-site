@@ -1,5 +1,5 @@
-import {CawsUserData} from "./CawsUser";
-import {Species} from "./CawsAnimal";
+import {ShelterUserData} from "./ShelterUser";
+import {Species} from "./ShelterAnimal";
 
 /**
  * Specifies the list of dogs in need

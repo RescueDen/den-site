@@ -8,7 +8,7 @@ import {
 
 import {ExistingSignUps} from "../../models/SignUp";
 import {eventsService} from "../../services/events.service";
-import CawsAnimal, {findShelterIds} from "../../models/CawsAnimal";
+import CawsAnimal, {findShelterIds} from "../../models/ShelterAnimal";
 import {animalService} from "../../services/animal.service";
 import AnimalList from "../animal/SearchableAnimalListCompact";
 import SearchableAnimalListCompact from "../animal/SearchableAnimalListCompact";

@@ -1,7 +1,7 @@
 import Action from "../actions/Action";
 import AuthenticationState, {AuthenticationStatus} from "../state/AuthenticationState";
 import {userConstants} from "../actions/user.actions";
-import CawsUser from "../models/CawsUser";
+import CawsUser from "../models/ShelterUser";
 import Permissions from "../models/Permissions";
 
 //When the program first starts up we don't know the status of the user logged in.

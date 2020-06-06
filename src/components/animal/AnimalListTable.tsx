@@ -73,19 +73,19 @@ class AnimalListTable extends React.Component<IncomingProps&DispatchProps&LinkPr
                     <Table.Cell key={id} textAlign='center' verticalAlign={"middle"}>
                         {ani &&
                             <>
-                                <Image src={ani.data.THUMBNAILURL} rounded size='mini' centered={true}/>
+                                <Image src={ani.data.thumbnailUrl} rounded size='mini' centered={true}/>
                                 <Header as='h4' image textAlign={"center"}  >
                                     <Header.Content as='a' href={`${this.props.aniLink}/${id}`} target="_blank">
-                                        {ani.data.NAME}
-                                        <Header.Subheader>{ani.data.SHELTERCODE}: {ani.data.AGE}</Header.Subheader>
+                                        {ani.data.name}
+                                        <Header.Subheader>{ani.data.code}: {ani.data.age}</Header.Subheader>
                                         <Header.Subheader>
                                             {ani.getCurrentLocation()}
                                         </Header.Subheader>
                                         <Header.Subheader>
-                                            S/N: <NonEditCheck value={ani.data.NEUTERED}/>{formatDate(ani.data.NEUTEREDDATE)}
+                                            S/N: <NonEditCheck value={ani.data.neutered ? 1 : 0}/>{formatDate(ani.data.neuteredDate)}
                                         </Header.Subheader>
                                         <Header.Subheader>
-                                            Chip: <NonEditCheck value={ani.data.MICROCHIPED}/>{ani.data.MICROCHIP}
+                                            Chip: <NonEditCheck value={ani.data.microchipped ? 1 : 0}/>{ani.data.microchip}
                                         </Header.Subheader>
                                     </Header.Content>
                                 </Header>

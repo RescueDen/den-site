@@ -1,5 +1,5 @@
 import axios from 'axios';
-import CawsAnimal, {CawsAnimalData} from "../models/CawsAnimal";
+import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
 import ArticlesSummary, {ArticleItemData} from "../models/ArticlesSummary";
 import {CodeResponse} from "../models/Access";

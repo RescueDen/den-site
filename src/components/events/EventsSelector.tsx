@@ -22,7 +22,7 @@ import {
 } from "semantic-ui-react";
 import EventsSummary, {EventData} from "../../models/Events";
 import {eventsActions} from "../../actions/events.actions";
-import  BigCalendar, {Event} from 'react-big-calendar';
+import {Calendar, Event, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -33,8 +33,8 @@ import {Link} from "react-router-dom";
 import {successAutoDismiss} from "../../actions/alert.actions";
 
 //Use a localizer
-const localizer = BigCalendar.momentLocalizer(moment)
-// const localizer = momentLocalizer(moment)
+// const localizer = Calendar.momentLocalizer(moment)
+const localizer = momentLocalizer(moment)
 
 
 //Define the expected props
@@ -348,14 +348,12 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
                 style={{height: this.state.calHeight}}
                 fireOnMount={true}
             >
-
-                <BigCalendar
+                <Calendar
                     localizer={localizer}
                     views={['month']}
                     events={events}
                     onSelectEvent={event => this.onEventSelect(event.id)}
                     eventPropGetter={event => this.getEventStyle(event)}
-
                 />
             </Responsive>
         );

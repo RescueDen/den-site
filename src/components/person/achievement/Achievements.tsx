@@ -13,7 +13,7 @@ import {
     Dropdown,
     DropdownItemProps
 } from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../../actions/user.actions";
@@ -170,7 +170,7 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
     return {
         ...myProps,
         user:state.authentication.loggedInUser? state.authentication.loggedInUser : getEmptyCawsUser(),
-        achievements:state.authentication.loggedInUser && state.achievements? state.achievements.achievements[state.authentication.loggedInUser.data.asmid] :[],
+        achievements:state.authentication.loggedInUser && state.achievements? state.achievements.achievements[state.authentication.loggedInUser.data.shelterId] :[],
         formsSummary:state.forms.formsSummary,
 
     };

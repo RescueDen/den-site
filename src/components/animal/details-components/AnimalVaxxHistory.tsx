@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal from "../../../models/CawsAnimal";
+import CawsAnimal from "../../../models/ShelterAnimal";
 import {Header, Segment, Table, Image, Icon} from "semantic-ui-react";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 import {formatDate} from "../../../utils/date-formater";
@@ -17,7 +17,7 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
     return (
         <Segment>
             {!myProps.hideHeader &&
-                < Header as = "h2" > {myProps.animal.data.NAME}'s Vaccine History</Header>
+                < Header as = "h2" > {myProps.animal.data.name}'s Vaccine History</Header>
             }
 
             <Table basic='very' style={{margin:"auto"}} celled className={"unstackable"}>
@@ -36,18 +36,18 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
                 {/*//Get the vaccine history in order*/}
                 {myProps.animal.getVaccineHistoryInOrder().map(vax =>{
                     return (
-                        <Table.Row key={vax.TYPE+vax.DATEREQUIRED} >
+                        <Table.Row key={vax.type+vax.dateRequired} >
                             <Table.Cell>
                                 <Header as='h4' >
                                     <Header.Content>
-                                        {vax.TYPE}
+                                        {vax.type}
                                     </Header.Content>
                                 </Header>
                             </Table.Cell>
-                            <Table.Cell>{formatDate(vax.DATEREQUIRED)}</Table.Cell>
-                            <Table.Cell>{formatDate(vax.DATE)}</Table.Cell>
-                            <Table.Cell>{vax.VET}</Table.Cell>
-                            <Table.Cell>{vax.COMMENTS}</Table.Cell>
+                            <Table.Cell>{formatDate(vax.dateRequired)}</Table.Cell>
+                            <Table.Cell>{formatDate(vax.date)}</Table.Cell>
+                            <Table.Cell>{vax.vet}</Table.Cell>
+                            <Table.Cell>{vax.comments}</Table.Cell>
 
                         </Table.Row>
                     );

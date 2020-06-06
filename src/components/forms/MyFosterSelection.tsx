@@ -5,13 +5,13 @@ import {connect} from "react-redux";
 
 import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 import ApplicationState from "../../state/ApplicationState";
-import {getEmptyCawsUser} from "../../models/CawsUser";
+import {getEmptyCawsUser} from "../../models/ShelterUser";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../actions/user.actions";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
 import {Dropdown, DropdownItemProps} from "semantic-ui-react";
-import {Species} from "../../models/CawsAnimal";
+import {Species} from "../../models/ShelterAnimal";
 
 
 //Define the expected props
@@ -73,7 +73,7 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
             filter(ani => ani.isSpecies(this.props.species))
             .map(ani =>{
             return   {
-                text: ani.data.NAME,
+                text: ani.data.name,
                 value: ani.getCodeAndName(),
                 image: { avatar: true, src: ani.getImageUrl()},
             }

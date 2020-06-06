@@ -16,7 +16,7 @@ import {NonShelterAnimal, Voucher, VoucherInfo} from "../../models/Voucher";
 import RemoteSearch from "../animal/RemoteSearch";
 import AnimalListTable from "../animal/AnimalListTable";
 import NonShelterAnimalTable from "./NonShelterAnimalTable";
-import {Species} from "../../models/CawsAnimal";
+import {Species} from "../../models/ShelterAnimal";
 import {animalActions} from "../../actions/animal.actions";
 import {DateTimeInput} from "semantic-ui-calendar-react";
 import moment from 'moment';
@@ -180,7 +180,7 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
         this.state.voucher.animalIds.forEach( id =>{
             //If we have this animal
             if(this.props.cawsAnimalsDb.animals[id]){
-                speciesSet.add(this.props.cawsAnimalsDb.animals[id].data.SPECIES as Species)
+                speciesSet.add(this.props.cawsAnimalsDb.animals[id].data.species as Species)
             }
 
 

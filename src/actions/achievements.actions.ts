@@ -5,7 +5,7 @@ import {newsService} from "../services/news.service";
 import {formsService} from "../services/forms.service";
 import {FormSubmision} from "../models/FormSubmision";
 import {AchievementData} from "../models/Achievements";
-import CawsUser from "../models/CawsUser";
+import CawsUser from "../models/ShelterUser";
 import {achievementsService} from "../services/achievements.service";
 
 export const achievementsConstants = {
@@ -44,13 +44,13 @@ function getAchievements(user:CawsUser): ThunkAction<any, any,any, any> {
 function getAchievementsWithDispatch(dispatch:Dispatch<Action>, user:CawsUser) {
 
     //Ask the user service to login
-    achievementsService.getAchievements(user.data.asmid)
+    achievementsService.getAchievements(user.data.shelterId)
         .then(
             //If successful a user will be returned
             achList => {
                 //Make the payload
                 let payload:{ [asmId: number]: AchievementData[]; } = {}
-                payload[user.data.asmid] = achList
+                payload[user.data.shelterId] = achList
 
                 //dispatch a login success
                 dispatch({

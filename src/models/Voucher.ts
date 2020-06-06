@@ -1,7 +1,7 @@
 /**
  * Specifies the caws user data
  */
-import CawsAnimal, {CawsAnimalData, MovementData, Species} from "./CawsAnimal";
+import CawsAnimal, {ShelterAnimalData, MovementData, Species} from "./ShelterAnimal";
 import {PersonData} from "./People";
 
 //Define the caws user, this comes from the json decode
@@ -153,7 +153,7 @@ export interface PublicVoucherViewData {
     movements:MovementData[];
 
     //Animal data
-    animals: CawsAnimalData[];
+    animals: ShelterAnimalData[];
 
     //And treatments
     treatments:Treatment[];

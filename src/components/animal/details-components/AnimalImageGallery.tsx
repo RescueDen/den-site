@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageGallery, {ReactImageGalleryItem} from 'react-image-gallery';
-import CawsAnimal from "../../../models/CawsAnimal";
+import CawsAnimal from "../../../models/ShelterAnimal";
 import "react-image-gallery/styles/css/image-gallery.css"
 import {Button} from "semantic-ui-react";
 
@@ -17,7 +17,7 @@ const AnimalImageGallery =  (myProps:Props) =>{
 
 
     //Add each one in props
-    for(let imgURL of myProps.animal.data.IMGURLS){
+    for(let imgURL of myProps.animal.data.imgUrls){
 
         //Add it to the list
         imagesItems.push({

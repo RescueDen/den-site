@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import {Card, Image, Icon, Placeholder, Button} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {Link} from "react-router-dom";
 
 //Define the expected props
@@ -68,22 +68,22 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
         }else {
 
             return (
-                    <Card key={this.props.ani.data.ID}>
-                        <Link to={`${this.props.link}/${this.props.ani.data.ID}`}>
+                    <Card key={this.props.ani.data.id}>
+                        <Link to={`${this.props.link}/${this.props.ani.data.id}`}>
                             <Image src={this.props.ani.getImageUrl()}/>
                         </Link>
                         <Card.Content>
                             <Card.Header>
-                                {this.props.ani.data.NAME}
-                                <Link  to={`${this.props.link}/${this.props.ani.data.ID}`}>
+                                {this.props.ani.data.name}
+                                <Link  to={`${this.props.link}/${this.props.ani.data.id}`}>
                                     <Button compact floated='right' circular icon='settings' basic size='mini'>more<br/>info...</Button>
                                 </Link>
                             </Card.Header>
                             <Card.Meta>
-                                <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.asmid)}</span>
+                                <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.shelterId)}</span>
                             </Card.Meta>
                             {this.props.showBio &&
-                                <Card.Description>{this.props.ani.data.BIO}</Card.Description>
+                                <Card.Description>{this.props.ani.data.bio}</Card.Description>
                             }
                         </Card.Content>
                         <Card.Content extra>

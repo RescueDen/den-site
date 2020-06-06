@@ -79,7 +79,7 @@ class MyVoucherList extends React.Component<Props, StateData> {
                                         <Table.Cell>
                                             {voucher.type.name}
                                         </Table.Cell>
-                                        <Table.Cell>{voucher.animals.map(ani => <Link to={`/animal/${ani.ID}`}>{ani.NAME}</Link>)}</Table.Cell>
+                                        <Table.Cell>{voucher.animals.map(ani => <Link to={`/animal/${ani.id}`}>{ani.name}</Link>)}</Table.Cell>
                                         <Table.Cell>
                                             {voucher.vet &&
                                                 <VetDetails vet={voucher.vet}/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
 import cawsLogo from "../../assets/logos/xCAWS_logo_full.png";
 import InfoSection from "./InfoSection";
@@ -33,7 +33,7 @@ const FullPageKC =  (props:Props) => {
                             fontSize:'.8in'
                         }
                     ]
-                    }>{props.aniData.data.NAME}</Text>
+                    }>{props.aniData.data.name}</Text>
                 <Image src={cawsLogo}
                        style={
                            {
@@ -100,7 +100,7 @@ const FullPageKC =  (props:Props) => {
                 </View>
 
             </View>
-            <Footer key={props.aniData.data.ID} fontSize={"0.25in"} qrData={props.qrData} iconSize=".42in" height='1.0in' aniData={props.aniData}/>
+            <Footer key={props.aniData.data.id} fontSize={"0.25in"} qrData={props.qrData} iconSize=".42in" height='1.0in' aniData={props.aniData}/>
         </Page>
     );
 }

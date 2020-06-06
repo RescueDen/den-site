@@ -7,8 +7,8 @@ import {Header, Input, List, Placeholder, Item, Button, Dropdown, Form, Modal} f
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
 import AnimalItemFull from "./AnimalItemFull";
-import CawsUser from "../../models/CawsUser";
-import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import CawsUser from "../../models/ShelterUser";
+import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {inSearch, inSpecies, NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 import NonCawsAnimalItemFull from "./NonCawsAnimalItemFull";
 import AddInNeed from "./AddInNeed";
@@ -96,12 +96,12 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
             //Build the name
             let name = "Someone ";
             if(this.props.user){
-                name = this.props.user.data.firstname + " " + this.props.user.data.lastname;
+                name = this.props.user.data.firstName + " " + this.props.user.data.lastName;
             }
 
 
             //build the mail to
-            let href = "mailto:" + ani.data.SPECIES + "s@caws.org";
+            let href = "mailto:" + ani.data.species + "s@caws.org";
             href+= "?subject=" + name + " would like to foster " + ani.getCodeAndName();
             href+= "&body="+ name + " would like to foster " + ani.getCodeAndName();
 
@@ -121,7 +121,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
             //Build the name
         let name = "Someone ";
         if(this.props.user){
-            name = this.props.user.data.firstname + " " + this.props.user.data.lastname;
+            name = this.props.user.data.firstName + " " + this.props.user.data.lastName;
         }
 
 

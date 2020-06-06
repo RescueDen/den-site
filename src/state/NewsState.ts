@@ -1,4 +1,4 @@
-import CawsAnimal from "../models/CawsAnimal";
+import CawsAnimal from "../models/ShelterAnimal";
 import ArticlesSummary from "../models/ArticlesSummary";
 
 /**

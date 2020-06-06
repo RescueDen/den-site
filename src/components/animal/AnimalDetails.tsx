@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {Button, Segment, Dimmer, Loader, Container, Header, Icon} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
 import {animalActions} from "../../actions/animal.actions";
@@ -73,7 +73,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
             return (
                 <Container>
                     {/*The simple header*/}
-                    <Header as='h1'>{this.props.animal.data.NAME}</Header>
+                    <Header as='h1'>{this.props.animal.data.name}</Header>
 
                     {/*The animal gallery*/}
                     <div style={
@@ -83,7 +83,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                         }
                     }>
                         <AnimalImageGallery
-                            key={this.props.animal.data.IMGURLS.length}
+                            key={this.props.animal.data.imgUrls.length}
                             animal={this.props.animal}
                             additionalItem={
                                 this.props.permissions && this.props.permissions.allowed("post_animal_picture") ?
@@ -92,7 +92,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                                             return (
                                                 <Segment>
                                                     <Header as="h3" textAlign="center">Upload photos
-                                                        of {this.props.animal.data.NAME} to share</Header>
+                                                        of {this.props.animal.data.name} to share</Header>
                                                     <UploadPicture ani={this.props.animal}/>
                                                 </Segment>
                                             )
@@ -108,7 +108,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     <Segment>
                         <Header as="h2">Biography</Header>
                         <AnimalBio animal={this.props.animal}/>
-                        <Link className={"ui button"} to={`/kennelcard?id=${this.props.animal.data.ID}`}> Preview {this.props.animal.data.NAME.trim()}'s Kennel Card  </Link>
+                        <Link className={"ui button"} to={`/kennelcard?id=${this.props.animal.data.id}`}> Preview {this.props.animal.data.name.trim()}'s Kennel Card  </Link>
                     </Segment>
                     {/*The vaccine history*/}
                     <AnimalVaxxHistory animal={this.props.animal}/>

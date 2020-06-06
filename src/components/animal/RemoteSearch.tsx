@@ -3,7 +3,7 @@ import React from 'react'
 import {
     Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon, Popup, Checkbox
 } from "semantic-ui-react";
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import {animalService} from "../../services/animal.service";
 import {on} from "cluster";
 
@@ -96,20 +96,20 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
 
             const resultList = anList.map((ani:CawsAnimal) =>{
                 return {
-                    text:ani.data.NAME + " : " + ani.data.SHELTERCODE,
-                    value:ani.data.ID,
+                    text:ani.data.name + " : " + ani.data.code,
+                    value:ani.data.id,
                     content:
                         <Comment.Group>
                             <Comment>
-                                <Comment.Avatar as='a' src={ani.data.THUMBNAILURL} />
+                                <Comment.Avatar as='a' src={ani.data.thumbnailUrl} />
                                 <Comment.Content>
-                                    <Comment.Author>{ani.data.NAME}</Comment.Author>
+                                    <Comment.Author>{ani.data.name}</Comment.Author>
                                     <Comment.Metadata>
-                                        <div>{ani.data.SHELTERCODE}</div>
+                                        <div>{ani.data.code}</div>
                                         <Icon name='paw' />
-                                        <div>{ani.data.AGE}</div>
+                                        <div>{ani.data.age}</div>
                                         <Icon name='paw' />
-                                        <div>{ani.data.BREED}</div>
+                                        <div>{ani.data.breed}</div>
                                     </Comment.Metadata>
                                     <Comment.Text>
                                         {ani.getBio(bioMax)}

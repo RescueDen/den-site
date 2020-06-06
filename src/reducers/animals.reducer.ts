@@ -1,5 +1,5 @@
 import Action from '../actions/Action'
-import CawsAnimal from "../models/CawsAnimal"
+import CawsAnimal from "../models/ShelterAnimal"
 import {animalConstants} from "../actions/animal.actions";
 import AnimalState from "../state/AnimalState";
 
@@ -18,7 +18,7 @@ export function animals(state:AnimalState = {animals:{}}, action:Action): Animal
             const ani:CawsAnimal = action.payload as CawsAnimal;
 
             //Get the id
-            const id:number = ani.data.ID
+            const id:number = ani.data.id
 
             //Add the new success to the list
             return {animals:{...state.animals, [id]:ani}};

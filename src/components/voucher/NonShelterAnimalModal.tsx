@@ -31,7 +31,7 @@ import {NonShelterAnimal, Voucher, VoucherInfo} from "../../models/Voucher";
 import RemoteSearch from "../animal/RemoteSearch";
 import AnimalListTable from "../animal/AnimalListTable";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
-import {Species} from "../../models/CawsAnimal";
+import {Species} from "../../models/ShelterAnimal";
 
 interface IncomingProps {
     initAnimal:NonShelterAnimal;

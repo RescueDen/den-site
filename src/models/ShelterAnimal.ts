@@ -4,96 +4,98 @@
 import {formatDate} from "../utils/date-formater";
 import missingPic from "../assets/pictures/missingPhoto.png";
 
-
-//Define the caws user, this comes from the json decode
-export interface CawsAnimalData{
+export interface ShelterAnimalData{
 
     //Store the ident info
-    SHELTERCODE:string;
-    ID:number;
-    NAME:string;
-    MICROCHIPED:number;
-    MICROCHIP:string;
+    code:string;
+    id:number;
+    shelterId:number;
+    name:string;
+    microchipped:boolean;
+    microchip:string;
+    onShelter:boolean;
 
     //The animal info
-    AGE:string;
-    BREED:string;
-    COLOR:string;
-    SPECIES:string;
-    SEX:string;
+    age:string;
+    breed:string;
+    color:string;
+    species:string;
+    sex:string;
 
     //Fees
-    ADOPTIONFEE:string;
-    TRAININGDEPOSIT:string;
+    adoptionFee:string;
+    trainingDeposit:string;
 
     //Dates
-    DATEBROUGHTIN:Date;
-    DATEOFBIRTH:Date;
-    ESTIMATEDDOB:string;
-    NEUTERED:number;
-    NEUTEREDDATE:Date;
+    dateBroughtIn:Date;
+    dateOfBirth:Date;
+    estimatedDOB:boolean;
+    neutered:boolean;
+    neuteredDate:Date;
+    neuteredByVet:string;
 
     //Good with
-    ISGOODWITHCATS:number;
-    ISGOODWITHDOGS:number;
-    ISGOODWITHCHILDREN:number
-    ISHOUSETRAINED:number;
+    isGoodWithCats:number;
+    isGoodWithDogs:number;
+    isGoodWithChildren:number
+    isHouseTrained:number;
+    hasSpecialNeeds:boolean;
 
     //Store when the last changed and last update from asm
-    lastUpdateFromAsm:Date;
-    LASTCHANGE:Date;
+    lastUpdateFromShelter:Date;
+    lastChangeInShelter:Date;
 
     //The full bio
-    BIO:string;
+    bio:string;
 
     //An Flags
-    FLAGS:string;
+    flags:string;
 
     //Medical info
-    RABIESTAG:string;
+    rabiesTag:string;
 
     //Keep all of the animal media
-    MEDIA:MediaData[];
+    media:MediaData[];
 
     //And the history of movement
-    MOVEMENTS:MovementData[];
+    movements:MovementData[];
 
     //And the vax history
-    VACCINEHISTORY:VaccineData[];
+    vaccineHistory:VaccineData[];
 
     //Keep a list of image urls, we get these from the media
-    IMGURLS:string[];
+    imgUrls:string[];
 
     //Add in the thumbnail url
-    THUMBNAILURL:string;
+    thumbnailUrl:string;
 }
 //The animal media structure
 export interface MediaData {
-    ID:number;
-    NAME:string;
-    Type:string;
+    id:number;
+    name:string;
+    type:string;
 }
 
 //Keep a history of movements
 export interface MovementData  {
-    FIRSTNAME:string;
-    LASTNAME:string;
-    PERSONID:number;
-    PHONE:string;
-    EMAIL:string;
-    FLAGS:string;
-    MovementType:string;
-    START:Date;
-    END:Date;
+    firstName:string;
+    lastName:string;
+    shelterPersonId:number;
+    phone:string;
+    email:string;
+    flags:string;
+    movementType:string;
+    startDate:Date;
+    endDate:Date;
 }
 
 //Keep a history of vax
 export interface VaccineData {
-    DATE:Date;
-    DATEREQUIRED:Date;
-    TYPE:string;
-    VET:string;
-    COMMENTS:string;
+    date:Date;
+    dateRequired:Date;
+    type:string;
+    vet:string;
+    comments:string;
 }
 
 
@@ -138,7 +140,7 @@ export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]:
         const idAsNumb = parseInt(id);
 
         //And the test shetler code
-        const testCode = animals[idAsNumb].data.SHELTERCODE;
+        const testCode = animals[idAsNumb].data.code;
 
 
         if(testCode == (shetlerId)){
@@ -157,17 +159,17 @@ export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]:
  */
 export default class CawsAnimal{
     //Set to read only for now
-    public readonly data:CawsAnimalData;
+    public readonly data:ShelterAnimalData;
 
     //The main constructor
-    constructor(data: CawsAnimalData) {
+    constructor(data: ShelterAnimalData) {
         this.data = data;
     }
 
     //Provide a method to get the image url
     getImageUrl():string{
-        if(this.data.IMGURLS.length > 0) {
-            return this.data.IMGURLS[0];
+        if(this.data.imgUrls.length > 0) {
+            return this.data.imgUrls[0];
         }else{
             return missingPic;
         }
@@ -175,7 +177,7 @@ export default class CawsAnimal{
 
     //Provide a method to get the image url
     getCodeAndName():string{
-        return this.data.SHELTERCODE + ":" + this.data.NAME;
+        return this.data.code + ":" + this.data.name;
     }
 
     //Get the foster range based upon the movements
@@ -183,10 +185,10 @@ export default class CawsAnimal{
         //Store my history
 
         //March over each movement
-        return this.data.MOVEMENTS.filter(move=>{
-            return move.PERSONID === userId;
+        return this.data.movements.filter(move=>{
+            return move.shelterPersonId === userId;
         }).map( move =>{
-            return move.MovementType + ":" + formatDate(move.START)+ " - " + formatDate(move.END);
+            return move.movementType + ":" + formatDate(move.startDate)+ " - " + formatDate(move.endDate);
 
         });
 
@@ -195,11 +197,11 @@ export default class CawsAnimal{
     //Get the foster range based upon the movements
     getCurrentStatus():string{
         //March over each movement
-        if(this.data.MOVEMENTS) {
-            for (let move of this.data.MOVEMENTS) {
+        if(this.data.movements) {
+            for (let move of this.data.movements) {
                 //If there is no end date
-                if (move.END.toString().length === 0) {
-                    return move.MovementType + " " + formatDate(move.START.toString());
+                if (move.endDate.toString().length === 0) {
+                    return move.movementType + " " + formatDate(move.startDate.toString());
                 }
 
 
@@ -211,10 +213,10 @@ export default class CawsAnimal{
     //Get the foster range based upon the movements
     getCurrentLocation():string{
         //March over each movement
-        for( let move of this.data.MOVEMENTS){
+        for( let move of this.data.movements){
             //If there is no end date
-            if(move.END.toString().length === 0){
-                return  move.MovementType + ": " + move.FIRSTNAME + " " + move.LASTNAME;
+            if(move.endDate.toString().length === 0){
+                return  move.movementType + ": " + move.firstName + " " + move.lastName;
             }
 
 
@@ -224,9 +226,9 @@ export default class CawsAnimal{
     }
     getCurrentMovement():MovementData|undefined{
         //March over each movement
-        for( let move of this.data.MOVEMENTS){
+        for( let move of this.data.movements){
             //If there is no end date
-            if(move.END.toString().length === 0){
+            if(move.endDate.toString().length === 0){
                 return  move;
             }
 
@@ -238,7 +240,7 @@ export default class CawsAnimal{
 
     //This is a search function for searching animals for now
     inSearch(term:string){
-        return this.data.NAME.toLowerCase().indexOf(term.toLowerCase()) >=0;
+        return this.data.name.toLowerCase().indexOf(term.toLowerCase()) >=0;
     }
     //Support function to convert 0,1,2 to yes, no Unknown
     formatYesNoUnknown(value:number): string {
@@ -250,15 +252,15 @@ export default class CawsAnimal{
     }
 
     needsFoster():boolean{
-        return this.data.FLAGS.indexOf("Needs Foster") >= 0;
+        return this.data.flags.indexOf("Needs Foster") >= 0;
     }
 
     //Get vaccine in order
     getVaccineHistoryInOrder(): VaccineData[]{
-        return this.data.VACCINEHISTORY.sort(((a, b) => {
+        return this.data.vaccineHistory.sort(((a, b) => {
             //Get the given date
-            const aDate:Date = new Date(a.DATE.toString());
-            const bDate:Date = new Date(b.DATE.toString());
+            const aDate:Date = new Date(a.date.toString());
+            const bDate:Date = new Date(b.date.toString());
 
             //Get as value Date.valueOf()
             const aValue = aDate.valueOf();
@@ -290,7 +292,7 @@ export default class CawsAnimal{
     }
 
     isSpecies(searchSpecies: Species[]):boolean {
-        const mySpecies = this.data.SPECIES;
+        const mySpecies = this.data.species;
 
         for(let i =0; i < searchSpecies.length; i++){
             if(searchSpecies[i].toString() == mySpecies){
@@ -307,31 +309,31 @@ export default class CawsAnimal{
         let row = "";
 
         //Add in the required data
-        row += this.data.NAME+ ",";
-        row += this.data.SHELTERCODE + ",";
+        row += this.data.name+ ",";
+        row += this.data.code + ",";
         //Add in the current movement data
         const movement = this.getCurrentMovement();
         if(movement){
-            row += movement.MovementType+ ",";
-            row += '' + movement.START+ ',';
-            row += '"' + movement.FIRSTNAME+ '",';
-            row += '"' + movement.EMAIL+ '",';
+            row += movement.movementType+ ",";
+            row += '' + movement.startDate+ ',';
+            row += '"' + movement.firstName+ '",';
+            row += '"' + movement.email+ '",';
         }
         row += this.getImageUrl() + ",";
         return row;
     }
 
     //Get to download
-    getObjectToDownload(): CawsAnimalData{
+    getObjectToDownload(): ShelterAnimalData{
         //Make a copy
         let newDataJsonString = JSON.stringify(this.data);
 
         //Create back
-        let newDataJson = JSON.parse(newDataJsonString) as CawsAnimalData;
+        let newDataJson = JSON.parse(newDataJsonString) as ShelterAnimalData;
 
 
         //Remove the movements
-        newDataJson.MOVEMENTS = [];
+        newDataJson.movements = [];
 
         return newDataJson;
 
@@ -339,10 +341,10 @@ export default class CawsAnimal{
 
     getAdoptionFee():string |undefined{
         //Convert the fee to a number
-        if (!this.data.ADOPTIONFEE){
+        if (!this.data.adoptionFee){
             return undefined;
         }else{
-            let fee = parseFloat(this.data.ADOPTIONFEE);
+            let fee = parseFloat(this.data.adoptionFee);
             //Divide by 100
             fee /= 100;
 
@@ -357,10 +359,10 @@ export default class CawsAnimal{
     }
     getTrainingDeposit():string |undefined{
         //Convert the fee to a number
-        if (!this.data.TRAININGDEPOSIT){
+        if (!this.data.trainingDeposit){
             return undefined;
         }else{
-            let fee = parseFloat(this.data.TRAININGDEPOSIT);
+            let fee = parseFloat(this.data.trainingDeposit);
             //Divide by 100
             fee /= 100;
 
@@ -380,12 +382,12 @@ export default class CawsAnimal{
      */
     getBio(bioMax: number):string {
         //Get the current length
-        const currentLength = this.data.BIO.length;
+        const currentLength = this.data.bio.length;
 
         if(currentLength > bioMax){
-            return this.data.BIO.substr(0, bioMax-1) + "...";
+            return this.data.bio.substr(0, bioMax-1) + "...";
         }else{
-            return this.data.BIO;
+            return this.data.bio;
         }
 
 

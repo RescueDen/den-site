@@ -1,6 +1,6 @@
 import {Widget, WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 import MyFosterSelection from "./MyFosterSelection";
-import {Species} from "../../models/CawsAnimal";
+import {Species} from "../../models/ShelterAnimal";
 import React from "react";
 
 

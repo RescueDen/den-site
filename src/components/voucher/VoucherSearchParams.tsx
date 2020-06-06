@@ -30,7 +30,7 @@ import {Voucher, VoucherInfo, VoucherSearch, VoucherStatus} from "../../models/V
 import VoucherForm from "./VoucherForm";
 import RemoteSearch from "../animal/RemoteSearch";
 import {animalActions} from "../../actions/animal.actions";
-import CawsUser, {getEmptyCawsUser} from "../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import Button from "semantic-ui-react/dist/commonjs/elements/Button";
 
 interface LinkProps {

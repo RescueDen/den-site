@@ -9,7 +9,7 @@ import queryString from "query-string";
 import {Document, Font, PDFViewer, StyleSheet, Page, PDFDownloadLink} from "@react-pdf/renderer";
 import QRCode from 'qrcode'
 import HalfPageKC from "./HalfPageKC";
-import CawsAnimal from "../../models/CawsAnimal";
+import CawsAnimal from "../../models/ShelterAnimal";
 import {Button, Checkbox, Container, Dimmer, Grid, Icon, Input, Label, Loader} from "semantic-ui-react";
 import FullPageKC from "./FullPageKC";
 import RemoteSearch from "../animal/RemoteSearch";
@@ -47,7 +47,7 @@ export const kcstyles = StyleSheet.create({
     page: { backgroundColor: 'white' },
     headerSection: {  backgroundColor:"#fafafa",color: 'black', textAlign: 'left'},
     aniNameSection: {
-        fontFamily:'LeagueSpartan-Bold', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center', float:"left"
+        fontFamily:'LeagueSpartan-Bold', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center'/*, float:"left"*/
     },
     footerSection: {
         backgroundColor:"#eae2ff",
@@ -235,7 +235,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             //One page per kc
             listOfPages = aniDataList.map(data => {
                 return (
-                    <FullPageKC key={this.state.stateIndex+data.data.ID} aniData={data} qrData={this.state.qrData[data.data.ID]}/>
+                    <FullPageKC key={this.state.stateIndex+data.data.id} aniData={data} qrData={this.state.qrData[data.data.id]}/>
                 );
             });
         }else {
@@ -243,19 +243,19 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             for (let i = 0; i < aniDataList.length; i += 2) {//Notice we go up by two
                 //Get page one
                 const data1 = aniDataList[i];
-                const qr1 = this.state.qrData[data1.data.ID];
+                const qr1 = this.state.qrData[data1.data.id];
                 //Now see if there is a second one
                 let data2 = undefined;
                 let qr2 = undefined;
                 if (i + 1 < aniDataList.length) {
                     data2 = aniDataList[i + 1];
-                    qr2 = this.state.qrData[data2.data.ID];
+                    qr2 = this.state.qrData[data2.data.id];
                 }
 
 
                 //Build a new page
                 listOfPages.push(
-                    <HalfPageKC key={this.state.stateIndex+"" + data1.data.ID + (data2 ? data2.data.ID : "")} aniDataFirst={data1}
+                    <HalfPageKC key={this.state.stateIndex+"" + data1.data.id + (data2 ? data2.data.id : "")} aniDataFirst={data1}
                                 aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2}/>
                 );
 

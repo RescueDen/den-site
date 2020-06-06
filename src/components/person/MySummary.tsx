@@ -1,6 +1,6 @@
 import React from "react";
 import {Header, Icon, Segment, SemanticICONS, Table} from "semantic-ui-react";
-import CawsUser from "../../models/CawsUser";
+import CawsUser from "../../models/ShelterUser";
 import {formatDate} from "../../utils/date-formater";
 
 
@@ -46,11 +46,11 @@ const MySummary =  (myProps:LinkProps) => {
                 <Table.Body>
                     {createRow("E-Mail", myProps.user.data.email, "mail")}
                     {createRow("Address", myProps.user.data.address+","+myProps.user.data.city + " " + myProps.user.data.zip, "home")}
-                    {createRow("First Foster Date", formatDate(myProps.user.data.firstfosterdate) , "calendar outline")}
-                    {createRow("Average Foster Time", myProps.user.data.avgfostertime + "(days)", "calendar outline")}
-                    {createRow("Days Since Last Foster", myProps.user.data.dayssincelastfoster + "(days)", "calendar outline")}
-                    {createRow("Tags", myProps.user.data.additionalflags , "tags")}
-                    {createRow("Last ASM Update", myProps.user.data.lastUpdateFromAsm?myProps.user.data.lastUpdateFromAsm.toString() :"" , "clock")}
+                    {createRow("First Foster Date", formatDate(myProps.user.data.firstFosterDate) , "calendar outline")}
+                    {createRow("Average Foster Time", myProps.user.data.avgFosterTime + "(days)", "calendar outline")}
+                    {createRow("Days Since Last Foster", myProps.user.data.daysSinceLastFoster + "(days)", "calendar outline")}
+                    {createRow("Tags", myProps.user.data.additionalFlags , "tags")}
+                    {createRow("Last ASM Update", myProps.user.data.lastUpdateFromShelter?myProps.user.data.lastUpdateFromShelter.toString() :"" , "clock")}
 
                 </Table.Body>
             </Table>

@@ -1,5 +1,5 @@
 import Action from '../actions/Action'
-import CawsAnimal from "../models/CawsAnimal"
+import CawsAnimal from "../models/ShelterAnimal"
 import {animalConstants} from "../actions/animal.actions";
 import AnimalState from "../state/AnimalState";
 import PeopleState from "../state/PeopleState";

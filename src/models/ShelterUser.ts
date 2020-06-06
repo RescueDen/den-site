@@ -1,20 +1,16 @@
-/**
- * Specifies the caws user data
- */
 import {UserData} from "./UserData";
 
-//Define the caws user, this comes from the json decode
-export interface CawsUserData extends UserData{
+export interface ShelterUserData extends UserData{
     //The baseline User Data
-    asmid:number;
+    shelterId:number;
     email:string;
     password?:string;
     token:string;
     id:number;
 
     //Personal info
-    firstname:string;
-    lastname:string;
+    firstName:string;
+    lastName:string;
 
     //Address Info
     address:string;
@@ -23,45 +19,45 @@ export interface CawsUserData extends UserData{
     zip:string;
 
     //Contact info
-    homephone:string;
-    workphone:string;
+    homePhone:string;
+    workPhone:string;
     cellphone:string;
 
     //Keep some of the useful information
-    isvolunteer:number;
-    ismember:number;
-    isfosterer:number;
-    isbanned:number;
+    isVolunteer:number;
+    isMember:number;
+    isFosterer:number;
+    isBanned:number;
 
     //The additional flags
-    additionalflags:string;
+    additionalFlags:string;
 
     //Foster info
-    firstfosterdate:Date
-    lastfosterin:Date
-    lastfosterout:Date
+    firstFosterDate:Date
+    lastFosterIn:Date
+    lastFosterOut:Date
 
     //Computed Time Diff
-    dayssincelastfoster:string;
-    avgfostertime:string;
+    daysSinceLastFoster:string;
+    avgFosterTime:string;
 
     //Foster history
     currentFosters:number[];
     pastFosters:number[];
 
     //Store the last time this was updated
-    lastUpdateFromAsm:Date;
+    lastUpdateFromShelter:Date;
 }
 
 /**
  * Returns an empty caws user
  */
 export function getEmptyCawsUser(): CawsUser{
-    const data: CawsUserData = {
-        id:-1,asmid:-1, email:"",token:"",firstname:"",lastname:"",address:"",city:"",state:"",zip:"",
-        homephone:"",workphone:"",cellphone:"",isvolunteer:0,ismember:0,isfosterer:0,isbanned:0,
-        additionalflags:"",firstfosterdate:new Date(),lastfosterin:new Date(), lastfosterout:new Date(),
-        dayssincelastfoster:"",avgfostertime:"",currentFosters:[], pastFosters:[], lastUpdateFromAsm:new Date()
+    const data: ShelterUserData = {
+        id:-1,shelterId:-1, email:"",token:"",firstName:"",lastName:"",address:"",city:"",state:"",zip:"",
+        homePhone:"",workPhone:"",cellphone:"",isVolunteer:0,isMember:0,isFosterer:0,isBanned:0,
+        additionalFlags:"",firstFosterDate:new Date(),lastFosterIn:new Date(), lastFosterOut:new Date(),
+        daysSinceLastFoster:"",avgFosterTime:"",currentFosters:[], pastFosters:[], lastUpdateFromShelter:new Date()
     };
     return new CawsUser(data)
 }
@@ -71,17 +67,17 @@ export function getEmptyCawsUser(): CawsUser{
  */
 export default class CawsUser{
     //Set to read only for now
-    readonly data:CawsUserData;
+    readonly data:ShelterUserData;
 
     //Hold the split and normalized tags
     readonly tags:string[];
 
     //The main constructor
-    constructor(data: CawsUserData) {
+    constructor(data: ShelterUserData) {
         this.data = data;
 
         //Set the tags from the data
-        this.tags = this.data.additionalflags.split("|").map(tag =>{
+        this.tags = this.data.additionalFlags.split("|").map(tag =>{
             return tag.toLowerCase().trim();
 
         })
@@ -101,7 +97,7 @@ export default class CawsUser{
 
     //Provide a method to get the image url
     getCodeAndName():string{
-        return this.data.firstname + " " +this.data.lastname;
+        return this.data.firstName + " " +this.data.lastName;
     }
 
 }

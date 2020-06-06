@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 
-import CawsUser, {getEmptyCawsUser} from "../../../models/CawsUser";
+import CawsUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
 import {Option, OptionGroup, SettingGroup, UserPreferences} from "../../../models/UserPreferences";
 import ApplicationState from "../../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";

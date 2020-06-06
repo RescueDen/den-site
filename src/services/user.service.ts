@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {ServerResponseStatus} from "../models/ServerStatus";
 import {UserData} from "../models/UserData";
-import CawsUser, {CawsUserData} from "../models/CawsUser";
+import CawsUser, {ShelterUserData} from "../models/ShelterUser";
 import {authHeader} from "../utils/auth-header";
 import Permissions, {PermissionsData} from "../models/Permissions";
 import {UserPreferences, SettingGroup} from "../models/UserPreferences";
-
+import {organizationService} from "./organization.service"
 
 export const userService = {
     login,
@@ -20,7 +20,7 @@ export const userService = {
     getLoggedInUserPreferences,
     setLoggedInUserPreferences,
     loginFacebook,
-    loginGoogle
+    loginGoogle,
 };
 
 // Create a default axios instance with the api
@@ -44,7 +44,7 @@ function login(email:string, password:string) : Promise<CawsUser> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const userData = <CawsUserData>response.data;
+            const userData = <ShelterUserData>response.data;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -75,7 +75,7 @@ function loginFacebook(facebookToken:any) : Promise<CawsUser> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const userData = <CawsUserData>response.data;
+            const userData = <ShelterUserData>response.data;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -99,14 +99,19 @@ function loginFacebook(facebookToken:any) : Promise<CawsUser> {
  */
 function loginGoogle(googleToken:any) : Promise<CawsUser> {
 
+    const token = {
+        token: googleToken,
+        organizationId: organizationService.getCurrentOrganizationId(),
+    }
+
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post('/users/login/google', googleToken);
+    const responsePromise = apiServer.post('/users/login/google', token);
 
     //We need to do some work here
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const userData = <CawsUserData>response.data;
+            const userData = <ShelterUserData>response.data;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -141,7 +146,7 @@ function updateLoggedInUser() : Promise<CawsUser> {
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const userData = <CawsUserData>response.data;
+            const userData = <ShelterUserData>response.data;
 
             //Make a caws user
             const cawsUser = new CawsUser(userData)

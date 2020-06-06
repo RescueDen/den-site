@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal, {Species} from "../../models/CawsAnimal";
+import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
 import {kcstyles} from "./KCBuilder";
 
@@ -39,7 +39,7 @@ const BioSection =  (props:Props) => {
     // console.log(props.aniData.data.BIO );
 
     //Compute the font size
-    const length:number = props.aniData.data.BIO.length;
+    const length:number = props.aniData.data.bio.length;
 
     //Get the size
     let fontSize:number = props.defaultSize.fontSize;
@@ -60,7 +60,7 @@ const BioSection =  (props:Props) => {
     return (
         <View style={{maxWidth:"100%",textAlign:"center",margin:"1.0in"}}>
             <Text style={[kcstyles.sectionHeader,{fontSize: fontSize + props.fontUnit }]}>DESCRIPTION</Text>
-            <Text style={[kcstyles.bio,{marginRight:"10px",fontSize: fontSize + props.fontUnit }]}>{props.aniData.data.BIO}</Text>
+            <Text style={[kcstyles.bio,{marginRight:"10px",fontSize: fontSize + props.fontUnit }]}>{props.aniData.data.bio}</Text>
 
 
         </View>

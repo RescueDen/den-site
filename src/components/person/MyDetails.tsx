@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import {Segment, Container, Header, Label} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import MySummary from "./MySummary";
 import AnimalList from "../animal/SearchableAnimalListCompact";
@@ -19,7 +19,7 @@ import MyVoucherList from "../voucher/MyVoucherList";
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user:CawsUser;
+    user:ShelterUser;
     achievements?:AchievementData[]
 }
 

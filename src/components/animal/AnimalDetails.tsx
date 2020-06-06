@@ -5,7 +5,7 @@ import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {Button, Segment, Dimmer, Loader, Container, Header, Icon} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
 import {animalActions} from "../../actions/animal.actions";
@@ -24,7 +24,7 @@ import Permissions from "../../models/Permissions";
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
     animal: CawsAnimal;
-    user:CawsUser;
+    user:ShelterUser;
     permissions?:Permissions
 
 }

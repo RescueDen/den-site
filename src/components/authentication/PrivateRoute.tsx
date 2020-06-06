@@ -2,7 +2,7 @@ import React from 'react';
 import {Route, Redirect, RouteProps, RouteComponentProps} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import ApplicationState from "../../state/ApplicationState";
-import CawsUser from "../../models/ShelterUser";
+import ShelterUser from "../../models/ShelterUser";
 import {connect} from "react-redux";
 import Permissions from "../../models/Permissions";
 
@@ -23,7 +23,7 @@ interface PrivateRouteProps extends RouteComponentProps<any>{
     reqPermission?:string
 
     //Define the props we expect
-    currentUser?:CawsUser;
+    currentUser?:ShelterUser;
     permissions?:Permissions;
 
     //Redirect to

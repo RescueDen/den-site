@@ -1,4 +1,4 @@
-import CawsUser from "../models/ShelterUser";
+import ShelterUser from "../models/ShelterUser";
 import Permissions from "../models/Permissions";
 import {UserPreferences} from "../models/UserPreferences";
 
@@ -6,7 +6,7 @@ import {UserPreferences} from "../models/UserPreferences";
  * This model describes the authorisation
  */
 export default interface AuthenticationState {
-    loggedInUser?: CawsUser,
+    loggedInUser?: ShelterUser,
     loggedInStatus?:AuthenticationStatus,
     loggedInMsg?:string,
     activatedUserStatus?:AuthenticationStatus,

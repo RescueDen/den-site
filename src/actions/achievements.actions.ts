@@ -5,7 +5,7 @@ import {newsService} from "../services/news.service";
 import {formsService} from "../services/forms.service";
 import {FormSubmision} from "../models/FormSubmision";
 import {AchievementData} from "../models/Achievements";
-import CawsUser from "../models/ShelterUser";
+import ShelterUser from "../models/ShelterUser";
 import {achievementsService} from "../services/achievements.service";
 
 export const achievementsConstants = {
@@ -26,7 +26,7 @@ export const achievementsActions = {
  * @param password
  * @returns {Function}
  */
-function getAchievements(user:CawsUser): ThunkAction<any, any,any, any> {
+function getAchievements(user:ShelterUser): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<Action>) => {
 
@@ -41,7 +41,7 @@ function getAchievements(user:CawsUser): ThunkAction<any, any,any, any> {
  * @param dispatch
  * @param user
  */
-function getAchievementsWithDispatch(dispatch:Dispatch<Action>, user:CawsUser) {
+function getAchievementsWithDispatch(dispatch:Dispatch<Action>, user:ShelterUser) {
 
     //Ask the user service to login
     achievementsService.getAchievements(user.data.shelterId)

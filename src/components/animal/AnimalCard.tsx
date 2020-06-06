@@ -5,7 +5,7 @@ import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal from "../../models/ShelterAnimal";
 import {Card, Image, Icon, Placeholder, Button} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {Link} from "react-router-dom";
 
 //Define the expected props
@@ -18,7 +18,7 @@ interface IncomingProps{
 //Define the expected props
 interface LinkProps{
     //Define the props we expect
-    user:CawsUser;
+    user:ShelterUser;
 
 }
 

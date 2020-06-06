@@ -6,7 +6,7 @@ import {UserData} from "../models/UserData";
 import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
 import {achievementsActions} from "./achievements.actions";
 import {SettingGroup} from "../models/UserPreferences";
-import CawsUser from "../models/ShelterUser";
+import ShelterUser from "../models/ShelterUser";
 import {animalActions} from "./animal.actions";
 
 
@@ -322,7 +322,7 @@ function setUserPreferences(newSetting:SettingGroup): ThunkAction<any, any,any, 
  * @param dispatch
  * @param user
  */
-function getOtherUserInfo(dispatch:Dispatch<Action>,user:CawsUser ):void{
+function getOtherUserInfo(dispatch:Dispatch<Action>,user:ShelterUser ):void{
 
     //Now update the user permissions
     updateUserPermissions(dispatch);

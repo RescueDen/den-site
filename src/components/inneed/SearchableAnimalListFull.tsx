@@ -7,7 +7,7 @@ import {Header, Input, List, Placeholder, Item, Button, Dropdown, Form, Modal} f
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
 import AnimalItemFull from "./AnimalItemFull";
-import CawsUser from "../../models/ShelterUser";
+import ShelterUser from "../../models/ShelterUser";
 import CawsAnimal, {Species} from "../../models/ShelterAnimal";
 import {inSearch, inSpecies, NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 import NonCawsAnimalItemFull from "./NonCawsAnimalItemFull";
@@ -30,7 +30,7 @@ interface IncomingProps  {
 interface LinkProps  {
     //Define the props we expect
     cawsAnimalsDb: AnimalState
-    user?: CawsUser
+    user?: ShelterUser
     busy:boolean;
 }
 

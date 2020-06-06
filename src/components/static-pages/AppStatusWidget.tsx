@@ -1,6 +1,6 @@
 import React from "react";
 import {Header, Icon, List, Segment, Step} from "semantic-ui-react";
-import CawsUser from "../../models/ShelterUser";
+import ShelterUser from "../../models/ShelterUser";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 
 //Define the expected props
@@ -8,7 +8,7 @@ interface AppStatusProps  {
     //Define the props we expect
     name:string;
     icon:any
-    user:CawsUser;
+    user:ShelterUser;
     status: AppStatus[];
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {Header, Icon, Segment, SemanticICONS, Table} from "semantic-ui-react";
-import CawsUser from "../../models/ShelterUser";
+import ShelterUser from "../../models/ShelterUser";
 import {formatDate} from "../../utils/date-formater";
 
 
@@ -8,7 +8,7 @@ import {formatDate} from "../../utils/date-formater";
 //Define the expected props
 interface LinkProps  {
     //Define the props we expect
-    user:CawsUser;
+    user:ShelterUser;
 
 }
 

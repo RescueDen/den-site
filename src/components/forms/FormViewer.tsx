@@ -12,7 +12,7 @@ import {formsService} from "../../services/forms.service";
 import {Dimmer, Dropdown, Loader, Segment} from "semantic-ui-react";
 import {extractMessageFromPossibleServerResponseStatus} from "../../models/ServerStatus";
 import MyFosterSelection from "./MyFosterSelection";
-import CawsUser from "../../models/ShelterUser";
+import ShelterUser from "../../models/ShelterUser";
 import {Species} from "../../models/ShelterAnimal";
 import customWidgets from "./CustomWidgets";
 
@@ -25,7 +25,7 @@ interface LinkProps {
     formWidgets?: { [name: string]: Widget };
 
     //Store a person
-    user?: CawsUser;
+    user?: ShelterUser;
 }
 
 

@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 
-import CawsUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
 import {Option, OptionGroup, SettingGroup, UserPreferences} from "../../../models/UserPreferences";
 import ApplicationState from "../../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
@@ -24,7 +24,7 @@ import {AuthenticationStatus} from "../../../state/AuthenticationState";
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user:CawsUser;
+    user:ShelterUser;
     prefs?:UserPreferences;
     loading:boolean;
 }

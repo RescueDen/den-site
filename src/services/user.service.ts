@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {ServerResponseStatus} from "../models/ServerStatus";
 import {UserData} from "../models/UserData";
-import CawsUser, {ShelterUserData} from "../models/ShelterUser";
+import ShelterUser, {ShelterUserData} from "../models/ShelterUser";
 import {authHeader} from "../utils/auth-header";
 import Permissions, {PermissionsData} from "../models/Permissions";
 import {UserPreferences, SettingGroup} from "../models/UserPreferences";
@@ -35,7 +35,7 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function login(email:string, password:string) : Promise<CawsUser> {
+function login(email:string, password:string) : Promise<ShelterUser> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/login', { email: email, password: password });
@@ -50,7 +50,7 @@ function login(email:string, password:string) : Promise<CawsUser> {
             localStorage.setItem('currentUser', JSON.stringify(userData));
 
             //Make a caws user
-            const cawsUser = new CawsUser(userData)
+            const cawsUser = new ShelterUser(userData)
 
             //Return just the user
             return cawsUser;
@@ -66,7 +66,7 @@ function login(email:string, password:string) : Promise<CawsUser> {
  * @param password
  * @returns
  */
-function loginFacebook(facebookToken:any) : Promise<CawsUser> {
+function loginFacebook(facebookToken:any) : Promise<ShelterUser> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/login/facebook', facebookToken);
@@ -81,7 +81,7 @@ function loginFacebook(facebookToken:any) : Promise<CawsUser> {
             localStorage.setItem('currentUser', JSON.stringify(userData));
 
             //Make a caws user
-            const cawsUser = new CawsUser(userData)
+            const cawsUser = new ShelterUser(userData)
 
             //Return just the user
             return cawsUser;
@@ -97,7 +97,7 @@ function loginFacebook(facebookToken:any) : Promise<CawsUser> {
  * @param password
  * @returns
  */
-function loginGoogle(googleToken:any) : Promise<CawsUser> {
+function loginGoogle(googleToken:any) : Promise<ShelterUser> {
 
     const token = {
         token: googleToken,
@@ -117,7 +117,7 @@ function loginGoogle(googleToken:any) : Promise<CawsUser> {
             localStorage.setItem('currentUser', JSON.stringify(userData));
 
             //Make a caws user
-            const cawsUser = new CawsUser(userData)
+            const cawsUser = new ShelterUser(userData)
 
             //Return just the user
             return cawsUser;
@@ -133,7 +133,7 @@ function loginGoogle(googleToken:any) : Promise<CawsUser> {
  * @param password
  * @returns
  */
-function updateLoggedInUser() : Promise<CawsUser> {
+function updateLoggedInUser() : Promise<ShelterUser> {
 
     //Get the headers
     const headers =authHeader();
@@ -149,7 +149,7 @@ function updateLoggedInUser() : Promise<CawsUser> {
             const userData = <ShelterUserData>response.data;
 
             //Make a caws user
-            const cawsUser = new CawsUser(userData)
+            const cawsUser = new ShelterUser(userData)
 
             //Return just the user
             return cawsUser;

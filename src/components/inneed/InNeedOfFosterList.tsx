@@ -1,13 +1,8 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {getEmptyCawsUser} from "../../models/ShelterUser";
 import ApplicationState from "../../state/ApplicationState";
-import {animalActions} from "../../actions/animal.actions";
-import AnimalState from "../../state/AnimalState";
-import AnimalCard from "../animal/AnimalCard";
-import {Card, Header, Input} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
-import InNeedOfFosterModel, {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
+import InNeedOfFosterModel from "../../models/InNeedOfFosterModel";
 import {inNeedActions} from "../../actions/inNeedFoster.actions";
 import SearchableAnimalListFull from "./SearchableAnimalListFull";
 

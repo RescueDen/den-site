@@ -5,7 +5,7 @@ import ApplicationState from "../../state/ApplicationState";
 
 import CawsAnimal from "../../models/ShelterAnimal";
 import {Button, Dimmer, Feed, Form, FormProps, Icon, Loader, Segment, TextArea, TextAreaProps} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {JournalEntry} from "../../models/JournalEntry";
 import {journalService} from "../../services/journal.service";
 import {formatDate} from "../../utils/date-formater";
@@ -25,7 +25,7 @@ interface IncomingProps{
 //Define the expected props
 interface LinkProps{
     //Define the props we expect
-    user:CawsUser;
+    user:ShelterUser;
 
     //Store the people info
     peopleInfo: { [id: number]: PersonData; }

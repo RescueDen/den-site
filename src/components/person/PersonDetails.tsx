@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import {Segment, Container, Header, Label, Loader} from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import MySummary from "./MySummary";
 import AnimalList from "../animal/SearchableAnimalListCompact";

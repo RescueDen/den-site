@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
-import CawsUser, {getEmptyCawsUser} from "../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {userActions} from "../../actions/user.actions";
 import AppStatusWidget from "./AppStatusWidget";
@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user:CawsUser;
+    user:ShelterUser;
 
 }
 

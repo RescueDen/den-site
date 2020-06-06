@@ -52,20 +52,20 @@ export interface ShelterUserData extends UserData{
 /**
  * Returns an empty caws user
  */
-export function getEmptyCawsUser(): CawsUser{
+export function getEmptyCawsUser(): ShelterUser{
     const data: ShelterUserData = {
         id:-1,shelterId:-1, email:"",token:"",firstName:"",lastName:"",address:"",city:"",state:"",zip:"",
         homePhone:"",workPhone:"",cellphone:"",isVolunteer:0,isMember:0,isFosterer:0,isBanned:0,
         additionalFlags:"",firstFosterDate:new Date(),lastFosterIn:new Date(), lastFosterOut:new Date(),
         daysSinceLastFoster:"",avgFosterTime:"",currentFosters:[], pastFosters:[], lastUpdateFromShelter:new Date()
     };
-    return new CawsUser(data)
+    return new ShelterUser(data)
 }
 
 /**
- * Define a class that uses the CAWS User data
+ * Define a class that uses the Shelter User data
  */
-export default class CawsUser{
+export default class ShelterUser{
     //Set to read only for now
     readonly data:ShelterUserData;
 

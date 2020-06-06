@@ -3,7 +3,7 @@ import React from 'react';
 import {Image, Dimmer, Input, List, Loader, Segment, Container, Grid} from "semantic-ui-react";
 import {ArticleItemData} from "../../models/ArticlesSummary";
 import {infoService} from "../../services/info.service"
-import CawsUser from "../../models/ShelterUser";
+import ShelterUser from "../../models/ShelterUser";
 import {staticService} from "../../services/static.service";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";

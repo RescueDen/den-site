@@ -13,7 +13,7 @@ import {
     Dropdown,
     DropdownItemProps
 } from "semantic-ui-react";
-import CawsUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
+import ShelterUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../../actions/user.actions";
@@ -29,7 +29,7 @@ import {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user?:CawsUser;
+    user?:ShelterUser;
     achievements?:AchievementData[]
     //Define the props we expect
     formsSummary: FormsSummary

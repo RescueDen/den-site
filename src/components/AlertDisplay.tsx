@@ -49,7 +49,6 @@ class AlertDisplay extends React.Component<Props>{
                                 key={alert.id}
                                 success={alert.type == AlertType.POSITIVE}
                                 negative={alert.type == AlertType.NEGATIVE}
-
                             >
                                 {/*Add a header if specified*/}
                                 {header &&
@@ -57,7 +56,7 @@ class AlertDisplay extends React.Component<Props>{
                                 }
 
                                 {/*Add the main message content*/}
-                                {alert.getMessage()}
+                                <div dangerouslySetInnerHTML={{ __html: alert.getMessage() }} />
 
                                 {/*Add a count */}
                                 {alert.getCount() > 1 &&

@@ -11,7 +11,6 @@ import AuthenticationState, {AuthenticationStatus} from "../../state/Authenticat
 import {Dispatch} from "redux";
 import FullPageForm from "./FullPageForm";
 // @ts-ignore
-import GoogleLogin from 'react-google-login';
 import {organizationService} from "../../services/organization.service";
 
 //Define the expected props
@@ -27,8 +26,6 @@ interface DispatchProps{
     userActionLogin: (email:string, password:string, organizationId:number) => any;
     requestActivationToken: (email:string) => any;
     requestEmailReset: (email:string) => any;
-    userActionLoginFacebook: (facebookToken:any) => any;
-    userActionLoginGoogle: (googleToken:any) => any;
 }
 
 //Define the expected props
@@ -57,26 +54,6 @@ class LoginPasswordPage extends React.Component<IncomingProps&DispatchProps, MyS
         this.props.userActionLogout();
 
     };
-
-    responseFacebook = (response:any) => {
-        //See if there is an access token
-        if(response.accessToken){
-            this.props.userActionLoginFacebook(response);
-        }
-
-
-    }
-
-    responseGoogle = (response:any) => {
-        //See if there is an access token
-        console.log(response.getAuthResponse())
-        if(response.getAuthResponse()){
-            this.props.userActionLoginGoogle(response.getAuthResponse());
-        }
-
-
-
-    }
 
     signOut = (response:any) => {
         //See if there is an access token
@@ -160,12 +137,8 @@ class LoginPasswordPage extends React.Component<IncomingProps&DispatchProps, MyS
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
                     <Image src={logoImage} />
-                    Log-in to your account
+                    Use an password to login to RescueDen
                 </Header>
-                <p>
-                    Welcome to the new CAWS Volunteer and Foster Page (now called the den and available at den.caws.org).  If you had an old account you will have to register or login with Google or Facebook using the buttons below.
-                </p>
-
                 {/*Now add the required values to the form*/}
                 <Form error={errorState} size='large' onSubmit={e => this.handleSubmit(e)}>
                     {/*Stacked segments*/}
@@ -196,36 +169,6 @@ class LoginPasswordPage extends React.Component<IncomingProps&DispatchProps, MyS
 
                 </Message>
                 <br/>
-                <p>or Login with Google without creating a new password!</p>
-
-                {/*Keep all of the buttons in a group to make it look nice*/}
-                <Button.Group>
-                    {/*<FacebookLogin*/}
-                    {/*    appId="377460049683618"*/}
-                    {/*    autoLoad={false}*/}
-                    {/*    scope="email"*/}
-                    {/*    fields="email"*/}
-                    {/*    callback={this.responseFacebook}*/}
-                    {/*    disableMobileRedirect={true}*/}
-                    {/*    render={(renderProps:any) => (*/}
-                    {/*        <Button color='facebook' onClick={renderProps.onClick}>*/}
-                    {/*            <Icon name='facebook' /> Facebook*/}
-                    {/*        </Button>*/}
-                    {/*    )}*/}
-
-                    {/*/>*/}
-                    <GoogleLogin
-                        clientId="327122640256-6huu8nsbpa9jtj9u970gregpc9dviuef.apps.googleusercontent.com"
-                        onSuccess={this.responseGoogle}
-                        onFailure={this.responseGoogle}
-                        render={(renderProps:any) => (
-                            <Button color='google plus' onClick={renderProps.onClick}>
-                                <Icon name='google' /> Google
-                            </Button>
-                        )}
-                    />
-
-                </Button.Group>
 
                 {/*Add a help button*/}
                 <br/><br/>
@@ -257,8 +200,6 @@ function mapDispatchToProps(dispatch: Dispatch<any>): {} {
         userActionLogout:() => dispatch(userActions.logout()),
         requestActivationToken: (email:string) => dispatch(userActions.requestActivationToken(email)),
         requestEmailReset: (email:string)  => dispatch(userActions.requestEmailReset(email)),
-        userActionLoginFacebook: (facebookToken:any) => dispatch(userActions.loginFacebook(facebookToken)),
-        userActionLoginGoogle: (googleToken:any) => dispatch(userActions.loginGoogle(googleToken))
     };
 
 }

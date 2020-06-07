@@ -41,7 +41,7 @@ const data : { [id: string]: ReplacementMessage; } =  {
         "message": "You will need to register this email before you can login or login with gmail or facebook. If this is the first time you have logged in in on the new version of the site, please re-register. "
     },
     "user_password_login_forbidden": {
-        "message": "You can't login with a user and name and password for this email because you never set a password.  Please login with gmail or facebook, or perform a password reset. "
+        "message": "Please use the <a href='/login'>email link to login</a>. You can't login with a user and name and password for this email because you never set a password.  Login with email link, gmail or perform a password reset."
     },
     "password_change_request_received": {
         "message": "An email has been sent to the requested email address."
@@ -64,15 +64,18 @@ const data : { [id: string]: ReplacementMessage; } =  {
         "message": "Please check the token and email and try again."
     },
     "onetimepassword_token_request_received": {
-        "message": "An email has been sent with the login link."
+        "header": "Login Link Sent",
+        "message": "Check your email for the login link."
     },
     "onetimepassword_forbidden":{
         "message": "This token is no longer valid and may have expired.  Please request a new login token."
+    },
+    "user_email_in_user":{
+        "message": "This user has not been activated. Please activate the user using the activation in email."
+    },
+    "user_not_found":{
+        "message": "There is no account for this email.  Please Register a new account."
     }
-
-
-
-
 
 }
 

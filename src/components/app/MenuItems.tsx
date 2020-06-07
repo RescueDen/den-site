@@ -1,6 +1,5 @@
 import {Icon, Image} from "semantic-ui-react";
 import logoImage from "../../assets/logos/xCAWS_logo_sideways.png";
-import logoIcon from "../../assets/logos/xCAWS_logoBW_noText.png";
 import React from "react";
 
 
@@ -96,20 +95,18 @@ export const leftMenuItems = [
                 icon:<Icon name='id card outline'/>,
 
             },
-            {
-                name: "Vouchers Listing.ts",
-                to: '/vouchers',
-                reqPerm:"issue_voucher",
-                icon:<Icon name='edit'/>,
-
-            },
-            {
-                name: "New Voucher",
-                to: '/voucher',
-                reqPerm:"issue_voucher",
-                icon:<Icon corner name='add' />
-
-            }
+            // {
+            //     name: "Vouchers Listing.ts",
+            //     to: '/vouchers',
+            //     reqPerm:"issue_voucher",
+            //     icon:<Icon name='edit'/>,
+            // },
+            // {
+            //     name: "New Voucher",
+            //     to: '/voucher',
+            //     reqPerm:"issue_voucher",
+            //     icon:<Icon corner name='add' />
+            // }
         ]
 
     },
@@ -156,6 +153,15 @@ export const rightMenuItems = [
                 name:"Help",
                 to:'/help',
                 icon:<Icon name='help circle' />
+            },
+            {
+                name:"Email Support",
+                icon:<Icon name='envelope outline' />,
+                onClick:(() => {
+                    const mail = document.createElement("a");
+                    mail.href = "mailto:support@rescueden.org";
+                    mail.click();
+                })
             },
             {//Lower the User to change preferences
                 name:"Preferences",

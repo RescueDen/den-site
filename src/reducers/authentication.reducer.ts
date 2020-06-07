@@ -115,6 +115,23 @@ export function authentication(state:AuthenticationState = initialState, action:
                 pwResetStatus:AuthenticationStatus.FALSE,
                 pwResetUserMsg: action.payload
             };
+        /////////////////////
+        case userConstants.ONETIMEPASSWORD_REQUEST:
+            return {
+                ...state,
+                oneTimePasswordStatus:AuthenticationStatus.ATTEMPT,
+            };
+        case userConstants.ONETIMEPASSWORD_SUCCESS:
+            return {
+                ...state,
+                oneTimePasswordStatus:AuthenticationStatus.TRUE,
+            };
+        case userConstants.ONETIMEPASSWORD_REQUEST:
+            return {
+                ...state,
+                oneTimePasswordStatus:AuthenticationStatus.FALSE,
+            };
+
         //Update the permissions
         case userConstants.FETCH_PERMISSIONS:
             return {

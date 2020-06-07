@@ -15,6 +15,7 @@ export default interface AuthenticationState {
     registerUserMsg?:string,
     pwResetStatus?:AuthenticationStatus,
     pwResetUserMsg?:string,
+    oneTimePasswordStatus?:AuthenticationStatus,
 
     //Keep the user permissions
     permissions?:Permissions,

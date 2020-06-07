@@ -64,8 +64,6 @@ class StaticComponent extends React.Component<Props, MyState> {
             );
         }else{
             return <div dangerouslySetInnerHTML={{__html: this.state.html}}/>;
-
-
         }
     }
 

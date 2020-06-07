@@ -12,7 +12,6 @@ export const peopleService = {
 // Create a default axios instance with the api
 const apiServer =  axios.create({
     baseURL:process.env.REACT_APP_API_URL
-
 });
 
 /**

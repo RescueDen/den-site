@@ -469,7 +469,13 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
  * @returns {{authentication: WebAuthentication}}
  */
 function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
-    const categories: string[] = ["dogs","volunteer"];
+    const categories: string[] = [];
+    if (state.authentication.permissions?.allowed("get_dog_events")){
+        categories.push("dogs")
+    }
+    if (state.authentication.permissions?.allowed("get_volunteer_events")){
+        categories.push("volunteer")
+    }
     const eventListings: { [category :string]: EventListing|undefined; } = { }
 
     categories.forEach(category =>{

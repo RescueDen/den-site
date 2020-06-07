@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {userActions} from '../../actions/user.actions';
 import logoImage from "../../assets/logos/xCAWS_logo_noText.png";
@@ -7,9 +7,8 @@ import ApplicationState from "../../state/ApplicationState";
 import AuthenticationState, {AuthenticationStatus} from "../../state/AuthenticationState";
 import {Dispatch} from "redux";
 import FullPageForm from "./FullPageForm";
-import {Button, Header, Image, Message, Segment, Form} from "semantic-ui-react";
+import {Button, Form, Header, Image, Message, Segment} from "semantic-ui-react";
 import {checkPassword} from "../../utils/password-checker";
-import {UserData} from "../../models/UserData";
 import {RegisterUserData} from "../../services";
 import {organizationService} from "../../services/organization.service";
 

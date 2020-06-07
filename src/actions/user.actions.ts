@@ -1,9 +1,8 @@
 import {RegisterUserData, userService} from '../services';
-import { success, error } from './alert.actions';
+import {error, success} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {UserData} from "../models/UserData";
-import {extractMessageFromPossibleServerResponseStatus, ServerResponseStatus} from "../models/ServerStatus";
+import {extractMessageFromPossibleServerResponseStatus} from "../models/ServerStatus";
 import {achievementsActions} from "./achievements.actions";
 import {SettingGroup} from "../models/UserPreferences";
 import ShelterUser from "../models/ShelterUser";
@@ -14,6 +13,10 @@ export const userConstants = {
     REGISTER_REQUEST: 'USERS_REGISTER_REQUEST',
     REGISTER_SUCCESS: 'USERS_REGISTER_SUCCESS',
     REGISTER_FAILURE: 'USERS_REGISTER_FAILURE',
+
+    ONETIMEPASSWORD_REQUEST: 'ONETIMEPASSWORD_REQUEST',
+    ONETIMEPASSWORD_SUCCESS: 'ONETIMEPASSWORD_SUCCESS',
+    ONETIMEPASSWORD_FAILURE: 'ONETIMEPASSWORD__FAILURE',
 
     LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
     LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
@@ -32,11 +35,7 @@ export const userConstants = {
     FETCH_USERPREF: 'FETCH_USERPREF',
     UPDATE_USERPREF: 'UPDATE_USERPREF',
 
-
     LOGOUT: 'USERS_LOGOUT',
-
-
-
 };
 
 export const userActions = {
@@ -50,7 +49,9 @@ export const userActions = {
     updateLoggedInUser,
     loginFacebook,
     loginGoogle,
-    setUserPreferences
+    setUserPreferences,
+    requestOneTimePassword,
+    loginWithOneTimePassword
 };
 
 /**
@@ -126,8 +127,6 @@ function loginFacebook(facebookToken :any): ThunkAction<any, any,any, any> {
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
 
-
-
                 },
                 //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
@@ -197,6 +196,85 @@ function loginGoogle(googleLogin :any): ThunkAction<any, any,any, any> {
     };
 }
 
+function requestOneTimePassword(email:string, organizationId: number): ThunkAction<any, any,any, any> {
+    //Return a function that takes a dispatch
+    return (dispatch:Dispatch<Action>) => {
+        //Dispatch the action of attempting to login
+        dispatch({
+            type: userConstants.ONETIMEPASSWORD_REQUEST,
+        });
+        //Now ask the userService to register
+        userService.requestOneTimePassword(email, organizationId)
+            .then(
+                response =>{
+                    //If the status is true, the new user was created
+                    if(response.status){
+                        //Dispatch a success message
+                        dispatch(success(response.message))
+                        dispatch({
+                            type: userConstants.ONETIMEPASSWORD_SUCCESS,
+                        });
+                    }else{
+
+                        //Dispatch a sucess message
+                        dispatch(error(response.message))
+                    }
+                },
+                //If we get an error back
+                errorResponse => {
+                    dispatch({
+                        type: userConstants.ONETIMEPASSWORD_FAILURE,
+                    });
+
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+                }
+            );
+    };
+}
+
+
+function loginWithOneTimePassword(email:string, token:string,  organizationId: number): ThunkAction<any, any,any, any> {
+    //Return a function that will be called by dispatch
+    return (dispatch:Dispatch<Action>) => {
+        //Dispatch the action of attempting to login
+        dispatch({
+            type: userConstants.LOGIN_REQUEST,
+        });
+
+        //Ask the user service to login
+        userService.loginWithOneTimePassword(email, token, organizationId)
+            .then(
+                //If successful a user will be returned
+                user => {
+                    //dispatch a login success
+                    dispatch({
+                        type: userConstants.LOGIN_SUCCESS,
+                        payload: user
+                    });
+                    //get the other user info
+                    getOtherUserInfo(dispatch, user);
+                },
+                //If there was an error, dispatch a login failure and alert the user why
+                errorResponse => {
+                    //Get the message
+                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+                    //Else it failed
+                    dispatch({
+                        type: userConstants.LOGIN_FAILURE,
+                        payload: message
+                    });
+
+                    //Dispatch a sucess message
+                    dispatch(error(message));
+                }
+            );
+    };
+}
 /**
  * Now update the user permissions
  * @param username
@@ -223,12 +301,8 @@ function updateUserPermissions(dispatch:Dispatch<Action>): void {
 
                 //Dispatch a sucess message
                 dispatch(error(message));
-
-
-
             }
         );
-
 }
 
 /**
@@ -391,13 +465,13 @@ function activate(email:string, activationToken:string): ThunkAction<any, any,an
         userService.activateUser(email, activationToken)
             .then(
                 //If successful a user will be returned
-                resposne => {
+                response => {
                     //dispatch a login success
                     dispatch({
                         type: userConstants.ACTIVATION_SUCCESS,
-                        payload: resposne
+                        payload: response
                     });
-                    dispatch(success(resposne.message))
+                    dispatch(success(response.message))
 
                 },
                 //If there was an error, dispatch a login failure and alert the user why

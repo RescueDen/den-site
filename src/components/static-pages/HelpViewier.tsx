@@ -13,17 +13,8 @@ interface LinkProps  {
 
 }
 
-
-
 class HelpViewer extends React.Component<LinkProps> {
 
-
-
-
-    /**
-     * Re-render every time this is called
-     * @returns {*}
-     */
     render() {
         //Now set it
         if(this.props.user){

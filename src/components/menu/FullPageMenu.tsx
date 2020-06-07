@@ -1,24 +1,10 @@
-import {
-    Button,
-    Card,
-    Header,
-    Icon,
-    Image,
-    List,
-    ListItem,
-    Menu,
-    Responsive,
-    Segment,
-    Sidebar,
-    Visibility
-} from "semantic-ui-react";
+import {Button} from "semantic-ui-react";
 import React, {ReactNode} from "react";
-import {RouteComponentProps, withRouter} from "react-router";
+import {RouteComponentProps} from "react-router";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import Permissions from "../../models/Permissions";
-import NavBar, {MenuItem} from "./NavBar";
-import logoImage from "../../assets/logos/xCAWS_logo_sideways.png";
+import {MenuItem} from "./NavBar";
 import {leftMenuItems, rightMenuItems} from "../app/MenuItems";
 
 //Income Props
@@ -26,11 +12,9 @@ interface Props extends RouteComponentProps{
 
 }
 
-
 interface StateProps{
     permissions?:Permissions
 }
-
 
 class FullPageMenu extends React.Component<Props&StateProps> {
     /**

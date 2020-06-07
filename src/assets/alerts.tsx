@@ -10,7 +10,7 @@ const data : { [id: string]: ReplacementMessage; } =  {
         "header": "Activation Required"
     },
     "Error: Network Error":{
-        "message":"Cannot contact the CAWS server.  Please check you internet connection.  If this problem persists contact it@caws.org.",
+        "message":"Cannot contact the RescueDen server.  Please check you internet connection.  If this problem persists contact support@rescueden.org.",
         "header": "Network Error"
     },
     "validate_missing_email":{
@@ -62,6 +62,12 @@ const data : { [id: string]: ReplacementMessage; } =  {
     },
     "password_change_forbidden": {
         "message": "Please check the token and email and try again."
+    },
+    "onetimepassword_token_request_received": {
+        "message": "An email has been sent with the login link."
+    },
+    "onetimepassword_forbidden":{
+        "message": "This token is no longer valid and may have expired.  Please request a new login token."
     }
 
 

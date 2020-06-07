@@ -8,7 +8,6 @@ import {Redirect, Route, RouteProps} from "react-router";
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
 import AnimalDetails from "../animal/AnimalDetails";
 import MyDetails from "../person/MyDetails";
-import Information from "../content/DocumentView";
 import ArticleListView from "../content/ArticleListView";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 import {MenuMode} from "../menu/ResponsiveNavBar";
@@ -144,7 +143,6 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route exact key={'vouchers'} path="/vouchers" component={VoucherOverview} />
                             <Route exact key={'voucher'} path="/voucher" component={VoucherViewer} />
                             <Route key={'voucher/vouchers'+url} path="/voucher/:voucherId" component={VoucherViewer} />
-
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>
                             <PrivateRoute exactRoute={true} reqPermission='access_hub' exclude={[]} path='/cawshub' to='/welcome'  component={CAWSHub} />

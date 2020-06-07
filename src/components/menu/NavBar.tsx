@@ -35,17 +35,11 @@ export interface MenuItem {
     onClick?:()=>any;
 
 }
-
-
-
 class NavBar extends React.Component<Props> {
-
-
     /**
      * Build the menu item
      */
     buildMenuItem(item:MenuItem, mobile:MenuType,  MenuItem:React.ComponentClass<any>, subMenu?:boolean):ReactNode{
-
         //See if we should bother drawing the item
         if(item.reqPerm && !(this.props.permissions && this.props.permissions.allowed(item.reqPerm)))
             return null;

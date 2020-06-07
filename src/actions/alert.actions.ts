@@ -11,7 +11,6 @@ export const alertConstants = {
 
 };
 
-
 /**
  * Create new success message
  * @param message
@@ -23,7 +22,6 @@ export function success(message: string): Action {
 
     };
 }
-
 
 export function error(message: string): Action {
     return {

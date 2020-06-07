@@ -19,7 +19,9 @@ export const userService = {
     getLoggedInUserPreferences,
     setLoggedInUserPreferences,
     loginFacebook,
-    loginGoogle
+    loginGoogle,
+    requestOneTimePassword,
+    loginWithOneTimePassword
 };
 
 // Create a default axios instance with the api
@@ -55,8 +57,6 @@ function login(email:string, password:string, organizationId: number) : Promise<
             return cawsUser;
         }
     );
-
-
 }
 
 /**
@@ -229,7 +229,6 @@ function setLoggedInUserPreferences(setting :SettingGroup) : Promise<UserPrefere
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/preferences',setting,  {headers:headers});
 
-
     //We need to do some work here
     return responsePromise.then(response =>
         {//When the request returns
@@ -243,8 +242,6 @@ function setLoggedInUserPreferences(setting :SettingGroup) : Promise<UserPrefere
             return prefData;
         }
     );
-
-
 }
 
 /**
@@ -281,13 +278,11 @@ function registerNewUser(user: RegisterUserData): Promise<ServerResponseStatus>{
  * This function add a new user to the service
  */
 function forcePasswordChange(email:string, reset_token:string, password:string): Promise<ServerResponseStatus>{
-
     const sendData:any ={
         email,
         password,
         reset_token,
     }
-
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/password/reset', sendData);
 
@@ -299,6 +294,43 @@ function forcePasswordChange(email:string, reset_token:string, password:string):
 
 }
 
+function requestOneTimePassword(email: string, organizationId: number): Promise<ServerResponseStatus>{
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/users/onetimelogin`,{params:{email:email, organizationId:organizationId}});
+
+    //Now convert it to a serverResponse
+    return responsePromise.then(response =>{
+        return  <ServerResponseStatus>response.data;
+    });
+}
+
+function loginWithOneTimePassword(email: string, token:string, organizationId: number): Promise<ShelterUser>{
+    //Define a little object
+    const sendData:any = {
+        email:email,
+        login_token: token,
+        organizationId: organizationId,
+    }
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post('/users/onetimelogin', sendData);
+
+    //Now convert it to a serverResponse
+    return responsePromise.then(response =>
+        {//When the request returns
+            //Get the user
+            const userData = <ShelterUserData>response.data;
+
+            //Log that user in
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+
+            //Make a caws user
+            const cawsUser = new ShelterUser(userData)
+
+            //Return just the user
+            return cawsUser;
+        }
+    );
+}
 
 /**
  * This function add a new user to the service
@@ -311,8 +343,6 @@ function requestActivationToken(email: string): Promise<ServerResponseStatus>{
     return responsePromise.then(response =>{
         return  <ServerResponseStatus>response.data;
     });
-
-
 }
 
 /**
@@ -354,6 +384,4 @@ function activateUser(email:string, activationToken:string): Promise<ServerRespo
             return data;
         }
     );
-
-
 }

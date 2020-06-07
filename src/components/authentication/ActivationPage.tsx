@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {Link, Redirect, RouteComponentProps, RouteProps} from 'react-router-dom';
+import {Redirect, RouteComponentProps} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {userActions} from '../../actions/user.actions';
 import logoImage from "../../assets/logos/xCAWS_logo_noText.png";

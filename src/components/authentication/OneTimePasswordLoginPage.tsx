@@ -10,44 +10,29 @@ import {Button, Form, Header, Image, Message, Segment} from "semantic-ui-react";
 import queryString from 'query-string';
 
 import FullPageForm from "./FullPageForm";
-import {checkPassword} from "../../utils/password-checker";
+import {organizationService} from "../../services/organization.service";
 
-
-//Define the expected props
 interface IncomingProps extends RouteComponentProps<any>{
-    //Define the props we expect
     authentication: AuthenticationState;
-
 }
 
 interface DispatchProps{
-    //And the actions that must be done
-    forcePasswordChange:(email:string, activation_token:string, password:string) => any;
+    loginUser: (email:string,login_token:string, organizationId: number) => any;
 }
 
 //Define the expected props
 interface MyState{
     email: string,
-    password:string,
-    passwordCheck:string
     token:string,
     submitted:boolean
 }
 
-
-
-/**
- * This page is designed to allow user to login
- */
-class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyState> {
+class OneTimePasswordLoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
     state = {
         email:'',
         token:'',
-        submitted:false,
-        password:'',
-        passwordCheck:''
+        submitted:false
     }
-
 
     //After the component mounted, copy the params into state
     componentDidMount(){
@@ -64,8 +49,6 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
         if(params.email){
             this.setState({email:params.email.toString()})
         }
-
-
     }
 
     //When the user is done with the form add it
@@ -73,15 +56,12 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
         //Normal prevent default to prevent page from reloading
         e.preventDefault();
 
-        //Update the submit
-        this.setState({submitted:true});
-
         //Extract the user name from the local
-        const { email, token, password, passwordCheck } = this.state;
+        const { email, token } = this.state;
 
         //Use the action
-        if (email && token && password && (password == passwordCheck)) {
-            this.props.forcePasswordChange(email, token, password);
+        if (email && token) {
+            this.props.loginUser(email, token, organizationService.getCurrentOrganizationId());
         }
     }
 
@@ -90,14 +70,12 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
      * @returns {*}
      */
     render() {
-
         //If the user has activated in redirect them to root
-        if(this.props.authentication.pwResetStatus === AuthenticationStatus.TRUE){
-            return <Redirect to={{ pathname: '/login'}} />;
+        if(this.props.authentication.loggedInStatus === AuthenticationStatus.TRUE){
+            return <Redirect to={{ pathname: '/'}} />;
         }
 
-
-        const { email, token, submitted , password, passwordCheck} = this.state;
+        const { email, token, submitted } = this.state;
 
         //Determine if we are in an error state and what it is
         let errorState = false;
@@ -113,38 +91,13 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
             errorState = true;
             msg.push(<div>Token is required</div> )
         }
-        //Check if there is a password problem
-        let passwordError = false;
-        let passwordCheckError = false;
-        //Check for password
-        if (submitted && !password){
-            errorState = true;
-            passwordError= true;
-            msg.push(<div>A new password is required</div> )
-        }
-        //Check for password
-        if (submitted && (password != passwordCheck)){
-            errorState = true;
-            passwordCheckError= true;
-
-            msg.push(<div>The passwords do not match.</div> )
-        }
-        //Double check the passswords
-        const passwordProbs = checkPassword(this.state.password);
-        if (submitted && passwordProbs.length > 0){
-            errorState = true;
-            passwordError= true;
-
-            passwordProbs.forEach(pb => msg.push(<div>{pb}</div>))
-        }
-
 
         return (
             //Setup the page to take up the entire page
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
                     <Image src={logoImage} />
-                    Reset Your Password
+                    Login to RescueDen
                 </Header>
 
                 {/*Now add the required values to the form*/}
@@ -153,38 +106,16 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
                     <Segment stacked>
                         <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left' placeholder='E-mail address' value={email} onChange={(e) => this.setState({email:e.target.value})}/>
                         <Form.Input fluid  error={submitted && !token} iconPosition='left' placeholder='Token' value={this.state.token} onChange={(e) => this.setState({token:e.target.value})}/>
-                        <Form.Input
-                            error={passwordError}
-                            fluid
-                            icon='lock'
-                            iconPosition='left'
-                            placeholder='Password'
-                            type='password'
-                            value={password} onChange={(e) => this.setState({password:e.target.value})}
-                        />
-                        <Form.Input
-                            error={passwordCheckError}
-                            fluid
-                            icon='lock'
-                            iconPosition='left'
-                            placeholder='Password'
-                            type='password'
-                            value={passwordCheck} onChange={(e) => this.setState({passwordCheck:e.target.value})}
-                        />
 
-                        <Button disabled={this.props.authentication.pwResetStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
-                            Reset
+                        <Button disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
+                            Login
                         </Button>
                         <Message error>
                             {msg}
                         </Message>
-
                     </Segment>
                 </Form>
             </FullPageForm>
-
-
-
         );
     }
 }
@@ -202,15 +133,12 @@ function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingP
 }
 
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
-
     return {
-        forcePasswordChange:(email:string, reset_token:string, password:string) => dispatch(userActions.forcePasswordChange(email, reset_token, password)),
-
+        loginUser:(email:string, token:string, organizationId:number) => dispatch(userActions.loginWithOneTimePassword(email, token, organizationId)),
     };
-
 }
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ActivationPage);
+)(OneTimePasswordLoginPage);

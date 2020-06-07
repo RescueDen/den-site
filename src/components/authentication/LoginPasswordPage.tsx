@@ -24,27 +24,48 @@ interface IncomingProps{
 interface DispatchProps{
     //And the actions that must be done
     userActionLogout: () => any;
-    userEmailLogin: (email:string, organizationId:number) => any;
+    userActionLogin: (email:string, password:string, organizationId:number) => any;
+    requestActivationToken: (email:string) => any;
+    requestEmailReset: (email:string) => any;
+    userActionLoginFacebook: (facebookToken:any) => any;
     userActionLoginGoogle: (googleToken:any) => any;
 }
 
 //Define the expected props
 interface MyState{
     email: string,
+    password: string,
     submitted: boolean
 }
 
 
-class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
-    state = {
-        email:'',
+
+/**
+ * This page is designed to allow user to login
+ */
+class LoginPasswordPage extends React.Component<IncomingProps&DispatchProps, MyState> {
+    state = {email:'',
+        password:'',
         submitted: false
     }
 
+    /**
+     * Gets called once when the page loads
+     */
     componentDidMount(){
         // reset login status
         this.props.userActionLogout();
+
     };
+
+    responseFacebook = (response:any) => {
+        //See if there is an access token
+        if(response.accessToken){
+            this.props.userActionLoginFacebook(response);
+        }
+
+
+    }
 
     responseGoogle = (response:any) => {
         //See if there is an access token
@@ -52,6 +73,16 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
         if(response.getAuthResponse()){
             this.props.userActionLoginGoogle(response.getAuthResponse());
         }
+
+
+
+    }
+
+    signOut = (response:any) => {
+        //See if there is an access token
+        console.log(response.getAuthResponse())
+
+
     }
 
     //When the user is done with the form add it
@@ -63,21 +94,43 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
         this.setState({ submitted: true });
 
         //Extract the user name from the local
-        const { email } = this.state;
+        const { email, password } = this.state;
 
         //Use the action
-        if (email) {
-            this.props.userEmailLogin(email, organizationService.getCurrentOrganizationId());
+        if (email && password) {
+            this.props.userActionLogin(email, password, organizationService.getCurrentOrganizationId());
         }
     }
 
+    //When the user is done with the form add it
+    getNewActivationToken(e: React.FormEvent) {
+        //Normal prevent default to prevent page from reloading
+        e.preventDefault();
+
+        //Update the state to say it was submitted
+        this.props.requestActivationToken(this.state.email)
+    }
+
+    //When the user is done with the form add it
+    getNewRequestEmailReset(e: React.FormEvent) {
+        //Normal prevent default to prevent page from reloading
+        e.preventDefault();
+
+        //Update the state to say it was submitted
+        this.props.requestEmailReset(this.state.email)
+    }
+
+    /**
+     * Re-render eveyr time this is called
+     * @returns {*}
+     */
     render() {
         //If the user has logged in redirect them to root
         if(this.props.authentication.loggedInStatus === AuthenticationStatus.TRUE){
             return <Redirect to={{ pathname: '/'}} />;
         }
 
-        const { email, submitted } = this.state;
+        const { email, password, submitted } = this.state;
 
         //Determine if we are in an error state and what it is
         let errorState = false;
@@ -88,6 +141,19 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
             errorState = true;
             msg.push(<div>Email is required!</div> )
         }
+        //Check for password
+        if (submitted && !password){
+            errorState = true;
+            msg.push(<div>Password is required!</div> )
+        }
+        //See if the user is not activated
+        if(this.props.authentication.loggedInStatus == AuthenticationStatus.FALSE && this.props.authentication.loggedInMsg =="user_not_activated"){
+            errorState = true;
+            msg.push(<div>The user has not been activated. <Button onClick={(e) => this.getNewActivationToken(e) }>Request new activation email.</Button> </div> )
+
+        }
+
+
 
         return (
             //Setup the page to take up the entire page
@@ -97,7 +163,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                     Log-in to your account
                 </Header>
                 <p>
-                    Welcome to the RescueDen.  Login by getting an link in your email, Den UserName and Password or Google.
+                    Welcome to the new CAWS Volunteer and Foster Page (now called the den and available at den.caws.org).  If you had an old account you will have to register or login with Google or Facebook using the buttons below.
                 </p>
 
                 {/*Now add the required values to the form*/}
@@ -105,8 +171,16 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                     {/*Stacked segments*/}
                     <Segment stacked>
                         <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left' placeholder='E-mail address' value={email} onChange={(e) => this.setState({email:e.target.value})}/>
-                        <Button disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT || this.props.authentication.oneTimePasswordStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
-                            send login link to email
+                        <Form.Input
+                            fluid
+                            icon='lock'
+                            iconPosition='left'
+                            placeholder='Password'
+                            type='password'
+                            value={password} onChange={(e) => this.setState({password:e.target.value})}
+                        />
+                        <Button disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
+                            Login
                         </Button>
                         <Message error>
                             {msg}
@@ -114,19 +188,39 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
                     </Segment>
                 </Form>
+                <Message>
+                    <Link to="/register" className="ui button">Register</Link>
+                    <Button disabled={email.length == 0} onClick={e => this.getNewRequestEmailReset(e)}>
+                        Reset Password
+                    </Button>
+
+                </Message>
                 <br/>
-                <p>or select one of the following methods to login</p>
+                <p>or Login with Google without creating a new password!</p>
 
                 {/*Keep all of the buttons in a group to make it look nice*/}
                 <Button.Group>
-                    <Link className="ui blue button" to="/loginpassword">RescueDen Email & Password</Link>
+                    {/*<FacebookLogin*/}
+                    {/*    appId="377460049683618"*/}
+                    {/*    autoLoad={false}*/}
+                    {/*    scope="email"*/}
+                    {/*    fields="email"*/}
+                    {/*    callback={this.responseFacebook}*/}
+                    {/*    disableMobileRedirect={true}*/}
+                    {/*    render={(renderProps:any) => (*/}
+                    {/*        <Button color='facebook' onClick={renderProps.onClick}>*/}
+                    {/*            <Icon name='facebook' /> Facebook*/}
+                    {/*        </Button>*/}
+                    {/*    )}*/}
+
+                    {/*/>*/}
                     <GoogleLogin
                         clientId="327122640256-6huu8nsbpa9jtj9u970gregpc9dviuef.apps.googleusercontent.com"
                         onSuccess={this.responseGoogle}
                         onFailure={this.responseGoogle}
                         render={(renderProps:any) => (
                             <Button color='google plus' onClick={renderProps.onClick}>
-                                <Icon name='google' /> Login with Gmail
+                                <Icon name='google' /> Google
                             </Button>
                         )}
                     />
@@ -136,6 +230,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                 {/*Add a help button*/}
                 <br/><br/>
                 <Link to="/loginhelp" className="ui button"><Icon name='help circle'/>Help</Link>
+
             </FullPageForm>
 
 
@@ -158,8 +253,11 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        userEmailLogin:(email:string, organizationId:number) => dispatch(userActions.requestOneTimePassword(email, organizationId)),
+        userActionLogin:(email:string, password:string, organizationId:number) => dispatch(userActions.login(email, password, organizationId)),
         userActionLogout:() => dispatch(userActions.logout()),
+        requestActivationToken: (email:string) => dispatch(userActions.requestActivationToken(email)),
+        requestEmailReset: (email:string)  => dispatch(userActions.requestEmailReset(email)),
+        userActionLoginFacebook: (facebookToken:any) => dispatch(userActions.loginFacebook(facebookToken)),
         userActionLoginGoogle: (googleToken:any) => dispatch(userActions.loginGoogle(googleToken))
     };
 
@@ -168,4 +266,4 @@ function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-    )(LoginPage);
+    )(LoginPasswordPage);

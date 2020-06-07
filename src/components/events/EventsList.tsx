@@ -3,21 +3,8 @@ import React from 'react';
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
-import {
-    Button,
-    Checkbox,
-    Container,
-    Dimmer,
-    Grid, Header,
-    Icon,
-    Image,
-    Label,
-    List,
-    Loader,
-    Responsive,
-    Segment
-} from "semantic-ui-react";
-import EventsSummary, {EventData} from "../../models/Events";
+import {Header, Icon, List, Segment} from "semantic-ui-react";
+import EventListing, {EventItemData} from "../../models/Events";
 import {eventsActions} from "../../actions/events.actions";
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -29,45 +16,29 @@ import {CawsEvent} from "./EventsSelector";
 //Define the expected props
 interface LinkProps {
     //Define the props we expect
-    eventsSummary: EventsSummary
-
+    eventListings: { [category: string]: EventListing|undefined; }
+    categories:string[]
 }
-
-
-
 
 interface DispatchProps{
     //And the actions that must be done
-    getEventsSummary: () => any;
-
+    getEventListing: (category:string) => any;
 }
-
-
-
 
 /**
  * Show all of the upcoming events
  */
 class EventsList extends React.Component<DispatchProps&LinkProps> {
-
-
     constructor(props:DispatchProps&LinkProps){
         super(props)
-
     }
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
     componentDidMount(){
-        // get the forms
-        this.props.getEventsSummary();
-
+        this.props.categories.forEach(cat => this.props.getEventListing(cat));
     };
-
-
-
-
 
     /**
      * Event selected
@@ -75,7 +46,6 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
     getEventStyle(event:CawsEvent) :{ className?: string, style?: React.CSSProperties }{
         const style = {
             backgroundColor: this.getColor(event.group),
-
         };
 
         return {
@@ -83,14 +53,12 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
         };
     }
 
-
-
     /**
      * Get color
      */
     getColor(group:string):SemanticCOLORS{
         //Get the index of the group
-        const groupIndex = Object.keys(this.props.eventsSummary.eventGroups).indexOf(group);
+        const groupIndex = this.props.categories.indexOf(group);
 
         //Now get the color
         switch(groupIndex){
@@ -107,73 +75,55 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
             default:
                 return 'grey'
         }
-
     }
-
-
 
     /**
      * Re-render every time this is called
      * @returns {*}
      */
     render() {
-        //Check to see if we are still loading
-        if(this.props.eventsSummary.empty()){
-            return (
-                <div>
-                    <Segment>
-                        <Dimmer inverted active>
-                            <Loader size='large'>Loading</Loader>
-                        </Dimmer>
-                        <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-
-                    </Segment>
-                </div>
-            );
-
-        }
-        
-
-
-
-
         //Now get the events to show
         const events:CawsEvent[] = [];
 
         //Also bin by the date
-        const eventsByDate:{[date:string]:EventData[]} = {};
+        const eventsByDate:{[date:string]:EventItemData[]} = {};
+
+        const colorByEvent:{[event:string]:SemanticCOLORS} = {};
 
         //Now add each group
-        for (let group in this.props.eventsSummary.eventGroups) {
+        for (let group in this.props.categories ) {
             //If we show this group
-            //Add of all the events
-            events.push(...this.props.eventsSummary.eventGroups[group].map(event => {
-                    return {
-                        start: event.date ? new Date(event.date) : undefined,
-                        end: event.date ?  new Date(event.date) : undefined,
-                        title: event.name,
-                        id: event.id,
-                        group: group,
-                        allDay:true
-                    };
+            const eventListingData = this.props.eventListings[group]?.data.items;
+
+            if (eventListingData) {
+                //Add of all the events
+                events.push(...eventListingData.map(event => {
+                        return {
+                            start: event.date ? new Date(event.date) : undefined,
+                            end: event.date ? new Date(event.date) : undefined,
+                            title: event.name,
+                            id: event.id,
+                            group: group,
+                            allDay: true
+                        };
+                    })
+                );
+
+                //Also bin the data by date
+                eventListingData.map(event => {
+                    //Get the date in the format
+                    const dateFormat = formatDate(event.date);
+
+                    //See if there is already an entry
+                    if (!eventsByDate[dateFormat]) {
+                        //Create a new array
+                        eventsByDate[dateFormat] = [];
+                    }
+                    //Now add it
+                    eventsByDate[dateFormat].push(event);
+                    colorByEvent[event.id] = this.getColor(group);
                 })
-            );
-
-            //Also bin the data by date
-            this.props.eventsSummary.eventGroups[group].map(event => {
-                //Get the date in the format
-                const dateFormat = formatDate(event.date);
-
-                //See if there is already an entry
-                if(!eventsByDate[dateFormat]){
-                    //Create a new array
-                    eventsByDate[dateFormat] = [];
-                }
-                //Now add it
-                eventsByDate[dateFormat].push(event);
-
-            })
-
+            }
         }
 
         //Show grouped by date
@@ -211,7 +161,7 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
                                             return (
                                                 <List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
                                                     <List.Icon name='circle'
-                                                               color={this.getColor(this.props.eventsSummary.lookUpGroup[event.id])}/>
+                                                               color={colorByEvent[event.id]}/>
                                                     <List.Content>{event.name}</List.Content>
                                                 </List.Item>
                                             );
@@ -229,12 +179,6 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
 
             </List>
         );
-
-
-
-
-
-
 
         //Start rendering
         return (
@@ -258,24 +202,23 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
  * @returns {{authentication: WebAuthentication}}
  */
 function mapStateToProps(state:ApplicationState): LinkProps {
+    const categories: string[] = ["dogs","volunteer"];
+    const eventListings: { [category :string]: EventListing|undefined; } = { }
+
+    categories.forEach(category =>{
+        eventListings[category] = state.events.eventsSummary[category];
+    })
 
     return {
-        eventsSummary:state.events.eventsSummary,
-
-
+        categories,
+        eventListings
     };
 }
-/**
- * All of them share the same mapDispatchToProps
- * @param dispatch
- * @param ownProps
- */
+
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        getEventsSummary:() =>  dispatch(eventsActions.getEventsSummary()),
-
+        getEventListing:(category) =>  dispatch(eventsActions.getEventListing(category)),
     };
-
 }
 
 

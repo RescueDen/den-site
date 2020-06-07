@@ -16,7 +16,6 @@ import {LessonData} from "../../models/Courses";
 import {coursesService} from "../../services/courses.service";
 import SingleForm from "../forms/SingleForm";
 
-
 //Define the expected props
 interface Props{
     //Define the props we expect
@@ -77,8 +76,6 @@ class Lesson extends React.Component<Props, State> {
             contentComputerWidth = 12 as  SemanticWIDTHSNUMBER;
         }
 
-
-
         return (
             <div>
                 {/*Now for a small screen just overlay them*/}
@@ -131,7 +128,7 @@ class Lesson extends React.Component<Props, State> {
                                         }
                                         {/*If there is a form*/}
                                         {this.props.lesson.formId &&
-                                        <SingleForm  formId={this.props.lesson.formId} />
+                                        <SingleForm category={"forms"} formId={this.props.lesson.formId} />
                                         }
                                         {/*Lastly we should embbeed somthing*/}
                                         {this.props.lesson.embeddedUrl &&
@@ -182,7 +179,7 @@ class Lesson extends React.Component<Props, State> {
                         }
                         {/*If there is a form*/}
                         {this.props.lesson.formId &&
-                            <SingleForm  formId={this.props.lesson.formId} />
+                            <SingleForm category={"forms"} formId={this.props.lesson.formId} />
                         }
                         {/*Lastly we should embbeed somthing*/}
                         {this.props.lesson.embeddedUrl &&

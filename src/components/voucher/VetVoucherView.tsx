@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {PublicVoucherViewData, Voucher, VoucherInfo} from "../../models/Voucher";
 import {voucherService} from "../../services/voucher.service";
 import {Container, Dimmer, Header, Icon, Image, Loader, Segment, Table} from "semantic-ui-react";
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
 import AnimalVaxxHistory from "../animal/details-components/AnimalVaxxHistory";
 import VoucherInfoView from "./VoucherInfoView";
@@ -119,7 +119,7 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
 
                     {voucherPublicData.animals.map(aniData =>{
                         //Convert to a caws animal
-                        const aniClass = new CawsAnimal(aniData);
+                        const aniClass = new ShelterAnimal(aniData);
 
                         //Add in simple picture
                         return <Segment>

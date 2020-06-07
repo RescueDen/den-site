@@ -3,14 +3,14 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 import {Card, Image, Icon, Placeholder, Button} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {Link} from "react-router-dom";
 
 //Define the expected props
 interface IncomingProps{
-    ani: CawsAnimal;
+    ani: ShelterAnimal;
     link:string;
     showBio:boolean;
 }

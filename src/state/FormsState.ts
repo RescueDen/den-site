@@ -1,8 +1,5 @@
-import FormsSummary from "../models/FormsSummary";
+import FormListing from "../models/FormListing";
 
-/**
- * This model describes the authorisation
- */
 export default interface FormsState {
-    formsSummary: FormsSummary
+    formsListing: { [category: string]: FormListing; }
 }

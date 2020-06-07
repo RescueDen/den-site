@@ -6,36 +6,30 @@ import Action from "./Action";
 
 export const eventsConstants = {
     FETCH_EVENTS_SUMMARY: 'FETCH_EVENTS_SUMMARY',
-    //UPDATE_VIEW: 'UPDATE_EVENTS_VIEW',
     TOGGLE_EVENT_GROUP: 'TOGGLE_EVENT_GROUP'
 };
 
 export const eventsActions = {
-    getEventsSummary,
-    //setEventView,
+    getEventListing,
     toggleEventGroup
-    // delete: _delete
 };
 
-/**
- * Update the news summary
- * @param username
- * @param password
- * @returns {Function}
- */
-function getEventsSummary(): ThunkAction<any, any,any, any> {
+function getEventListing(category:string): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<Action>) => {
 
         //Ask the user service to login
-        eventsService.getEventsSummary()
+        eventsService.getEventsSummary(category)
             .then(
                 //If successful a user will be returned
-                sum => {
+                listing => {
                     //dispatch a login success
                     dispatch({
                         type: eventsConstants.FETCH_EVENTS_SUMMARY,
-                        payload: sum
+                        payload: {
+                            category: category,
+                            listing: listing
+                        }
                     });
                 },
                 //If there was an error, dispatch a login failure and alert the user why

@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal, {Species} from "../../models/ShelterAnimal";
+import ShelterAnimal, {Species} from "../../models/ShelterAnimal";
 import {Text, View, Image, StyleSheet} from "@react-pdf/renderer";
 import facebookIcon from "../../assets/kc/facebookClear.png";
 import instagramIcon from "../../assets/kc/instagramClear.png";
@@ -9,7 +9,7 @@ import {kcstyles} from "./KCBuilder";
 //Define the expected props
 interface Props{
     //Define the props we expect
-    aniData: CawsAnimal;
+    aniData: ShelterAnimal;
     iconSize:string;
     fontSize:string;
     height:string;

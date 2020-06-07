@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon, Placeholder} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
 import {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 

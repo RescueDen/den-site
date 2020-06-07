@@ -1,7 +1,7 @@
 /**
  * Specifies the caws user data
  */
-import CawsAnimal, {ShelterAnimalData, MovementData, Species} from "./ShelterAnimal";
+import ShelterAnimal, {ShelterAnimalData, MovementData, Species} from "./ShelterAnimal";
 import {PersonData} from "./People";
 
 //Define the caws user, this comes from the json decode

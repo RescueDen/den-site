@@ -1,18 +1,14 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import EventsSummary from "../models/Events";
+import EventListing, {EventListingData} from "../models/Events";
 import {SignUpResponse} from "../models/SignUp";
-import {ItemData} from "../models/ItemData";
 
 export const eventsService = {
-    getEventsSummary,
+    getEventsSummary: getEventsListing,
     downloadEventInfo,
     downloadEventSignup,
     postEventSignup,
     deleteEventSignup
-    // getById,
-    // update,
-    // delete: _delete
 };
 
 // Create a default axios instance with the api
@@ -21,29 +17,23 @@ const apiServer =  axios.create({
 
 });
 
-/**
- * Get the info summary
- * @param username
- * @param password
- * @returns
- */
-function getEventsSummary() : Promise<EventsSummary> {
+function getEventsListing(category:string) : Promise<EventListing> {
 
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/events/',  {headers:headers});
+    const responsePromise = apiServer.get(`/events/${category}`,  {headers:headers});
 
 
     //We need to do some work here
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
-            const data = <ItemData>response.data;
+            const data = <EventListingData>response.data;
 
             //Make a caws user
-            const info = new EventsSummary(data)
+            const info = new EventListing(data)
 
             //Return just the user
             return info;
@@ -86,7 +76,7 @@ function downloadEventInfo(id:string) : Promise<string> {
  * @param password
  * @returns
  */
-function downloadEventSignup(id:string, rowId?:number) : Promise<SignUpResponse> {
+function downloadEventSignup(category:string, id:string, rowId?:number) : Promise<SignUpResponse> {
 
     //Get the headers
     const headers =authHeader();
@@ -96,9 +86,9 @@ function downloadEventSignup(id:string, rowId?:number) : Promise<SignUpResponse>
 
     //If we are asking for a specific row
     if(rowId) {
-        responsePromise = apiServer.get(`/events/signup/${id}/${rowId}`, {headers: headers});
+        responsePromise = apiServer.get(`/events/signup/${category}/${id}/${rowId}`, {headers: headers});
     }else{
-        responsePromise = apiServer.get(`/events/signup/${id}`, {headers: headers});
+        responsePromise = apiServer.get(`/events/signup/${category}/${id}`, {headers: headers});
     }
 
     //We need to do some work here
@@ -120,7 +110,7 @@ function downloadEventSignup(id:string, rowId?:number) : Promise<SignUpResponse>
  * @param password
  * @returns
  */
-function deleteEventSignup(id:string, rowId:number) : Promise<SignUpResponse> {
+function deleteEventSignup(category:string, id:string, rowId:number) : Promise<SignUpResponse> {
 
     //Get the headers
     const headers =authHeader();
@@ -129,7 +119,7 @@ function deleteEventSignup(id:string, rowId:number) : Promise<SignUpResponse> {
     let responsePromise;
 
     //If we are asking for a specific row
-    responsePromise = apiServer.delete(`/events/signup/${id}/${rowId}`, {headers: headers});
+    responsePromise = apiServer.delete(`/events/signup/${category}/${id}/${rowId}`, {headers: headers});
 
     //We need to do some work here
     return responsePromise.then(response =>
@@ -152,7 +142,7 @@ function deleteEventSignup(id:string, rowId:number) : Promise<SignUpResponse> {
  * @param password
  * @returns
  */
-function postEventSignup( sub :any, id:string, rowId?:number) : Promise<SignUpResponse> {
+function postEventSignup( sub :any, category:string, id:string, rowId?:number) : Promise<SignUpResponse> {
 
     //Get the headers
     const headers =authHeader();
@@ -165,7 +155,7 @@ function postEventSignup( sub :any, id:string, rowId?:number) : Promise<SignUpRe
 
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post(`/events/signup/${id}`,  subObject, {headers:headers});
+    const responsePromise = apiServer.post(`/events/signup/${category}/${id}`,  subObject, {headers:headers});
 
 
     //We need to do some work here

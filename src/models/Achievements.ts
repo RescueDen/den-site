@@ -1,7 +1,7 @@
 
 
 //Define the caws user, this comes from the json decode
-import CawsAnimal from "./ShelterAnimal";
+import ShelterAnimal from "./ShelterAnimal";
 
 export interface AchievementData{
     id:number;

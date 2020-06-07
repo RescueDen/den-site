@@ -2,13 +2,13 @@ import React from 'react';
 
 import {Image, List, Placeholder} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 
 
 //Define the expected props
 interface MyProps  {
     //Define the props we expect
-    ani:CawsAnimal;
+    ani:ShelterAnimal;
 
     //add a link to link to
     link:string;

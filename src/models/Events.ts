@@ -2,35 +2,22 @@
  * Specify event information
  */
 import {ItemData} from "./ItemData";
+import {ListingData} from "./ContentListing";
 
-export interface EventData{
-
-    readonly date?:Date;
-    readonly id:string;
-    readonly infoId?:string;
-    readonly signupId?:string;
-    readonly name:string
-
-
+export interface EventListingData extends ListingData{
+    items?:EventItemData[]
 }
 
-export default class EventsSummary{
+export interface EventItemData extends ItemData{
+    infoId?:string;
+    signupId?:string;
+}
+
+export default class EventListing{
     //Set to read only for now
-    public readonly data:ItemData;
+    public readonly data:EventListingData;
 
-    //Build a flat list for fast look ups
-    eventList: { [id: string]: EventData; } = {};
-
-    //Build a list of different event types
-    eventGroups: { [name: string]: EventData[]; } = {};
-
-    //Build a list of different event types
-    lookUpGroup: { [id: string]: string; } = {};
-
-
-
-    //The main constructor
-    constructor(data: ItemData) {
+    constructor(data: EventListingData) {
         this.data = data;
 
         // //March over each folder in the
@@ -76,9 +63,9 @@ export default class EventsSummary{
     /**
     *Private method to build a list of events in order
     */
-    private buildEvents(folder:ItemData): EventData[] {
+    private buildEvents(folder:ItemData): EventItemData[] {
         // //Create an empty array
-        let events:EventData[] = []
+        let events:EventItemData[] = []
         //
         // //March over each
         // if (folder.items){
@@ -102,6 +89,18 @@ export default class EventsSummary{
     //         data.items.forEach(item => this.addToList(item));
     //
     // }
+
+    public find(id:string|undefined): EventItemData|undefined {
+        const events:EventItemData[]|undefined = this.data.items;
+        if (events){
+            for (let event of events) {
+                if(event.id == id){
+                    return event;
+                }
+            }
+        }
+        return undefined;
+    }
 
     //Check to see if it empty
     public empty():boolean{

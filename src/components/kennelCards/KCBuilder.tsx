@@ -6,11 +6,11 @@ import AnimalState from "../../state/AnimalState";
 import {ThunkDispatch} from "redux-thunk";
 import {RouteComponentProps} from "react-router-dom";
 import queryString from "query-string";
-import {Document, Font, PDFViewer, StyleSheet, Page, PDFDownloadLink} from "@react-pdf/renderer";
+import {Document, Font, PDFDownloadLink, PDFViewer, StyleSheet} from "@react-pdf/renderer";
 import QRCode from 'qrcode'
 import HalfPageKC from "./HalfPageKC";
-import CawsAnimal from "../../models/ShelterAnimal";
-import {Button, Checkbox, Container, Dimmer, Grid, Icon, Input, Label, Loader} from "semantic-ui-react";
+import ShelterAnimal from "../../models/ShelterAnimal";
+import {Button, Container, Grid, Icon, Loader} from "semantic-ui-react";
 import FullPageKC from "./FullPageKC";
 import RemoteSearch from "../animal/RemoteSearch";
 import PermissionBlock from "../authentication/PermissionBlock";
@@ -141,9 +141,6 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         }else if (format == "half"){
             this.setFullPage(false);
         }
-
-
-
     };
 
     //Add new ids
@@ -163,8 +160,6 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //Make sure we have the animal
         ids.forEach((id:number) =>{
            this.props.downloadAnimal(id);
-
-
         });
 
         //Now build the qr codes
@@ -178,8 +173,6 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //Redownload all of the animals
         this.state.idList.forEach((id:number) =>{
             this.props.downloadAnimal(id);
-
-
         });
     }
 
@@ -226,7 +219,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
     }
 
-    buildPages = (aniDataList:CawsAnimal[]) =>{
+    buildPages = (aniDataList:ShelterAnimal[]) =>{
         //Build the list of components
         let listOfPages:any[] = [];
 
@@ -272,10 +265,7 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         //Build the list of animal data
         let aniDataList = this.state.idList.filter(id =>{
             return this.props.cawsAnimalsDb.animals[id] != undefined;
-
             }
-
-
         ).map( id =>{
             return this.props.cawsAnimalsDb.animals[id];
         })

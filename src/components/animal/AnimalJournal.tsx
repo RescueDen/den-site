@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 import {Button, Dimmer, Feed, Form, FormProps, Icon, Loader, Segment, TextArea, TextAreaProps} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {JournalEntry} from "../../models/JournalEntry";
@@ -18,7 +18,7 @@ import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
 interface IncomingProps{
-    ani: CawsAnimal;
+    ani: ShelterAnimal;
 
 }
 

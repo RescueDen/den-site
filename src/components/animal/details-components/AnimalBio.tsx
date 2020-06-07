@@ -1,11 +1,11 @@
 import React from 'react';
-import CawsAnimal from "../../../models/ShelterAnimal";
+import ShelterAnimal from "../../../models/ShelterAnimal";
 import {Header, Segment, Table, Image, Icon, Grid} from "semantic-ui-react";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 
 //Add in the props
 interface Props {
-    animal:CawsAnimal;
+    animal:ShelterAnimal;
 }
 
 //Add a private support function to create the row

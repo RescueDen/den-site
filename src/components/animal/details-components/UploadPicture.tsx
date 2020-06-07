@@ -7,14 +7,14 @@ import {
 } from "semantic-ui-react";
 
 import {connect} from "react-redux";
-import CawsAnimal from "../../../models/ShelterAnimal";
+import ShelterAnimal from "../../../models/ShelterAnimal";
 import ApplicationState from "../../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {animalActions} from "../../../actions/animal.actions";
 
 //Define the expected props
 interface IncomingProps{
-    ani:CawsAnimal
+    ani:ShelterAnimal
 }
 interface LinkProps {
 }

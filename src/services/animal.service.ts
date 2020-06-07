@@ -1,5 +1,5 @@
 import axios from 'axios';
-import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
+import ShelterAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
 import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/InNeedOfFosterModel";
 
@@ -22,7 +22,7 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getAnimal(id:number) : Promise<CawsAnimal> {
+function getAnimal(id:number) : Promise<ShelterAnimal> {
 
     //Get the headers
     const headers =authHeader();
@@ -37,7 +37,7 @@ function getAnimal(id:number) : Promise<CawsAnimal> {
             const anData = <ShelterAnimalData>response.data;
 
             //Make a caws user
-            const cawAnimal = new CawsAnimal(anData)
+            const cawAnimal = new ShelterAnimal(anData)
 
             //Return just the user
             return cawAnimal;
@@ -82,7 +82,7 @@ function getAnimalsFromCodes(shelterCodes: string[]): Promise<number[]>{
  * @param password
  * @returns
  */
-function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[]> {
+function searchForAnimal(search:string, onShelter:boolean) : Promise<ShelterAnimal[]> {
 
     //Get the headers
     const headers =authHeader();
@@ -95,8 +95,7 @@ function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[
                 search: search,
                 onshelter:onShelter
             }
-        }
-        );
+        });
 
 
     //We need to do some work here
@@ -106,7 +105,7 @@ function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[
             const anData = <ShelterAnimalData[]>response.data;
 
             //Make a caws user for the search
-            const cawAnimal = anData.map(data => new CawsAnimal(data));
+            const cawAnimal = anData.map(data => new ShelterAnimal(data));
 
             //Return just the user
             return cawAnimal;
@@ -117,7 +116,7 @@ function searchForAnimal(search:string, onShelter:boolean) : Promise<CawsAnimal[
 }
 
 
-function uploadPicture(id:number, notes:string, file: File) : Promise<CawsAnimal> {
+function uploadPicture(id:number, notes:string, file: File) : Promise<ShelterAnimal> {
 
     //Make a new form data
     let dataInForm = new FormData()
@@ -141,7 +140,7 @@ function uploadPicture(id:number, notes:string, file: File) : Promise<CawsAnimal
             const data = response.data as ShelterAnimalData;
 
             //Make a caws user
-            const cawAnimal = new CawsAnimal(data)
+            const cawAnimal = new ShelterAnimal(data)
 
             //Return just the user
             return cawAnimal;

@@ -11,7 +11,7 @@ import EventsSummary from "../models/Events";
  */
 export function events(state:EventsState =
                            {
-                               eventsSummary:(new EventsSummary({id:"",type:"",name:"", parentId:""})),
+                               eventsSummary:{},
                                //view:EventView.Cal,
                                hideCal:{} as {[id: string]: boolean}
                            }, action:Action): EventsState {
@@ -19,10 +19,10 @@ export function events(state:EventsState =
     //Ok, we now know that it is an alert action
     switch (action.type) {
         case eventsConstants.FETCH_EVENTS_SUMMARY:
-            //Add the new success to the list
+
             return {
                 ...state,
-                eventsSummary:action.payload
+                eventsSummary:{...state.eventsSummary, [action.payload.category]:action.payload.listing}
             };
 
         case eventsConstants.TOGGLE_EVENT_GROUP:

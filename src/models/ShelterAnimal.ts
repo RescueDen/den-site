@@ -133,7 +133,7 @@ export function findShelterIds(input:any): string[]{
 /**
  * Returns an empty caws user
  */
-export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]: CawsAnimal; }):CawsAnimal|undefined{
+export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]: ShelterAnimal; }):ShelterAnimal|undefined{
     //Make sure this is defined
     for(let id of Object.keys(animals)){
         //Get the id as anumber
@@ -157,7 +157,7 @@ export function findAnimalByShelterId(shetlerId:string, animals: { [id: number]:
 /**
  * Define a class that uses the CAWS User data
  */
-export default class CawsAnimal{
+export default class ShelterAnimal{
     //Set to read only for now
     public readonly data:ShelterAnimalData;
 

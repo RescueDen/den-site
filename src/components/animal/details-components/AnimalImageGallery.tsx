@@ -1,12 +1,12 @@
 import React from 'react';
 import ImageGallery, {ReactImageGalleryItem} from 'react-image-gallery';
-import CawsAnimal from "../../../models/ShelterAnimal";
+import ShelterAnimal from "../../../models/ShelterAnimal";
 import "react-image-gallery/styles/css/image-gallery.css"
 import {Button} from "semantic-ui-react";
 
 //Add in the props
 interface Props {
-    animal:CawsAnimal;
+    animal:ShelterAnimal;
     additionalItem?:ReactImageGalleryItem;
 }
 

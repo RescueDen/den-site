@@ -1,5 +1,5 @@
 import Action from '../actions/Action'
-import CawsAnimal from "../models/ShelterAnimal"
+import ShelterAnimal from "../models/ShelterAnimal"
 import {animalConstants} from "../actions/animal.actions";
 import AnimalState from "../state/AnimalState";
 
@@ -15,7 +15,7 @@ export function animals(state:AnimalState = {animals:{}}, action:Action): Animal
     switch (action.type) {
         case animalConstants.FETCH_ANIMAL:
             //Get the new animal
-            const ani:CawsAnimal = action.payload as CawsAnimal;
+            const ani:ShelterAnimal = action.payload as ShelterAnimal;
 
             //Get the id
             const id:number = ani.data.id

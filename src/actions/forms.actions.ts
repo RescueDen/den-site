@@ -1,40 +1,32 @@
-import {  error } from './alert.actions';
+import {error} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {contentService} from "../services/content.service";
 import {formsService} from "../services/forms.service";
-import {FormSubmision} from "../models/FormSubmision";
 
 export const formsConstants = {
     FETCH_FORMS_SUMMARY: 'FETCH_FORMS_SUMMARY',
-
 };
 
 export const formsActions = {
-    getFormsSummary,
-    // getAll,
-    // delete: _delete
+    getFormListing: getFormsSummary,
 };
 
-/**
- * Update the news summary
- * @param username
- * @param password
- * @returns {Function}
- */
-function getFormsSummary(): ThunkAction<any, any,any, any> {
+function getFormsSummary(category:string): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<Action>) => {
 
         //Ask the user service to login
-        formsService.getFormsSummary()
+        formsService.getFormsSummary(category)
             .then(
                 //If successful a user will be returned
-                sum => {
+                listing => {
                     //dispatch a login success
                     dispatch({
                         type: formsConstants.FETCH_FORMS_SUMMARY,
-                        payload: sum
+                        payload: {
+                            category: category,
+                            listing: listing
+                        }
                     });
                 },
                 //If there was an error, dispatch a login failure and alert the user why

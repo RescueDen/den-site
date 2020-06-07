@@ -3,7 +3,7 @@ import React from 'react'
 import {
     Dropdown, DropdownItemProps, DropdownOnSearchChangeData, DropdownProps, Comment, Icon, Popup, Checkbox
 } from "semantic-ui-react";
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 import {animalService} from "../../services/animal.service";
 import {on} from "cluster";
 
@@ -37,7 +37,7 @@ const bioMax = 100;
  * This card shows the animal details
  */
 class RemoteSearch extends React.Component<IncomingProps, SearchState> {
-    state={isLoading:false, results: [] as CawsAnimal[], searchTerm:"" , error:undefined, onShelter:true};
+    state={isLoading:false, results: [] as ShelterAnimal[], searchTerm:"" , error:undefined, onShelter:true};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
@@ -45,14 +45,12 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
     componentDidMount(){
         //Make sure we reset
         this.resetComponent();
-
-
     };
 
     /*
      reset the search state
      */
-    resetComponent = () => this.setState({ isLoading: false, results: [] as CawsAnimal[], searchTerm: '' , onShelter:this.state.onShelter})
+    resetComponent = () => this.setState({ isLoading: false, results: [] as ShelterAnimal[], searchTerm: '' , onShelter:this.state.onShelter})
 
 
     /**
@@ -69,13 +67,9 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
 
 
     handleSearchChange = (event: any, {searchQuery}: DropdownOnSearchChangeData) => {
-
         //If this value is defined
         if (searchQuery != undefined) {
             this.performSearch(searchQuery, this.state.onShelter);
-
-
-
         }
     }
 
@@ -92,9 +86,9 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
         this.setState({isLoading: true, searchTerm: searchQuery, onShelter:onShelter})
 
         //Now search
-        animalService.searchForAnimal(searchQuery, onShelter).then((anList:CawsAnimal[]) => {
+        animalService.searchForAnimal(searchQuery, onShelter).then((anList:ShelterAnimal[]) => {
 
-            const resultList = anList.map((ani:CawsAnimal) =>{
+            const resultList = anList.map((ani:ShelterAnimal) =>{
                 return {
                     text:ani.data.name + " : " + ani.data.code,
                     value:ani.data.id,
@@ -120,10 +114,7 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
                 } as DropdownItemProps;
 
             })
-
             this.setState({results:resultList, error:undefined, isLoading:false})
-
-
         }).catch((err:any)=>{
             this.setState({error:"Could not search for " + searchQuery + ". Please try another term."});
         })

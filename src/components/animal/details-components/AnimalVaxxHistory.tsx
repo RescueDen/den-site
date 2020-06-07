@@ -1,12 +1,12 @@
 import React from 'react';
-import CawsAnimal from "../../../models/ShelterAnimal";
+import ShelterAnimal from "../../../models/ShelterAnimal";
 import {Header, Segment, Table, Image, Icon} from "semantic-ui-react";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 import {formatDate} from "../../../utils/date-formater";
 
 //Add in the props
 interface Props {
-    animal:CawsAnimal;
+    animal:ShelterAnimal;
     hideHeader?:boolean;
 }
 

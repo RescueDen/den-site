@@ -8,8 +8,8 @@ import {Redirect, Route, RouteProps} from "react-router";
 import {CurrentFostersFullPage, PastFostersFullPage} from "../animal/FullPageAnimalCards";
 import AnimalDetails from "../animal/AnimalDetails";
 import MyDetails from "../person/MyDetails";
-import Information from "../newsAndInfo/DocumentView";
-import ArticleListView from "../newsAndInfo/ArticleListView";
+import Information from "../content/DocumentView";
+import ArticleListView from "../content/ArticleListView";
 import InNeedOfFosterList from "../inneed/InNeedOfFosterList";
 import {MenuMode} from "../menu/ResponsiveNavBar";
 import ResponsiveNavBar from "../menu/ResponsiveNavBar";
@@ -39,7 +39,7 @@ import AgreementPopUp from "../agreement/AgreementPopUp";
 import PersonDetails from "../person/PersonDetails";
 import VoucherOverview from "../voucher/VoucherOverview";
 import VoucherViewer from "../voucher/VoucherViewer";
-import DocumentView from "../newsAndInfo/DocumentView";
+import DocumentView from "../content/DocumentView";
 
 
 //Setup up path props to get the current path
@@ -127,8 +127,8 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route key='news' exact path="/news/" render={(props) => <ArticleListView {...props} category={"news"} />} />
                             <Route key={'news:articleID'+url} path="/news/:articleId" render={(props) => <ArticleListView {...props} category={"news"} />} />
                             <Route key='ineed' exact path="/inneed/" component={InNeedOfFosterList} />
-                            <Route key='forms' exact path="/forms/" component={FormSelector} />
-                            <Route key={'forms/formid'+url} path="/forms/:formId" component={FormSelector} />
+                            <Route key='forms' exact path="/forms/" render={(props) => <FormSelector {...props} category={"forms"} />} />
+                            <Route key={'forms/formid'+url} path="/forms/:formId" render={(props) => <FormSelector {...props} category={"forms"} />} />
                             <Route key='events' exact path="/events/" component={EventsSelector} />
                             <Route key={'events/eventId'+url} path="/events/:eventId" component={EventsSelector} />
                             <Route key={'gettingstarted'} path="/gettingstarted" component={AppStatusPage} />

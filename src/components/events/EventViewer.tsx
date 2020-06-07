@@ -1,22 +1,15 @@
 import React from 'react';
 import JSX from 'react';
 
-import {
-    Button,
-    Dimmer, Header, Icon,
-    Image,
-    Loader, Message,
-    Segment
-} from "semantic-ui-react";
-import  {EventData} from "../../models/Events";
+import {Button, Dimmer, Header, Icon, Image, Loader, Segment} from "semantic-ui-react";
+import {EventItemData} from "../../models/Events";
 
 import {eventsService} from "../../services/events.service";
 import {formatDate} from "../../utils/date-formater";
 import {SignUpResponse} from "../../models/SignUp";
-import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
-import MyFosterSelection from "../forms/MyFosterSelection";
+import Form from "react-jsonschema-form-semanticui-fixed";
 import SignUpsTable from "./SignUpsTable";
-import CawsAnimal, {findAnimalByShelterId, findShelterIds, Species} from "../../models/ShelterAnimal";
+import ShelterAnimal, {findAnimalByShelterId, findShelterIds} from "../../models/ShelterAnimal";
 import AnimalState from "../../state/AnimalState";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
@@ -26,11 +19,11 @@ import AnimalsAttending from "./AnimalsAttending";
 //Define the expected props
 interface LinkProps  {
     //Define the props we expect
-    eventInfo:EventData
+    eventInfo:EventItemData
 
     //Send message
     successAutoDismiss:(msg:string, time:number) => any;
-
+    category: string;
 }
 
 interface StateProps {
@@ -105,7 +98,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
             this.setState({signUpUpdating:true})
 
             //Set the signUpResponse to loading
-            eventsService.downloadEventSignup(this.props.eventInfo.signupId, rowId)
+            eventsService.downloadEventSignup(this.props.category, this.props.eventInfo.signupId, rowId)
                 .then(
                     //If successful html will be returned
                     form => {
@@ -141,7 +134,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
             this.setState({signUpUpdating:true})
 
             //Set the signUpResponse to loading
-            eventsService.deleteEventSignup(this.props.eventInfo.signupId, rowId)
+            eventsService.deleteEventSignup(this.props.category, this.props.eventInfo.signupId, rowId)
                 .then(
                     //If successful html will be returned
                     form => {
@@ -170,7 +163,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
 
         //Now send it.  We expecte an upadted info on the way back
         if(this.props.eventInfo.signupId) {
-            eventsService.postEventSignup(form, this.props.eventInfo.signupId, this.state.activeRow)
+            eventsService.postEventSignup(form,this.props.category, this.props.eventInfo.signupId, this.state.activeRow)
                 .then(
                     //If successful html will be returned
                     form => {
@@ -276,7 +269,7 @@ class EventViewer extends React.Component<LinkProps&StateProps, MyState> {
         if(shelterCodes.length > 0){
 
             //For each code
-            let ids = shelterCodes.map(code =>findAnimalByShelterId(code, this.props.cawsAnimalsDb.animals)).filter(ani => ani).map(ani => (ani as CawsAnimal).data.id);
+            let ids = shelterCodes.map(code =>findAnimalByShelterId(code, this.props.cawsAnimalsDb.animals)).filter(ani => ani).map(ani => (ani as ShelterAnimal).data.id);
 
             //Now build the params
             let params = new URLSearchParams();

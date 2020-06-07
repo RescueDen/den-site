@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import CawsAnimal, {Species} from "../../models/ShelterAnimal";
+import ShelterAnimal, {Species} from "../../models/ShelterAnimal";
 import {Container, Dimmer, Header, Icon, Loader, Segment} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
@@ -22,7 +22,7 @@ import Permissions from "../../models/Permissions";
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    animal: CawsAnimal;
+    animal: ShelterAnimal;
     user:ShelterUser;
     permissions?:Permissions
 

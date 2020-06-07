@@ -1,9 +1,6 @@
 import React from 'react';
-
 import {connect} from "react-redux";
-
-
-import Form, {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
+import {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
 import ApplicationState from "../../state/ApplicationState";
 import {getEmptyCawsUser} from "../../models/ShelterUser";
 import {ThunkDispatch} from "redux-thunk";

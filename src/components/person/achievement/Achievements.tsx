@@ -20,7 +20,7 @@ import {userActions} from "../../../actions/user.actions";
 import {AchievementData} from "../../../models/Achievements";
 import AchievementList from "./AchievementList";
 import {achievementsService} from "../../../services/achievements.service";
-import FormsSummary, {isFormItemData} from "../../../models/FormsSummary";
+import FormListing, {isFormItemData} from "../../../models/FormListing";
 import {formsActions} from "../../../actions/forms.actions";
 import FormViewer from "../../forms/FormViewer";
 import {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
@@ -32,7 +32,7 @@ interface LinkProps extends RouteComponentProps<any> {
     user?:ShelterUser;
     achievements?:AchievementData[]
     //Define the props we expect
-    formsSummary: FormsSummary
+    formsSummary?: FormListing
 
 }
 
@@ -47,8 +47,7 @@ interface State {
 interface DispatchProps{
     //And the actions that must be done
     updateMyInfo: () => any;
-    getFormsSummary: () => any;
-
+    getFormListing: () => any;
 }
 
 /**
@@ -60,7 +59,7 @@ class Achievements extends React.Component<LinkProps&DispatchProps, State> {
     //Update the user if there are any changes
     componentDidMount(){
         this.props.updateMyInfo();
-        this.props.getFormsSummary();
+        this.props.getFormListing();
 
         //Get all possible achievements
         achievementsService.getAllAchievements().then(
@@ -113,7 +112,7 @@ class Achievements extends React.Component<LinkProps&DispatchProps, State> {
     render() {
 
         //If undefined show a loading icon
-        const badgeRequestForm  = this.props.formsSummary.findItem(badgeFormId)
+        const badgeRequestForm  = this.props.formsSummary?.findItem(badgeFormId);
 
         //Get the animal details
         return (
@@ -127,6 +126,7 @@ class Achievements extends React.Component<LinkProps&DispatchProps, State> {
                         {/*Add the form to request information*/}
                         {badgeRequestForm && isFormItemData(badgeRequestForm)  &&
                         <FormViewer
+                            category={"forms"}
                             key={badgeRequestForm.id + this.state.allAchievements.length }
                             formData={badgeRequestForm}
                             formWidgets={{"badgeWidget":this.badgeWidget} }
@@ -165,15 +165,14 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
         ...myProps,
         user:state.authentication.loggedInUser? state.authentication.loggedInUser : getEmptyCawsUser(),
         achievements:state.achievements.achievements ?? [],
-        formsSummary:state.forms.formsSummary,
+        formsSummary:state.forms.formsListing["forms"],
     };
 }
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
         updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser()),
-        getFormsSummary:() =>  dispatch(formsActions.getFormsSummary())
-
+        getFormListing:() =>  dispatch(formsActions.getFormListing("forms"))
     };
 
 }

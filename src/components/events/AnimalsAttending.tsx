@@ -1,21 +1,12 @@
 import React from 'react';
-import JSX from 'react';
 
-import {
-    Icon, Responsive, Segment,
-    Table
-} from "semantic-ui-react";
-
-import {ExistingSignUps} from "../../models/SignUp";
-import {eventsService} from "../../services/events.service";
-import CawsAnimal, {findShelterIds} from "../../models/ShelterAnimal";
+import {Segment} from "semantic-ui-react";
+import {findShelterIds} from "../../models/ShelterAnimal";
 import {animalService} from "../../services/animal.service";
-import AnimalList from "../animal/SearchableAnimalListCompact";
 import SearchableAnimalListCompact from "../animal/SearchableAnimalListCompact";
 
 //Define the expected props
 interface LinkProps  {
-
     publicColumns?: { [id: string]: any[]; }
 }
 
@@ -24,8 +15,6 @@ interface MyState  {
     animals:number[];
     error?:string;
 }
-
-
 
 /**
  * Show the details of a single up coming event
@@ -93,15 +82,11 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
 
     }
 
-
-
-
     /**
      * Re-render every time this is called
      * @returns {*}
      */
     render() {
-
         //Return the
         if(this.state.animals.length > 0) {
             return (
@@ -116,9 +101,6 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
         }else{
             return null
         }
-
-
-
     }
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal from "../../models/ShelterAnimal";
+import ShelterAnimal from "../../models/ShelterAnimal";
 import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
 import cawsLogo from "../../assets/logos/xCAWS_logo_full.png";
 import InfoSection from "./InfoSection";
@@ -12,16 +12,16 @@ import {kcstyles} from "./KCBuilder";
 //Define the expected props
 interface HalfPageKCProps{
     //Define the props we expect
-    aniDataFirst: CawsAnimal;
+    aniDataFirst: ShelterAnimal;
     qrDataFirst?:string;
 
     //And the second props
-    aniDataSecond?: CawsAnimal;
+    aniDataSecond?: ShelterAnimal;
     qrDataSecond?:string;
 }
 interface HalfPageContentProps{
     //Define the props we expect
-    aniData: CawsAnimal;
+    aniData: ShelterAnimal;
     qrData?:string;
 
 }

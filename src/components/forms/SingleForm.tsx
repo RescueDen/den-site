@@ -1,32 +1,27 @@
 import React from "react";
 import {Grid, Header, Image, Segment, SemanticICONS, Table} from "semantic-ui-react";
 import fromFood from '../../assets/pictures/frommFood.jpg'
-import FormsSummary, {isFormItemData} from "../../models/FormsSummary";
+import FormListing, {isFormItemData} from "../../models/FormListing";
 import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {formsActions} from "../../actions/forms.actions";
 import FormViewer from "../forms/FormViewer";
-
-
 //Define the expected props
 interface LinkProps {
     //Define the props we expect
-    formsSummary: FormsSummary;
+    formsSummary: FormListing;
 
 }
 
-//Define the expected props
 interface IncomingProps {
-    //Define the props we expect
+    category : string;
     formId:string;
-
 }
 
 interface DispatchProps{
     //And the actions that must be done
-    getFormsSummary: () => any;
-
+    getFormListing: (category:string) => any;
 }
 
 
@@ -42,8 +37,7 @@ class SingleForm extends React.Component<IncomingProps&LinkProps&DispatchProps >
      */
     componentDidMount(){
         // get the forms
-        this.props.getFormsSummary();
-
+        this.props.getFormListing(this.props.category);
     };
 
     /**
@@ -59,7 +53,7 @@ class SingleForm extends React.Component<IncomingProps&LinkProps&DispatchProps >
             <div>
                 {/*Add the form to request information*/}
                 {form && isFormItemData(form)  &&
-                <FormViewer key={form.id} formData={form} />
+                <FormViewer category={this.props.category} key={form.id} formData={form} />
 
 
                 }
@@ -68,29 +62,18 @@ class SingleForm extends React.Component<IncomingProps&LinkProps&DispatchProps >
     }
 }
 
-/**
- * All of them share the same mapDispatchToProps
- * @param dispatch
- * @param ownProps
- */
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        getFormsSummary:() =>  dispatch(formsActions.getFormsSummary())
+        getFormListing:(category:string) =>  dispatch(formsActions.getFormListing(category))
     };
 
 }
 
-
-/**
- * Map from the global state to things we need here
- * @param state
- * @returns {{authentication: WebAuthentication}}
- */
 function mapStateToProps(state:ApplicationState, myProps:IncomingProps): IncomingProps&LinkProps {
 
     return {
         ...myProps,
-        formsSummary:state.forms.formsSummary,
+        formsSummary:state.forms.formsListing[myProps.category],
     };
 }
 

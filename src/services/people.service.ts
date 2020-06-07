@@ -1,5 +1,5 @@
 import axios from 'axios';
-import CawsAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
+import ShelterAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
 import {PersonData} from "../models/People";
 import {AchievementData} from "../models/Achievements";
@@ -50,7 +50,7 @@ function getPerson(id:number) : Promise<PersonData> {
  * @param password
  * @returns
  */
-function searchForAnimal(search:string) : Promise<CawsAnimal[]> {
+function searchForAnimal(search:string) : Promise<ShelterAnimal[]> {
 
     //Get the headers
     const headers =authHeader();
@@ -73,7 +73,7 @@ function searchForAnimal(search:string) : Promise<CawsAnimal[]> {
             const anData = <ShelterAnimalData[]>response.data;
 
             //Make a caws user for the search
-            const cawAnimal = anData.map(data => new CawsAnimal(data));
+            const cawAnimal = anData.map(data => new ShelterAnimal(data));
 
             //Return just the user
             return cawAnimal;

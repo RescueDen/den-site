@@ -2,8 +2,7 @@ import React from 'react';
 
 import {connect} from "react-redux";
 
-import {FormItemData} from "../../models/FormsSummary";
-
+import {FormItemData} from "../../models/FormListing";
 
 import Form, {Widget} from "react-jsonschema-form-semanticui-fixed";
 import {FormSubmision} from "../../models/FormSubmision";
@@ -14,6 +13,9 @@ import {extractMessageFromPossibleServerResponseStatus} from "../../models/Serve
 import ShelterUser from "../../models/ShelterUser";
 import customWidgets from "./CustomWidgets";
 
+interface MyProps{
+    category: string;
+}
 
 //Define the expected props
 interface LinkProps {
@@ -37,7 +39,7 @@ interface State{
 /**
  * This card shows the animal details
  */
-class FormViewer extends React.Component<LinkProps, State> {
+class FormViewer extends React.Component<MyProps&LinkProps, State> {
     state={submitting:false}
 
     //Submit the form
@@ -53,7 +55,7 @@ class FormViewer extends React.Component<LinkProps, State> {
         }
 
         //Now send it
-        formsService.submitForm(formSub).then(
+        formsService.submitForm(this.props.category, formSub).then(
             data =>{
                 //Update the state
                 this.setState({submitting:false});

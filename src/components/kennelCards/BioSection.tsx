@@ -1,5 +1,5 @@
 import React from 'react';
-import CawsAnimal, {Species} from "../../models/ShelterAnimal";
+import ShelterAnimal, {Species} from "../../models/ShelterAnimal";
 import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
 import {kcstyles} from "./KCBuilder";
 
@@ -8,7 +8,7 @@ import {kcstyles} from "./KCBuilder";
 //Define the expected props
 interface Props{
     //Define the props we expect
-    aniData: CawsAnimal
+    aniData: ShelterAnimal
     defaultSize:FontSpec;
     minSize:FontSpec;
     fontUnit:string;

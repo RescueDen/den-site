@@ -64,7 +64,6 @@ export class ContentListing implements Listing{
         if(id){
             return this.subListing[id];
         }
-
         return;
     }
 

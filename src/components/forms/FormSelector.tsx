@@ -6,42 +6,40 @@ import ApplicationState from "../../state/ApplicationState";
 import AnimalState from "../../state/AnimalState";
 import {ThunkDispatch} from "redux-thunk";
 import {formsActions} from "../../actions/forms.actions";
-import FormsSummary, {isFormItemData} from "../../models/FormsSummary";
+import FormListing from "../../models/FormListing";
 import {RouteComponentProps} from "react-router";
-import {Dimmer, Header, Image, Loader, Segment} from "semantic-ui-react";
-import Breadcrumbs from "../newsAndInfo/Breadcrumbs";
-import DocumentHierarchy from "../newsAndInfo/DocumentHierarchy";
+import {Dimmer, Image, Loader, Segment} from "semantic-ui-react";
+import Breadcrumbs from "../content/Breadcrumbs";
+import DocumentHierarchy from "../content/DocumentHierarchy";
 import FormViewer from "./FormViewer";
 
-
-//Define the expected props
-interface LinkProps  extends RouteComponentProps<any> {
-    //Define the props we expect
-    cawsAnimalsDb: AnimalState
-    formsSummary: FormsSummary
-    formId?:string;
-
-    //Determine the menuType
+interface MyProps extends RouteComponentProps<any> {
+    category : string;
 }
 
+//Define the expected props
+interface LinkProps {
+    //Define the props we expect
+    animalsDb: AnimalState
+    formsListing?: FormListing
+    formId?:string;
+}
 
 interface DispatchProps{
-    //And the actions that must be done
-    getFormsSummary: () => any;
-
+    getFormsListing: (category:string) => any;
 }
 
 
 /**
  * This card shows the animal details
  */
-class FormSelector extends React.Component<DispatchProps&LinkProps> {
+class FormSelector extends React.Component<MyProps&DispatchProps&LinkProps> {
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
     componentDidMount(){
         // get the forms
-        this.props.getFormsSummary();
+        this.props.getFormsListing(this.props.category);
 
     };
 
@@ -50,8 +48,7 @@ class FormSelector extends React.Component<DispatchProps&LinkProps> {
      * @returns {*}
      */
     render() {
-        //Check to see if we are still loading
-        if(this.props.formsSummary.empty()){
+        if(this.props.formsListing === undefined){
             return (
                 <div>
                     <Segment>
@@ -66,46 +63,32 @@ class FormSelector extends React.Component<DispatchProps&LinkProps> {
 
         }
 
-        // //Get the articleItem we are showing is specified.  If not get the root
-        // const item: ItemData = this.props.formId? this.props.formsSummary.findArticleItem(this.props.formId): this.props.formsSummary.data;
-        //
-        // //Start to build the list of React
-        // let components: JSX.ReactNode[] = [];
-        //
-        // //Start out with a title
-        // components.push(
-        //     <Header key={"header"} as="h1">Forms</Header>
-        // );
-        //
-        // //Add in the bread crumbs
-        // const breadCrumbs = <Breadcrumbs key={"breadCrumbs"+item.id} breadCrumbs={this.props.formsSummary.buildBreadcrumbs(item.id)} link={"/forms"}/>
-        //
-        //
-        // //If this is an folder show the folder information
-        // if(isDirectory(item)){
-        //     components.push(
-        //         <DocumentHierarchy
-        //             header={breadCrumbs}
-        //             key={"heir"+item.id}
-        //             linkPath={"/forms"}
-        //             item={item}/>
-        //     );
-        // }else{
-        //     //Add in the bread crumbs
-        //     components.push(breadCrumbs);
-        //     //Check to see if a valid form
-        //     if(isFormItemData(item) ){
-        //         //Load up the article
-        //         components.push(<FormViewer key={item.id} formData={item} />);
-        //     }else{
-        //         components.push(<div key={item.id}>Invalid form {item.id}</div>);
-        //     }
-        // }
+        //Start to build the list of React
+        let components: JSX.ReactNode[] = [];
+
+        const specificItem = this.props.formsListing.findItem(this.props.formId)
+        if (specificItem){
+            const breadCrumbs = <Breadcrumbs key={"breadCrumbs"+specificItem.id} breadCrumbs={this.props.formsListing.buildBreadcrumbs(specificItem.id)} link={`/${this.props.category}`}/>
+            components.push(
+                breadCrumbs
+            );
+            //Load up the article
+            components.push(<FormViewer category={this.props.category} key={specificItem.id} formData={specificItem} />);
+        }else{
+            let specificListing = this.props.formsListing.findListing(this.props.formId)
+            specificListing = specificListing ?? this.props.formsListing.data;
+
+            const breadCrumbs = <Breadcrumbs key={"breadCrumbs"+specificListing.id} breadCrumbs={this.props.formsListing.buildBreadcrumbs(specificListing.id)} link={`/${this.props.category}`}/>
+
+            components.push(
+                <DocumentHierarchy header={breadCrumbs} key={"heir"+specificListing.id} linkPath={`/${this.props.category}`} listing={specificListing}/>
+            );
+        }
 
         //Start rendering
         return (
             <div>
-                {/*{components}*/}
+                {components}
             </div>
         );
     }
@@ -118,7 +101,7 @@ class FormSelector extends React.Component<DispatchProps&LinkProps> {
  */
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        getFormsSummary:() =>  dispatch(formsActions.getFormsSummary())
+        getFormsListing:(category:string) =>  dispatch(formsActions.getFormListing(category))
     };
 
 }
@@ -129,14 +112,12 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
-
+function mapStateToProps(state:ApplicationState, myProps:MyProps): MyProps&LinkProps {
     return {
         ...myProps,
-        cawsAnimalsDb:state.animals,
-        formsSummary:state.forms.formsSummary,
+        animalsDb:state.animals,
+        formsListing:state.forms.formsListing[myProps.category],
         formId:myProps.match.params.formId
-
     };
 }
 

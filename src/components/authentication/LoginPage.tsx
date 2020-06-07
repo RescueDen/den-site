@@ -13,6 +13,7 @@ import FullPageForm from "./FullPageForm";
 // @ts-ignore
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
+import {organizationService} from "../../services/organization.service";
 
 //Define the expected props
 interface IncomingProps{
@@ -24,7 +25,7 @@ interface IncomingProps{
 interface DispatchProps{
     //And the actions that must be done
     userActionLogout: () => any;
-    userActionLogin: (email:string, password:string) => any;
+    userActionLogin: (email:string, password:string, organizationId:number) => any;
     requestActivationToken: (email:string) => any;
     requestEmailReset: (email:string) => any;
     userActionLoginFacebook: (facebookToken:any) => any;
@@ -98,7 +99,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
         //Use the action
         if (email && password) {
-            this.props.userActionLogin(email, password);
+            this.props.userActionLogin(email, password, organizationService.getCurrentOrganizationId());
         }
     }
 
@@ -199,24 +200,24 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
                 </Message>
                 <br/>
-                <p>or Login with Google or Facebook without creating a new password!</p>
+                <p>or Login with Google without creating a new password!</p>
 
                 {/*Keep all of the buttons in a group to make it look nice*/}
                 <Button.Group>
-                    <FacebookLogin
-                        appId="377460049683618"
-                        autoLoad={false}
-                        scope="email"
-                        fields="email"
-                        callback={this.responseFacebook}
-                        disableMobileRedirect={true}
-                        render={(renderProps:any) => (
-                            <Button color='facebook' onClick={renderProps.onClick}>
-                                <Icon name='facebook' /> Facebook
-                            </Button>
-                        )}
+                    {/*<FacebookLogin*/}
+                    {/*    appId="377460049683618"*/}
+                    {/*    autoLoad={false}*/}
+                    {/*    scope="email"*/}
+                    {/*    fields="email"*/}
+                    {/*    callback={this.responseFacebook}*/}
+                    {/*    disableMobileRedirect={true}*/}
+                    {/*    render={(renderProps:any) => (*/}
+                    {/*        <Button color='facebook' onClick={renderProps.onClick}>*/}
+                    {/*            <Icon name='facebook' /> Facebook*/}
+                    {/*        </Button>*/}
+                    {/*    )}*/}
 
-                    />
+                    {/*/>*/}
                     <GoogleLogin
                         clientId="327122640256-6huu8nsbpa9jtj9u970gregpc9dviuef.apps.googleusercontent.com"
                         onSuccess={this.responseGoogle}
@@ -256,17 +257,12 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        userActionLogin:(email:string, password:string) => dispatch(userActions.login(email, password)),
+        userActionLogin:(email:string, password:string, organizationId:number) => dispatch(userActions.login(email, password, organizationId)),
         userActionLogout:() => dispatch(userActions.logout()),
         requestActivationToken: (email:string) => dispatch(userActions.requestActivationToken(email)),
         requestEmailReset: (email:string)  => dispatch(userActions.requestEmailReset(email)),
         userActionLoginFacebook: (facebookToken:any) => dispatch(userActions.loginFacebook(facebookToken)),
         userActionLoginGoogle: (googleToken:any) => dispatch(userActions.loginGoogle(googleToken))
-
-
-
-
-
     };
 
 }

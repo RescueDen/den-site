@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import CourseListing, {CourseData} from "../models/Courses";
 import {CategoryInfoSummary, LogData, LogSummary} from "../models/Logging";
 
 export const loggingService = {

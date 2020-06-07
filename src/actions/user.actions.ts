@@ -1,4 +1,4 @@
-import { userService } from '../services';
+import {RegisterUserData, userService} from '../services';
 import { success, error } from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
@@ -51,8 +51,6 @@ export const userActions = {
     loginFacebook,
     loginGoogle,
     setUserPreferences
-    // getAll,
-    // delete: _delete
 };
 
 /**
@@ -61,7 +59,7 @@ export const userActions = {
  * @param password
  * @returns {Function}
  */
-function login(email:string, password:string): ThunkAction<any, any,any, any> {
+function login(email:string, password:string, organizationId:number): ThunkAction<any, any,any, any> {
     //Return a function that will be called by dispatch
     return (dispatch:Dispatch<Action>) => {
         //Dispatch the action of attempting to login
@@ -70,7 +68,7 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
         });
 
         //Ask the user service to login
-        userService.login(email, password)
+        userService.login(email, password, organizationId)
             .then(
                 //If successful a user will be returned
                 user => {
@@ -81,9 +79,6 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                     });
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
-
-
-
                 },
                 //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
@@ -96,11 +91,8 @@ function login(email:string, password:string): ThunkAction<any, any,any, any> {
                         payload: message
                     });
 
-                    //Dispatch a sucess message
+                    //Dispatch a success message
                     dispatch(error(message));
-
-
-
                 }
             );
     };
@@ -569,7 +561,7 @@ function forcePasswordChange(email:string, reset_token:string, password:string):
  * @param user
  * @returns {Function}
  */
-function register(user: UserData): ThunkAction<any, any,any, any> {
+function register(user: RegisterUserData): ThunkAction<any, any,any, any> {
     //Return a function that takes a dispatch
     return (dispatch:Dispatch<Action>) => {
         //dispatch the fact we re trying to register

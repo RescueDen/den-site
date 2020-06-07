@@ -26,8 +26,7 @@ function getMyAchievements() : Promise<AchievementData[]> {
     const headers =authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/users/achievements/`,  {headers:headers});
-
+    const responsePromise = apiServer.get('/achievements/user',  {headers:headers});
 
     //We need to do some work here
     return responsePromise.then(response =>

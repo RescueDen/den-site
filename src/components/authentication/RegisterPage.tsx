@@ -10,18 +10,18 @@ import FullPageForm from "./FullPageForm";
 import {Button, Header, Image, Message, Segment, Form} from "semantic-ui-react";
 import {checkPassword} from "../../utils/password-checker";
 import {UserData} from "../../models/UserData";
-
+import {RegisterUserData} from "../../services";
+import {organizationService} from "../../services/organization.service";
 
 //Define the expected props
 interface IncomingProps{
     //Define the props we expect
     authentication: AuthenticationState;
-
 }
 
 interface DispatchProps{
     //And the actions that must be done
-    userActionRegister: (user:UserData) => any;
+    userActionRegister: (user:RegisterUserData) => any;
 }
 
 //Define the expected props
@@ -54,10 +54,10 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
         const { email, password, passwordCheck } = this.state;
 
         //Form a basic little user
-        const userData: UserData ={
+        const userData: RegisterUserData ={
             email:email,
             password:password,
-            token:""
+            organizationId: organizationService.getCurrentOrganizationId()
         }
 
         //Use the action
@@ -181,7 +181,7 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        userActionRegister:(user:UserData) => dispatch(userActions.register(user)),
+        userActionRegister:(user:RegisterUserData) => dispatch(userActions.register(user)),
     };
 
 }

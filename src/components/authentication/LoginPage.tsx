@@ -121,7 +121,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                 <Button.Group>
                     <Link className="ui blue button" to="/loginpassword">RescueDen Email & Password</Link>
                     <GoogleLogin
-                        clientId="327122640256-6huu8nsbpa9jtj9u970gregpc9dviuef.apps.googleusercontent.com"
+                        clientId="127825276100-ts3hhnls34bb0tiekfhf4kpdrn70a3ee.apps.googleusercontent.com"
                         onSuccess={this.responseGoogle}
                         onFailure={this.responseGoogle}
                         render={(renderProps:any) => (

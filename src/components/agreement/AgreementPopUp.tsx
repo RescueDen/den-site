@@ -1,9 +1,6 @@
 import React from 'react';
 
-
-import {RouteComponentProps} from "react-router";
-
-import { SettingGroup, UserPreferences} from "../../models/UserPreferences";
+import {SettingGroup, UserPreferences} from "../../models/UserPreferences";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../actions/user.actions";
@@ -87,10 +84,10 @@ class AgreementPopUp extends React.Component<LinkProps&DispatchProps,MyState> {
                        closeOnEscape={false}
                        closeOnDimmerClick={false}
                    >
-                       <Modal.Header>CAWS Den Agreement</Modal.Header>
+                       <Modal.Header>RescueDen Agreement</Modal.Header>
                        <Modal.Content>
                            <p>
-                               Welcome to the CAWS Den.  The Den will serve as your central location for all things CAWS.  In addition to the CAWS Privacy Policy (caws.org/privacy) you also acknowledge that:
+                               Welcome to the RescueDen Den.  The RescueDen will serve as your central location for all things CAWS.  In addition to the CAWS Privacy Policy (caws.org/privacy) and RescueDen Privacy Policy(rescueden.org/privacy) you also acknowledge that:
                                <List>
                                    <List.Item >
                                        <List.Icon name='check circle' />
@@ -131,7 +128,7 @@ class AgreementPopUp extends React.Component<LinkProps&DispatchProps,MyState> {
                                    <List.Item >
                                        <List.Icon name='check circle' />
                                        <List.Content>
-                                           That you may receive emails and notifications from CAWS including:
+                                           That you may receive emails and notifications from the RescueDen including:
                                            <List>
                                                <List.Item>
                                                    <List.Icon name='check circle' />
@@ -149,7 +146,7 @@ class AgreementPopUp extends React.Component<LinkProps&DispatchProps,MyState> {
                                                <List.Item>
                                                    <List.Icon name='check circle' />
                                                    <List.Content>
-                                                    Other material from the CAWS team
+                                                    Other material from the team
                                                    </List.Content>
                                                </List.Item>
                                            </List>

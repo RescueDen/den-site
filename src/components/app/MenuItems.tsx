@@ -133,12 +133,12 @@ export const rightMenuItems = [
                 to:'/myinfo',
                 icon:<Icon name='user outline' />
             },
-            {
-                name:"Logging",
-                to:'/logging',
-                reqPerm:"volunteer_logging",
-                icon:<Icon name='history' />
-            },
+            // {
+            //     name:"Logging",
+            //     to:'/logging',
+            //     reqPerm:"volunteer_logging",
+            //     icon:<Icon name='history' />
+            // },
             {
                 name:"Supplies",
                 to:'/cawshub',

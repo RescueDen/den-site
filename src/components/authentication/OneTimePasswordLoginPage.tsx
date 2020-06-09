@@ -49,6 +49,10 @@ class OneTimePasswordLoginPage extends React.Component<IncomingProps&DispatchPro
         if(params.email){
             this.setState({email:params.email.toString()})
         }
+
+        if (params.token && params.email){
+            this.props.loginUser(params.email.toString(), params.token.toString(), organizationService.getCurrentOrganizationId());
+        }
     }
 
     //When the user is done with the form add it

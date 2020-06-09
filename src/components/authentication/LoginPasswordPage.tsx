@@ -10,7 +10,6 @@ import {Button, Form, Header, Icon, Image, Message, Segment} from 'semantic-ui-r
 import AuthenticationState, {AuthenticationStatus} from "../../state/AuthenticationState";
 import {Dispatch} from "redux";
 import FullPageForm from "./FullPageForm";
-// @ts-ignore
 import {organizationService} from "../../services/organization.service";
 
 //Define the expected props
@@ -54,13 +53,6 @@ class LoginPasswordPage extends React.Component<IncomingProps&DispatchProps, MyS
         this.props.userActionLogout();
 
     };
-
-    signOut = (response:any) => {
-        //See if there is an access token
-        console.log(response.getAuthResponse())
-
-
-    }
 
     //When the user is done with the form add it
     handleSubmit(e: React.FormEvent) {

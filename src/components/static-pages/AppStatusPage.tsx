@@ -107,41 +107,41 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
 
                     ]}
                 />
-                {/*cat Fostering*/}
-                <AppStatusWidget
-                    user={this.props.user}
-                    key='cat fostering'
-                    icon={<Icon name='paw'/>}
-                    name={"Cat Fostering"}
-                    status={[
-                        {
-                            name:"Apply and Review",
-                            comment:"Fill out the on-line application",
-                            icon:'edit' as SemanticICONS,
-                            show:(
-                                <p  key='Apply and Review'>If you are interested in volunteering please fill out a cat <a href="https://caws.org/foster-questionnaire/">foster application</a>. Please allow a few days for review.  </p>
-                            )
-                        },
-                        {
-                            name:"Orientation",
-                            tag:"cat fosterer applicant",
-                            comment:"learn the ins-and-outs",
-                            icon:'university' as SemanticICONS,
-                            show:(
-                                <p  key='cat fosterer applicant'>We have reviewed your application and would really appreciate your help. <Link to="learn/19sXvZvoJE2zXM7b1pyHpCpRAx-SF-gkUhRk-UXZzll4">The next step is orientation.</Link>  Once you complete the orientation. wavier it may take a day to process.</p>
-                            )
-                        },
-                        {
-                            name:"Ready to Foster Cats",
-                            tag:"cat fosterer",
-                            icon:'paw' as SemanticICONS,
-                            show:(
-                                <p  key='cat fosterer'>Thank you for completing orientation. It is time to help! Click the  <Link to={'/inneed'} >in-need </Link> page for cats that need a foster.</p>
-                            )
-                        }
+                {/*/!*cat Fostering*!/*/}
+                {/*<AppStatusWidget*/}
+                {/*    user={this.props.user}*/}
+                {/*    key='cat fostering'*/}
+                {/*    icon={<Icon name='paw'/>}*/}
+                {/*    name={"Cat Fostering"}*/}
+                {/*    status={[*/}
+                {/*        {*/}
+                {/*            name:"Apply and Review",*/}
+                {/*            comment:"Fill out the on-line application",*/}
+                {/*            icon:'edit' as SemanticICONS,*/}
+                {/*            show:(*/}
+                {/*                <p  key='Apply and Review'>If you are interested in volunteering please fill out a cat <a href="https://caws.org/foster-questionnaire/">foster application</a>. Please allow a few days for review.  </p>*/}
+                {/*            )*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            name:"Orientation",*/}
+                {/*            tag:"cat fosterer applicant",*/}
+                {/*            comment:"learn the ins-and-outs",*/}
+                {/*            icon:'university' as SemanticICONS,*/}
+                {/*            show:(*/}
+                {/*                <p  key='cat fosterer applicant'>We have reviewed your application and would really appreciate your help. <Link to="learn/19sXvZvoJE2zXM7b1pyHpCpRAx-SF-gkUhRk-UXZzll4">The next step is orientation.</Link>  Once you complete the orientation. wavier it may take a day to process.</p>*/}
+                {/*            )*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            name:"Ready to Foster Cats",*/}
+                {/*            tag:"cat fosterer",*/}
+                {/*            icon:'paw' as SemanticICONS,*/}
+                {/*            show:(*/}
+                {/*                <p  key='cat fosterer'>Thank you for completing orientation. It is time to help! Click the  <Link to={'/inneed'} >in-need </Link> page for cats that need a foster.</p>*/}
+                {/*            )*/}
+                {/*        }*/}
 
-                    ]}
-                />
+                {/*    ]}*/}
+                {/*/>*/}
 
             </Container>
         );

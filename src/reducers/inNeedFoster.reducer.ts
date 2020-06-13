@@ -10,29 +10,39 @@ import InNeedState from "../state/InNeedState";
  * @returns {*}
  */
 export function inNeedFoster(state:InNeedState = {
-    inNeed:new InNeedOfFoster({from_database:[]}, ""),
+    inNeed:new InNeedOfFoster({shelter:[]}),
     busy:false}
     , action:Action): InNeedState {
 
-    //Ok, we now know that it is an alert action
     switch (action.type) {
         case inNeedConstants.FETCH_INNEEDOFFOSTER:
-            //Add the new success to the list
             return {
                 inNeed:action.payload,
                 busy:false
             };
         case inNeedConstants.UPLOAD_INNEED_ANIMAL:
-            //Add the new success to the list
             return {
                 ...state,
                 busy:true
             };
+        case inNeedConstants.UPLOADED_INNEED_ANIMAL:
+
+            return {
+                ...state,
+                inNeed:state.inNeed.addNonShelterAnimalAndCopy(action.payload),
+                busy:false
+            };
         case inNeedConstants.DELETE_INNEED_ANIMAL:
-            //Add the new success to the list
             return {
                 ...state,
                 busy:true
+            };
+        case inNeedConstants.DELETED_INNEED_ANIMAL:
+
+            return {
+                ...state,
+                inNeed:state.inNeed.removeNonShelterAnimalAndCopy(action.payload),
+                busy:false
             };
         default:
             return state

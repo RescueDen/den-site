@@ -19,21 +19,15 @@ interface LinkProps {
     uploadAnimal: (data: NonShelterAnimal, file: File) => any;
 }
 
-
 interface LocalState{
     anData:NonShelterAnimal
     files?:FileList
 
 }
-
-
-
-
-
 class AddInNeed extends React.Component<IncomingProps&LinkProps, LocalState> {
     state ={
         anData:{
-            id:"",
+            id:0,
             name:"",
             location:"",
             information:"",
@@ -111,7 +105,7 @@ class AddInNeed extends React.Component<IncomingProps&LinkProps, LocalState> {
                 />
                 <Form.TextArea
                     fluid
-                    label='DocumentView'
+                    label='Information'
                     placeholder='Please provide available information'
                     value={this.state.anData.information}
                     onChange={(event: React.FormEvent<HTMLTextAreaElement>) => {
@@ -152,8 +146,8 @@ class AddInNeed extends React.Component<IncomingProps&LinkProps, LocalState> {
                 <Form.Field
                     disabled={!allowedToSubmit}
                     control={Button}
-                > <Icon name='facebook official' />
-                    Add and Share to FaceBook</Form.Field>
+                > <Icon name='upload' />
+                    Upload and Add</Form.Field>
 
             </Form>
         );
@@ -178,4 +172,3 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
 export default connect(
     mapStateToProps,
 )(AddInNeed);
-;

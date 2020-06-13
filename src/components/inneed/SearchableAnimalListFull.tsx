@@ -3,7 +3,19 @@ import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
-import {Header, Input, List, Placeholder, Item, Button, Dropdown, Form, Modal} from "semantic-ui-react";
+import {
+    Header,
+    Input,
+    List,
+    Placeholder,
+    Item,
+    Button,
+    Dropdown,
+    Form,
+    Modal,
+    Segment,
+    Dimmer, Loader
+} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
 import AnimalItemFull from "./AnimalItemFull";
@@ -22,8 +34,6 @@ interface IncomingProps  {
     title:string
     link:string
     nonCaws:NonShelterAnimal[]
-
-
 }
 
 //Define the expected props
@@ -38,7 +48,7 @@ interface LinkProps  {
 interface DispatchProps{
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
-    removeAnimal: (id:string) =>any;
+    removeAnimal: (id:number) =>any;
     // addGeometry:(name:string) =>any;
     uploadAnimal:(data: NonShelterAnimal, file: File) => any;
 }
@@ -255,14 +265,18 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
                     </div>
                 </div>
 
-
                 {/*//Create a list*/}
-                <Item.Group divided>
-                    {/*If there are props*/}
-                    {this.getItems()}
-                    {this.getNonCawsItems()}
+                <Segment>
+                    <Dimmer active={this.props.busy} inverted>
+                        <Loader inverted>Loading</Loader>
+                    </Dimmer>
+                    <Item.Group divided >
+                        {/*If there are props*/}
+                        {this.getItems()}
+                        {this.getNonCawsItems()}
 
-                </Item.Group>
+                    </Item.Group>
+                </Segment>
             </div>
         )
     }
@@ -277,8 +291,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
     return {
         downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
         uploadAnimal:(data: NonShelterAnimal, file: File) => dispatch(inNeedActions.uploadAnimal(data, file)),
-        removeAnimal:(id:string) =>   dispatch(inNeedActions.removeAnimal(id))
-
+        removeAnimal:(id:number) =>   dispatch(inNeedActions.removeAnimal(id))
     };
 
 }

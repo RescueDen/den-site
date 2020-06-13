@@ -119,7 +119,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
                 {/*Keep all of the buttons in a group to make it look nice*/}
                 <Button.Group>
-                    <Link className="ui blue button" to="/loginpassword">RescueDen Email & Password</Link>
+                    <Link className="ui blue button" to="/loginpassword">Email & Password</Link>
                     <GoogleLogin
                         clientId="127825276100-ts3hhnls34bb0tiekfhf4kpdrn70a3ee.apps.googleusercontent.com"
                         onSuccess={this.responseGoogle}

@@ -1,15 +1,9 @@
-import {ShelterUserData} from "./ShelterUser";
 import {Species} from "./ShelterAnimal";
 
-/**
- * Specifies the list of dogs in need
- */
-
-//Define the caws user, this comes from the json decode
 export interface InNeedOfFosterData{
 
     //Store the ident info
-    from_database:number[];
+    shelter:number[];
 
     //Get the non caws
     nonShelter?: NonShelterAnimal[]
@@ -30,15 +24,13 @@ export function inSpecies(ani: NonShelterAnimal, searchSpecies: Species[]):boole
         }
     }
 
-
     return false;
-
 }
 
-/**Store the basic information for non caws animal**/
+/**Store the basic information for non shelter animal**/
 export interface  NonShelterAnimal {
     //And the animal id
-    id:string
+    id:number
 
     //Add in the animal information, this is not pulled back later
     name:string
@@ -60,30 +52,18 @@ export interface  NonShelterAnimal {
 
 }
 
-/**
-* Define a class that uses the CAWS User data
-*/
 export default class InNeedOfFoster{
     //Set to read only for now
     readonly data:InNeedOfFosterData;
 
     //The main constructor
-    constructor(data: InNeedOfFosterData, imgUrlBase: string ) {
+    constructor(data: InNeedOfFosterData) {
         this.data = data;
-
-        //Update the img url
-        if (data.nonShelter) {
-            data.nonShelter.forEach(itm => {
-                itm.imgUrl = imgUrlBase +"/inneed/image/"+ itm.imgId
-            })
-        }
-
-
     }
 
     //Add a function to get all animals in need
     public getAllAnimalsInNeed(): number[]{
-        return [...this.data.from_database]
+        return [...this.data.shelter]
     }
 
     //Add a function to get all animals in need
@@ -91,5 +71,17 @@ export default class InNeedOfFoster{
         return this.data.nonShelter? this.data.nonShelter: []
     }
 
+    public addNonShelterAnimalAndCopy(nonShelterAnimal:NonShelterAnimal){
+        let data = this.data;
+        data.nonShelter?.push(nonShelterAnimal)
+
+        return new InNeedOfFoster(this.data);
+    }
+
+    public removeNonShelterAnimalAndCopy(nonShelterAnimalId:number){
+        let data = this.data;
+        data.nonShelter = this.data.nonShelter?.filter(ani => ani.id != nonShelterAnimalId);
+        return new InNeedOfFoster(this.data);
+    }
 
 }

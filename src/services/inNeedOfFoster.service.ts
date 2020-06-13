@@ -1,16 +1,12 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
 import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/InNeedOfFosterModel";
+import {ServerResponseStatus} from "../models/ServerStatus";
 
 export const inNeedOfFosterService = {
     getInNeedOfFosterList,
     uploadAnimal,
     removeAnimal
-    // register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
 };
 
 // Create a default axios instance with the api
@@ -33,18 +29,13 @@ function getInNeedOfFosterList() : Promise<InNeedOfFoster> {
     //Now make a post request and get a promise back
     const responsePromise = apiServer.get('/inneed/',  {headers:headers});
 
-
     //We need to do some work here
     return responsePromise.then(response =>
         {//When the request returns
             //Get the user
             const data = <InNeedOfFosterData>response.data;
 
-            //Get the img url
-            const imgUrl = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL :"";
-
-            //Make a caws user
-            const model = new InNeedOfFoster(data,imgUrl)
+            const model = new InNeedOfFoster(data)
 
             //Return just the user
             return model;
@@ -54,7 +45,7 @@ function getInNeedOfFosterList() : Promise<InNeedOfFoster> {
 
 }
 
-function uploadAnimal(data: NonShelterAnimal, file?: File) : Promise<InNeedOfFoster> {
+function uploadAnimal(data: NonShelterAnimal, file?: File) : Promise<NonShelterAnimal> {
 
     //Make a new form data
     let dataInForm = new FormData()
@@ -79,46 +70,20 @@ function uploadAnimal(data: NonShelterAnimal, file?: File) : Promise<InNeedOfFos
 
     //We need to do some work here
     return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const data = <InNeedOfFosterData>response.data;
-
-            //Get the img url
-            const imgUrl = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL :"";
-
-            //Make a caws user
-            const model = new InNeedOfFoster(data,imgUrl)
-
-            //Return just the user
-            return model;
+        {
+            return  <NonShelterAnimal>response.data;
         }
     );
 }
 
-function removeAnimal(id:string) : Promise<InNeedOfFoster> {
-
-
+function removeAnimal(id:number) : Promise<ServerResponseStatus> {
     //Get the headers
     const headers =authHeader();
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.delete(`/inneed/${id}`,{headers:headers});
 
-
-    //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const data = <InNeedOfFosterData>response.data;
-
-            //Get the img url
-            const imgUrl = process.env.REACT_APP_API_URL? process.env.REACT_APP_API_URL :"";
-
-            //Make a caws user
-            const model = new InNeedOfFoster(data,imgUrl)
-
-            //Return just the user
-            return model;
-        }
-    );
+    return responsePromise.then(response =>{
+        return  <ServerResponseStatus>response.data;
+    });
 }

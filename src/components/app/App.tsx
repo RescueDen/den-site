@@ -109,6 +109,9 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route exact path="/" render={() => (
                                 <Redirect to="/welcome"/>
                             )}/>
+                            <Route exact path="//" render={() => (
+                                <Redirect to="/welcome"/>
+                            )}/>
                             {/*List all of the possible paths*/}
                             {/*<PrivateRoute exactRoute={true} reqPermission='get_news' exclude={[]} path='/news' to='/appstatus/'  component={News} />*/}
                             {/*<Route key='welcome' exact path="/welcome" component={Welcome} />*/}

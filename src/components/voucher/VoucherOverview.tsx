@@ -35,8 +35,6 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
     componentDidMount(){
         // get the forms
         this.props.getGetVoucherInfo();
-
-        alert("The voucher UI is only a preview and cannot be used to send vouchers to vets yet. Please send feedback to matt");
     };
 
     /**
@@ -72,7 +70,6 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
                     }
                     {this.props.voucherInfo &&
                         <VoucherList voucherInfo={this.props.voucherInfo}/>
-
                     }
 
                 </Segment>

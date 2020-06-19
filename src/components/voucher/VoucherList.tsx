@@ -14,8 +14,6 @@ import {formatDate} from "../../utils/date-formater";
 
 interface IncomingProps {
     voucherInfo:VoucherInfo;
-
-
 }
 
 interface LinkProps {
@@ -26,8 +24,6 @@ interface LinkProps {
 
     //Define the props we expect
     cawsAnimalsDb: AnimalState
-
-
 }
 
 interface DispatchProps{
@@ -35,7 +31,6 @@ interface DispatchProps{
     postNewSearch:(searchParams:VoucherSearch) => any;
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
-
 }
 
 
@@ -44,17 +39,6 @@ interface DispatchProps{
  * This card shows the animal details
  */
 class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps> {
-
-    // //Update and perform new search
-    // updateSearchParam = (newParams:any) =>{
-    //     //Get a new param
-    //     const params:VoucherSearch = {...this.props.currentParams, ...newParams} ;
-    //
-    //     //Now update
-    //     this.props.postNewSearch(params);
-    // }
-
-
     /**
      * Check to see if the props changed
      * @param prevProps
@@ -236,8 +220,6 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
     };
 
 }
-
-
 
 /**
  * Map from the global state to things we need here

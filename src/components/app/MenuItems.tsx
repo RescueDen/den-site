@@ -95,18 +95,18 @@ export const leftMenuItems = [
                 icon:<Icon name='id card outline'/>,
 
             },
-            // {
-            //     name: "Vouchers Listing.ts",
-            //     to: '/vouchers',
-            //     reqPerm:"issue_voucher",
-            //     icon:<Icon name='edit'/>,
-            // },
-            // {
-            //     name: "New Voucher",
-            //     to: '/voucher',
-            //     reqPerm:"issue_voucher",
-            //     icon:<Icon corner name='add' />
-            // }
+            {
+                name: "Vouchers Listing.ts",
+                to: '/vouchers',
+                reqPerm:"issue_voucher",
+                icon:<Icon name='edit'/>,
+            },
+            {
+                name: "New Voucher",
+                to: '/voucher',
+                reqPerm:"issue_voucher",
+                icon:<Icon corner name='add' />
+            }
         ]
 
     },

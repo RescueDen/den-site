@@ -7,12 +7,19 @@ import {
     Form,
     Grid,
     Select,
-    Dropdown, TextAreaProps, Segment, Header, Button
+    Dropdown, TextAreaProps, Segment, Header, Button, Icon
 } from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
-import {NonShelterAnimal, Voucher, VoucherInfo} from "../../models/Voucher";
+import {
+    NonShelterAnimal,
+    Voucher,
+    VoucherDraft,
+    VoucherInfo, VoucherIssued,
+    VoucherRedeemed,
+    VoucherStatus, VoucherVoid
+} from "../../models/Voucher";
 import RemoteSearch from "../animal/RemoteSearch";
 import AnimalListTable from "../animal/AnimalListTable";
 import NonShelterAnimalTable from "./NonShelterAnimalTable";
@@ -30,10 +37,10 @@ interface IncomingProps {
     initVoucher:Voucher;
 
     //Pass in a onSubmit
-    onSubmit:(voucher:Voucher) => any;
+    onSubmit:(voucher:Voucher, issue: boolean) => any;
 
-    //And the button
-    buttonText:string;
+    // //And the button
+    // buttonText:string;
 
     children:any;
 }
@@ -82,6 +89,26 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
 
     updateVoucher = (newParams:any) =>{
         this.setState({voucher:{...this.state.voucher, ...newParams}});
+    }
+
+    voidVoucher = () =>{
+        const vo = window.confirm("Are you sure you want to void " + this.state.voucher.code)
+
+        if(vo) {
+            let copy = this.state.voucher;
+            copy.status = VoucherVoid;
+            this.props.onSubmit(this.state.voucher, false)
+        }
+    }
+
+    redeemVoucher = () =>{
+        const vo = window.confirm("Are you sure you want to redeem " + this.state.voucher.code)
+
+        if(vo) {
+            let copy = this.state.voucher;
+            copy.status = VoucherRedeemed;
+            this.props.onSubmit(this.state.voucher, false)
+        }
     }
 
     //Add Shelter Animal
@@ -305,14 +332,35 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
 
                 </Form>
                 <Button
+                    icon='add'
+                    onClick={this.voidVoucher}
+                    loading={this.props.updating}
+                    disabled={this.state.voucher.status === VoucherDraft}
+                >
+                    Void
+                </Button>
+                <Button
+                    onClick={this.redeemVoucher}
+                    loading={this.props.updating}
+                    disabled={this.state.voucher.status !== VoucherIssued}
+                >
+                    Mark Redeemed
+                </Button>
+                <Button
+                    floated={"right"}
                     primary
-                    onClick={() => this.props.onSubmit(this.state.voucher)}
+                    onClick={() => this.props.onSubmit(this.state.voucher, true)}
+                    loading={this.props.updating}
+                >
+                    Send
+                </Button>
+                <Button
+                    floated={"right"}
+                    onClick={() => this.props.onSubmit(this.state.voucher, false)}
                     loading={this.props.updating}
                     >
-                    {this.props.buttonText}
+                    Save
                 </Button>
-
-                {JSON.stringify(this.state.voucher)}
             </>
         )
 

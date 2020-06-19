@@ -44,8 +44,6 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
      * Gets called once when the page loads.  Tell the system to download that animal
      */
     componentDidMount(){
-        alert("The voucher UI is only a preview and cannot be used to send vouchers to vets yet. Please send feedback to matt");
-
         // get the forms
         this.props.getGetVoucherInfo();
 
@@ -76,11 +74,11 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
 
     };
 
-    updateVoucher = (voucher:Voucher) =>{
+    updateVoucher = (voucher:Voucher, issue: boolean) =>{
         //Send to the server
         this.setState({loading:true});
 
-        voucherService.updateVoucher(voucher).then(
+        voucherService.updateVoucher(voucher, issue).then(
             //If successful html will be returned
             voucher => {
                 //Now tell the system to reload
@@ -96,9 +94,7 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
                     this.setState({loading:false, error: errorResponse.response.data.message});
                 } catch (e) {
                     this.setState({loading:false,error: errorResponse.toString()});
-
                 }
-
             }
         );
 
@@ -127,7 +123,6 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
                             initVoucher={this.state.voucher!}
                             voucherInfo={this.props.voucherInfo}
                             onSubmit={this.updateVoucher}
-                            buttonText='Update Voucher'
                         >
 
                         </VoucherForm>
@@ -153,7 +148,6 @@ class VoucherViewer extends React.Component<DispatchProps&LinkProps>  {
                             initVoucher={this.props.voucherInfo.default_voucher}
                             voucherInfo={this.props.voucherInfo}
                             onSubmit={this.updateVoucher}
-                            buttonText='Issue Voucher'
                         >
 
                         </VoucherForm>

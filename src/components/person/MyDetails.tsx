@@ -13,6 +13,7 @@ import {userActions} from "../../actions/user.actions";
 import {AchievementData} from "../../models/Achievements";
 import AchievementList from "./achievement/AchievementList";
 import {Link} from "react-router-dom";
+import MyVoucherList from "../voucher/MyVoucherList";
 
 
 //Define the expected props
@@ -55,7 +56,7 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
                     <Header as='h1'>{this.props.user.data.firstName} {this.props.user.data.lastName}</Header>
 
                     {/*We may have upcoming appointments*/}
-                    {/*<MyVoucherList/>*/}
+                    <MyVoucherList/>
 
                     {/*If we have achievements*/}
                     <Segment>

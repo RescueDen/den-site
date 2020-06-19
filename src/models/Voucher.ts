@@ -133,12 +133,16 @@ export interface  VoucherSearchResults {
 }
 
 
+export const VoucherDraft = 1;
+export const VoucherIssued = 2;
+export const VoucherRedeemed = 3;
+export const VoucherVoid =4;
+
 export const  VoucherStatus: { [id: number]: string; } = {
-    1:"Available",
-    2:'New',
-    3:'Issued',
-    4:'Redeemed',
-    5:'Void'
+    1:"Draft",
+    2:'Issued',
+    3:'Redeemed',
+    4:'Void'
 }
 
 

@@ -18,11 +18,6 @@ interface IncomingProps {
     treatments:Treatment[];
 }
 
-
-
-/**
- * This card shows the animal details
- */
 class VoucherInfoView extends React.Component<IncomingProps> {
 
 

@@ -77,7 +77,7 @@ export default class ShelterUser{
         this.data = data;
 
         //Set the tags from the data
-        this.tags = this.data.additionalFlags.split("|").map(tag =>{
+        this.tags = this.data.additionalFlags?.split("|").map(tag =>{
             return tag.toLowerCase().trim();
 
         })

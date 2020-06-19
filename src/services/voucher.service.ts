@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
 import {PublicVoucherViewData, Voucher, VoucherInfo, VoucherSearch, VoucherSearchResults} from "../models/Voucher";
+import {organizationService} from "./organization.service";
 
 export const voucherService = {
     getVoucherInfo,
@@ -8,9 +9,6 @@ export const voucherService = {
     getVoucherById,
     getPublicVoucherView: getVetVoucherView,
     getMyVouchers,
-    // getById,
-    // update,
-    // delete: _delete
     updateVoucher
 };
 
@@ -109,13 +107,17 @@ function performVoucherSearch(params:VoucherSearch) : Promise<VoucherSearchResul
 
 }
 
-function updateVoucher(voucher: Voucher): Promise<Voucher> {
+function updateVoucher(voucher: Voucher, issue: boolean): Promise<Voucher> {
     //Get the headers
     const headers =authHeader();
 
-    //Now make a post request and get a promise back
-    const responsePromise = apiServer.post('/voucher/',voucher,  {headers:headers});
+    let url = '/voucher';
+    if (issue){
+        url = '/voucher/issue'
+    }
 
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post(url,voucher,  {headers:headers});
 
     //We need to do some work here
     return responsePromise.then(response =>
@@ -139,8 +141,10 @@ function updateVoucher(voucher: Voucher): Promise<Voucher> {
  */
 function getVetVoucherView(secret:string) : Promise<PublicVoucherViewData> {
 
+    const orgId = organizationService.getCurrentOrganizationId();
+
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/voucher/vet/' + secret);
+    const responsePromise = apiServer.get(`/voucher/public/${orgId}/` + secret);
 
 
     //We need to do some work here

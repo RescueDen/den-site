@@ -36,9 +36,7 @@ class MyVoucherList extends React.Component<Props, StateData> {
                         this.setState({error: errorResponse.response.data.message});
                     } catch (e) {
                         this.setState({error: errorResponse.toString()});
-
                     }
-
                 }
             );
     }
@@ -62,7 +60,6 @@ class MyVoucherList extends React.Component<Props, StateData> {
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>Code</Table.HeaderCell>
-                                <Table.HeaderCell>Status</Table.HeaderCell>
                                 <Table.HeaderCell>Animal</Table.HeaderCell>
                                 <Table.HeaderCell>Vet</Table.HeaderCell>
                                 <Table.HeaderCell>Appt. Date/Time</Table.HeaderCell>
@@ -75,9 +72,6 @@ class MyVoucherList extends React.Component<Props, StateData> {
                                     <Table.Row>
                                         <Table.Cell>
                                             {voucher.voucher.code}
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            {voucher.type.name}
                                         </Table.Cell>
                                         <Table.Cell>{voucher.animals.map(ani => <Link to={`/animal/${ani.id}`}>{ani.name}</Link>)}</Table.Cell>
                                         <Table.Cell>

@@ -332,7 +332,7 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
 
                 </Form>
                 <Button
-                    icon='add'
+                    negative
                     onClick={this.voidVoucher}
                     loading={this.props.updating}
                     disabled={this.state.voucher.status === VoucherDraft}
@@ -355,6 +355,7 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                     Send
                 </Button>
                 <Button
+                    secondary
                     floated={"right"}
                     onClick={() => this.props.onSubmit(this.state.voucher, false)}
                     loading={this.props.updating}

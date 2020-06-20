@@ -69,20 +69,24 @@ class NavBar extends React.Component<Props> {
                     active={active}
                     onClick={item.onClick ? item.onClick : linkTo}//If there is an onclick use it, otherwise link
                 >
+                    {
+                        mobile === MenuType.Mobile && item.name === undefined && item.icon
+                    }
+                    {
+                        mobile === MenuType.Mobile && item.name !== undefined && item.name
+                    }
 
                     {/*Now for the name*/}
                     {
-                        (mobile != MenuType.Tablet || subMenu) &&
+                        (mobile === MenuType.Desktop || (mobile === MenuType.Tablet && subMenu)) &&
                         <>{item.icon} {item.name}</>
                     }
                     {/*Now output the item icon only if it is there*/
-                        mobile == MenuType.Tablet && !subMenu && item.icon != undefined && item.icon
+                        mobile === MenuType.Tablet && !subMenu && item.icon !== undefined && item.icon
                     }
                     {/*Now output the item name if there is no icon*/
-                        mobile == MenuType.Tablet && !subMenu && item.icon == undefined && item.name
-
+                        mobile === MenuType.Tablet && !subMenu && item.icon === undefined && item.name
                     }
-
                 </MenuItem>
             )
         }
@@ -176,9 +180,6 @@ class NavBar extends React.Component<Props> {
         }
 
     }
-
-
-
 
     /**
      * Re-render eveyr time this is called

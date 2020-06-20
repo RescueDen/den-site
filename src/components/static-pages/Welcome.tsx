@@ -4,6 +4,7 @@ import {Container, Grid, Segment} from "semantic-ui-react";
 import StaticComponent from "./StaticComponent";
 import TheFeed from "../feed/TheFeed";
 import EventsList from "../events/EventsList";
+import MyVoucherList from "../voucher/MyVoucherList";
 
 
 class Welcome extends React.Component<any> {
@@ -21,6 +22,7 @@ class Welcome extends React.Component<any> {
                                 <StaticComponent pagePath={"welcome"} public={false}/>
                             </Segment>
                             <EventsList/>
+                            <MyVoucherList/>
                         </Container>
                     </Grid.Column>
                     <Grid.Column>

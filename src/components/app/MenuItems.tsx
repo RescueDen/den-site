@@ -68,16 +68,48 @@ export const leftMenuItems = [
         ]
 
     },
-    {//Show all of the forms
-        name: "Forms",
-        to: '/forms',
-        icon: <Icon name='edit outline'/>
+    {//Now foster info
+        name: "Forms & Events",
+        reqPerm: "get_animal_info",
+        icon: <Icon name='edit outline'/>,
+        subItems: [
+            {//Show all of the forms
+                name: "Forms",
+                to: '/forms',
+                icon: <Icon name='edit outline'/>
+            },
+            {//Show all of the forms
+                name: "Events & RSVPs",
+                to: '/events',
+                icon: <Icon name='calendar alternate outline'/>
+            },
+        ]
+
     },
-    {//Show all of the forms
-        name: "Events & RSVPs",
-        to: '/events',
-        icon: <Icon name='calendar alternate outline'/>
+
+    {//Now inside caws
+        name: "My...",
+        icon: <Icon name='user outline'/>,
+        subItems: [
+            {//Also show my info
+                name:"My Info",
+                to:'/myinfo',
+                icon:<Icon name='user outline' />
+            },
+            {
+                name: "Achievements",
+                to: '/achievements',
+                icon: <Icon name='certificate'/>
+            },
+            {//Show all of the forms
+                name: "CAWS Hub",
+                to: '/cawshub',
+                reqPerm: "access_hub",
+                icon: <Icon name='building'/>
+            },
+        ]
     },
+
     {//Now inside caws
         name: "Inside CAWS",
         reqPerm: "inside_caws",
@@ -93,7 +125,6 @@ export const leftMenuItems = [
                 name: "Kennel Card Generator",
                 to: '/kennelcard',
                 icon:<Icon name='id card outline'/>,
-
             },
             {
                 name: "Vouchers Listing",
@@ -108,47 +139,13 @@ export const leftMenuItems = [
                 icon:<Icon corner name='add' />
             }
         ]
-
     },
-    {
-        name: "Achievements",
-        to: '/achievements',
-        icon: <Icon name='certificate'/>
-    },
-    {//Show all of the forms
-        name: "CAWS Hub",
-        to: '/cawshub',
-        reqPerm: "access_hub",
-        icon: <Icon name='building'/>
-    },
-
 ];
 
 export const rightMenuItems = [
     {//Now foster info
-        name:<Icon size='large' name='user circle' />,
+        name:<Icon size='large' name='settings' />,
         subItems:[
-            {//Also show my info
-                name:"My Info",
-                to:'/myinfo',
-                icon:<Icon name='user outline' />
-            },
-            // {
-            //     name:"Logging",
-            //     to:'/logging',
-            //     reqPerm:"volunteer_logging",
-            //     icon:<Icon name='history' />
-            // },
-            {
-                name:"Supplies",
-                to:'/cawshub',
-                reqPerm:"access_hub",
-                icon:<Icon name='shopping basket' />
-            },
-            {
-                name:"",
-
-            },
             {//Show all of the forms
                 name:"Help",
                 to:'/help',

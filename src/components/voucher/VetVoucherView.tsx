@@ -167,17 +167,16 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                                 );
 
                             })}
-                            {voucherPublicData.voucher.other_people.map(person =>{
+                            {voucherPublicData.clientContacts.map(person =>{
                                 return (
                                     <Table.Row>
                                         <Table.Cell></Table.Cell>
-                                        <Table.Cell>{person.firstname} {person.lastname}</Table.Cell>
+                                        <Table.Cell>{person.name}</Table.Cell>
                                         <Table.Cell>{person.email}</Table.Cell>
+                                        <Table.Cell>{person.phone}</Table.Cell>
                                         <Table.Cell></Table.Cell>
                                     </Table.Row>
-
                                 );
-
                             })}
                         </Table.Body>
                     </Table>

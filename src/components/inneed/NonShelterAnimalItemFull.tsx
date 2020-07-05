@@ -1,11 +1,7 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon, Placeholder} from "semantic-ui-react";
-import {Link} from "react-router-dom";
-import ShelterAnimal from "../../models/ShelterAnimal";
-import AnimalBio from "../animal/details-components/AnimalBio";
+import {Button, Item, Placeholder} from "semantic-ui-react";
 import {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
-
 
 
 //Define the expected props
@@ -20,7 +16,7 @@ interface MyProps  {
 /**
  * This card shows the animal details
  */
-class NonCawsAnimalItemFull extends React.Component<MyProps> {
+class NonShelterAnimalItemFull extends React.Component<MyProps> {
 
     /**
      * Re-render every time this is called
@@ -80,4 +76,4 @@ class NonCawsAnimalItemFull extends React.Component<MyProps> {
 }
 
 
-export default NonCawsAnimalItemFull
+export default NonShelterAnimalItemFull

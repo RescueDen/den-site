@@ -22,7 +22,7 @@ import AnimalItemFull from "./AnimalItemFull";
 import ShelterUser from "../../models/ShelterUser";
 import ShelterAnimal, {Species} from "../../models/ShelterAnimal";
 import {inSearch, inSpecies, NonShelterAnimal} from "../../models/InNeedOfFosterModel";
-import NonCawsAnimalItemFull from "./NonCawsAnimalItemFull";
+import NonShelterAnimalItemFull from "./NonShelterAnimalItemFull";
 import AddInNeed from "./AddInNeed";
 import {inNeedActions} from "../../actions/inNeedFoster.actions";
 import PermissionBlock from "../authentication/PermissionBlock";
@@ -197,7 +197,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
             //If the ani is undefined just return the aniItem
             if (ani != undefined && (inSearch(ani, this.state.searchTerm) && inSpecies(ani, this.state.searchSpecies))) {
                 //It is in the search term
-                return <NonCawsAnimalItemFull key={ani.id} ani={ani}  extraButton={this.buildNonCawsFosterButton(ani)}/>;
+                return <NonShelterAnimalItemFull key={ani.id} ani={ani} extraButton={this.buildNonCawsFosterButton(ani)}/>;
             } else {
                 return null;
             }
@@ -296,7 +296,6 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
 
 }
 
-
 /**
  * Map from the global state to things we need here
  * @param state
@@ -310,9 +309,6 @@ function mapStateToProps(state:ApplicationState): LinkProps {
         busy:state.inNeedFoster.busy
     };
 }
-
-
-
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
 export default  connect(

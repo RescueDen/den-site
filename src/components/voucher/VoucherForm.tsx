@@ -1,14 +1,7 @@
-
 //Define the expected props
 import AnimalState from "../../state/AnimalState";
 import React from "react";
-import {
-    DropdownProps,
-    Form,
-    Grid,
-    Select,
-    Dropdown, TextAreaProps, Segment, Header, Button, Icon
-} from "semantic-ui-react";
+import {Button, Dropdown, DropdownProps, Form, Grid, Header, Segment, Select, TextAreaProps} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
@@ -16,9 +9,10 @@ import {
     NonShelterAnimal,
     Voucher,
     VoucherDraft,
-    VoucherInfo, VoucherIssued,
+    VoucherInfo,
+    VoucherIssued,
     VoucherRedeemed,
-    VoucherStatus, VoucherVoid
+    VoucherVoid
 } from "../../models/Voucher";
 import RemoteSearch from "../animal/RemoteSearch";
 import AnimalListTable from "../animal/AnimalListTable";
@@ -28,7 +22,7 @@ import {animalActions} from "../../actions/animal.actions";
 import {DateTimeInput} from "semantic-ui-calendar-react";
 import moment from 'moment';
 import {PersonData} from "../../models/People";
-import NonShelterPeopleTable from "./NonShelterPeopleTable";
+import NonShelterPeopleTable from "./ClientTable";
 
 interface IncomingProps {
     voucherInfo:VoucherInfo;
@@ -59,20 +53,17 @@ interface VoucherFormState{
     voucher:Voucher;
 }
 
-
 interface DispatchProps{
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
 
 }
 
-
 /**
  * This card shows the animal details
  */
 class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,VoucherFormState> {
     state={voucher:this.props.initVoucher};
-
 
     /**
      * Support call to get type options
@@ -129,8 +120,8 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
         this.updateVoucher({animalInfo:list})
     }
     //Add Shelter Animal
-    updateNonShelterPeople = (list:PersonData[]) =>{
-        this.updateVoucher({other_people:list})
+    updateNonShelterPeople = (list:number[]) =>{
+        this.updateVoucher({clientIds:list})
     }
 
     //Get a list of vets that will work on each species
@@ -315,6 +306,12 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                         />
                     </Segment>
                     <Segment vertical>
+                        <Form.Field>
+                            <label>Non-Shelter Clients</label>
+                            <NonShelterPeopleTable clientIds={this.state.voucher.clientIds} updateList={this.updateNonShelterPeople}/>
+                        </Form.Field>
+                    </Segment>
+                    <Segment vertical>
                         {/*And just general notes*/}
                         <Form.TextArea label='Notes' placeholder='Any notes. This is to all involved.'
                                        value={this.state.voucher.notes}
@@ -324,10 +321,6 @@ class VoucherForm extends React.Component<IncomingProps&LinkProps&DispatchProps,
                                        }
                                        }
                         />
-                        <Form.Field>
-                            <label>Non CAWS Person</label>
-                            <NonShelterPeopleTable people={this.state.voucher.other_people} updateList={this.updateNonShelterPeople}/>
-                        </Form.Field>
                     </Segment>
 
                 </Form>

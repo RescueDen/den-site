@@ -5,7 +5,6 @@ import {formatDate} from "../utils/date-formater";
 import missingPic from "../assets/pictures/missingPhoto.png";
 
 export interface ShelterAnimalData{
-
     //Store the ident info
     code:string;
     id:number;

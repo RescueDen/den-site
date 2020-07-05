@@ -3,6 +3,7 @@
  */
 import ShelterAnimal, {ShelterAnimalData, MovementData, Species} from "./ShelterAnimal";
 import {PersonData} from "./People";
+import {VoucherClientContact} from "./VoucherClient";
 
 //Define the caws user, this comes from the json decode
 export interface VoucherInfo{
@@ -80,7 +81,7 @@ export interface Voucher{
     appointment_date:Date;
 
     //Store a list of people  that should be included (not vets, adopters, or fosters)
-    other_people: PersonData[]; //OtherPeople []shelter.Person `json:"other_people"`
+    clientIds: number[];//OtherPeople []shelter.Person `json:"other_people"`
 
     //Store the animal info
     animalIds:number[];//AnimalIds []int `json:"animalIds"`
@@ -158,6 +159,9 @@ export interface PublicVoucherViewData {
 
     //Animal data
     animals: ShelterAnimalData[];
+
+    //clients/other people
+    clientContacts:VoucherClientContact[];
 
     //And treatments
     treatments:Treatment[];

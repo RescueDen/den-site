@@ -41,8 +41,6 @@ class MyVoucherList extends React.Component<Props, StateData> {
             );
     }
 
-
-
     /**
      * Re-render every time this is called
      * @returns {*}

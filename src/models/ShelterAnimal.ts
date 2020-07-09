@@ -11,6 +11,7 @@ export interface ShelterAnimalData{
     shelterId:number;
     name:string;
     microchipped:boolean;
+    microchipImplantedBy:string;
     microchip:string;
     onShelter:boolean;
 

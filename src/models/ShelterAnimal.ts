@@ -54,9 +54,6 @@ export interface ShelterAnimalData{
     //Medical info
     rabiesTag:string;
 
-    //Keep all of the animal media
-    media:MediaData[];
-
     //And the history of movement
     movements:MovementData[];
 
@@ -68,12 +65,6 @@ export interface ShelterAnimalData{
 
     //Add in the thumbnail url
     thumbnailUrl:string;
-}
-//The animal media structure
-export interface MediaData {
-    id:number;
-    name:string;
-    type:string;
 }
 
 //Keep a history of movements

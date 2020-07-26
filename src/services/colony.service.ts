@@ -1,0 +1,28 @@
+import axios from 'axios';
+import {authHeader} from "../utils/auth-header";
+import {Colony} from "../models/Colony";
+
+export const colonyService = {
+    getColonyList,
+};
+
+// Create a default axios instance with the api
+const apiServer =  axios.create({
+    baseURL:process.env.REACT_APP_API_URL
+});
+
+function getColonyList() : Promise<Colony[]> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/colony`,  {headers:headers});
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {
+            return <Colony[]>response.data;
+        }
+    );
+}

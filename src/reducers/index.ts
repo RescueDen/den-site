@@ -15,6 +15,7 @@ import {people} from "./people.reducer";
 
 import ApplicationState from '../state/ApplicationState';
 import {voucher} from "./voucher.reducer";
+import {colony} from "./colony.reducer";
 
 
 //Define the root reducer
@@ -24,6 +25,7 @@ const rootReducer = combineReducers<ApplicationState>({
     animals,
     content,
     inNeedFoster,
+    colony,
     forms,
     events,
     achievements,

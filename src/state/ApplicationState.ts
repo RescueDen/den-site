@@ -11,6 +11,7 @@ import LoggingState from "./LoggingState";
 import InNeedState from "./InNeedState";
 import PeopleState from "./PeopleState";
 import VoucherState from "./VoucherState";
+import ColonyState from "./ColonyState";
 
 /**
  * This model describes the entire state of program
@@ -20,6 +21,7 @@ export default interface ApplicationState {
     alerts: Alert[],
     animals: AnimalState,
     content:ContentState,
+    colony:ColonyState,
     inNeedFoster: InNeedState,
     forms: FormsState,
     events:EventsState,

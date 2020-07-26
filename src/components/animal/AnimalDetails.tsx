@@ -13,8 +13,6 @@ import AnimalImageGallery from "./details-components/AnimalImageGallery";
 import AnimalBio from "./details-components/AnimalBio";
 import AnimalVaxxHistory from "./details-components/AnimalVaxxHistory";
 import {Link} from "react-router-dom";
-import PermissionBlock from "../authentication/PermissionBlock";
-import AnimalJournal from "./AnimalJournal";
 import UploadPicture from "./details-components/UploadPicture";
 import Permissions from "../../models/Permissions";
 
@@ -28,13 +26,10 @@ interface LinkProps extends RouteComponentProps<any> {
 
 }
 
-
 interface DispatchProps{
     //And the actions that must be done
     downloadAnimal: (id:number) => any;
-
 }
-
 
 /**
  * This card shows the animal details

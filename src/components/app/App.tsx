@@ -106,7 +106,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                     >
 
                     {/*The menu is over is load in based upon the router*/}
-                        <Container key={url} >
+                        <Container>
                             {/*Redirect to the default path*/}
                             <Route exact path="/" render={() => (
                                 <Redirect to="/welcome"/>

@@ -12,6 +12,7 @@ import {Button, Card, Grid, Header, Icon, Label, List, Placeholder, Segment} fro
 import ColonyEdit from "./ColonyEdit";
 import PermissionBlock from "../authentication/PermissionBlock";
 import {RouteComponentProps} from "react-router";
+import WikiPage from "../wiki/WikiPage";
 
 interface IncomingProps extends RouteComponentProps<any>{
     colonyId: number;
@@ -40,6 +41,8 @@ class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,
     render() {
         return (
             <>
+                <WikiPage colonyId={3}/>
+
                 <Grid columns={2}>
                     <Grid.Column floated={'left'}>
                         <Header as='h1'>{this.props.colony?.name}</Header>

@@ -13,7 +13,6 @@ interface Props extends RouteComponentProps{
     desktopHeader?:ReactNode;
     desktopMode:MenuMode
     itemsRight?:MenuItem[];
-
 }
 
 /**
@@ -23,9 +22,7 @@ export enum MenuMode {
     Fixed,
     None,
     Sticky
-
 }
-
 
 //Define the expected props
 interface MyState{
@@ -34,11 +31,9 @@ interface MyState{
     mobileMenuOpen:boolean;
 }
 
-
 interface StateProps{
     permissions?:Permissions
 }
-
 
 class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     state = {menuOpen:false, menuFixed:false, mobileMenuOpen:false}
@@ -48,7 +43,6 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     componentDidMount(){
 
     };
-
 
     //Define function to route
     reRoute = (to?:string) =>{
@@ -225,7 +219,6 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
      * @returns {*}
      */
     render() {
-
         return (
             <div>
                 {/*//Now a different menu based upon mobile or not*/}

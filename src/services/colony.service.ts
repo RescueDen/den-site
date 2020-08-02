@@ -4,6 +4,8 @@ import {Colony} from "../models/Colony";
 
 export const colonyService = {
     getColonyList,
+    updateColony,
+    loadColony
 };
 
 // Create a default axios instance with the api
@@ -12,7 +14,6 @@ const apiServer =  axios.create({
 });
 
 function getColonyList() : Promise<Colony[]> {
-
     //Get the headers
     const headers =authHeader();
 
@@ -26,3 +27,36 @@ function getColonyList() : Promise<Colony[]> {
         }
     );
 }
+
+function updateColony(colony:Colony) : Promise<Colony> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.post(`/colony`,  colony,{headers:headers});
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {
+            return <Colony>response.data;
+        }
+    );
+}
+
+function loadColony(colonyId:number) : Promise<Colony> {
+
+    //Get the headers
+    const headers =authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.get(`/colony/${colonyId}`,{headers:headers});
+
+    //We need to do some work here
+    return responsePromise.then(response =>
+        {
+            return <Colony>response.data;
+        }
+    );
+}
+

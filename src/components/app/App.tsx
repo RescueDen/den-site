@@ -40,6 +40,7 @@ import VoucherOverview from "../voucher/VoucherOverview";
 import VoucherViewer from "../voucher/VoucherViewer";
 import DocumentView from "../content/DocumentView";
 import ColonyList from "../colony/ColonyList";
+import ColonyPage from "../colony/ColonyPage";
 
 
 //Setup up path props to get the current path
@@ -148,6 +149,7 @@ class App extends React.Component<AppProps&DispatchProps> {
                             <Route exact key={'voucher'} path="/voucher" component={VoucherViewer} />
                             <Route key={'voucher/vouchers'+url} path="/voucher/:voucherId" component={VoucherViewer} />
                             <Route key={'colonies'} path="/colonies" component={ColonyList} />
+                            <Route key={'colony/colonyId'+url} path="/colony/:colonyId" component={ColonyPage} />
 
                             <Route key={'menu'} path="/menu" component={FullPageMenu}/>
                             <PrivateRoute exactRoute={true} reqPermission='access_hub' exclude={[]} path='/cawshub' to='/welcome'  component={CAWSHub} />

@@ -10,6 +10,8 @@ import {Card, Container, Header, List} from "semantic-ui-react";
 //Define the expected props
 interface IncomingProps{
     colony: Colony;
+    onClick:(id:number) => any;
+    selected:boolean;
 }
 
 class ColonyCard extends React.Component<IncomingProps> {
@@ -19,7 +21,12 @@ class ColonyCard extends React.Component<IncomingProps> {
      */
     render() {
         return (
-            <Card key={this.props.colony.id}>
+            <Card
+                fluid
+                key={this.props.colony.id}
+                onClick={() => this.props.onClick(this.props.colony.id)}
+                color={this.props.selected? 'green':undefined}
+            >
                 <Card.Content>
                     <Card.Header>{this.props.colony.name}</Card.Header>
                     <Card.Meta>

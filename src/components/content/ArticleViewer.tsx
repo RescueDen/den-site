@@ -42,9 +42,7 @@ class ArticleViewer extends React.Component<MyProps, MyState> {
                     this.setState({html:errorResponse.response.data.message});
                 }catch(e){
                     this.setState({html:errorResponse.toString()});
-
                 }
-
             }
         );
     };

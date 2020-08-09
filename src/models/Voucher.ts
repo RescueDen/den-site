@@ -110,6 +110,8 @@ export interface  NonShelterAnimal {
 
     //And just some general comments
     comments:string;
+
+    colony?:number;
 }
 //Store the basic search
 export interface  VoucherSearch {

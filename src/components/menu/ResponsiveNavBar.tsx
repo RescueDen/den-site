@@ -5,7 +5,7 @@ import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import Permissions from "../../models/Permissions";
 import NavBar, {MenuItem, MenuType} from "./NavBar";
-import logoImage from "../../assets/logos/xCAWS_logo_sideways.png";
+import {isMobileOnly} from "react-device-detect";
 
 //Income Props
 interface Props extends RouteComponentProps{
@@ -212,44 +212,32 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
 
     }
 
-
-
     /**
      * Re-render eveyr time this is called
      * @returns {*}
      */
     render() {
-        return (
-            <div>
-                {/*//Now a different menu based upon mobile or not*/}
-                <Responsive minWidth={Responsive.onlyComputer.minWidth}>
-                    {this.props.desktopHeader}
-                    {this.buildNavBarDesktop()}
-                    {/*Push this down for the menu height*/}
+        if(isMobileOnly) {
+            return this.buildNavBarMobile();
+        }else{
+            return (
+                <>
+                    <Responsive minWidth={Responsive.onlyComputer.minWidth}>
+                        {this.props.desktopHeader}
+                        {this.buildNavBarDesktop()}
+                        {/*Push this down for the menu height*/}
+                    </Responsive>
+                    {/*Now for a tablet makeup*/}
+                    <Responsive maxWidth={Responsive.onlyTablet.maxWidth} >
+                        {this.props.desktopHeader}
+                        {this.buildNavBarTablet()}
+                        {/*Push this down for the menu height*/}
+                    </Responsive>
                     <div  style={{ marginTop: '5em' }}>
                         {this.props.children}
                     </div>
-
-                </Responsive>
-                {/*Now for a tablet makeup*/}
-                <Responsive {...Responsive.onlyTablet} >
-                    {this.props.desktopHeader}
-                    {this.buildNavBarTablet()}
-                    {/*Push this down for the menu height*/}
-                    <div  style={{ marginTop: '5em' }}>
-                        {this.props.children}
-                    </div>
-
-                </Responsive>
-                {/*Now for the mobile only*/}
-                <Responsive {...Responsive.onlyMobile}>
-                    {this.buildNavBarMobile()}
-                </Responsive>
-
-            </div>
-
-
-        );
+                </>);
+        }
     }
 
 };

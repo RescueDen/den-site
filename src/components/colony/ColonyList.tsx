@@ -11,8 +11,13 @@ import {Location} from "./ColonyMap";
 import {Button, Card, Grid, Header, Icon, Segment} from 'semantic-ui-react';
 import ColonyEdit from "./ColonyEdit";
 import PermissionBlock from "../authentication/PermissionBlock";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 //Define the expected props
+interface IncomingProps extends RouteComponentProps<any>{
+
+}
+
 interface StateProps{
     colonies: Colony[];
 }
@@ -25,7 +30,7 @@ interface MyState{
     selectedId?:number;
 }
 
-class ColonyList extends React.Component<StateProps&DispatchProps,MyState> {
+class ColonyList extends React.Component<IncomingProps&StateProps&DispatchProps,MyState> {
     state={selectedId:undefined};
 
     componentDidMount(){
@@ -35,6 +40,10 @@ class ColonyList extends React.Component<StateProps&DispatchProps,MyState> {
 
     selectLocation = (id:number) =>{
         this.setState({selectedId:id});
+    }
+
+    navigateToColony = (id:number) =>{
+        this.props.history.push(`/colony/${id}`);
     }
 
     render() {
@@ -63,7 +72,8 @@ class ColonyList extends React.Component<StateProps&DispatchProps,MyState> {
                             {this.props.colonies.map(colony => (
                                 <ColonyCard
                                     colony={colony}
-                                    onClick={this.selectLocation}
+                                    onClick={this.navigateToColony}
+                                    onLocate={this.selectLocation}
                                     selected={colony.id === this.state.selectedId}
                                 />
                             ))}
@@ -89,21 +99,21 @@ class ColonyList extends React.Component<StateProps&DispatchProps,MyState> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState ):StateProps {
+function mapStateToProps(state:ApplicationState, props:IncomingProps ):IncomingProps&StateProps {
     return {
+        ...props,
         colonies:state.colony.colonies,
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:StateProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps&StateProps):DispatchProps {
     return {
         downloadColonyList:() =>  dispatch(colonyActions.getColonyList())
     };
-
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default withRouter(connect (
     mapStateToProps,
     mapDispatchToProps
-)(ColonyList);
+)(ColonyList));

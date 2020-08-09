@@ -12,7 +12,8 @@ import {Button, Card, Grid, Header, Icon, Label, List, Placeholder, Segment} fro
 import ColonyEdit from "./ColonyEdit";
 import PermissionBlock from "../authentication/PermissionBlock";
 import {RouteComponentProps} from "react-router";
-import WikiPage from "../wiki/WikiPage";
+import WikiPageEditor from "../wiki/WikiPageEditor";
+import Permissions from "../../models/Permissions";
 
 interface IncomingProps extends RouteComponentProps<any>{
     colonyId: number;
@@ -20,6 +21,7 @@ interface IncomingProps extends RouteComponentProps<any>{
 
 interface StateProps{
     colony?: Colony;
+    permissions?:Permissions
 }
 
 interface DispatchProps{
@@ -41,8 +43,6 @@ class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,
     render() {
         return (
             <>
-                <WikiPage colonyId={3}/>
-
                 <Grid columns={2}>
                     <Grid.Column floated={'left'}>
                         <Header as='h1'>{this.props.colony?.name}</Header>
@@ -78,16 +78,20 @@ class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,
                                             <List.Item>{this.props.colony.address.city} {this.props.colony.address.state} {this.props.colony.address.zipCode}</List.Item>
                                         </List>
                                     </Card.Description>
+                                    {this.props.colony &&
+                                    <PermissionBlock reqPerm={'edit_colonies'}>
+                                        <ColonyEdit
+                                            trigger={<Label attached='bottom right' as='a'>
+                                                <Icon name='edit' />
+                                                Edit
+                                            </Label>}
+                                            incomingColony={this.props.colony}/>
+                                    </PermissionBlock>
+                                    }
                                 </Card.Content>
-                                {this.props.colony &&
-                                <PermissionBlock reqPerm={'edit_colonies'}>
-                                    <ColonyEdit
-                                        trigger={<Label attached='bottom'>Edit</Label>}
-                                        incomingColony={this.props.colony}/>
-                                </PermissionBlock>
-                                }
                             </Card>
                         }
+                        <WikiPageEditor key={this.props.colonyId} allowEdit={this.props.permissions?.allowed("edit_colonies")} contentPath={`/colony/wiki/${this.props.colonyId}`}/>
                     </Grid.Column>
                     {this.props.colony?.address.coordinate &&
                     <Grid.Column>
@@ -121,6 +125,7 @@ function mapStateToProps(state:ApplicationState, incoming: IncomingProps ):Incom
         ...incoming,
         colonyId:colonyId,
         colony:state.colony.colonies.find(c => c.id === colonyId),
+        permissions : state.authentication.permissions
     };
 }
 

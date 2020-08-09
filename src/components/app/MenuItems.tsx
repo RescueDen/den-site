@@ -38,6 +38,12 @@ export const leftMenuItems = [
                 icon: <Icon name='university'/>
             },
             {
+                name: "Cat Colonies",
+                to: '/colonies',
+                reqPerm: "view_colonies",
+                icon: <Icon name='map'/>
+            },
+            {
                 name: "Lives Saved!",
                 to: '/lives-saved',
                 reqPerm: "get_stats",

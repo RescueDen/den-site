@@ -5,12 +5,13 @@ import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {Colony} from "../../models/Colony";
 import {colonyActions} from "../../actions/colony.actions";
-import {Card, Container, Header, List} from "semantic-ui-react";
+import {Card, Container, Header, Icon, Label, List} from "semantic-ui-react";
 
 //Define the expected props
 interface IncomingProps{
     colony: Colony;
     onClick:(id:number) => any;
+    onLocate:(id:number) => any;
     selected:boolean;
 }
 
@@ -38,6 +39,7 @@ class ColonyCard extends React.Component<IncomingProps> {
                             <List.Item>{this.props.colony.address.city} {this.props.colony.address.state} {this.props.colony.address.zipCode}</List.Item>
                         </List>
                     </Card.Description>
+                    <Label attached='top right' as='a'><Icon name='location arrow'/></Label>
                 </Card.Content>
             </Card>
         )

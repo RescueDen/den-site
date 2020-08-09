@@ -19,8 +19,6 @@ interface IncomingProps {
 }
 
 class VoucherInfoView extends React.Component<IncomingProps> {
-
-
     getTreatmentOptions = () =>{
         return this.props.treatments.map(treatment => {
             return {

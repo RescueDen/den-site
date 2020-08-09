@@ -1,9 +1,23 @@
 //Define the expected props
 import React from "react";
-import {Button, Form, Header, Icon, Input, InputProps, Modal, Radio, TextArea, TextAreaProps} from "semantic-ui-react";
+import {
+    Button,
+    Dropdown, DropdownProps,
+    Form,
+    Header,
+    Icon,
+    Input,
+    InputProps,
+    Modal,
+    Radio,
+    TextArea,
+    TextAreaProps
+} from "semantic-ui-react";
 import {NonShelterAnimal} from "../../models/Voucher";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 import {Species} from "../../models/ShelterAnimal";
+import {Colony} from "../../models/Colony";
+import {PrintAddress} from "../../models/Address";
 
 interface IncomingProps {
     initAnimal:NonShelterAnimal;
@@ -16,6 +30,8 @@ interface IncomingProps {
 
     //Pass In a icon
     icon?:SemanticICONS;
+
+    colonies?: Colony[];
 }
 
 interface ModalState {
@@ -40,13 +56,21 @@ class NonShelterAnimalModal extends React.Component<IncomingProps> {
         this.setState({modalOpen: false})
     }
 
-
     handleCancel = () => this.setState({ modalOpen: false })
 
     updateAnimal = (newParams:any) =>{
         this.setState({animal:{...this.state.animal, ...newParams}});
     }
 
+    getColonyOptions = () =>{
+        return this.props.colonies?.map(colony => {
+            return {
+                key: colony.id,
+                text: colony.name + ": " + PrintAddress(colony.address),
+                value: colony.id,
+            }
+        });
+    }
 
     /**
      * Re-render every time this is called
@@ -130,6 +154,22 @@ class NonShelterAnimalModal extends React.Component<IncomingProps> {
                             }
 
                         />
+                        {this.state.animal.species === Species.cat &&
+                            <Form.Field
+                                control={Dropdown}
+                                label='Cat Colony (Optional)'
+                                value={this.state.animal.colony}
+                                placeholder='Select Colony if Applicable'
+                                options={this.getColonyOptions()}
+                                search
+                                fluid
+                                selection
+                                onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+                                    this.updateAnimal({colony: data.value? parseInt(data.value.toString()) : undefined})
+                                }
+                                }
+                            />
+                        }
                         <Form.Field control={TextArea} label='Comments'
                                     placeholder='any comments about the animal...'
                                     value={this.state.animal.comments}

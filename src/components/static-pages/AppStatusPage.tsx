@@ -56,8 +56,9 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                             comment:"learn the ins-and-outs",
                             icon:'university' as SemanticICONS,
                             show:(
-                                <p key='volunteer applicant'>We can use all the help we can get!  The first step is learning what is involved in volunteering, where we need, and how you can make a difference. <Link to={'learn/1Fv-iEvYJPFsuVuanvOPF1NPhkXMQMRognvPmdkM9IXE'}>Complete the online orientation.</Link>  We can't do this with out you. </p>
-                            )
+                                <p key='volunteer applicant'>We can use all the help we can get!  The first step is learning what is involved in volunteering, where we need, and how you can make a difference. <Link to={'learn/1Xnu06lxx5GB_vn7S8vLW-DCbv048Jf6N'}>Complete the online orientation.</Link>  We can't do this with out you. </p>
+                            ),
+                            link:"learn/1Xnu06lxx5GB_vn7S8vLW-DCbv048Jf6N"
                         },
                         {
                             name:"Ready to Volunteer",
@@ -93,8 +94,9 @@ class AppStatusPage extends React.Component<LinkProps&DispatchProps> {
                             comment:"learn the ins-and-outs",
                             icon:'university' as SemanticICONS,
                             show:(
-                                <p  key='dog fosterer applicant'>We have reviewed your application and would really appreciate your help. <Link to="learn/12XrSckITadwi_VhfWuQdr9tEFdeYuINMU7BxeSVHQdU">The next step is orientation.</Link>  Once you complete the orientation. wavier it may take a day to process.</p>
-                            )
+                                <p  key='dog fosterer applicant'>We have reviewed your application and would really appreciate your help. <Link to="learn/1IXKRpTS9fz129Fh2gUp4bksMtw33MMhV">The next step is orientation.</Link>  Once you complete the orientation. wavier it may take a day to process.</p>
+                            ),
+                            link:"learn/1IXKRpTS9fz129Fh2gUp4bksMtw33MMhV"
                         },
                         {
                             name:"Ready to Foster Dogs",

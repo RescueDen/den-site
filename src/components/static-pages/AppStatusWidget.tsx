@@ -2,6 +2,7 @@ import React from "react";
 import {Header, Icon, List, Segment, Step} from "semantic-ui-react";
 import ShelterUser from "../../models/ShelterUser";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
+import {Link} from "react-router-dom";
 
 //Define the expected props
 interface AppStatusProps  {
@@ -19,7 +20,7 @@ interface AppStatus {
     tag?:string;
     show:any;
     icon:SemanticICONS;
-
+    link?:string;
 }
 
 
@@ -41,7 +42,6 @@ const AppStatusWidget = (props:AppStatusProps) => {
             {props.icon}
             <Header.Content>{props.name}</Header.Content>
         </Header>
-
     )
 
     //Store the highest status
@@ -83,7 +83,12 @@ const AppStatusWidget = (props:AppStatusProps) => {
         //     </List.Item>
         // )
         listComponents.push(
-            <Step disabled={!thisActive} active={highestStatus==props.status[i]}>
+            <Step
+                disabled={!thisActive}
+                active={highestStatus==props.status[i]}
+                as={props.status[i].link && Link}
+                to={props.status[i].link}
+            >
                 <Icon name={props.status[i].icon} />
                 <Step.Content>
                     <Step.Title>{props.status[i].name}</Step.Title>

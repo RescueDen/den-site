@@ -140,6 +140,13 @@ class NonShelterAnimalModal extends React.Component<IncomingProps> {
                                 checked={this.state.animal.sex === "M"}
                                 onChange={() => this.updateAnimal({sex:"M"})}
                             />
+                            <Form.Field
+                                control={Radio}
+                                label={"Unknown"}
+                                value={"?"}
+                                checked={this.state.animal.sex === "?"}
+                                onChange={() => this.updateAnimal({sex:"?"})}
+                            />
                         </Form.Group>
                         {/*Age*/}
                         <Form.Field

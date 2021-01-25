@@ -3,8 +3,8 @@ import React from "react";
 import {Button, Dimmer, Form, Header, Icon, Loader, Message, Search, Table} from "semantic-ui-react";
 import {VoucherClient} from "../../models/VoucherClient";
 import {voucherClientService} from "../../services/voucherClient.service";
-import ClientPersonalModal from "./ClientPersonalModal";
 import {SearchProps, SearchResultData} from "semantic-ui-react/dist/commonjs/modules/Search/Search";
+import {EmptyAddress} from "../../models/Address";
 
 interface IncomingProps {
     clientIds:number[];
@@ -67,34 +67,15 @@ class ClientTable extends React.Component<IncomingProps,State> {
         }))
     }
 
-    updatePerson = (client: VoucherClient) => {
-        voucherClientService.updateClient(client).then(
-          updatedClient =>{
-              if(this.props.clientIds.includes(updatedClient.id)){
-                  this.setState({clients: {...this.state.clients, [updatedClient.id]: updatedClient}})
-              }else{
-                  this.props.updateList([...this.props.clientIds, updatedClient.id]);
-              }
-          },
-            errorResponse => {
-                //Dispatch the error
-                try {
-                    this.setState({error: errorResponse.response.data.message});
-                } catch (e) {
-                    this.setState({error: errorResponse.toString()});
-                }
-            }
-        );
-    }
-
     getEmptyPerson = ():VoucherClient =>{
         return {
             id:-1,
-            name:"",
+            firstName:"",
+            lastName: "",
             email:"",
             phone:"",
             group:"",
-            address:"",
+            address:EmptyAddress(),
             notes:""
         }
     }
@@ -112,7 +93,7 @@ class ClientTable extends React.Component<IncomingProps,State> {
                 clients => {
                     let results: SearchResult[] = clients.map(client => {
                         return {
-                            title: client.name,
+                            title: client.firstName + client.lastName,
                             description: client.email,
                             id: client.id
                         }
@@ -132,7 +113,7 @@ class ClientTable extends React.Component<IncomingProps,State> {
 
         return (
             <>
-                <p>Search for existing clients, or create a new entry to share across vouchers.</p>
+                <p>Search for existing clients.</p>
                 <Search
                     loading={this.state.searchLoading}
                     results={this.state.searchResults}
@@ -162,21 +143,21 @@ class ClientTable extends React.Component<IncomingProps,State> {
                                         <Table.Row key={client.id}>
                                             <Table.Cell>
                                                 <Header as='h4'>
-                                                    {client.name}
+                                                    {client.firstName} {client.lastName}
                                                 </Header>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 {client.email}
                                             </Table.Cell>
                                             <Table.Cell>
-                                                <ClientPersonalModal
-                                                    key={client.id}
-                                                    icon='edit'
-                                                    initPerson={client}
-                                                    savePerson={(person: VoucherClient) => {
-                                                        this.updatePerson(person);
-                                                    }}
-                                                />
+                                                {/*<ClientPersonalModal*/}
+                                                {/*    key={client.id}*/}
+                                                {/*    icon='edit'*/}
+                                                {/*    initPerson={client}*/}
+                                                {/*    savePerson={(person: VoucherClient) => {*/}
+                                                {/*        this.updatePerson(person);*/}
+                                                {/*    }}*/}
+                                                {/*/>*/}
 
                                                 <Icon name='delete' size='large' onClick={() => {
                                                     this.deletePerson(client.id)
@@ -203,11 +184,11 @@ class ClientTable extends React.Component<IncomingProps,State> {
                         {this.state.error}
                     </Message>
                 }
-                <ClientPersonalModal
-                    trigger={<Form.Field control={Button} size='tiny' icon='add'>Create New Client</Form.Field>}
-                    initPerson={this.getEmptyPerson()}
-                    savePerson={(person:VoucherClient) => {this.updatePerson(person)}}
-                />
+                {/*<ClientPersonalModal*/}
+                {/*    trigger={<Form.Field control={Button} size='tiny' icon='add'>Create New Client</Form.Field>}*/}
+                {/*    initPerson={this.getEmptyPerson()}*/}
+                {/*    savePerson={(person:VoucherClient) => {this.updatePerson(person)}}*/}
+                {/*/>*/}
         </>
         );
     }

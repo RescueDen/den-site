@@ -1,11 +1,13 @@
+import {Address} from "./Address";
 
 export interface VoucherClient{
     id: number;
-    name:string;
+    firstName:string;
+    lastName:string;
     phone:string;
     group:string;
     email:string;
-    address:string;
+    address: Address;
     notes:string;
 }
 

@@ -166,7 +166,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
     }
 
     findEventListingCategory = (id:string):string|undefined =>{
-        for(let category in this.props.categories){
+        for(let category of this.props.categories){
             const listing = this.props.eventListings[category];
             if (listing){
                 const event = listing.find(id);
@@ -179,7 +179,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
     }
 
     findEvent = (id:string):EventItemData|undefined =>{
-        for(let category in this.props.categories){
+        for(let category of this.props.categories){
             const listing = this.props.eventListings[category];
             if (listing){
                 const event = listing.find(id);
@@ -298,7 +298,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         const colorByEvent:{[event:string]:SemanticCOLORS} = {};
 
         //Now add each group
-        for (let group in this.props.categories) {
+        for (let group of this.props.categories) {
             //If we show this group
             if(!this.props.hideItem[group]) {
                 const eventListingData = this.props.eventListings[group]?.data.items;

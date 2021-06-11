@@ -91,7 +91,7 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
         const colorByEvent:{[event:string]:SemanticCOLORS} = {};
 
         //Now add each group
-        for (let group in this.props.categories ) {
+        for (let group of this.props.categories ) {
             //If we show this group
             const eventListingData = this.props.eventListings[group]?.data.items;
 

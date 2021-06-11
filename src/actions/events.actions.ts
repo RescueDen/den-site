@@ -41,7 +41,6 @@ function getEventListing(category:string): ThunkAction<any, any,any, any> {
                         dispatch(error(errorResponse.toString()));
 
                     }
-
                 }
             );
     };

@@ -17,7 +17,6 @@ interface MyState{
 
 }
 
-
 class CAWSHub extends React.Component<any, MyState> {
     state={code:undefined, error:undefined}
 
@@ -104,7 +103,8 @@ class CAWSHub extends React.Component<any, MyState> {
                                 <div style={{"textAlign":"center"}}>
                                 <Label size='huge'>
                                     <Icon name='lock' />
-                                    {code}
+                                    {/*{code}*/}
+                                    3794
                                 </Label>
                                 </div>
 

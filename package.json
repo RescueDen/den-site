@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-oauth/google": "^0.5.0",
     "@react-pdf/renderer": "1.5.4",
     "@types/axios": "^0.14.0",
     "@types/d3": "^5.7.2",
@@ -47,7 +48,6 @@
     "react-draft-wysiwyg": "^1.14.5",
     "react-easy-chart": "^1.0.0",
     "react-facebook-login": "^4.1.1",
-    "react-google-login": "^5.1.20",
     "react-image-gallery": "^1.0.7",
     "react-jsonschema-form-semanticui-fixed": "^1.1.0",
     "react-redux": "^7.2.0",

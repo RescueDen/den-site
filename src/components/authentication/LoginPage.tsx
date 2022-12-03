@@ -11,8 +11,8 @@ import AuthenticationState, {AuthenticationStatus} from "../../state/Authenticat
 import {Dispatch} from "redux";
 import FullPageForm from "./FullPageForm";
 // @ts-ignore
-import GoogleLogin from 'react-google-login';
 import {organizationService} from "../../services/organization.service";
+import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 
 //Define the expected props
 interface IncomingProps{
@@ -48,10 +48,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
     responseGoogle = (response:any) => {
         //See if there is an access token
-        console.log(response.getAuthResponse())
-        if(response.getAuthResponse()){
-            this.props.userActionLoginGoogle(response.getAuthResponse());
-        }
+        this.props.userActionLoginGoogle(response);
     }
 
     //When the user is done with the form add it
@@ -120,17 +117,14 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                 {/*Keep all of the buttons in a group to make it look nice*/}
                 <Button.Group>
                     <Link className="ui blue button" to="/loginpassword">Email & Password</Link>
-                    <GoogleLogin
-                        clientId="127825276100-ts3hhnls34bb0tiekfhf4kpdrn70a3ee.apps.googleusercontent.com"
-                        onSuccess={this.responseGoogle}
-                        onFailure={this.responseGoogle}
-                        render={(renderProps:any) => (
-                            <Button color='google plus' onClick={renderProps.onClick}>
-                                <Icon name='google' /> Login with Gmail
-                            </Button>
-                        )}
-                    />
-
+                    <GoogleOAuthProvider clientId="600827371850-7vvj7b0immtj6pa5sm02fplpgvnhmp8t.apps.googleusercontent.com">
+                        <GoogleLogin
+                            onSuccess={this.responseGoogle}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                        />;
+                    </GoogleOAuthProvider>
                 </Button.Group>
 
                 {/*Add a help button*/}

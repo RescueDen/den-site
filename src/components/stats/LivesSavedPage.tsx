@@ -2,7 +2,7 @@ import React from 'react';
 import {Header, Dropdown, DropdownProps, Responsive, Image} from "semantic-ui-react";
 
 import LivesSavedDisplay from "./LivesSavedDisplay";
-import TableauWidthWrapper from "./TableauWidthWrapper";
+// import TableauWidthWrapper from "./TableauWidthWrapper";
 import BFImage from "../../assets/pictures/bestFriends2025.jpg";
 //Store the hub state
 interface MyState{
@@ -61,7 +61,7 @@ class LivesSavedPage extends React.Component<any, MyState> {
                     year={this.state.year}
                 />
                 <Header size='large' textAlign='center'>CAWS Rescue Progress</Header>
-                <TableauWidthWrapper url={"https://public.tableau.com/views/CAWSRescueStatistics/CAWSRescueStatistics"} />
+                {/*<TableauWidthWrapper url={"https://public.tableau.com/views/CAWSRescueStatistics/CAWSRescueStatistics"} />*/}
                 <Header size='large' textAlign='center'>Utah and USA Rescue Progress</Header>
                 <p>
                     Check out how our community compares to Utah and the rest of the country using the Best Friends' Community Lifesaving Dashboard

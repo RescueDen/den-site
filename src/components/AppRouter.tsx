@@ -27,7 +27,7 @@ class AppRouter extends React.Component{
     render() {
         return (
             <div>
-                {/*Always show the the alerts*/}
+                {/*Always show the alerts*/}
                 <AlertDisplay/>
 
                 {/*Go to different components depending upon the path specified*/}

@@ -138,7 +138,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
      */
     buildNavBarTablet(): ReactNode{
         return (
-            //Wrap the header in vis bility
+            //Wrap the header in visbility
             <Visibility
                 onBottomPassed={this.stickTopMenu}
                 onBottomVisible={this.unStickTopMenu}

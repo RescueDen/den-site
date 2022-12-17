@@ -41,6 +41,7 @@ import VoucherViewer from "../voucher/VoucherViewer";
 import DocumentView from "../content/DocumentView";
 import ColonyList from "../colony/ColonyList";
 import ColonyPage from "../colony/ColonyPage";
+import {success} from "../../actions/alert.actions";
 
 
 //Setup up path props to get the current path
@@ -53,6 +54,8 @@ interface DispatchProps {
     //And the actions that must be done
     toggleFeed: () => any;
 
+    // notify that this is a beta
+    alert:(message: string) => any;
 }
 
 class App extends React.Component<AppProps&DispatchProps> {
@@ -61,7 +64,9 @@ class App extends React.Component<AppProps&DispatchProps> {
      * Gets called once when the page loads
      */
     componentDidMount(){
-
+        if(process.env.REACT_APP_BETA && JSON.parse(process.env.REACT_APP_BETA)){
+            alert("This a beta version of RescueDen.  Please report problems/feedback to support@rescueden.org.");
+        }
     };
 
     //Return the real div
@@ -176,7 +181,8 @@ function mapStateToProps(state:ApplicationState,myProps:AppProps ):AppProps {
 
 function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
     return {
-        toggleFeed:() =>  dispatch(feedActions.toggleFeed())
+        toggleFeed:() =>  dispatch(feedActions.toggleFeed()),
+        alert: (message: string) => dispatch(success(message))
     };
 
 }

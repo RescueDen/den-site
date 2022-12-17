@@ -15,38 +15,38 @@ import {organizationService} from "../../services/organization.service";
 import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 
 //Define the expected props
-interface IncomingProps{
+interface IncomingProps {
     //Define the props we expect
     authentication: AuthenticationState;
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
     userActionLogout: () => any;
-    userEmailLogin: (email:string, organizationId:number) => any;
-    userActionLoginGoogle: (googleToken:any) => any;
+    userEmailLogin: (email: string, organizationId: number) => any;
+    userActionLoginGoogle: (googleToken: any) => any;
 }
 
 //Define the expected props
-interface MyState{
+interface MyState {
     email: string,
     submitted: boolean
 }
 
 
-class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
+class LoginPage extends React.Component<IncomingProps & DispatchProps, MyState> {
     state = {
-        email:'',
+        email: '',
         submitted: false
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.userActionLogout();
     };
 
-    responseGoogle = (response:any) => {
+    responseGoogle = (response: any) => {
         //See if there is an access token
         this.props.userActionLoginGoogle(response);
     }
@@ -57,10 +57,10 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
         e.preventDefault();
 
         //Update the state to say it was submitted
-        this.setState({ submitted: true });
+        this.setState({submitted: true});
 
         //Extract the user name from the local
-        const { email } = this.state;
+        const {email} = this.state;
 
         //Use the action
         if (email) {
@@ -70,39 +70,44 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
 
     render() {
         //If the user has logged in redirect them to root
-        if(this.props.authentication.loggedInStatus === AuthenticationStatus.TRUE){
-            return <Redirect to={{ pathname: '/'}} />;
+        if (this.props.authentication.loggedInStatus === AuthenticationStatus.TRUE) {
+            return <Redirect to={{pathname: '/'}}/>;
         }
 
-        const { email, submitted } = this.state;
+        const {email, submitted} = this.state;
 
         //Determine if we are in an error state and what it is
         let errorState = false;
-        let msg:ReactNode[] = [];
+        let msg: ReactNode[] = [];
 
         //Make sure the user set the password
-        if (submitted && !email){
+        if (submitted && !email) {
             errorState = true;
-            msg.push(<div>Email is required!</div> )
+            msg.push(<div>Email is required!</div>)
         }
 
         return (
             //Setup the page to take up the entire page
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
-                    <Image src={logoImage} />
+                    <Image src={logoImage}/>
                     Log-in to your account
                 </Header>
                 <p>
-                    Welcome to the RescueDen.  Login by getting an link in your email, Den UserName and Password or Google.
+                    Welcome to the RescueDen. Login by getting an link in your email, Den UserName and Password or
+                    Google.
                 </p>
 
                 {/*Now add the required values to the form*/}
                 <Form error={errorState} size='large' onSubmit={e => this.handleSubmit(e)}>
                     {/*Stacked segments*/}
                     <Segment stacked>
-                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left' placeholder='E-mail address' value={email} onChange={(e) => this.setState({email:e.target.value})}/>
-                        <Button disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT || this.props.authentication.oneTimePasswordStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
+                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left'
+                                    placeholder='E-mail address' value={email}
+                                    onChange={(e) => this.setState({email: e.target.value})}/>
+                        <Button
+                            disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT || this.props.authentication.oneTimePasswordStatus == AuthenticationStatus.ATTEMPT}
+                            fluid size='large' primary>
                             send login link to email
                         </Button>
                         <Message error>
@@ -117,7 +122,8 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
                 {/*Keep all of the buttons in a group to make it look nice*/}
                 <Button.Group>
                     <Link className="ui blue button" to="/loginpassword">Email & Password</Link>
-                    <GoogleOAuthProvider clientId="600827371850-7vvj7b0immtj6pa5sm02fplpgvnhmp8t.apps.googleusercontent.com">
+                    <GoogleOAuthProvider
+                        clientId="600827371850-7vvj7b0immtj6pa5sm02fplpgvnhmp8t.apps.googleusercontent.com">
                         <GoogleLogin
                             onSuccess={this.responseGoogle}
                             onError={() => {
@@ -133,7 +139,6 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
             </FullPageForm>
 
 
-
         );
     }
 }
@@ -143,7 +148,7 @@ class LoginPage extends React.Component<IncomingProps&DispatchProps, MyState> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState): IncomingProps {
+function mapStateToProps(state: ApplicationState): IncomingProps {
     return {
         authentication: state.authentication
     };
@@ -152,9 +157,9 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        userEmailLogin:(email:string, organizationId:number) => dispatch(userActions.requestOneTimePassword(email, organizationId)),
-        userActionLogout:() => dispatch(userActions.logout()),
-        userActionLoginGoogle: (googleToken:any) => dispatch(userActions.loginGoogle(googleToken))
+        userEmailLogin: (email: string, organizationId: number) => dispatch(userActions.requestOneTimePassword(email, organizationId)),
+        userActionLogout: () => dispatch(userActions.logout()),
+        userActionLoginGoogle: (googleToken: any) => dispatch(userActions.loginGoogle(googleToken))
     };
 
 }
@@ -162,4 +167,4 @@ function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-    )(LoginPage);
+)(LoginPage);

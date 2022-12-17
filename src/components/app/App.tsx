@@ -65,7 +65,7 @@ class App extends React.Component<AppProps&DispatchProps> {
      */
     componentDidMount(){
         if(process.env.REACT_APP_BETA && JSON.parse(process.env.REACT_APP_BETA)){
-            alert("This a beta version of RescueDen.  Please report problems/feedback to support@rescueden.org.");
+            alert(`This a beta (${process.env.REACT_APP_VERSION}) version of RescueDen.  Please report problems/feedback to support@rescueden.org.`);
         }
     };
 

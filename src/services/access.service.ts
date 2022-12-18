@@ -3,57 +3,53 @@ import {authHeader} from "../utils/auth-header";
 import {CodeResponse} from "../models/Access";
 
 export const accessService = {
-    getCode,
-    downloadLog
+    getCode, downloadLog
 }
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
 
-function getCode(loc:string) : Promise<CodeResponse> {
+function getCode(loc: string): Promise<CodeResponse> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/access/code/${loc}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/access/code/${loc}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const data = <CodeResponse>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const data = <CodeResponse>response.data;
 
-            return data;
-        }
-    );
+        return data;
+    });
 
 
 }
 
-function downloadLog(loc:string) : Promise<Blob> {
+function downloadLog(loc: string): Promise<Blob> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/access/log/${loc}`,  {headers:headers,responseType: 'blob'});
+    const responsePromise = apiServer.get(`/access/log/${loc}`, {headers: headers, responseType: 'blob'});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-           return response.data
-        }
-    );
+    return responsePromise.then(response => {//When the request returns
+        return response.data
+    });
 
 
 }
+
 // /**
 //  * Get the article information
 //  * @param username

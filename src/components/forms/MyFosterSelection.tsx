@@ -13,13 +13,13 @@ import {Species} from "../../models/ShelterAnimal";
 
 //Define the expected props
 interface LinkProps {
-    widgetProps:WidgetProps;
+    widgetProps: WidgetProps;
 
     //Store if we allow multiple
-    allowMultiple:boolean;
+    allowMultiple: boolean;
 
     //Store if we allow multiple
-    species:Species[];
+    species: Species[];
 
 }
 
@@ -31,22 +31,21 @@ interface StateProps {
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
 
     //And the actions that must be done
     updateMyInfo: () => any;
 
     //And the actions that must be done
-    downloadAnimal: (id:number) => any;
+    downloadAnimal: (id: number) => any;
 
 }
-
 
 
 /**
  * This card shows the animal details
  */
-class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchProps> {
+class MyFosterSelection extends React.Component<LinkProps & StateProps & DispatchProps> {
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
@@ -61,34 +60,31 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
      * Get the drop down items
      */
     getFosterItems(): DropdownItemProps[] {
-        return this.props.fosterIds.map(id =>{
+        return this.props.fosterIds.map(id => {
             //Get the information
-            const ani = this.props.cawsAnimalsDb.animals[id];
-
-            return ani;
-        }).filter(ani =>  ani).
-            filter(ani => ani.isSpecies(this.props.species))
-            .map(ani =>{
-            return   {
-                text: ani.data.name,
-                value: ani.getCodeAndName(),
-                image: { avatar: true, src: ani.getImageUrl()},
-            }
+            return this.props.cawsAnimalsDb.animals[id];
+        }).filter(ani => ani).filter(ani => ani.isSpecies(this.props.species))
+            .map(ani => {
+                return {
+                    text: ani.data.name,
+                    value: ani.getCodeAndName(),
+                    image: {avatar: true, src: ani.getImageUrl()},
+                }
 
 
-        })
+            })
 
 
     }
 
     //Add the code to seralize and deseralize the animals
-    combineAsString = (values:any|undefined) =>{
+    combineAsString = (values: any | undefined) => {
 
         //See if it is a array
-        if (values instanceof Array){
+        if (values instanceof Array) {
             //If it is an array
             return values.join(",");
-        }else{
+        } else {
             return values;
         }
 
@@ -96,12 +92,12 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
     }
 
     //Add the code to seralize and deseralize the animals
-    separateString = (value: string|undefined) =>{
+    separateString = (value: string | undefined) => {
 
-        if(value != undefined) {
+        if (value != undefined) {
             //Split the string
             return value.split(",").map(tmp => tmp.trim()).filter(tmp => tmp.length > 0);
-        }else{
+        } else {
             return '';
         }
 
@@ -112,12 +108,10 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
      * @returns {*}
      */
     render() {
-
-        const myFosterItems = this.getFosterItems();
-
-        //For now just render
-        if(this.props.allowMultiple) {
-            return(
+        this.getFosterItems();
+//For now just render
+        if (this.props.allowMultiple) {
+            return (
                 <Dropdown
                     placeholder='Select Foster(s)'
                     fluid
@@ -128,15 +122,15 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
                     options={this.getFosterItems()}
                 />
             )
-        }else{
-            return(
+        } else {
+            return (
                 <Dropdown
                     placeholder='Select Foster'
                     fluid
                     selection
                     multiple={false}
                     onChange={(event, value) => this.props.widgetProps.onChange(value.value)}
-                    value={this.props.widgetProps.value ? this.props.widgetProps.value : '' }
+                    value={this.props.widgetProps.value ? this.props.widgetProps.value : ''}
                     options={this.getFosterItems()}
                 />
             )
@@ -144,30 +138,6 @@ class MyFosterSelection extends React.Component<LinkProps&StateProps&DispatchPro
 
 
     }
-};
-
-/**
- * All of them share the same mapDispatchToProps
- * @param dispatch
- * @param ownProps
- */
-/**
- * Map from the global state to things we need here
- * @param state
- * @returns {{authentication: WebAuthentication}}
- */
-/**
- * Map from the global state to things we need here
- * @param state
- * @returns {{authentication: WebAuthentication}}
- */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps&StateProps {
-    return {
-        ...myProps,
-        fosterIds: (state.authentication.loggedInUser || getEmptyCawsUser()).data.currentFosters,
-        cawsAnimalsDb:state.animals
-
-    };
 }
 
 /**
@@ -175,17 +145,36 @@ function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps&St
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+
+/**
+ * Map from the global state to things we need here
+ * @param state
+ * @param myProps
+ */
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps & StateProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
-        updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser())
+        ...myProps,
+        fosterIds: (state.authentication.loggedInUser || getEmptyCawsUser()).data.currentFosters,
+        cawsAnimalsDb: state.animals
+
+    };
+}
+
+/**
+ * All of them share the same mapDispatchToProps
+ * @param dispatch
+ */
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
+    return {
+        downloadAnimal: (id: number) => dispatch(animalActions.getAnimal(id)),
+        updateMyInfo: () => dispatch(userActions.updateLoggedInUser())
 
     };
 
 }
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(MyFosterSelection);

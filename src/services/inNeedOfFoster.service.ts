@@ -4,14 +4,12 @@ import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/In
 import {ServerResponseStatus} from "../models/ServerStatus";
 
 export const inNeedOfFosterService = {
-    getInNeedOfFosterList,
-    uploadAnimal,
-    removeAnimal
+    getInNeedOfFosterList, uploadAnimal, removeAnimal
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -21,31 +19,29 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getInNeedOfFosterList() : Promise<InNeedOfFoster> {
+function getInNeedOfFosterList(): Promise<InNeedOfFoster> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/inneed/',  {headers:headers});
+    const responsePromise = apiServer.get('/inneed/', {headers: headers});
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const data = <InNeedOfFosterData>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const data = <InNeedOfFosterData>response.data;
 
-            const model = new InNeedOfFoster(data)
+        const model = new InNeedOfFoster(data)
 
-            //Return just the user
-            return model;
-        }
-    );
+        //Return just the user
+        return model;
+    });
 
 
 }
 
-function uploadAnimal(data: NonShelterAnimal, file?: File) : Promise<NonShelterAnimal> {
+function uploadAnimal(data: NonShelterAnimal, file?: File): Promise<NonShelterAnimal> {
 
     //Make a new form data
     let dataInForm = new FormData()
@@ -54,36 +50,34 @@ function uploadAnimal(data: NonShelterAnimal, file?: File) : Promise<NonShelterA
     dataInForm.append("information", data.information)
     dataInForm.append("species", data.species)
 
-    if(file) {
+    if (file) {
         dataInForm.append("image", file)
     }
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Add it the type
     headers['Content-Type'] = 'multipart/form-data';
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post(`/inneed/`, dataInForm,{headers:headers});
+    const responsePromise = apiServer.post(`/inneed/`, dataInForm, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {
-            return  <NonShelterAnimal>response.data;
-        }
-    );
+    return responsePromise.then(response => {
+        return <NonShelterAnimal>response.data;
+    });
 }
 
-function removeAnimal(id:number) : Promise<ServerResponseStatus> {
+function removeAnimal(id: number): Promise<ServerResponseStatus> {
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.delete(`/inneed/${id}`,{headers:headers});
+    const responsePromise = apiServer.delete(`/inneed/${id}`, {headers: headers});
 
-    return responsePromise.then(response =>{
-        return  <ServerResponseStatus>response.data;
+    return responsePromise.then(response => {
+        return <ServerResponseStatus>response.data;
     });
 }

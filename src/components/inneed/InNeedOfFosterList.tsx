@@ -7,13 +7,13 @@ import {inNeedActions} from "../../actions/inNeedFoster.actions";
 import SearchableAnimalListFull from "./SearchableAnimalListFull";
 
 //Define the expected props
-interface IncomingProps  {
+interface IncomingProps {
     //Define the props we expect
-    inNeed:InNeedOfFosterModel
+    inNeed: InNeedOfFosterModel
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
     getInNeedList: () => any;
 
@@ -23,12 +23,12 @@ interface DispatchProps{
 /**
  * This card shows the animal details
  */
-class InNeedOfFosterList extends React.Component<IncomingProps&DispatchProps> {
+class InNeedOfFosterList extends React.Component<IncomingProps & DispatchProps> {
 
     /**
      * Gets called once when the page loads.  Tell the system to download the in need list
      */
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.getInNeedList();
     };
@@ -38,25 +38,23 @@ class InNeedOfFosterList extends React.Component<IncomingProps&DispatchProps> {
      * @returns {*}
      */
     render() {
-        return (
-            <SearchableAnimalListFull
+        return (<SearchableAnimalListFull
                 link="/animal"
                 title={"In Need of Foster"}
                 animalIdList={this.props.inNeed.getAllAnimalsInNeed()}
                 nonCaws={this.props.inNeed.getNonCawsAnimals()}
-                />
-        )
+            />)
     }
-};
+}
 
 /**
  * All of them share the same mapDispatchToProps
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>, ownProps: IncomingProps): DispatchProps {
     return {
-        getInNeedList:() =>  dispatch(inNeedActions.getInNeedOfFoster())
+        getInNeedList: () => dispatch(inNeedActions.getInNeedOfFoster())
 
     };
 
@@ -66,9 +64,8 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToPropsPastFosters(state:ApplicationState): IncomingProps {
+function mapStateToPropsPastFosters(state: ApplicationState): IncomingProps {
 
     return {
         inNeed: state.inNeedFoster.inNeed,
@@ -77,7 +74,4 @@ function mapStateToPropsPastFosters(state:ApplicationState): IncomingProps {
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default connect(
-    mapStateToPropsPastFosters,
-    mapDispatchToProps
-)(InNeedOfFosterList);
+export default connect(mapStateToPropsPastFosters, mapDispatchToProps)(InNeedOfFosterList);

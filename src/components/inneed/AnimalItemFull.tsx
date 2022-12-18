@@ -1,19 +1,18 @@
 import React from 'react';
 
-import {Image, Dimmer, Input, List, Loader, Segment, Card, Item, Button, Icon, Placeholder} from "semantic-ui-react";
+import {Button, Icon, Item, Placeholder} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import ShelterAnimal from "../../models/ShelterAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
 
 
-
 //Define the expected props
-interface MyProps  {
+interface MyProps {
     //Define the props we expect
-    ani:ShelterAnimal;
+    ani: ShelterAnimal;
 
     //add a link to link to
-    link:string;
+    link: string;
 
     //A foster button
     extraButton?: any
@@ -30,27 +29,27 @@ class AnimalItemFull extends React.Component<MyProps> {
      */
     render() {
         //If the animal is undefined return a place holder
-        if(this.props.ani === undefined){
+        if (this.props.ani === undefined) {
             //Return the html
             return (
                 <Item>
                     {/*Give the ani image*/}
                     <Placeholder>
                         <Placeholder.Header image>
-                            <Placeholder.Line />
-                            <Placeholder.Line />
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
                         </Placeholder.Header>
                         <Placeholder.Paragraph>
-                            <Placeholder.Line />
-                            <Placeholder.Line />
-                            <Placeholder.Line />
-                            <Placeholder.Line />
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
                         </Placeholder.Paragraph>
                     </Placeholder>
                 </Item>
             );
 
-        }else {
+        } else {
 
 
             //Return the html
@@ -70,7 +69,7 @@ class AnimalItemFull extends React.Component<MyProps> {
                         <Item.Extra>
                             <Button.Group floated='right'>
                                 {this.props.extraButton}
-                                <Link to={`${this.props.link}/${this.props.ani.data.id}`} >
+                                <Link to={`${this.props.link}/${this.props.ani.data.id}`}>
                                     <Button primary>
                                         Read More
                                         <Icon name='chevron right'/>

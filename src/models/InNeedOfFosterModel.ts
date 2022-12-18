@@ -1,9 +1,9 @@
 import {Species} from "./ShelterAnimal";
 
-export interface InNeedOfFosterData{
+export interface InNeedOfFosterData {
 
     //Store the ident info
-    shelter:number[];
+    shelter: number[];
 
     //Get the non caws
     nonShelter?: NonShelterAnimal[]
@@ -11,15 +11,15 @@ export interface InNeedOfFosterData{
 
 
 //This is a search function for searching animals for now
-export function inSearch(ani: NonShelterAnimal , term:string){
-    return ani.name.toLowerCase().indexOf(term.toLowerCase()) >=0;
+export function inSearch(ani: NonShelterAnimal, term: string) {
+    return ani.name.toLowerCase().indexOf(term.toLowerCase()) >= 0;
 }
 
-export function inSpecies(ani: NonShelterAnimal, searchSpecies: Species[]):boolean {
+export function inSpecies(ani: NonShelterAnimal, searchSpecies: Species[]): boolean {
     const mySpecies = ani.species;
 
-    for(let i =0; i < searchSpecies.length; i++){
-        if(searchSpecies[i].toString() == mySpecies){
+    for (let i = 0; i < searchSpecies.length; i++) {
+        if (searchSpecies[i].toString() == mySpecies) {
             return true
         }
     }
@@ -28,33 +28,33 @@ export function inSpecies(ani: NonShelterAnimal, searchSpecies: Species[]):boole
 }
 
 /**Store the basic information for non shelter animal**/
-export interface  NonShelterAnimal {
+export interface NonShelterAnimal {
     //And the animal id
-    id:number
+    id: number
 
     //Add in the animal information, this is not pulled back later
-    name:string
+    name: string
 
     //If they have a current Location
-    location:string
+    location: string
 
     //And the
-    information:string
+    information: string
 
     //And the species
-    species:Species
+    species: Species
 
     //Store the imgId
-    imgId?:string
+    imgId?: string
 
     //And compute the url
-    imgUrl?:string
+    imgUrl?: string
 
 }
 
-export default class InNeedOfFoster{
+export default class InNeedOfFoster {
     //Set to read only for now
-    readonly data:InNeedOfFosterData;
+    readonly data: InNeedOfFosterData;
 
     //The main constructor
     constructor(data: InNeedOfFosterData) {
@@ -62,23 +62,23 @@ export default class InNeedOfFoster{
     }
 
     //Add a function to get all animals in need
-    public getAllAnimalsInNeed(): number[]{
+    public getAllAnimalsInNeed(): number[] {
         return [...this.data.shelter]
     }
 
     //Add a function to get all animals in need
-    public getNonCawsAnimals(): NonShelterAnimal[]{
-        return this.data.nonShelter? this.data.nonShelter: []
+    public getNonCawsAnimals(): NonShelterAnimal[] {
+        return this.data.nonShelter ? this.data.nonShelter : []
     }
 
-    public addNonShelterAnimalAndCopy(nonShelterAnimal:NonShelterAnimal){
+    public addNonShelterAnimalAndCopy(nonShelterAnimal: NonShelterAnimal) {
         let data = this.data;
         data.nonShelter?.push(nonShelterAnimal)
 
         return new InNeedOfFoster(this.data);
     }
 
-    public removeNonShelterAnimalAndCopy(nonShelterAnimalId:number){
+    public removeNonShelterAnimalAndCopy(nonShelterAnimalId: number) {
         let data = this.data;
         data.nonShelter = this.data.nonShelter?.filter(ani => ani.id != nonShelterAnimalId);
         return new InNeedOfFoster(this.data);

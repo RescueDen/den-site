@@ -1,18 +1,17 @@
-import {PersonData} from "../models/People";
 import {VoucherInfo, VoucherSearch, VoucherSearchResults} from "../models/Voucher";
 
 /**
  * This Holds the global voucher state
  */
 export default interface VoucherState {
-    info?:VoucherInfo;
+    info?: VoucherInfo;
 
     //Store current search
-    currentSearch:VoucherSearch;
+    currentSearch: VoucherSearch;
 
     //And any results
-    results?:VoucherSearchResults;
+    results?: VoucherSearchResults;
 
     //Store if we are currently updating
-    updating:boolean;
+    updating: boolean;
 }

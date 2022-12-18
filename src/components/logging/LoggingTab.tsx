@@ -1,30 +1,30 @@
 import React from 'react';
 
 import {CategoryInfo, LogData, MonthInfo} from "../../models/Logging";
-import {Container, Form, Header, Icon, Responsive, Tab, Table} from "semantic-ui-react";
+import {Header, Icon, Responsive, Tab, Table} from "semantic-ui-react";
 import {formatDate} from "../../utils/date-formater";
-import {BarChart, BarData, LineChart, LineData} from 'react-easy-chart';
+import {BarChart, BarData} from 'react-easy-chart';
 import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
 import LogForm from "./LogForm";
 
 //Define the expected props
 interface Props {
-    catInfo:CategoryInfo;
+    catInfo: CategoryInfo;
     recentLogs?: LogData[];
     timeHistory?: MonthInfo[];
     totalsSum?: number
 
-    removeLog: (id:number) => any
+    removeLog: (id: number) => any
 
-};
+}
 
 
 //Define the expected props
 interface State {
-    plotWidth:number
-    plotHeight:number
+    plotWidth: number
+    plotHeight: number
 
-};
+}
 
 
 //Store the month ab
@@ -36,12 +36,12 @@ const months = ['Jan', "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
  * @constructor
  */
 class LoggingTab extends React.Component<Props, State> {
-    state= {plotWidth:100, plotHeight:100}
+    state = {plotWidth: 100, plotHeight: 100}
 
     //Update the plot size
-    updatePlot = (e:React.SyntheticEvent<HTMLElement>, { width }: ResponsiveOnUpdateData) =>{
+    updatePlot = (e: React.SyntheticEvent<HTMLElement>, {width}: ResponsiveOnUpdateData) => {
 
-        this.setState({plotHeight:width*.4, plotWidth:width*.8})
+        this.setState({plotHeight: width * .4, plotWidth: width * .8})
     }
 
     buildRecentSegment() {
@@ -64,22 +64,24 @@ class LoggingTab extends React.Component<Props, State> {
                     <Table.Body>
                         {/*Add each row*/}
                         {this.props.recentLogs &&
-                        this.props.recentLogs.map(log =>{
-                            return (
-                                <Table.Row>
-                                    <Table.Cell>{this.props.catInfo.types[log.type+""].name}</Table.Cell>
-                                    <Table.Cell>{log.value}</Table.Cell>
-                                    <Table.Cell>{formatDate(log.date)}</Table.Cell>
-                                    <Table.Cell>{log.comments}</Table.Cell>
-                                    <Table.Cell
-                                        onClick = {() => {this.props.removeLog(log.id)}}
-                                    >
-                                        <Icon name='delete'/>
-                                    </Table.Cell>
-                                </Table.Row>
-                            );
+                            this.props.recentLogs.map(log => {
+                                return (
+                                    <Table.Row>
+                                        <Table.Cell>{this.props.catInfo.types[log.type + ""].name}</Table.Cell>
+                                        <Table.Cell>{log.value}</Table.Cell>
+                                        <Table.Cell>{formatDate(log.date)}</Table.Cell>
+                                        <Table.Cell>{log.comments}</Table.Cell>
+                                        <Table.Cell
+                                            onClick={() => {
+                                                this.props.removeLog(log.id)
+                                            }}
+                                        >
+                                            <Icon name='delete'/>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                );
 
-                        })}
+                            })}
                     </Table.Body>
                 </Table>
 
@@ -89,32 +91,31 @@ class LoggingTab extends React.Component<Props, State> {
 
     buildLogForm() {
         return (
-          <div>
-              <Header as='h3'>Log {this.props.catInfo.unit}</Header>
-              <LogForm
-                   catInfo={this.props.catInfo}
-              />
-          </div>
+            <div>
+                <Header as='h3'>Log {this.props.catInfo.unit}</Header>
+                <LogForm
+                    catInfo={this.props.catInfo}
+                />
+            </div>
         );
     }
-
 
 
     /**
      * Look up the data for that months
      **/
-    lookUpMonthValue(mon:number, year:number):number{
-        if (this.props.timeHistory){
-            for (let i = 0; i < this.props.timeHistory.length; i++){
+    lookUpMonthValue(mon: number, year: number): number {
+        if (this.props.timeHistory) {
+            for (let i = 0; i < this.props.timeHistory.length; i++) {
                 //If the year and month match return
-                if(mon == this.props.timeHistory[i].month && year == this.props.timeHistory[i].year){
+                if (mon == this.props.timeHistory[i].month && year == this.props.timeHistory[i].year) {
                     return this.props.timeHistory[i].total
                 }
 
             }
 
             return 0.0;
-        }else{
+        } else {
             return 0.0;
         }
 
@@ -124,7 +125,7 @@ class LoggingTab extends React.Component<Props, State> {
     buildTimeSummary() {
 
         //Only build the summary if we have at least one history
-        if(this.props.timeHistory && this.props.timeHistory.length > 0){
+        if (this.props.timeHistory && this.props.timeHistory.length > 0) {
             //Determine the first year month
             let mon = this.props.timeHistory[0].month;
             let yr = this.props.timeHistory[0].year;
@@ -134,18 +135,18 @@ class LoggingTab extends React.Component<Props, State> {
 
             //While the data is in the past
             const now = new Date();
-            const currentMonth =  now.getMonth()+1;
-            const currentYear =  now.getFullYear();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
 
             //Add all of the children
-            while(mon <= currentMonth || yr < currentYear){
+            while (mon <= currentMonth || yr < currentYear) {
                 //Get the current total
                 const total = this.lookUpMonthValue(mon, yr);
 
                 //Get the month name
-                let name = months[mon-1];
-                if (mon == 1){
-                    name +=  "-" + yr
+                let name = months[mon - 1];
+                if (mon == 1) {
+                    name += "-" + yr
                 }
                 //Store the info
                 data.push(
@@ -156,10 +157,10 @@ class LoggingTab extends React.Component<Props, State> {
                 );
 
                 //Bump up the month
-                mon ++;
+                mon++;
 
                 //If we are into next year fix
-                if(mon > 12){
+                if (mon > 12) {
                     mon = 1
                     yr++;
                 }
@@ -183,8 +184,7 @@ class LoggingTab extends React.Component<Props, State> {
             );
 
 
-
-        }else{
+        } else {
             return undefined
         }
 
@@ -204,7 +204,7 @@ class LoggingTab extends React.Component<Props, State> {
                 <br/>
                 {/*If there are recent logs add them*/}
                 {this.props.recentLogs && this.props.recentLogs.length > 0 &&
-                this.buildRecentSegment()
+                    this.buildRecentSegment()
                 }
 
 

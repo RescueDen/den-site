@@ -3,7 +3,7 @@ import {ServerResponseStatus} from "../models/ServerStatus";
 import ShelterUser, {ShelterUserData} from "../models/ShelterUser";
 import {authHeader} from "../utils/auth-header";
 import Permissions, {PermissionsData} from "../models/Permissions";
-import {UserPreferences, SettingGroup} from "../models/UserPreferences";
+import {SettingGroup, UserPreferences} from "../models/UserPreferences";
 import {organizationService} from "./organization.service"
 
 export const userService = {
@@ -25,8 +25,8 @@ export const userService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -36,14 +36,17 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function login(email:string, password:string, organizationId: number) : Promise<ShelterUser> {
+function login(email: string, password: string, organizationId: number): Promise<ShelterUser> {
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post('/users/login', { email: email, password: password, organizationId:organizationId });
+    const responsePromise = apiServer.post('/users/login', {
+        email: email,
+        password: password,
+        organizationId: organizationId
+    });
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const userData = <ShelterUserData>response.data;
 
@@ -65,14 +68,13 @@ function login(email:string, password:string, organizationId: number) : Promise<
  * @param password
  * @returns
  */
-function loginFacebook(facebookToken:any) : Promise<ShelterUser> {
+function loginFacebook(facebookToken: any): Promise<ShelterUser> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/login/facebook', facebookToken);
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const userData = <ShelterUserData>response.data;
 
@@ -96,7 +98,7 @@ function loginFacebook(facebookToken:any) : Promise<ShelterUser> {
  * @param password
  * @returns
  */
-function loginGoogle(googleToken:any) : Promise<ShelterUser> {
+function loginGoogle(googleToken: any): Promise<ShelterUser> {
 
     const token = {
         token: googleToken,
@@ -107,8 +109,7 @@ function loginGoogle(googleToken:any) : Promise<ShelterUser> {
     const responsePromise = apiServer.post('/users/login/google', token);
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const userData = <ShelterUserData>response.data;
 
@@ -132,18 +133,17 @@ function loginGoogle(googleToken:any) : Promise<ShelterUser> {
  * @param password
  * @returns
  */
-function updateLoggedInUser() : Promise<ShelterUser> {
+function updateLoggedInUser(): Promise<ShelterUser> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/users/',  {headers:headers});
+    const responsePromise = apiServer.get('/users/', {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const userData = <ShelterUserData>response.data;
 
@@ -164,18 +164,17 @@ function updateLoggedInUser() : Promise<ShelterUser> {
  * @param password
  * @returns
  */
-function getLoggedInUserPermissions() : Promise<Permissions> {
+function getLoggedInUserPermissions(): Promise<Permissions> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/users/permissions',  {headers:headers});
+    const responsePromise = apiServer.get('/users/permissions', {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const permData = <PermissionsData>response.data;
 
@@ -195,18 +194,17 @@ function getLoggedInUserPermissions() : Promise<Permissions> {
 }
 
 
-function getLoggedInUserPreferences() : Promise<UserPreferences> {
+function getLoggedInUserPreferences(): Promise<UserPreferences> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/users/preferences',  {headers:headers});
+    const responsePromise = apiServer.get('/users/preferences', {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const prefData = <UserPreferences>response.data;
 
@@ -221,17 +219,16 @@ function getLoggedInUserPreferences() : Promise<UserPreferences> {
 
 }
 
-function setLoggedInUserPreferences(setting :SettingGroup) : Promise<UserPreferences> {
+function setLoggedInUserPreferences(setting: SettingGroup): Promise<UserPreferences> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post('/users/preferences',setting,  {headers:headers});
+    const responsePromise = apiServer.post('/users/preferences', setting, {headers: headers});
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const prefData = <UserPreferences>response.data;
 
@@ -253,22 +250,22 @@ function logout() {
     localStorage.removeItem('currentPermissions');
 }
 
-export interface RegisterUserData{
-    email:string;
-    password?:string;
-    organizationId:number;
+export interface RegisterUserData {
+    email: string;
+    password?: string;
+    organizationId: number;
 }
 
 /**
  * This function add a new user to the service
  */
-function registerNewUser(user: RegisterUserData): Promise<ServerResponseStatus>{
+function registerNewUser(user: RegisterUserData): Promise<ServerResponseStatus> {
     //Now make a post request and get a promise back
     const responsePromise = apiServer.post('/users/new', user);
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>{
-        return  <ServerResponseStatus>response.data;
+    return responsePromise.then(response => {
+        return <ServerResponseStatus>response.data;
     });
 
 
@@ -277,8 +274,8 @@ function registerNewUser(user: RegisterUserData): Promise<ServerResponseStatus>{
 /**
  * This function add a new user to the service
  */
-function forcePasswordChange(email:string, reset_token:string, password:string): Promise<ServerResponseStatus>{
-    const sendData:any ={
+function forcePasswordChange(email: string, reset_token: string, password: string): Promise<ServerResponseStatus> {
+    const sendData: any = {
         email,
         password,
         reset_token,
@@ -287,27 +284,32 @@ function forcePasswordChange(email:string, reset_token:string, password:string):
     const responsePromise = apiServer.post('/users/password/reset', sendData);
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>{
-        return  <ServerResponseStatus>response.data;
+    return responsePromise.then(response => {
+        return <ServerResponseStatus>response.data;
     });
 
 
 }
 
-function requestOneTimePassword(email: string, organizationId: number): Promise<ServerResponseStatus>{
+function requestOneTimePassword(email: string, organizationId: number): Promise<ServerResponseStatus> {
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/users/onetimelogin`,{params:{email:email, organizationId:organizationId}});
+    const responsePromise = apiServer.get(`/users/onetimelogin`, {
+        params: {
+            email: email,
+            organizationId: organizationId
+        }
+    });
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>{
-        return  <ServerResponseStatus>response.data;
+    return responsePromise.then(response => {
+        return <ServerResponseStatus>response.data;
     });
 }
 
-function loginWithOneTimePassword(email: string, token:string, organizationId: number): Promise<ShelterUser>{
+function loginWithOneTimePassword(email: string, token: string, organizationId: number): Promise<ShelterUser> {
     //Define a little object
-    const sendData:any = {
-        email:email,
+    const sendData: any = {
+        email: email,
         login_token: token,
         organizationId: organizationId,
     }
@@ -315,8 +317,7 @@ function loginWithOneTimePassword(email: string, token:string, organizationId: n
     const responsePromise = apiServer.post('/users/onetimelogin', sendData);
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const userData = <ShelterUserData>response.data;
 
@@ -335,26 +336,26 @@ function loginWithOneTimePassword(email: string, token:string, organizationId: n
 /**
  * This function add a new user to the service
  */
-function requestActivationToken(email: string): Promise<ServerResponseStatus>{
+function requestActivationToken(email: string): Promise<ServerResponseStatus> {
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/users/activate`,{params:{email:email}});
+    const responsePromise = apiServer.get(`/users/activate`, {params: {email: email}});
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>{
-        return  <ServerResponseStatus>response.data;
+    return responsePromise.then(response => {
+        return <ServerResponseStatus>response.data;
     });
 }
 
 /**
  * This function add a new user to the service
  */
-function requestEmailReset(email: string): Promise<ServerResponseStatus>{
+function requestEmailReset(email: string): Promise<ServerResponseStatus> {
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/users/password/reset`,{params:{email:email}});
+    const responsePromise = apiServer.get(`/users/password/reset`, {params: {email: email}});
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>{
-        return  <ServerResponseStatus>response.data;
+    return responsePromise.then(response => {
+        return <ServerResponseStatus>response.data;
     });
 
 
@@ -364,11 +365,11 @@ function requestEmailReset(email: string): Promise<ServerResponseStatus>{
 /**
  * This function add a new user to the service
  */
-function activateUser(email:string, activationToken:string): Promise<ServerResponseStatus>{
+function activateUser(email: string, activationToken: string): Promise<ServerResponseStatus> {
 
     //Define a little object
-    const sendData:any = {
-        email:email,
+    const sendData: any = {
+        email: email,
         activation_token: activationToken
     }
 
@@ -376,8 +377,7 @@ function activateUser(email:string, activationToken:string): Promise<ServerRespo
     const responsePromise = apiServer.post('/users/activate', sendData);
 
     //Now convert it to a serverResponse
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const data = <ServerResponseStatus>response.data;
 

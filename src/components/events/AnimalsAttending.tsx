@@ -6,27 +6,27 @@ import {animalService} from "../../services/animal.service";
 import SearchableAnimalListCompact from "../animal/SearchableAnimalListCompact";
 
 //Define the expected props
-interface LinkProps  {
+interface LinkProps {
     publicColumns?: { [id: string]: any[]; }
 }
 
 //Define the expected props
-interface MyState  {
-    animals:number[];
-    error?:string;
+interface MyState {
+    animals: number[];
+    error?: string;
 }
 
 /**
  * Show the details of a single up coming event
  */
-class AnimalsAttending extends React.Component<LinkProps,MyState> {
-    state={animals:[] as number[], error:undefined};
+class AnimalsAttending extends React.Component<LinkProps, MyState> {
+    state = {animals: [] as number[], error: undefined};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
     componentDidMount() {
-       this.updateIdFromShelterCodes()
+        this.updateIdFromShelterCodes()
 
     };
 
@@ -34,7 +34,7 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
      * Check to see if the props changed
      * @param prevProps
      */
-    componentDidUpdate(prevProps:LinkProps) {
+    componentDidUpdate(prevProps: LinkProps) {
         // Typical usage (don't forget to compare props):
         if (JSON.stringify(this.props.publicColumns) !== JSON.stringify(prevProps.publicColumns)) {
             this.updateIdFromShelterCodes();
@@ -42,7 +42,7 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
     }
 
     //Update the id state from shelter code
-    updateIdFromShelterCodes = () =>{
+    updateIdFromShelterCodes = () => {
         //Build the list of shelter codes
         let shelterCodes = [] as string[];
 
@@ -59,15 +59,13 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
         }
 
         //Get the ides from the shelter coes
-        animalService.getAnimalsFromCodes(shelterCodes).then(
-            //If successful html will be returned
+        animalService.getAnimalsFromCodes(shelterCodes).then(//If successful html will be returned
             list => {
                 //Update the state
                 this.setState({animals: list});
 
 
-            },
-            //If there was an error, show to the user
+            }, //If there was an error, show to the user
             errorResponse => {
                 //Dispatch the error
                 try {
@@ -77,8 +75,7 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
 
                 }
 
-            }
-        );
+            });
 
     }
 
@@ -88,9 +85,8 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
      */
     render() {
         //Return the
-        if(this.state.animals.length > 0) {
-            return (
-                <Segment>
+        if (this.state.animals.length > 0) {
+            return (<Segment>
                     <SearchableAnimalListCompact aniLink="/animal" title="Other Animals Attending"
                                                  animalIdList={this.state.animals}/>
                     <p>{this.state.error}</p>
@@ -98,10 +94,10 @@ class AnimalsAttending extends React.Component<LinkProps,MyState> {
 
 
             );
-        }else{
+        } else {
             return null
         }
     }
-};
+}
 
 export default AnimalsAttending;

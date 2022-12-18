@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {FormItemData} from "../../models/FormListing";
 
 import Form, {Widget} from "react-jsonschema-form-semanticui-fixed";
-import {FormSubmision} from "../../models/FormSubmision";
+import {FormSubmission} from "../../models/FormSubmission";
 import ApplicationState from "../../state/ApplicationState";
 import {formsService} from "../../services/forms.service";
 import {Dimmer, Loader, Segment} from "semantic-ui-react";
@@ -13,7 +13,7 @@ import {extractMessageFromPossibleServerResponseStatus} from "../../models/Serve
 import ShelterUser from "../../models/ShelterUser";
 import customWidgets from "./CustomWidgets";
 
-interface MyProps{
+interface MyProps {
     category: string;
 }
 
@@ -28,68 +28,58 @@ interface LinkProps {
 }
 
 
-interface State{
+interface State {
     //And the actions that must be done
     submitting: boolean
 
 }
 
 
-
 /**
  * This card shows the animal details
  */
-class FormViewer extends React.Component<MyProps&LinkProps, State> {
-    state={submitting:false}
+class FormViewer extends React.Component<MyProps & LinkProps, State> {
+    state = {submitting: false}
 
     //Submit the form
-    onSubmit = (form:any) => {
+    onSubmit = (form: any) => {
 
         //Set the state for submitting
-        this.setState({submitting:true});
+        this.setState({submitting: true});
 
         //Build a form submission
-        const formSub: FormSubmision = {
-            id: this.props.formData.id,
-            submission: form
+        const formSub: FormSubmission = {
+            id: this.props.formData.id, submission: form
         }
 
         //Now send it
-        formsService.submitForm(this.props.category, formSub).then(
-            data =>{
+        formsService.submitForm(this.props.category, formSub).then(data => {
+            //Update the state
+            this.setState({submitting: false});
+
+            if (data.status) {
                 //Update the state
-                this.setState({submitting:false});
+                alert(this.props.formData.metadata.title + " form has been successfully submitted.");
 
-                if(data.status){
-                    //Update the state
-                    alert(this.props.formData.metadata.title + " form has been successfully submitted.");
-
-                }else{
-                    //Could not submit
-                    alert("Could not submit form: " + data.message);
-
-                }
-
-
-            },
-            errorResponse =>{
-                //Update the state
-                this.setState({submitting:false});
-
-                //Get the message
-                const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
-
-                //Else it failed
-                alert("Could not submit form: " + message);
+            } else {
+                //Could not submit
+                alert("Could not submit form: " + data.message);
 
             }
 
 
+        }, errorResponse => {
+            //Update the state
+            this.setState({submitting: false});
 
-        )
+            //Get the message
+            const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
+
+            //Else it failed
+            alert("Could not submit form: " + message);
+
+        })
     };
-
-
 
 
     /**
@@ -99,10 +89,10 @@ class FormViewer extends React.Component<MyProps&LinkProps, State> {
     render() {
 
         //Merge the widgets to gether
-        let widgets=customWidgets;
+        let widgets = customWidgets;
 
         //If there are other widgets add them
-        if(this.props.formWidgets){
+        if (this.props.formWidgets) {
             widgets = {...widgets, ...this.props.formWidgets}
         }
 
@@ -114,9 +104,9 @@ class FormViewer extends React.Component<MyProps&LinkProps, State> {
         const formData: { [id: string]: any; } = {};
 
         //If the user is specified set them
-        if(this.props.user){
-            formData["personEmail"]  = this.props.user.data.email;
-            formData["personId"]  = this.props.user.getCodeAndName();
+        if (this.props.user) {
+            formData["personEmail"] = this.props.user.data.email;
+            formData["personId"] = this.props.user.getCodeAndName();
 
             //Make a hidden
             const hidden = {"ui:widget": "hidden"};
@@ -129,8 +119,7 @@ class FormViewer extends React.Component<MyProps&LinkProps, State> {
 
 
         //For now just render
-        return(
-            <Segment>
+        return (<Segment>
                 <Dimmer active={this.state.submitting} inverted>
                     <Loader inverted>Loading</Loader>
                 </Dimmer>
@@ -149,23 +138,20 @@ class FormViewer extends React.Component<MyProps&LinkProps, State> {
         )
 
     }
-};
+}
 
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param incoming
  */
-function mapStateToProps(state:ApplicationState, incoming:LinkProps):LinkProps {
+function mapStateToProps(state: ApplicationState, incoming: LinkProps): LinkProps {
     return {
-        ...incoming,
-        user:state.authentication.loggedInUser
+        ...incoming, user: state.authentication.loggedInUser
     };
 }
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
-    mapStateToProps,
-)(FormViewer);
+export default connect(mapStateToProps,)(FormViewer);
 

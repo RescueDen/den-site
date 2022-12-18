@@ -1,23 +1,23 @@
 import React from 'react';
-import ShelterAnimal, {Species} from "../../models/ShelterAnimal";
-import {Text, View, Image, StyleSheet} from "@react-pdf/renderer";
+import ShelterAnimal from "../../models/ShelterAnimal";
+import {Image, StyleSheet, Text, View} from "@react-pdf/renderer";
 import facebookIcon from "../../assets/kc/facebookClear.png";
 import instagramIcon from "../../assets/kc/instagramClear.png";
 import mailIcon from "../../assets/kc/mailIcon.png";
 import {kcstyles} from "./KCBuilder";
 
 //Define the expected props
-interface Props{
+interface Props {
     //Define the props we expect
     aniData: ShelterAnimal;
-    iconSize:string;
-    fontSize:string;
-    height:string;
-    qrData?:string;
+    iconSize: string;
+    fontSize: string;
+    height: string;
+    qrData?: string;
 }
 
 
-const Footer = (props:Props) => {
+const Footer = (props: Props) => {
 
 
     const footerStyles = StyleSheet.create({
@@ -33,13 +33,11 @@ const Footer = (props:Props) => {
 
 
     //Build the footer text
-    const footer = [kcstyles.footerText,{fontSize: props.fontSize} ]
-
-
+    const footer = [kcstyles.footerText, {fontSize: props.fontSize}]
 
 
     return (
-        <View style={[kcstyles.footerSection,{height:props.height}]}>
+        <View style={[kcstyles.footerSection, {height: props.height}]}>
             <View style={footerStyles.footerGroup}>
                 <Image style={footerStyles.footerImg} src={facebookIcon}/>
                 <Text style={footer}>@caws.org</Text>

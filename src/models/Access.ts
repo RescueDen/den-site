@@ -1,11 +1,10 @@
-
 /**
  * Get the code location for something
  */
-export interface CodeResponse{
+export interface CodeResponse {
 
-    readonly location:string;
-    readonly code:string;
+    readonly location: string;
+    readonly code: string;
 
 }
 

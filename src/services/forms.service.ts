@@ -1,8 +1,7 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import FormListing, {FormItemData, FormListingData} from "../models/FormListing";
-import {FormSubmision} from "../models/FormSubmision";
-import {ServerResponse} from "http";
+import FormListing, {FormListingData} from "../models/FormListing";
+import {FormSubmission} from "../models/FormSubmission";
 import {ServerResponseStatus} from "../models/ServerStatus";
 
 export const formsService = {
@@ -11,8 +10,8 @@ export const formsService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -22,18 +21,17 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getFormsSummary(category:string) : Promise<FormListing> {
+function getFormsSummary(category: string): Promise<FormListing> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/forms/${category}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/forms/${category}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const data = <FormListingData>response.data;
 
@@ -47,23 +45,23 @@ function getFormsSummary(category:string) : Promise<FormListing> {
 
 
 }
+
 /**
  * Get the info summary
  * @param username
  * @param password
  * @returns
  */
-function submitForm(category:string, sub :FormSubmision) : Promise<ServerResponseStatus> {
+function submitForm(category: string, sub: FormSubmission): Promise<ServerResponseStatus> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post(`/forms/${category}`,  sub, {headers:headers});
+    const responsePromise = apiServer.post(`/forms/${category}`, sub, {headers: headers});
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const data = <ServerResponseStatus>response.data;
 

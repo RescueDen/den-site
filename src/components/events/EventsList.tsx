@@ -16,52 +16,38 @@ import {CawsEvent} from "./EventsSelector";
 //Define the expected props
 interface LinkProps {
     //Define the props we expect
-    eventListings: { [category: string]: EventListing|undefined; }
-    categories:string[]
+    eventListings: { [category: string]: EventListing | undefined; }
+    categories: string[]
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    getEventListing: (category:string) => any;
+    getEventListing: (category: string) => any;
 }
 
 /**
  * Show all of the upcoming events
  */
-class EventsList extends React.Component<DispatchProps&LinkProps> {
-    constructor(props:DispatchProps&LinkProps){
+class EventsList extends React.Component<DispatchProps & LinkProps> {
+    constructor(props: DispatchProps & LinkProps) {
         super(props)
     }
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         this.props.categories.forEach(cat => this.props.getEventListing(cat));
     };
-
-    /**
-     * Event selected
-     */
-    getEventStyle(event:CawsEvent) :{ className?: string, style?: React.CSSProperties }{
-        const style = {
-            backgroundColor: this.getColor(event.group),
-        };
-
-        return {
-            style
-        };
-    }
-
     /**
      * Get color
      */
-    getColor(group:string):SemanticCOLORS{
+    getColor(group: string): SemanticCOLORS {
         //Get the index of the group
         const groupIndex = this.props.categories.indexOf(group);
 
         //Now get the color
-        switch(groupIndex){
+        switch (groupIndex) {
             case 0:
                 return 'pink';
             case 1:
@@ -83,31 +69,30 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
      */
     render() {
         //Now get the events to show
-        const events:CawsEvent[] = [];
+        const events: CawsEvent[] = [];
 
         //Also bin by the date
-        const eventsByDate:{[date:string]:EventItemData[]} = {};
+        const eventsByDate: { [date: string]: EventItemData[] } = {};
 
-        const colorByEvent:{[event:string]:SemanticCOLORS} = {};
+        const colorByEvent: { [event: string]: SemanticCOLORS } = {};
 
         //Now add each group
-        for (let group of this.props.categories ) {
+        for (let group of this.props.categories) {
             //If we show this group
             const eventListingData = this.props.eventListings[group]?.data.items;
 
             if (eventListingData) {
                 //Add of all the events
                 events.push(...eventListingData.map(event => {
-                        return {
-                            start: event.date ? new Date(event.date) : undefined,
-                            end: event.date ? new Date(event.date) : undefined,
-                            title: event.name,
-                            id: event.id,
-                            group: group,
-                            allDay: true
-                        };
-                    })
-                );
+                    return {
+                        start: event.date ? new Date(event.date) : undefined,
+                        end: event.date ? new Date(event.date) : undefined,
+                        title: event.name,
+                        id: event.id,
+                        group: group,
+                        allDay: true
+                    };
+                }));
 
                 //Also bin the data by date
                 eventListingData.map(event => {
@@ -138,35 +123,28 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
         yesterday.setDate(yesterday.getDate() - 1);
 
         //Now render each date range
-        const listOfEventsComponent = (
-            <List key='list of events'>
+        const listOfEventsComponent = (<List key='list of events'>
                 {dateKeys.filter(date => {
-                   const testDate = new Date(date);
-                   //Must be in the future or current
+                    const testDate = new Date(date);
+                    //Must be in the future or current
                     return testDate.valueOf() > yesterday.valueOf();
 
                 }).map(date => {
-                    return (
-                        <List.Item key={date}>
+                    return (<List.Item key={date}>
                             <Icon size='large' name='checked calendar'/>
                             <List.Content>
                                 {/*See if there is a date*/}
-                                {(new Date(date)).valueOf() > 0 &&
-                                <List.Header as='h3'>{date}</List.Header>
-                                }
+                                {(new Date(date)).valueOf() > 0 && <List.Header as='h3'>{date}</List.Header>}
                                 <List.Description>
                                     {/*Add a sub list*/}
                                     <List>
                                         {eventsByDate[date].map(event => {
-                                            return (
-                                                <List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
+                                            return (<List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
                                                     <List.Icon name='circle'
                                                                color={colorByEvent[event.id]}/>
                                                     <List.Content>{event.name}</List.Content>
-                                                </List.Item>
-                                            );
-                                        })
-                                        }
+                                                </List.Item>);
+                                        })}
                                     </List>
                                 </List.Description>
                             </List.Content>
@@ -174,16 +152,13 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
 
 
                     );
-                })
-                }
+                })}
 
-            </List>
-        );
+            </List>);
 
         //Start rendering
-        return (
-            <Segment>
-                <Header as="h2" > Upcoming Events </Header>
+        return (<Segment>
+                <Header as="h2"> Upcoming Events </Header>
                 <p>Sign your foster up or RSVP for an adoption event</p>
                 {listOfEventsComponent}
             </Segment>
@@ -191,9 +166,7 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
         );
 
     }
-};
-
-
+}
 
 
 /**
@@ -201,36 +174,32 @@ class EventsList extends React.Component<DispatchProps&LinkProps> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState): LinkProps {
+function mapStateToProps(state: ApplicationState): LinkProps {
     const categories: string[] = [];
-    if (state.authentication.permissions?.allowed("get_dog_events")){
+    if (state.authentication.permissions?.allowed("get_dog_events")) {
         categories.push("dogs")
     }
-    if (state.authentication.permissions?.allowed("get_volunteer_events")){
+    if (state.authentication.permissions?.allowed("get_volunteer_events")) {
         categories.push("volunteer")
     }
-    const eventListings: { [category :string]: EventListing|undefined; } = { }
+    const eventListings: { [category: string]: EventListing | undefined; } = {}
 
-    categories.forEach(category =>{
+    categories.forEach(category => {
         eventListings[category] = state.events.eventsSummary[category];
     })
 
     return {
-        categories,
-        eventListings
+        categories, eventListings
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        getEventListing:(category) =>  dispatch(eventsActions.getEventListing(category)),
+        getEventListing: (category) => dispatch(eventsActions.getEventListing(category)),
     };
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EventsList);
+export default connect(mapStateToProps, mapDispatchToProps)(EventsList);
 

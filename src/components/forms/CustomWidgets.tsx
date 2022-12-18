@@ -9,14 +9,12 @@ import React from "react";
  * @param props
  * @constructor
  */
-const dogIdWidget = (props:WidgetProps) => {
-    return (
-        <MyFosterSelection
-            allowMultiple={false}
-            species={[Species.dog] as Species[]}
-            widgetProps={props}
-        />
-    );
+const dogIdWidget = (props: WidgetProps) => {
+    return (<MyFosterSelection
+        allowMultiple={false}
+        species={[Species.dog] as Species[]}
+        widgetProps={props}
+    />);
 };
 
 /**
@@ -24,14 +22,12 @@ const dogIdWidget = (props:WidgetProps) => {
  * @param props
  * @constructor
  */
-const catIdWidget = (props:WidgetProps) => {
-    return (
-        <MyFosterSelection
-            allowMultiple={true}
-            species={[Species.cat] as Species[]}
-            widgetProps={props}
-        />
-    );
+const catIdWidget = (props: WidgetProps) => {
+    return (<MyFosterSelection
+        allowMultiple={true}
+        species={[Species.cat] as Species[]}
+        widgetProps={props}
+    />);
 };
 
 /**
@@ -39,22 +35,18 @@ const catIdWidget = (props:WidgetProps) => {
  * @param props
  * @constructor
  */
-const animalIdWidget = (props:WidgetProps) => {
-    return (
-        <MyFosterSelection
-            allowMultiple={false}
-            species={[Species.cat, Species.dog] as Species[]}
-            widgetProps={props}
-        />
-    );
+const animalIdWidget = (props: WidgetProps) => {
+    return (<MyFosterSelection
+        allowMultiple={false}
+        species={[Species.cat, Species.dog] as Species[]}
+        widgetProps={props}
+    />);
 };
 
 
 //Define the list of custom widgets
-const customWidgets:{ [name: string]: Widget } =  {
-    "animalIdWidget": animalIdWidget,
-    "dogIdWidget": dogIdWidget,
-    "catIdWidget": catIdWidget
+const customWidgets: { [name: string]: Widget } = {
+    "animalIdWidget": animalIdWidget, "dogIdWidget": dogIdWidget, "catIdWidget": catIdWidget
 }
 
 

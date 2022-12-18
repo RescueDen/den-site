@@ -23,86 +23,86 @@ import {successAutoDismiss} from "../../actions/alert.actions";
 const localizer = momentLocalizer(moment)
 
 //Define the expected props
-interface LinkProps  extends RouteComponentProps<any> {
+interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    eventListings: { [category: string]: EventListing|undefined; }
-    eventId?:string;
+    eventListings: { [category: string]: EventListing | undefined; }
+    eventId?: string;
 
     //show the display preferences
-    hideItem:{[id: string]: boolean}
+    hideItem: { [id: string]: boolean }
 
-    categories:string[]
+    categories: string[]
 }
 
 //Define the expected props
 interface State {
     //Define the props we expect
     //Define the cal width
-    calHeight:number;
+    calHeight: number;
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    getEventListing: (category:string) => any;
-    toggleEventGroup: (group:string) => any;
-    successAutoDismiss:(msg:string, time:number) => any;
+    getEventListing: (category: string) => any;
+    toggleEventGroup: (group: string) => any;
+    successAutoDismiss: (msg: string, time: number) => any;
 }
 
-export interface CawsEvent extends Event{
-    group:string;
+export interface CawsEvent extends Event {
+    group: string;
     start?: Date;
     end?: Date;
-    title:string;
-    id:string;
+    title: string;
+    id: string;
 }
 
 /**
  * Show all of the upcoming events
  */
-class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
-    state ={calHeight:100}
+class EventsSelector extends React.Component<DispatchProps & LinkProps, State> {
+    state = {calHeight: 100}
 
-    constructor(props:DispatchProps&LinkProps){
+    constructor(props: DispatchProps & LinkProps) {
         super(props)
     }
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         this.props.categories.forEach(cat => this.props.getEventListing(cat));
     };
 
     /**
      * Update the cal width
      */
-    updateCalHeight(currentWidth:number){
+    updateCalHeight(currentWidth: number) {
 
         //Get the max mobile width
         const mobileWidth = Responsive.onlyMobile.maxWidth || 100;
 
         //If we are on mobile double the height
-        if(currentWidth < mobileWidth){
+        if (currentWidth < mobileWidth) {
             //Now compute the height
-            const height = currentWidth*1;
+            const height = currentWidth;
 
             //Update state
-            this.setState({calHeight:height});
+            this.setState({calHeight: height});
 
-        }else{
+        } else {
             //Now compute the height
-            const height = currentWidth*0.3;
+            const height = currentWidth * 0.3;
 
             //Update state
-            this.setState({calHeight:height});
+            this.setState({calHeight: height});
         }
     }
 
     /**
      * Event selected
      */
-    onEventSelect(eventId:string){
+    onEventSelect(eventId: string) {
         //Reroute to the event
         this.props.history.push(`/events/${eventId}`)
     }
@@ -110,7 +110,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
     /**
      * Event selected
      */
-    getEventStyle(event:CawsEvent) :{ className?: string, style?: React.CSSProperties }{
+    getEventStyle(event: CawsEvent): { className?: string, style?: React.CSSProperties } {
         const style = {
             backgroundColor: this.getColor(event.group),
         };
@@ -122,12 +122,12 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
     /**
      * Get color
      */
-    getColor(group:string):SemanticCOLORS{
+    getColor(group: string): SemanticCOLORS {
         //Get the index of the group
         const groupIndex = this.props.categories.indexOf(group);
 
         //Now get the color
-        switch(groupIndex){
+        switch (groupIndex) {
             case 0:
                 return 'pink';
             case 1:
@@ -148,14 +148,14 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         //Extract the hide item
         const hideCals = this.props.hideItem;
 
-        return this.props.categories.map(key =>{
+        return this.props.categories.map(key => {
             //Check to see if this group is active
             const groupActive = !hideCals[key];
 
             //Now make the button
             return <Button
                 key={key}
-                color={groupActive? this.getColor(key): undefined }
+                color={groupActive ? this.getColor(key) : undefined}
                 onClick={() => {
                     this.props.toggleEventGroup(key);
                 }}
@@ -165,12 +165,12 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         });
     }
 
-    findEventListingCategory = (id:string):string|undefined =>{
-        for(let category of this.props.categories){
+    findEventListingCategory = (id: string): string | undefined => {
+        for (let category of this.props.categories) {
             const listing = this.props.eventListings[category];
-            if (listing){
+            if (listing) {
                 const event = listing.find(id);
-                if (event){
+                if (event) {
                     return category
                 }
             }
@@ -178,12 +178,12 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         return undefined;
     }
 
-    findEvent = (id:string):EventItemData|undefined =>{
-        for(let category of this.props.categories){
+    findEvent = (id: string): EventItemData | undefined => {
+        for (let category of this.props.categories) {
             const listing = this.props.eventListings[category];
-            if (listing){
+            if (listing) {
                 const event = listing.find(id);
-                if (event){
+                if (event) {
                     return event
                 }
             }
@@ -227,26 +227,22 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         // }
 
         //If a event id was specifed return it
-        if(this.props.eventId){
+        if (this.props.eventId) {
             //Make sure it is still available
             const event = this.findEvent(this.props.eventId);
             const category = this.findEventListingCategory(this.props.eventId);
-            if(event && category){
-                return (
-                  <EventViewer
-                      key={this.props.eventId}
-                      eventInfo={event}
-                      successAutoDismiss={this.props.successAutoDismiss}
-                      category={category}
-                  />
-                );
+            if (event && category) {
+                return (<EventViewer
+                        key={this.props.eventId}
+                        eventInfo={event}
+                        successAutoDismiss={this.props.successAutoDismiss}
+                        category={category}
+                    />);
 
-            }else{
-                return (
-                    <p>
+            } else {
+                return (<p>
                         The specified event may not longer be available.
-                    </p>
-                )
+                    </p>)
             }
 
 
@@ -256,66 +252,61 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         let components: JSX.ReactNode[] = [];
 
         //Show the options to turn on and off the cal, the view depends if we are on mobile
-        components.push(
-            <Responsive key='desktopResponsive' minWidth={Responsive.onlyTablet.minWidth}>
-                <Grid key="header" stackable columns={1}>
-                    <Grid.Column floated='left' textAlign='left'>
-                        <Button.Group size='mini'>
-                            {/*Build a button for each group */}
-                            {this.getGroupButtons()}
-                        </Button.Group>
+        components.push(<Responsive key='desktopResponsive' minWidth={Responsive.onlyTablet.minWidth}>
+            <Grid key="header" stackable columns={1}>
+                <Grid.Column floated='left' textAlign='left'>
+                    <Button.Group size='mini'>
+                        {/*Build a button for each group */}
+                        {this.getGroupButtons()}
+                    </Button.Group>
 
-                    </Grid.Column>
-                </Grid>
-            </Responsive>
-        );
+                </Grid.Column>
+            </Grid>
+        </Responsive>);
 
         //Add the headers
-        components.push(
-            <Responsive key='mobileResponsive' {...Responsive.onlyMobile}>
-                <Grid key="header" columns={1}>
-                    <Grid.Column textAlign='center'>
-                        <Button.Group size='mini' vertical>
-                            {/*Build a button for each group */}
-                            {this.getGroupButtons()}
-                        </Button.Group>
+        components.push(<Responsive key='mobileResponsive' {...Responsive.onlyMobile}>
+            <Grid key="header" columns={1}>
+                <Grid.Column textAlign='center'>
+                    <Button.Group size='mini' vertical>
+                        {/*Build a button for each group */}
+                        {this.getGroupButtons()}
+                    </Button.Group>
 
-                    </Grid.Column>
+                </Grid.Column>
 
-                </Grid>
-            </Responsive>
-        )
+            </Grid>
+        </Responsive>)
 
 
         //Add a single line break
-        components.push(<br key='break' />);
+        components.push(<br key='break'/>);
 
         //Now get the events to show
-        const events:CawsEvent[] = [];
+        const events: CawsEvent[] = [];
 
         //Also bin by the date
-        const eventsByDate:{[date:string]:EventItemData[]} = {};
-        const colorByEvent:{[event:string]:SemanticCOLORS} = {};
+        const eventsByDate: { [date: string]: EventItemData[] } = {};
+        const colorByEvent: { [event: string]: SemanticCOLORS } = {};
 
         //Now add each group
         for (let group of this.props.categories) {
             //If we show this group
-            if(!this.props.hideItem[group]) {
+            if (!this.props.hideItem[group]) {
                 const eventListingData = this.props.eventListings[group]?.data.items;
 
-                if(eventListingData) {
+                if (eventListingData) {
                     //Add of all the events
                     events.push(...eventListingData.map(event => {
-                            return {
-                                start: event.date ? new Date(event.date) : undefined,
-                                end: event.date ? new Date(event.date) : undefined,
-                                title: event.name,
-                                id: event.id,
-                                group: group,
-                                allDay: true
-                            };
-                        })
-                    );
+                        return {
+                            start: event.date ? new Date(event.date) : undefined,
+                            end: event.date ? new Date(event.date) : undefined,
+                            title: event.name,
+                            id: event.id,
+                            group: group,
+                            allDay: true
+                        };
+                    }));
 
                     //Also bin the data by date
                     eventListingData.map(event => {
@@ -336,8 +327,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         }
 
         //For each
-        const bigCalComponent = (
-            <Responsive
+        const bigCalComponent = (<Responsive
                 key={"responsiveItemCal"}
                 as={Container}
                 onUpdate={(event, data) => this.updateCalHeight(data.width)}
@@ -351,8 +341,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
                     onSelectEvent={event => this.onEventSelect(event.id)}
                     eventPropGetter={event => this.getEventStyle(event)}
                 />
-            </Responsive>
-        );
+            </Responsive>);
 
 
         //Show grouped by date
@@ -367,35 +356,28 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
         yesterday.setDate(yesterday.getDate() - 1);
 
         //Now render each date range
-        const listOfEventsComponent = (
-            <List key='list of events'>
+        const listOfEventsComponent = (<List key='list of events'>
                 {dateKeys.filter(date => {
-                   const testDate = new Date(date);
-                   //Must be in the future or current
+                    const testDate = new Date(date);
+                    //Must be in the future or current
                     return testDate.valueOf() > yesterday.valueOf();
 
                 }).map(date => {
-                    return (
-                        <List.Item key={date}>
+                    return (<List.Item key={date}>
                             <Icon size='large' name='checked calendar'/>
                             <List.Content>
                                 {/*See if there is a date*/}
-                                {(new Date(date)).valueOf() > 0 &&
-                                <List.Header as='h3'>{date}</List.Header>
-                                }
+                                {(new Date(date)).valueOf() > 0 && <List.Header as='h3'>{date}</List.Header>}
                                 <List.Description>
                                     {/*Add a sub list*/}
                                     <List>
                                         {eventsByDate[date].map(event => {
-                                            return (
-                                                <List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
+                                            return (<List.Item as={Link} key={event.id} to={`/events/${event.id}`}>
                                                     <List.Icon name='circle'
                                                                color={colorByEvent[event.id]}/>
                                                     <List.Content>{event.name}</List.Content>
-                                                </List.Item>
-                                            );
-                                        })
-                                        }
+                                                </List.Item>);
+                                        })}
                                     </List>
                                 </List.Description>
                             </List.Content>
@@ -403,19 +385,17 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
 
 
                     );
-                })
-                }
+                })}
 
-            </List>
-        );
+            </List>);
 
         //Start rendering
-        return (
-            <>
+        return (<>
                 <Segment>
-                    <Header as="h2" > Upcoming Events </Header>
+                    <Header as="h2"> Upcoming Events </Header>
                     <p>Sign your foster up or RSVP for an adoption event</p>
-                    <p>This is a list of upcoming events that you can sign-up for.  Please click on the event you would like to sign-up for.  They are organized by event type (all on by default).</p>
+                    <p>This is a list of upcoming events that you can sign-up for. Please click on the event you would
+                        like to sign-up for. They are organized by event type (all on by default).</p>
                 </Segment>
                 <Segment>
 
@@ -423,7 +403,7 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
                     <Grid stackable columns={2}>
                         <Grid.Column>
                             <Segment>
-                                <Header as="h2" > Upcoming RSVP Opportunities </Header>
+                                <Header as="h2"> Upcoming RSVP Opportunities </Header>
                                 {listOfEventsComponent}
                             </Segment>
                         </Grid.Column>
@@ -434,11 +414,10 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
                         </Grid.Column>
                     </Grid>
                 </Segment>
-            </>
-        );
+            </>);
 
     }
-};
+}
 
 
 /**
@@ -466,51 +445,46 @@ class EventsSelector extends React.Component<DispatchProps&LinkProps, State> {
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
     const categories: string[] = [];
-    if (state.authentication.permissions?.allowed("get_dog_events")){
+    if (state.authentication.permissions?.allowed("get_dog_events")) {
         categories.push("dogs")
     }
-    if (state.authentication.permissions?.allowed("get_volunteer_events")){
+    if (state.authentication.permissions?.allowed("get_volunteer_events")) {
         categories.push("volunteer")
     }
-    const eventListings: { [category :string]: EventListing|undefined; } = { }
+    const eventListings: { [category: string]: EventListing | undefined; } = {}
 
-    categories.forEach(category =>{
+    categories.forEach(category => {
         eventListings[category] = state.events.eventsSummary[category];
     })
 
     return {
-        ...myProps,
-        eventListings,
-        categories,
-        eventId:myProps.match.params.eventId,
+        ...myProps, eventListings, categories, eventId: myProps.match.params.eventId,
 
         //show the display preferences
-        hideItem:state.events.hideCal
+        hideItem: state.events.hideCal
 
     };
 }
+
 /**
  * All of them share the same mapDispatchToProps
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        getEventListing:(category) =>  dispatch(eventsActions.getEventListing(category)),
-        toggleEventGroup:(group:string) =>  dispatch(eventsActions.toggleEventGroup(group)),
-        successAutoDismiss:(mess:string, time:number) => dispatch(successAutoDismiss(mess, time))
+        getEventListing: (category) => dispatch(eventsActions.getEventListing(category)),
+        toggleEventGroup: (group: string) => dispatch(eventsActions.toggleEventGroup(group)),
+        successAutoDismiss: (mess: string, time: number) => dispatch(successAutoDismiss(mess, time))
     };
 
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EventsSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(EventsSelector);
 

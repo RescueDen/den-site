@@ -1,26 +1,26 @@
 import {ItemData} from "./ItemData";
 
-export interface ListingData{
-    id:string;
-    name:string;
-    date?:Date;
-    parentId:string;
+export interface ListingData {
+    id: string;
+    name: string;
+    date?: Date;
+    parentId: string;
 
     //See if we need to hide it
     hideListing?: boolean;
 
     //And hold other items
-    listings?:ListingData[];
-    items?:ItemData[]
+    listings?: ListingData[];
+    items?: ItemData[]
 }
 
-export class ContentListing implements Listing{
+export class ContentListing implements Listing {
     //Set to read only for now
-    public readonly data:ListingData;
+    public readonly data: ListingData;
 
     //Build a flat list for fast look ups
     itemList: { [id: string]: ItemData; } = {};
-    subListing: {[id: string]: ListingData} = {};
+    subListing: { [id: string]: ListingData } = {};
 
     //The main constructor
     constructor(data: ListingData) {
@@ -31,57 +31,54 @@ export class ContentListing implements Listing{
     }
 
     //Add to itemList
-    private addToList(data: ListingData){
+    private addToList(data: ListingData) {
         this.subListing[data.id] = data;
 
-        if(data.items)
-            data.items.forEach(item => this.itemList[item.id] = item);
+        if (data.items) data.items.forEach(item => this.itemList[item.id] = item);
 
         //Now add each of the children
-        if(data.listings)
-            data.listings.forEach(listing => this.addToList(listing))
+        if (data.listings) data.listings.forEach(listing => this.addToList(listing))
     }
 
     //Check to see if it empty
-    public empty():boolean{
+    public empty(): boolean {
         return this.data.id.length == 0;
     }
 
-    public find(id:string|undefined): ItemData|ListingData|undefined {
-        if(id){
+    public find(id: string | undefined): ItemData | ListingData | undefined {
+        if (id) {
             return this.itemList[id] || this.subListing[id];
         }
     }
 
-    public findItem(id:string|undefined):ItemData|undefined {
-        if(id){
+    public findItem(id: string | undefined): ItemData | undefined {
+        if (id) {
             return this.itemList[id];
         }
         return;
     }
 
-    public findListing(id:string|undefined):ListingData|undefined {
-        if(id){
+    public findListing(id: string | undefined): ListingData | undefined {
+        if (id) {
             return this.subListing[id];
         }
         return;
     }
 
     //Build breadCrumbs
-    public buildBreadcrumbs(id:string) :(ItemData|ListingData)[]{
+    public buildBreadcrumbs(id: string): (ItemData | ListingData)[] {
         //Build a list list
-        let breadCrumbs: ItemData|ListingData[] = [];
+        let breadCrumbs: ItemData | ListingData[] = [];
 
         //If there is no id return
-        if(id === undefined || this.empty())
-            return breadCrumbs;
+        if (id === undefined || this.empty()) return breadCrumbs;
 
         //While the id is not null
-        while(id.length > 0){
+        while (id.length > 0) {
             //Get the article
-            const breadCrumb: ListingData|ItemData|undefined = this.find(id);
+            const breadCrumb: ListingData | ItemData | undefined = this.find(id);
 
-            if (breadCrumb){
+            if (breadCrumb) {
                 //Add it to the list
                 breadCrumbs.push(breadCrumb);
 
@@ -95,14 +92,14 @@ export class ContentListing implements Listing{
     }
 }
 
-export interface Listing{
+export interface Listing {
 
-    findItem(id:string|undefined):ItemData|undefined;
+    findItem(id: string | undefined): ItemData | undefined;
 
-    findListing(id:string|undefined):ListingData|undefined;
+    findListing(id: string | undefined): ListingData | undefined;
 
     //Build breadCrumbs
-    buildBreadcrumbs(id:string) :(ItemData|ListingData)[];
+    buildBreadcrumbs(id: string): (ItemData | ListingData)[];
 
     empty(): boolean;
 }
@@ -113,7 +110,7 @@ export interface Listing{
  * @param searchTerm
  */
 export function inSearchResults(item: ItemData, searchTerm: string): boolean {
-    if (!searchTerm){
+    if (!searchTerm) {
         return true;
     }
 

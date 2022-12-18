@@ -8,58 +8,53 @@ import {MenuItem} from "./NavBar";
 import {leftMenuItems, rightMenuItems} from "../app/MenuItems";
 
 //Income Props
-interface Props extends RouteComponentProps{
+interface Props extends RouteComponentProps {
 
 }
 
-interface StateProps{
-    permissions?:Permissions
+interface StateProps {
+    permissions?: Permissions
 }
 
-class FullPageMenu extends React.Component<Props&StateProps> {
+class FullPageMenu extends React.Component<Props & StateProps> {
     /**
      * Gets called once when the page loads
      */
-    componentDidMount(){
+    componentDidMount() {
 
     };
 
 
     //Define function to route
-    reRoute = (to?:string) =>{
-        if (to)
-            this.props.history.push(to)
+    reRoute = (to?: string) => {
+        if (to) this.props.history.push(to)
 
     }
 
     /**
      * Build the menu item
      */
-    buildMenuItem(item:MenuItem, list: ReactNode[]){
+    buildMenuItem(item: MenuItem, list: ReactNode[]) {
 
         //See if we should bother drawing the item
-        if(item.reqPerm && !(this.props.permissions && this.props.permissions.allowed(item.reqPerm)))
-            return null;
+        if (item.reqPerm && !(this.props.permissions && this.props.permissions.allowed(item.reqPerm))) return null;
 
         //Now see if we need to build a drop down menu
-        if(item.subItems){
+        if (item.subItems) {
             // return this.buildSubMenu(item, mobile);
             item.subItems.forEach(item => this.buildMenuItem(item, list))
 
-        }else{
+        } else {
 
             //See if we should do anything with the on click
             let linkTo = undefined;
-            if(item.to)
-                linkTo = () => this.reRoute(item.to)
+            if (item.to) linkTo = () => this.reRoute(item.to)
 
             //Just return this item
-            list.push(
-                <Button onClick={linkTo} >
-                    {item.icon}
-                    {item.name}
-                </Button>
-            );
+            list.push(<Button onClick={linkTo}>
+                {item.icon}
+                {item.name}
+            </Button>);
         }
 
     }
@@ -76,8 +71,7 @@ class FullPageMenu extends React.Component<Props&StateProps> {
         items.forEach(item => this.buildMenuItem(item, list));
 
 
-        return (
-            <div>
+        return (<div>
                 {list}
             </div>
 
@@ -85,22 +79,19 @@ class FullPageMenu extends React.Component<Props&StateProps> {
         );
     }
 
-};
+}
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:Props ):StateProps&Props {
+function mapStateToProps(state: ApplicationState, myProps: Props): StateProps & Props {
     return {
-        ...myProps,
-        permissions : state.authentication.permissions
+        ...myProps, permissions: state.authentication.permissions
     };
 }
 
 //Wrap with state connect
-export default connect(
-    mapStateToProps
-)(FullPageMenu);
+export default connect(mapStateToProps)(FullPageMenu);
 

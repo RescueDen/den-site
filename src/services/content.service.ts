@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
-import {ContentListing, Listing, ListingData} from "../models/ContentListing";
+import {ContentListing, ListingData} from "../models/ContentListing";
 
 export const contentService = {
     getContentListing,
@@ -8,23 +8,22 @@ export const contentService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
-function getContentListing(category :string) : Promise<ContentListing> {
+function getContentListing(category: string): Promise<ContentListing> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/content/${category}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/content/${category}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             const data = <ListingData>response.data;
 
             const listing = new ContentListing(data)
@@ -36,18 +35,17 @@ function getContentListing(category :string) : Promise<ContentListing> {
 
 }
 
-function downloadContent(category :string, id:string) : Promise<string> {
+function downloadContent(category: string, id: string): Promise<string> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/content/${category}/${id}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/content/${category}/${id}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const artData = <string>response.data;
 

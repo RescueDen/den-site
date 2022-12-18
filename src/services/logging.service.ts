@@ -3,10 +3,7 @@ import {authHeader} from "../utils/auth-header";
 import {CategoryInfoSummary, LogData, LogSummary} from "../models/Logging";
 
 export const loggingService = {
-    getCategorySummary,
-    getLogSummary,
-    addLog,
-    removeLog
+    getCategorySummary, getLogSummary, addLog, removeLog
     // getAll,
     // getById,
     // update,
@@ -14,118 +11,100 @@ export const loggingService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
 /**
  * Get the category summary
- * @param username
- * @param password
  * @returns
  */
-function getCategorySummary() : Promise<CategoryInfoSummary> {
+function getCategorySummary(): Promise<CategoryInfoSummary> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/logging',  {headers:headers});
+    const responsePromise = apiServer.get('/logging', {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const data = <CategoryInfoSummary>response.data;
-
-            //Return just the user
-            return  data;//CourseListing(data);
-        }
-    );
-
-
-}
-/**
- * Get the log information for the specified user
- * @param username
- * @param password
- * @returns
- */
-function getLogSummary(asmId:number) : Promise<LogSummary> {
-
-    //Get the headers
-    const headers =authHeader();
-
-    //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/logging/${asmId}`,  {headers:headers});
-
-
-    //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const logInfo = <LogSummary>response.data;
-
-            return logInfo;
-        }
-    );
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        //Return just the user
+        return <CategoryInfoSummary>response.data;//CourseListing(data);
+    });
 
 
 }
 
 /**
  * Get the log information for the specified user
- * @param username
- * @param password
  * @returns
+ * @param asmId
  */
-function addLog(log: LogData) : Promise<LogSummary> {
+function getLogSummary(asmId: number): Promise<LogSummary> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post(`/logging`,  log, {headers:headers});
+    const responsePromise = apiServer.get(`/logging/${asmId}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const logInfo = <LogSummary>response.data;
-
-            return logInfo;
-        }
-    );
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        return <LogSummary>response.data;
+    });
 
 
 }
+
 /**
  * Get the log information for the specified user
- * @param username
- * @param password
  * @returns
+ * @param log
  */
-function removeLog(type:string , logId:number) : Promise<LogSummary> {
+function addLog(log: LogData): Promise<LogSummary> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.delete(`/logging/${type}/${logId}`, {headers:headers});
+    const responsePromise = apiServer.post(`/logging`, log, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const logInfo = <LogSummary>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        return <LogSummary>response.data;
+    });
 
-            return logInfo;
-        }
-    );
+
+}
+
+/**
+ * Get the log information for the specified user
+ * @param logId
+ * @param type
+ * @param logId
+ */
+function removeLog(type: string, logId: number): Promise<LogSummary> {
+
+    //Get the headers
+    const headers = authHeader();
+
+    //Now make a post request and get a promise back
+    const responsePromise = apiServer.delete(`/logging/${type}/${logId}`, {headers: headers});
+
+
+    //We need to do some work here
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        return <LogSummary>response.data;
+    });
 
 
 }

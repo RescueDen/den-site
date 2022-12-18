@@ -3,16 +3,16 @@ import {Icon} from "semantic-ui-react";
 
 //Add in the props
 interface IncomingProps {
-    value:number;
+    value: number;
 }
 
-const NonEditCheck =  (myProps:IncomingProps) =>{
+const NonEditCheck = (myProps: IncomingProps) => {
 
-    switch(myProps.value){
+    switch (myProps.value) {
         case 0:
-            return <Icon name='square outline' />;
+            return <Icon name='square outline'/>;
         case 1:
-            return <Icon name='check square outline' />;
+            return <Icon name='check square outline'/>;
         default:
             return null
     }

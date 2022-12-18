@@ -1,27 +1,22 @@
 import React from 'react';
 import JSX from 'react';
 
-import {
-    Icon, Responsive,
-    Table
-} from "semantic-ui-react";
+import {Icon, Responsive, Table} from "semantic-ui-react";
 
 import {ExistingSignUps} from "../../models/SignUp";
 
 //Define the expected props
-interface LinkProps  {
+interface LinkProps {
 
     signups: ExistingSignUps
     selectedRow?: number
-    selectRow: (row:number) => any;
-    deleteRow: (row:number) => any;
+    selectRow: (row: number) => any;
+    deleteRow: (row: number) => any;
 
     //Provide a way to filter the text as shown
-    filter?: (input:any) => any;
+    filter?: (input: any) => any;
 
 }
-
-
 
 
 /**
@@ -30,19 +25,19 @@ interface LinkProps  {
 class SignUpsTable extends React.Component<LinkProps> {
 
     //Build the table rows
-    buildTable() : JSX.ReactNode[]{
+    buildTable(): JSX.ReactNode[] {
 
         //Start to build the list of React
         let tblRows: JSX.ReactNode[] = [];
 
         //Add each row
-        for(let ind =0; ind < this.props.signups.rowids.length; ind++){
+        for (let ind = 0; ind < this.props.signups.rowids.length; ind++) {
             tblRows.push(
-              <Table.Row active={this.props.signups.rowids[ind] == this.props.selectedRow}>
-                  {/*Output each row for the header*/}
-                  {this.buildRow(ind)}
+                <Table.Row active={this.props.signups.rowids[ind] == this.props.selectedRow}>
+                    {/*Output each row for the header*/}
+                    {this.buildRow(ind)}
 
-              </Table.Row>
+                </Table.Row>
             );
         }
 
@@ -50,8 +45,9 @@ class SignUpsTable extends React.Component<LinkProps> {
         return tblRows;
 
     }
+
     //Build the table rows
-    buildRow(idx: number) : JSX.ReactNode[]{
+    buildRow(idx: number): JSX.ReactNode[] {
         //Start to build the list of React
         let rowValues: JSX.ReactNode[] = [];
 
@@ -59,15 +55,15 @@ class SignUpsTable extends React.Component<LinkProps> {
         const values = this.props.signups.values[idx];
 
         //March over each header
-        let h =0;
+        let h = 0;
 
         //Add each value
-        for(; h < values.length; h++){
+        for (; h < values.length; h++) {
             //Get the current value
-            let value:any = values[h];
+            let value: any = values[h];
 
             //If there is a filter filter
-            if(this.props.filter){
+            if (this.props.filter) {
                 value = this.props.filter(value);
             }
 
@@ -79,7 +75,7 @@ class SignUpsTable extends React.Component<LinkProps> {
         //     rowValues.push(<Table.Cell>{values[h]}</Table.Cell>)
         // }
 
-        for(; h < this.props.signups.headers.length; h++ ){
+        for (; h < this.props.signups.headers.length; h++) {
             //If we have the number of values
             rowValues.push(<Table.Cell></Table.Cell>)
 
@@ -87,14 +83,14 @@ class SignUpsTable extends React.Component<LinkProps> {
 
         //Add an edit button and link
         rowValues.push(
-            <Table.Cell >
+            <Table.Cell>
                 <Icon
                     onClick={() => this.props.selectRow(this.props.signups.rowids[idx])}
                     name="edit"
                 />
                 <Icon
-                onClick={() => this.props.deleteRow(this.props.signups.rowids[idx])}
-                name="delete"
+                    onClick={() => this.props.deleteRow(this.props.signups.rowids[idx])}
+                    name="delete"
                 />
 
 
@@ -112,32 +108,31 @@ class SignUpsTable extends React.Component<LinkProps> {
     render() {
 
         //Return the
-        return(
-        <Table celled>
-            {/*Add the table header*/}
-            <Responsive as={Table.Header} minWidth={Responsive.onlyMobile.maxWidth}>
-                {/*<Table.Header>*/}
+        return (
+            <Table celled>
+                {/*Add the table header*/}
+                <Responsive as={Table.Header} minWidth={Responsive.onlyMobile.maxWidth}>
+                    {/*<Table.Header>*/}
                     <Table.Row>
-                        {this.props.signups.headers.map(header =>{
+                        {this.props.signups.headers.map(header => {
                             return <Table.HeaderCell key={header}>{header}</Table.HeaderCell>
                         })}
                         {/*Add an extra row for edit*/}
                         <Table.HeaderCell key="edit">Edit</Table.HeaderCell>
                     </Table.Row>
-                {/*</Table.Header>*/}
-            </Responsive>
-            {/*Now add each row*/}
-            <Table.Body>
-                {this.buildTable()}
-            </Table.Body>
+                    {/*</Table.Header>*/}
+                </Responsive>
+                {/*Now add each row*/}
+                <Table.Body>
+                    {this.buildTable()}
+                </Table.Body>
 
-        </Table>
+            </Table>
 
         );
 
 
-
     }
-};
+}
 
 export default SignUpsTable;

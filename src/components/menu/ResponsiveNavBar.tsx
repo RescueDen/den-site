@@ -1,4 +1,4 @@
-import {Icon, Image, Menu, Responsive, Sidebar, Visibility} from "semantic-ui-react";
+import {Icon, Responsive, Sidebar, Visibility} from "semantic-ui-react";
 import React, {ReactNode} from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import ApplicationState from "../../state/ApplicationState";
@@ -8,11 +8,11 @@ import NavBar, {MenuItem, MenuType} from "./NavBar";
 import {isMobileOnly} from "react-device-detect";
 
 //Income Props
-interface Props extends RouteComponentProps{
-    items:MenuItem[];
-    desktopHeader?:ReactNode;
-    desktopMode:MenuMode
-    itemsRight?:MenuItem[];
+interface Props extends RouteComponentProps {
+    items: MenuItem[];
+    desktopHeader?: ReactNode;
+    desktopMode: MenuMode
+    itemsRight?: MenuItem[];
 }
 
 /**
@@ -25,27 +25,28 @@ export enum MenuMode {
 }
 
 //Define the expected props
-interface MyState{
+interface MyState {
     menuOpen: boolean;
     menuFixed: boolean;
-    mobileMenuOpen:boolean;
+    mobileMenuOpen: boolean;
 }
 
-interface StateProps{
-    permissions?:Permissions
+interface StateProps {
+    permissions?: Permissions
 }
 
-class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
-    state = {menuOpen:false, menuFixed:false, mobileMenuOpen:false}
+class ResponsiveNavBar extends React.Component<Props & StateProps, MyState> {
+    state = {menuOpen: false, menuFixed: false, mobileMenuOpen: false}
+
     /**
      * Gets called once when the page loads
      */
-    componentDidMount(){
+    componentDidMount() {
 
     };
 
     //Define function to route
-    reRoute = (to?:string) =>{
+    reRoute = (to?: string) => {
         if (to)
             this.props.history.push(to)
 
@@ -54,23 +55,23 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     /**
      * Function to update the state so the menu is no longer fixed
      */
-    unStickTopMenu = () => this.setState({ menuFixed: false });
+    unStickTopMenu = () => this.setState({menuFixed: false});
 
     /**
      * Function to update the state so the menu is  fixed
      */
-    stickTopMenu = () => this.setState({ menuFixed: true });
+    stickTopMenu = () => this.setState({menuFixed: true});
 
     /**
      * Turn the mobile menu open and closed
      */
-    toggleMobileMenu = () => this.setState({ mobileMenuOpen: !this.state.mobileMenuOpen });
+    toggleMobileMenu = () => this.setState({mobileMenuOpen: !this.state.mobileMenuOpen});
 
     /**
      * This one always closes the mobile menu
      */
-    closeMobileMenu = () =>{
-        if(this.state.mobileMenuOpen) {
+    closeMobileMenu = () => {
+        if (this.state.mobileMenuOpen) {
             this.setState({mobileMenuOpen: false});
         }
     }
@@ -78,28 +79,29 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     /**
      * Determine the navBar fixed
      */
-    getFixedState():'top'|undefined{
+    getFixedState(): 'top' | undefined {
         //If we are in fixed mode
-        switch(this.props.desktopMode){
+        switch (this.props.desktopMode) {
             case MenuMode.Fixed:
                 return 'top';
             case MenuMode.Sticky:
-                return  this.state.menuFixed ? 'top' : undefined;
+                return this.state.menuFixed ? 'top' : undefined;
             default:
                 return undefined;
         }
 
     }
+
     /**
      * Determine the navBar fixed style
      */
-    getModeStyle():'fixedMenuStyle' | 'menuStyle'{
+    getModeStyle(): 'fixedMenuStyle' | 'menuStyle' {
         //If we are in fixed mode
-        switch(this.props.desktopMode){
+        switch (this.props.desktopMode) {
             case MenuMode.Fixed:
                 return 'fixedMenuStyle';
             case MenuMode.Sticky:
-                return  this.state.menuFixed ? 'fixedMenuStyle' : 'menuStyle'
+                return this.state.menuFixed ? 'fixedMenuStyle' : 'menuStyle'
             default:
                 return 'menuStyle';
         }
@@ -109,7 +111,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     /**
      * Build desktop Menu
      */
-    buildNavBarDesktop(): ReactNode{
+    buildNavBarDesktop(): ReactNode {
         return (
             //Wrap the header in vis bility
             <Visibility
@@ -119,7 +121,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
             >
                 {/*Now build the simple menu*/}
                 <NavBar
-                    fixed={ this.getFixedState()}
+                    fixed={this.getFixedState()}
                     className={this.getModeStyle()}
                     items={this.props.items}
                     itemsRight={this.props.itemsRight}
@@ -136,7 +138,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     /**
      * Build desktop Menu
      */
-    buildNavBarTablet(): ReactNode{
+    buildNavBarTablet(): ReactNode {
         return (
             //Wrap the header in visbility
             <Visibility
@@ -146,7 +148,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
             >
                 {/*Now build the simple menu*/}
                 <NavBar
-                    fixed={ this.getFixedState()}
+                    fixed={this.getFixedState()}
                     className={this.getModeStyle()}
                     items={this.props.items}
                     itemsRight={this.props.itemsRight}
@@ -163,7 +165,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
     /**
      * Build desktop Menu
      */
-    buildNavBarMobile(): ReactNode{
+    buildNavBarMobile(): ReactNode {
         return (
             //Allow the menu to pop out from the side
             <Sidebar.Pushable>
@@ -183,7 +185,7 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
 
                 {/*Now add the content to put over this*/}
                 <Sidebar.Pusher
-                    style={{ minHeight: "100vh" }}
+                    style={{minHeight: "100vh"}}
                     dimmed={this.state.mobileMenuOpen}
                     onClick={this.closeMobileMenu}
                 >
@@ -193,12 +195,12 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                         reRoute={this.reRoute}
                         permissions={this.props.permissions}
                         items={[
-                             {//Add in the toggle menu item
-                                 name:undefined,
-                                 icon:<Icon name="sidebar" />,
-                                 onClick:this.toggleMobileMenu
-                             }
-                         ]}
+                            {//Add in the toggle menu item
+                                name: undefined,
+                                icon: <Icon name="sidebar"/>,
+                                onClick: this.toggleMobileMenu
+                            }
+                        ]}
                         //Add in any right items
                         itemsRight={this.props.itemsRight}
                     />
@@ -217,9 +219,9 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
      * @returns {*}
      */
     render() {
-        if(isMobileOnly) {
+        if (isMobileOnly) {
             return this.buildNavBarMobile();
-        }else{
+        } else {
             return (
                 <>
                     <Responsive minWidth={Responsive.onlyComputer.minWidth}>
@@ -228,29 +230,29 @@ class ResponsiveNavBar extends React.Component<Props&StateProps, MyState> {
                         {/*Push this down for the menu height*/}
                     </Responsive>
                     {/*Now for a tablet makeup*/}
-                    <Responsive maxWidth={Responsive.onlyTablet.maxWidth} >
+                    <Responsive maxWidth={Responsive.onlyTablet.maxWidth}>
                         {this.props.desktopHeader}
                         {this.buildNavBarTablet()}
                         {/*Push this down for the menu height*/}
                     </Responsive>
-                    <div  style={{ marginTop: '5em' }}>
+                    <div style={{marginTop: '5em'}}>
                         {this.props.children}
                     </div>
                 </>);
         }
     }
 
-};
+}
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:Props ):StateProps&Props {
+function mapStateToProps(state: ApplicationState, myProps: Props): StateProps & Props {
     return {
         ...myProps,
-        permissions : state.authentication.permissions
+        permissions: state.authentication.permissions
     };
 }
 

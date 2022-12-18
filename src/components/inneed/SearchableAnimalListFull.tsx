@@ -3,19 +3,7 @@ import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
-import {
-    Header,
-    Input,
-    List,
-    Placeholder,
-    Item,
-    Button,
-    Dropdown,
-    Form,
-    Modal,
-    Segment,
-    Dimmer, Loader
-} from "semantic-ui-react";
+import {Button, Dimmer, Dropdown, Form, Header, Input, Item, Loader, Modal, Segment} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
 import AnimalItemFull from "./AnimalItemFull";
@@ -28,66 +16,71 @@ import {inNeedActions} from "../../actions/inNeedFoster.actions";
 import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
-interface IncomingProps  {
+interface IncomingProps {
     //Define the props we expect
     animalIdList: number[]
-    title:string
-    link:string
-    nonCaws:NonShelterAnimal[]
+    title: string
+    link: string
+    nonCaws: NonShelterAnimal[]
 }
 
 //Define the expected props
-interface LinkProps  {
+interface LinkProps {
     //Define the props we expect
     cawsAnimalsDb: AnimalState
     user?: ShelterUser
-    busy:boolean;
+    busy: boolean;
 }
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    downloadAnimal: (id:number) => any;
-    removeAnimal: (id:number) =>any;
+    downloadAnimal: (id: number) => any;
+    removeAnimal: (id: number) => any;
     // addGeometry:(name:string) =>any;
-    uploadAnimal:(data: NonShelterAnimal, file: File) => any;
+    uploadAnimal: (data: NonShelterAnimal, file: File) => any;
 }
 
 //Define the expected props
-interface SearchState  {
+interface SearchState {
     //Define the props we expect
     searchTerm: string
     searchSpecies: Species[]
     //Add a control to open/close modal
-    addNewModalOpen:boolean
+    addNewModalOpen: boolean
 
     //Keep a boolean for busy
-    busy:boolean
+    busy: boolean
 }
 
-const searchOptions =[
+const searchOptions = [
     {
-        key:"Cat",
-        value:Species.cat,
-        text:"Cats"
+        key: "Cat",
+        value: Species.cat,
+        text: "Cats"
     },
     {
-        key:"Dog",
-        value:Species.dog,
-        text:"Dogs"
+        key: "Dog",
+        value: Species.dog,
+        text: "Dogs"
     }
 ]
 
 /**
  * This card shows the animal details
  */
-class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={searchTerm:"", searchSpecies:[Species.cat, Species.dog] as Species[], addNewModalOpen:false, busy:false};
+class SearchableAnimalListFull extends React.Component<IncomingProps & DispatchProps & LinkProps, SearchState> {
+    state = {
+        searchTerm: "",
+        searchSpecies: [Species.cat, Species.dog] as Species[],
+        addNewModalOpen: false,
+        busy: false
+    };
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.animalIdList.forEach(aniId => this.props.downloadAnimal(aniId));
     };
@@ -95,29 +88,29 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
     /**
      * Function to update search
      */
-    updateSearch(term:string){
-        this.setState({searchTerm:term});
+    updateSearch(term: string) {
+        this.setState({searchTerm: term});
     }
 
     //Build the link to button
-    buildFosterButton(ani:ShelterAnimal): any | undefined{
+    buildFosterButton(ani: ShelterAnimal): any | undefined {
         //If this foster needs a button
-        if(ani.needsFoster()){
+        if (ani.needsFoster()) {
             //Build the name
             let name = "Someone ";
-            if(this.props.user){
+            if (this.props.user) {
                 name = this.props.user.data.firstName + " " + this.props.user.data.lastName;
             }
 
 
             //build the mail to
             let href = "mailto:" + ani.data.species + "s@caws.org";
-            href+= "?subject=" + name + " would like to foster " + ani.getCodeAndName();
-            href+= "&body="+ name + " would like to foster " + ani.getCodeAndName();
+            href += "?subject=" + name + " would like to foster " + ani.getCodeAndName();
+            href += "&body=" + name + " would like to foster " + ani.getCodeAndName();
 
             return (
                 <a href={href}>
-                    <Button  >
+                    <Button>
                         Click to Foster
                     </Button>
                 </a>
@@ -126,24 +119,25 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
         }
 
     }
-    buildNonCawsFosterButton(ani:NonShelterAnimal): any {
+
+    buildNonCawsFosterButton(ani: NonShelterAnimal): any {
         //If this foster needs a button
-            //Build the name
+        //Build the name
         let name = "Someone ";
-        if(this.props.user){
+        if (this.props.user) {
             name = this.props.user.data.firstName + " " + this.props.user.data.lastName;
         }
 
 
         //build the mail to
         let href = "mailto:" + ani.species + "s@caws.org";
-        href+= "?subject=" + name + " would like to foster " + ani.id + ":" + ani.name;
-        href+= "&body="+ name + " would like to foster " + ani.id + ":" + ani.name;
+        href += "?subject=" + name + " would like to foster " + ani.id + ":" + ani.name;
+        href += "&body=" + name + " would like to foster " + ani.id + ":" + ani.name;
 
         return (
             <>
                 <a href={href}>
-                    <Button  >
+                    <Button>
                         Click to Foster
                     </Button>
                 </a>
@@ -161,14 +155,13 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
         );
 
 
-
     }
 
 
     /**
      * Get the items
      */
-    getItems(){
+    getItems() {
         //If we have items
         return this.props.animalIdList.map(id => {
             //Convert to an ani
@@ -176,10 +169,11 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
 
             //If the ani is undefined just return the aniItem
             if (ani === undefined) {
-                return <AnimalItemFull key={id} ani={ani} link={this.props.link} />;
-            } else if (ani.inSearch(this.state.searchTerm) && ani.isSpecies(this.state.searchSpecies) ) {
+                return <AnimalItemFull key={id} ani={ani} link={this.props.link}/>;
+            } else if (ani.inSearch(this.state.searchTerm) && ani.isSpecies(this.state.searchSpecies)) {
                 //It is in the search term
-                return <AnimalItemFull key={id} ani={ani} link={this.props.link} extraButton={this.buildFosterButton(ani)}/>;
+                return <AnimalItemFull key={id} ani={ani} link={this.props.link}
+                                       extraButton={this.buildFosterButton(ani)}/>;
             } else {
                 return null;
             }
@@ -190,14 +184,15 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
     /**
      * Get the items
      */
-    getNonCawsItems(){
+    getNonCawsItems() {
         //If we have items
         return this.props.nonCaws.map(ani => {
 
             //If the ani is undefined just return the aniItem
             if (ani != undefined && (inSearch(ani, this.state.searchTerm) && inSpecies(ani, this.state.searchSpecies))) {
                 //It is in the search term
-                return <NonShelterAnimalItemFull key={ani.id} ani={ani} extraButton={this.buildNonCawsFosterButton(ani)}/>;
+                return <NonShelterAnimalItemFull key={ani.id} ani={ani}
+                                                 extraButton={this.buildNonCawsFosterButton(ani)}/>;
             } else {
                 return null;
             }
@@ -209,9 +204,8 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
         this.props.uploadAnimal(data, file);
 
         //Also close the upload
-        this.setState({addNewModalOpen:false})
+        this.setState({addNewModalOpen: false})
     }
-
 
 
     /**
@@ -241,15 +235,18 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
                                 <Input icon='search' placeholder='Search...' value={this.state.searchTerm}
                                        onChange={v => this.updateSearch(v.currentTarget.value)}/>
                                 <Dropdown value={this.state.searchSpecies} placeholder='Select Species'
-                                          multiple  selection options={searchOptions}
-                                          onChange={(info,props) => {this.setState({searchSpecies: (props.value as Species[])})}}
+                                          multiple selection options={searchOptions}
+                                          onChange={(info, props) => {
+                                              this.setState({searchSpecies: (props.value as Species[])})
+                                          }}
 
                                 />
                                 <PermissionBlock reqPerm={"post_in_need"}>
                                     <Modal
-                                        trigger={<Button icon='upload' onClick={() => this.setState({addNewModalOpen:true})}></Button>}
+                                        trigger={<Button icon='upload'
+                                                         onClick={() => this.setState({addNewModalOpen: true})}></Button>}
                                         open={this.state.addNewModalOpen}
-                                        onClose={() => this.setState({addNewModalOpen:false})}
+                                        onClose={() => this.setState({addNewModalOpen: false})}
                                     >
                                         <Modal.Content>
                                             <AddInNeed uploadAnimal={this.uploadNewAni}/>
@@ -270,7 +267,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
                     <Dimmer active={this.props.busy} inverted>
                         <Loader inverted>Loading</Loader>
                     </Dimmer>
-                    <Item.Group divided >
+                    <Item.Group divided>
                         {/*If there are props*/}
                         {this.getItems()}
                         {this.getNonCawsItems()}
@@ -280,18 +277,18 @@ class SearchableAnimalListFull extends React.Component<IncomingProps&DispatchPro
             </div>
         )
     }
-};
+}
 
 /**
  * All of them share the same mapDispatchToProps
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>, ownProps: IncomingProps): DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id)),
-        uploadAnimal:(data: NonShelterAnimal, file: File) => dispatch(inNeedActions.uploadAnimal(data, file)),
-        removeAnimal:(id:number) =>   dispatch(inNeedActions.removeAnimal(id))
+        downloadAnimal: (id: number) => dispatch(animalActions.getAnimal(id)),
+        uploadAnimal: (data: NonShelterAnimal, file: File) => dispatch(inNeedActions.uploadAnimal(data, file)),
+        removeAnimal: (id: number) => dispatch(inNeedActions.removeAnimal(id))
     };
 
 }
@@ -299,19 +296,18 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState): LinkProps {
+function mapStateToProps(state: ApplicationState): LinkProps {
 
     return {
-        cawsAnimalsDb:state.animals,
-        user:state.authentication.loggedInUser,
-        busy:state.inNeedFoster.busy
+        cawsAnimalsDb: state.animals,
+        user: state.authentication.loggedInUser,
+        busy: state.inNeedFoster.busy
     };
 }
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(SearchableAnimalListFull);

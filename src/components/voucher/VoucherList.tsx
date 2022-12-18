@@ -1,4 +1,3 @@
-
 //Define the expected props
 import AnimalState from "../../state/AnimalState";
 import React from "react";
@@ -13,42 +12,41 @@ import {Link} from "react-router-dom";
 import {formatDate} from "../../utils/date-formater";
 
 interface IncomingProps {
-    voucherInfo:VoucherInfo;
+    voucherInfo: VoucherInfo;
 }
 
 interface LinkProps {
-    updating:boolean;
-    results?:VoucherSearchResults;
+    updating: boolean;
+    results?: VoucherSearchResults;
     //Get the current voucher search for pagnation
-    currentParams:VoucherSearch;
+    currentParams: VoucherSearch;
 
     //Define the props we expect
     cawsAnimalsDb: AnimalState
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //Post a new Search
-    postNewSearch:(searchParams:VoucherSearch) => any;
+    postNewSearch: (searchParams: VoucherSearch) => any;
     //And the actions that must be done
-    downloadAnimal: (id:number) => any;
+    downloadAnimal: (id: number) => any;
 }
-
 
 
 /**
  * This card shows the animal details
  */
-class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps> {
+class VoucherList extends React.Component<IncomingProps & LinkProps & DispatchProps> {
     /**
      * Check to see if the props changed
      * @param prevProps
      */
-    componentDidUpdate(prevProps:LinkProps) {
+    componentDidUpdate(prevProps: LinkProps) {
         // Typical usage (don't forget to compare props):
-        if (this.props.results && (prevProps.results == undefined) ) {
+        if (this.props.results && (prevProps.results == undefined)) {
             this.getAnimalInfo();
 
-        }else if (this.props.results &&  prevProps.results && (this.props.results.results.length !==  prevProps.results.results.length) ){
+        } else if (this.props.results && prevProps.results && (this.props.results.results.length !== prevProps.results.results.length)) {
             this.getAnimalInfo();
         }
     }
@@ -59,37 +57,40 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
      */
     getAnimalInfo() {
         this.props.results!.results.forEach(voucher => {
-            voucher.animalIds.forEach(id => {this.props.downloadAnimal(id)})
+            voucher.animalIds.forEach(id => {
+                this.props.downloadAnimal(id)
+            })
         });
 
     }
-    getTypeName = (type:number) =>{
-        for(let i =0; i < this.props.voucherInfo.types.length; i++){
-            if(this.props.voucherInfo.types[i].id == type){
+
+    getTypeName = (type: number) => {
+        for (let i = 0; i < this.props.voucherInfo.types.length; i++) {
+            if (this.props.voucherInfo.types[i].id == type) {
                 return this.props.voucherInfo.types[i].name;
             }
         }
         return "?";
     }
-    getVet = (vetId:number) =>{
-        for(let i =0; i < this.props.voucherInfo.vets.length; i++){
-            if(this.props.voucherInfo.vets[i].id == vetId){
+    getVet = (vetId: number) => {
+        for (let i = 0; i < this.props.voucherInfo.vets.length; i++) {
+            if (this.props.voucherInfo.vets[i].id == vetId) {
                 return this.props.voucherInfo.vets[i].name;
             }
         }
         return "?";
     }
-    getAnimalNames = (voucher:Voucher) =>{
+    getAnimalNames = (voucher: Voucher) => {
         return (
             <List>
-                {voucher.animalIds.map(id =>{
-                    if(this.props.cawsAnimalsDb.animals[id]){
+                {voucher.animalIds.map(id => {
+                    if (this.props.cawsAnimalsDb.animals[id]) {
                         return <List.Item>{this.props.cawsAnimalsDb.animals[id].getCodeAndName()}</List.Item>
-                    }else{
+                    } else {
                         return null;
                     }
                 })}
-                {voucher.animalInfo.map(info =>{
+                {voucher.animalInfo.map(info => {
                     return <List.Item>{info.name}</List.Item>
 
                 })}
@@ -101,21 +102,21 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    goToPage = (event: React.MouseEvent<HTMLAnchorElement>, data: PaginationProps) =>{
+    goToPage = (event: React.MouseEvent<HTMLAnchorElement>, data: PaginationProps) => {
         // get the forms
-        if(data.activePage) {
+        if (data.activePage) {
             this.props.postNewSearch({...this.props.currentParams, page: +data.activePage});
         }
 
     };
 
-    getTreatments = (voucher:Voucher) =>{
+    getTreatments = (voucher: Voucher) => {
         return (
             <>
                 <List>
-                    {voucher.treatmentIds.map(id =>{
-                        for(let i =0; i < this.props.voucherInfo.treatments.length; i++){
-                            if(this.props.voucherInfo.treatments[i].id == id){
+                    {voucher.treatmentIds.map(id => {
+                        for (let i = 0; i < this.props.voucherInfo.treatments.length; i++) {
+                            if (this.props.voucherInfo.treatments[i].id == id) {
                                 return (
                                     <List.Item>
                                         {this.props.voucherInfo.treatments[i].name}
@@ -132,12 +133,12 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
 
 
     }
-    getAppointmentDate = (voucher:Voucher) =>{
+    getAppointmentDate = (voucher: Voucher) => {
 
-        if(voucher.appointment_date){
+        if (voucher.appointment_date) {
 
-             return  formatDate(voucher.appointment_date)
-        }else{
+            return formatDate(voucher.appointment_date)
+        } else {
             return "";
         }
     }
@@ -149,7 +150,7 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
      */
     render() {
 
-        return(
+        return (
             <Table striped>
                 <Table.Header>
                     <Table.Row>
@@ -164,13 +165,13 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
                 </Table.Header>
                 <Table.Body>
                     {this.props.results &&
-                        this.props.results.results.map(row =>{
+                        this.props.results.results.map(row => {
                             return (
                                 <Table.Row>
                                     <Table.Cell>
                                         <Link
                                             to={`/voucher/${row.id}`}>
-                                            <Icon name='edit' />
+                                            <Icon name='edit'/>
                                         </Link>
                                         {row.code}
                                     </Table.Cell>
@@ -190,13 +191,13 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
                 <Table.Footer>
                     <Table.Row textAlign='right'>
                         <Table.HeaderCell colSpan='7'>
-                        {this.props.results &&
-                            <Pagination
-                                activePage={this.props.results!.page}
-                                totalPages={this.props.results!.numberPages}
-                                onPageChange={this.goToPage}
-                            />
-                        }
+                            {this.props.results &&
+                                <Pagination
+                                    activePage={this.props.results!.page}
+                                    totalPages={this.props.results!.numberPages}
+                                    onPageChange={this.goToPage}
+                                />
+                            }
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
@@ -204,7 +205,7 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
         );
 
     }
-};
+}
 
 
 /**
@@ -212,10 +213,10 @@ class VoucherList extends React.Component<IncomingProps&LinkProps&DispatchProps>
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        postNewSearch:(searchParams:VoucherSearch) =>  dispatch(voucherActions.updateVoucherSearch(searchParams)),
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        postNewSearch: (searchParams: VoucherSearch) => dispatch(voucherActions.updateVoucherSearch(searchParams)),
+        downloadAnimal: (id: number) => dispatch(animalActions.getAnimal(id))
 
     };
 
@@ -226,20 +227,20 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,props:IncomingProps): LinkProps&IncomingProps {
+function mapStateToProps(state: ApplicationState, props: IncomingProps): LinkProps & IncomingProps {
 
     return {
         ...props,
-        updating:state.voucher.updating,
-        results:state.voucher.results,
-        cawsAnimalsDb:state.animals,
-        currentParams:state.voucher.currentSearch
+        updating: state.voucher.updating,
+        results: state.voucher.results,
+        cawsAnimalsDb: state.animals,
+        currentParams: state.voucher.currentSearch
     };
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(VoucherList);

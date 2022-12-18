@@ -3,8 +3,7 @@ import {authHeader} from "../utils/auth-header";
 import {AdoptionStat, Stats} from "../models/Stats";
 
 export const statsService = {
-    getStats,
-    getAdoptionsByYear
+    getStats, getAdoptionsByYear
     // register,
     // getAll,
     // getById,
@@ -13,8 +12,8 @@ export const statsService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -24,55 +23,52 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getStats() : Promise<Stats> {
+function getStats(): Promise<Stats> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get('/stats/',  {headers:headers});
+    const responsePromise = apiServer.get('/stats/', {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const stats = <Stats>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const stats = <Stats>response.data;
 
 
-            //Return just the user
-            return stats;
-        }
-    );
+        //Return just the user
+        return stats;
+    });
 
 
 }
+
 /**
  * Get a list of adoptions by year
  * @param username
  * @param password
  * @returns
  */
-function getAdoptionsByYear(year:number) : Promise<AdoptionStat[]> {
+function getAdoptionsByYear(year: number): Promise<AdoptionStat[]> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/stats/adoptions/${year}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/stats/adoptions/${year}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const stats = response.data as AdoptionStat[];
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const stats = response.data as AdoptionStat[];
 
 
-            //Return just the user
-            return stats;
-        }
-    );
+        //Return just the user
+        return stats;
+    });
 
 
 }

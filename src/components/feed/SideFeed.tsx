@@ -1,5 +1,5 @@
-import React, {ReactNode} from "react";
-import {Dropdown, Feed, Grid, Header, Icon, Label, Menu, Segment, Sidebar} from "semantic-ui-react";
+import React from "react";
+import {Label, Menu, Sidebar} from "semantic-ui-react";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {feedActions} from "../../actions/feed.actions";
@@ -7,15 +7,15 @@ import {connect} from "react-redux";
 import TheFeed from "./TheFeed";
 
 //Income Props
-interface FeedProps{
-    children:any
+interface FeedProps {
+    children: any
 
 }
 
 
 //Setup up path props to get the current path
 interface StateProps {
-    feedShown:boolean
+    feedShown: boolean
 }
 
 //Setup up path props to get the current path
@@ -26,8 +26,7 @@ interface DispatchProps {
 }
 
 
-class SideFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
-
+class SideFeed extends React.Component<FeedProps & StateProps & DispatchProps> {
 
 
     /**
@@ -36,7 +35,7 @@ class SideFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
      */
     render() {
         return (
-            <Sidebar.Pushable style={{minHeight:"100vh"}}>
+            <Sidebar.Pushable style={{minHeight: "100vh"}}>
                 <Sidebar
                     as={Menu}
                     animation='overlay'
@@ -51,11 +50,11 @@ class SideFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
 
                 >
 
-                    <Label  corner='left' icon='close' onClick={() => this.props.toggleFeed()}/>
+                    <Label corner='left' icon='close' onClick={() => this.props.toggleFeed()}/>
                     <TheFeed/>
 
                 </Sidebar>
-                <Sidebar.Pusher >
+                <Sidebar.Pusher>
                     {this.props.children}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
@@ -63,27 +62,28 @@ class SideFeed extends React.Component<FeedProps&StateProps&DispatchProps> {
 
     }
 
-};
+}
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:FeedProps ):FeedProps&StateProps {
+function mapStateToProps(state: ApplicationState, myProps: FeedProps): FeedProps & StateProps {
     return {
         ...myProps,
-        feedShown:state.feed.feedShown,
+        feedShown: state.feed.feedShown,
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        toggleFeed:() =>  dispatch(feedActions.toggleFeed()),
+        toggleFeed: () => dispatch(feedActions.toggleFeed()),
     };
 
 }
-export default connect (
+
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(SideFeed);

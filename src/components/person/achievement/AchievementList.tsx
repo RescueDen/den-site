@@ -1,13 +1,12 @@
-
 //Define the expected props
 import {AchievementData} from "../../../models/Achievements";
 import * as React from "react";
-import {Grid, List, Placeholder} from "semantic-ui-react";
+import {Grid, Placeholder} from "semantic-ui-react";
 import AchievementBadge from "./AchievementBadge";
 
-interface LinkProps  {
+interface LinkProps {
     //Define the props we expect
-    achievements?:AchievementData[];
+    achievements?: AchievementData[];
 
 }
 
@@ -17,9 +16,9 @@ interface LinkProps  {
  * @param myProps
  * @constructor
  */
-const AchievementList =  (myProps:LinkProps) => {
+const AchievementList = (myProps: LinkProps) => {
 
-    if(myProps.achievements) {
+    if (myProps.achievements) {
         return (
             <Grid centered doubling columns={5}>
                 {myProps.achievements.map(ach => {
@@ -31,14 +30,14 @@ const AchievementList =  (myProps:LinkProps) => {
                 })}
             </Grid>
         );
-    }else{
+    } else {
         return (
             <Grid centered doubling columns={5}>
-                    <Grid.Column textAlign='center' key={"placeHolder"}>
-                        <Placeholder size='tiny'>
-                            <Placeholder.Image />
-                        </Placeholder>
-                    </Grid.Column>
+                <Grid.Column textAlign='center' key={"placeHolder"}>
+                    <Placeholder size='tiny'>
+                        <Placeholder.Image/>
+                    </Placeholder>
+                </Grid.Column>
             </Grid>
         );
     }

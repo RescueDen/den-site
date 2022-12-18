@@ -1,13 +1,10 @@
-
 //Define the expected props
 import React from "react";
-import {Button, Header, Modal, Image, Table} from "semantic-ui-react";
-import {
-    Vet
-} from "../../models/Voucher";
+import {Button, Image, Modal} from "semantic-ui-react";
+import {Vet} from "../../models/Voucher";
 
 interface Props {
-    vet:Vet;
+    vet: Vet;
 }
 
 class VetDetails extends React.Component<Props> {
@@ -22,7 +19,7 @@ class VetDetails extends React.Component<Props> {
                 <Modal.Header>{this.props.vet.name}</Modal.Header>
                 <Modal.Content image>
                     {this.props.vet.logoUrl && this.props.vet.logoUrl.length > 0 &&
-                    <Image centered size='medium' src={this.props.vet.logoUrl}/>
+                        <Image centered size='medium' src={this.props.vet.logoUrl}/>
                     }
                     <Modal.Description>
                         <p><b>Address:</b> {this.props.vet.address}</p>
@@ -34,6 +31,6 @@ class VetDetails extends React.Component<Props> {
             </Modal>
         );
     }
-};
+}
 
 export default VetDetails;

@@ -1,19 +1,16 @@
 import axios from 'axios';
 import ShelterAnimal, {ShelterAnimalData} from "../models/ShelterAnimal";
 import {authHeader} from "../utils/auth-header";
-import InNeedOfFoster, {InNeedOfFosterData, NonShelterAnimal} from "../models/InNeedOfFosterModel";
 
 export const animalService = {
-    getAnimal,
-    searchForAnimal,
-    uploadPicture,
+    getAnimal, searchForAnimal, uploadPicture,
 
     getAnimalsFromCodes
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 });
 
 /**
@@ -22,57 +19,50 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getAnimal(id:number) : Promise<ShelterAnimal> {
+function getAnimal(id: number): Promise<ShelterAnimal> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/animal/${id}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/animal/${id}`, {headers: headers});
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const anData = <ShelterAnimalData>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const anData = <ShelterAnimalData>response.data;
 
-            //Make a caws user
-            const cawAnimal = new ShelterAnimal(anData)
+        //Make a caws user
+        const cawAnimal = new ShelterAnimal(anData)
 
-            //Return just the user
-            return cawAnimal;
-        }
-    );
+        //Return just the user
+        return cawAnimal;
+    });
 
 
 }
 
-function getAnimalsFromCodes(shelterCodes: string[]): Promise<number[]>{
+function getAnimalsFromCodes(shelterCodes: string[]): Promise<number[]> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/animal/shelterid`,
-        {
-            headers: headers,
-            params: {
-                code: shelterCodes
-            }
+    const responsePromise = apiServer.get(`/animal/shelterid`, {
+        headers: headers, params: {
+            code: shelterCodes
         }
-    );
+    });
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const idList = response.data as number[];
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const idList = response.data as number[];
 
-            //Return just the user
-            return idList;
-        }
-    );
+        //Return just the user
+        return idList;
+    });
 
 }
 
@@ -82,41 +72,36 @@ function getAnimalsFromCodes(shelterCodes: string[]): Promise<number[]>{
  * @param password
  * @returns
  */
-function searchForAnimal(search:string, onShelter:boolean) : Promise<ShelterAnimal[]> {
+function searchForAnimal(search: string, onShelter: boolean): Promise<ShelterAnimal[]> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/search/animal`,
-        {
-            headers: headers,
-            params: {
-                search: search,
-                onshelter:onShelter
-            }
-        });
+    const responsePromise = apiServer.get(`/search/animal`, {
+        headers: headers, params: {
+            search: search, onshelter: onShelter
+        }
+    });
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const anData = <ShelterAnimalData[]>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const anData = <ShelterAnimalData[]>response.data;
 
-            //Make a caws user for the search
-            const cawAnimal = anData.map(data => new ShelterAnimal(data));
+        //Make a caws user for the search
+        const cawAnimal = anData.map(data => new ShelterAnimal(data));
 
-            //Return just the user
-            return cawAnimal;
-        }
-    );
+        //Return just the user
+        return cawAnimal;
+    });
 
 
 }
 
 
-function uploadPicture(id:number, notes:string, file: File) : Promise<ShelterAnimal> {
+function uploadPicture(id: number, notes: string, file: File): Promise<ShelterAnimal> {
 
     //Make a new form data
     let dataInForm = new FormData()
@@ -124,26 +109,24 @@ function uploadPicture(id:number, notes:string, file: File) : Promise<ShelterAni
     dataInForm.append("image", file)
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Add it the type
     headers['Content-Type'] = 'multipart/form-data';
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post(`/animal/picture/`+id, dataInForm,{headers:headers});
+    const responsePromise = apiServer.post(`/animal/picture/` + id, dataInForm, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const data = response.data as ShelterAnimalData;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const data = response.data as ShelterAnimalData;
 
-            //Make a caws user
-            const cawAnimal = new ShelterAnimal(data)
+        //Make a caws user
+        const cawAnimal = new ShelterAnimal(data)
 
-            //Return just the user
-            return cawAnimal;
-        }
-    );
+        //Return just the user
+        return cawAnimal;
+    });
 }

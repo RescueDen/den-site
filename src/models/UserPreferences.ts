@@ -1,11 +1,10 @@
-
 /**
  Simply stores a group of options for easy display
  */
 export interface OptionGroup {
-    id:string
-    name:string
-    description:string
+    id: string
+    name: string
+    description: string
 
     //Store a list of options
     options: Option[]
@@ -21,24 +20,23 @@ export interface OptionGroup {
 export interface Option {
     //Store the name of th option
     id: string
-    name:string
-    description:string
+    name: string
+    description: string
 
     //Store the type
     type: "int" | "string" | "float" | "bool"
 
 
     //Store min max types if possible
-    maxValue?:number
-    minValue?:number
+    maxValue?: number
+    minValue?: number
 
     //Store a list of options
-    selection?:string[]
+    selection?: string[]
 
     //Set if it is a hidden setting
-    hidden:boolean
+    hidden: boolean
 }
-
 
 
 //Get the setting group

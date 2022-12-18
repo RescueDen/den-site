@@ -1,12 +1,11 @@
-
 //Define the expected props
 import {RouteComponentProps, withRouter} from "react-router";
 import React from "react";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
-import {PublicVoucherViewData, Voucher, VoucherInfo} from "../../models/Voucher";
+import {PublicVoucherViewData} from "../../models/Voucher";
 import {voucherService} from "../../services/voucher.service";
-import {Container, Dimmer, Header, Icon, Image, Loader, Segment, Table} from "semantic-ui-react";
+import {Container, Dimmer, Header, Image, Loader, Segment, Table} from "semantic-ui-react";
 import ShelterAnimal from "../../models/ShelterAnimal";
 import AnimalBio from "../animal/details-components/AnimalBio";
 import AnimalVaxxHistory from "../animal/details-components/AnimalVaxxHistory";
@@ -14,10 +13,10 @@ import VoucherInfoView from "./VoucherInfoView";
 import NonShelterAnimalTable from "./NonShelterAnimalTable";
 import CAWSLogo from "../../assets/logos/xCAWS_logo_sideways.png"
 
-interface LinkProps extends RouteComponentProps<any> , RouteComponentProps<any> {
+interface LinkProps extends RouteComponentProps<any>, RouteComponentProps<any> {
 
     //Keep the voucherID
-    voucherSecret?:string;
+    voucherSecret?: string;
 
 }
 
@@ -25,25 +24,26 @@ interface LinkProps extends RouteComponentProps<any> , RouteComponentProps<any> 
 //Define the expected props
 interface State {
     //Keep a voucher in mem
-    voucherPublicView?:PublicVoucherViewData;
-    error?:string;
+    voucherPublicView?: PublicVoucherViewData;
+    error?: string;
 }
-
 
 
 /**
  * This card shows the animal details
  */
-class VetVoucherView extends React.Component<LinkProps, State>  {
-    state={voucherPublicView:undefined, error:undefined}
+class VetVoucherView extends React.Component<LinkProps, State> {
+    state = {voucherPublicView: undefined, error: undefined}
+
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         this.loadVoucherView();
 
     };
-    componentDidUpdate(prevProps:LinkProps) {
+
+    componentDidUpdate(prevProps: LinkProps) {
         // Typical usage (don't forget to compare props):
         if (this.props.voucherSecret !== prevProps.voucherSecret) {
             this.loadVoucherView();
@@ -51,11 +51,11 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
     }
 
 
-    loadVoucherView = () =>{
+    loadVoucherView = () => {
         //If there is a
-        if(this.props.voucherSecret) {
+        if (this.props.voucherSecret) {
             voucherService.getPublicVoucherView(this.props.voucherSecret)
-            //When it comes back use it
+                //When it comes back use it
                 .then(
                     //If successful html will be returned
                     voucherView => {
@@ -84,14 +84,14 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
      */
     render() {
 
-        if(this.props.voucherSecret && this.state.voucherPublicView == undefined) {
-            return(
+        if (this.props.voucherSecret && this.state.voucherPublicView == undefined) {
+            return (
                 <Dimmer active inverted>
                     <Loader size='large'>Loading Voucher</Loader>
                 </Dimmer>
             );
 
-        }else if(this.props.voucherSecret && this.state.voucherPublicView) {
+        } else if (this.props.voucherSecret && this.state.voucherPublicView) {
             //Get the data
             const voucherPublicData = this.state.voucherPublicView! as PublicVoucherViewData;
 
@@ -108,7 +108,8 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                     {/*Voucher Info*/}
                     <Segment>
                         <p>
-                            Doctor and Staff, thank you for your support and assistance! Please bill CAWS for the amount due above the client's share, and please Include this voucher with that billing. Thank You!
+                            Doctor and Staff, thank you for your support and assistance! Please bill CAWS for the amount
+                            due above the client's share, and please Include this voucher with that billing. Thank You!
                         </p>
                         <VoucherInfoView
                             voucher={voucherPublicData.voucher}
@@ -117,7 +118,7 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                         />
                     </Segment>
 
-                    {voucherPublicData.animals.map(aniData =>{
+                    {voucherPublicData.animals.map(aniData => {
                         //Convert to a caws animal
                         const aniClass = new ShelterAnimal(aniData);
 
@@ -155,7 +156,7 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                         </Table.Header>
 
                         <Table.Body>
-                            {voucherPublicData.movements.map(movement =>{
+                            {voucherPublicData.movements.map(movement => {
                                 return (
                                     <Table.Row>
                                         <Table.Cell>{movement.movementType}</Table.Cell>
@@ -167,7 +168,7 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                                 );
 
                             })}
-                            {voucherPublicData.clientContacts.map(person =>{
+                            {voucherPublicData.clientContacts.map(person => {
                                 return (
                                     <Table.Row>
                                         <Table.Cell></Table.Cell>
@@ -187,32 +188,32 @@ class VetVoucherView extends React.Component<LinkProps, State>  {
                     />
                 </Container>
             )
-        }else{
+        } else {
             return (
-              <Container>
-                  <Segment>
-                      The Voucher lookup id must be specified.
-                      {this.state.error}
-                  </Segment>
-              </Container>
+                <Container>
+                    <Segment>
+                        The Voucher lookup id must be specified.
+                        {this.state.error}
+                    </Segment>
+                </Container>
             );
         }
 
 
     }
-};
+}
 
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
 
     return {
         ...myProps,
-        voucherSecret:myProps.match.params.voucherSecret
+        voucherSecret: myProps.match.params.voucherSecret
     };
 }
 

@@ -1,7 +1,4 @@
 import Action from '../actions/Action'
-import ShelterAnimal from "../models/ShelterAnimal"
-import {animalConstants} from "../actions/animal.actions";
-import AnimalState from "../state/AnimalState";
 import PeopleState from "../state/PeopleState";
 import {peopleConstants} from "../actions/people.actions";
 import {PersonData} from "../models/People";
@@ -12,19 +9,19 @@ import {PersonData} from "../models/People";
  * @param action
  * @returns {*}
  */
-export function people(state:PeopleState = {people:{} as PersonData[]}, action:Action): PeopleState {
+export function people(state: PeopleState = {people: {} as PersonData[]}, action: Action): PeopleState {
 
     //Ok, we now know that it is an alert action
     switch (action.type) {
         case peopleConstants.FETCH_PERSON:
             //Get the new animal
-            const person:PersonData = action.payload as PersonData;
+            const person: PersonData = action.payload as PersonData;
 
             //Get the id
-            const id:number = person.id;
+            const id: number = person.id;
 
             //Add the new success to the list
-            return {people:{...state.people, [id]:person}};
+            return {people: {...state.people, [id]: person}};
 
         default:
             return state

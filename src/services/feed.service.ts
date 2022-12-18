@@ -11,8 +11,8 @@ export const feedService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -22,7 +22,7 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getFeed() : Promise<FeedItemData[]> {
+function getFeed(): Promise<FeedItemData[]> {
 
 
     //Now make a post request and get a promise back
@@ -30,14 +30,12 @@ function getFeed() : Promise<FeedItemData[]> {
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const info = <FeedItemData[]>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const info = <FeedItemData[]>response.data;
 
-            return info;
-        }
-    );
+        return info;
+    });
 
 
 }

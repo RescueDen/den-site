@@ -8,36 +8,35 @@ import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
 import {loggingActions} from "../../actions/logging.actions";
+
 //Define the expected props
 interface Props {
-    catInfo:CategoryInfo
+    catInfo: CategoryInfo
     busy?: boolean
-};
+}
 
 //Define the expected props
 interface State {
     newLog: LogData;
 
-};
+}
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    addLog: (log:LogData) => any;
+    addLog: (log: LogData) => any;
 
 }
 
 
 //Store the month ab
-const months = ['Jan', "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
 /**
  * Provides a quick summary of that person
  * @param myProps
  * @constructor
  */
-class LogForm extends React.Component<Props&DispatchProps, State> {
-    state = {newLog: {type:1, date:new Date(),category:this.props.catInfo.name } as LogData}
+class LogForm extends React.Component<Props & DispatchProps, State> {
+    state = {newLog: {type: 1, date: new Date(), category: this.props.catInfo.name} as LogData}
 
     render(): React.ReactNode {
         //get the untis
@@ -46,16 +45,21 @@ class LogForm extends React.Component<Props&DispatchProps, State> {
             <Form onSubmit={() => this.props.addLog(this.state.newLog)}>
                 <Form.Group widths='equal'>
                     <Form.Select
-                        options={Object.keys(this.props.catInfo.types).map(typ =>{
+                        options={Object.keys(this.props.catInfo.types).map(typ => {
                             return {
-                                key:typ,
-                                text:this.props.catInfo.types[typ].name,
-                                value:this.props.catInfo.types[typ].id
+                                key: typ,
+                                text: this.props.catInfo.types[typ].name,
+                                value: this.props.catInfo.types[typ].id
                             }
                         })}
                         value={this.state.newLog.type}
-                        onChange={(event: any, data: any) => this.setState({newLog:{...this.state.newLog,type:parseInt(data.value) }})}
-                        fluid type='number' label='Type' />
+                        onChange={(event: any, data: any) => this.setState({
+                            newLog: {
+                                ...this.state.newLog,
+                                type: parseInt(data.value)
+                            }
+                        })}
+                        fluid type='number' label='Type'/>
 
 
                     <Form.Input fluid
@@ -69,7 +73,7 @@ class LogForm extends React.Component<Props&DispatchProps, State> {
                                     (event: any, data: any) => {
                                         //Get the value
                                         let value = parseFloat(data.value);
-                                        if(this.props.catInfo.maximum){
+                                        if (this.props.catInfo.maximum) {
                                             value = Math.min(value, this.props.catInfo.maximum)
                                         }
 
@@ -84,7 +88,7 @@ class LogForm extends React.Component<Props&DispatchProps, State> {
                     />
                     <Form.Field fluid label='Date' control={DatePicker}
                                 selected={this.state.newLog.date}
-                                onChange={(date:any) => this.setState({newLog:{...this.state.newLog,date:date}})}
+                                onChange={(date: any) => this.setState({newLog: {...this.state.newLog, date: date}})}
                     />
 
                 </Form.Group>
@@ -92,11 +96,16 @@ class LogForm extends React.Component<Props&DispatchProps, State> {
                     label='Comments'
                     placeholder='Tell us more about this...'
                     value={this.state.newLog.comments}
-                    onChange={(event: any, data: any) => this.setState({newLog:{...this.state.newLog,comments:data.value }})}
+                    onChange={(event: any, data: any) => this.setState({
+                        newLog: {
+                            ...this.state.newLog,
+                            comments: data.value
+                        }
+                    })}
 
                 />
 
-                <Form.Button loading={this.props.busy } disabled={this.props.busy}>Add {units}</Form.Button>
+                <Form.Button loading={this.props.busy} disabled={this.props.busy}>Add {units}</Form.Button>
             </Form>
         );
 
@@ -108,24 +117,24 @@ class LogForm extends React.Component<Props&DispatchProps, State> {
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:Props ):Props {
+function mapStateToProps(state: ApplicationState, myProps: Props): Props {
     return {
         ...myProps,
-        busy:state.logging.awaitingUpdate
+        busy: state.logging.awaitingUpdate
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        addLog: (log:LogData)=> dispatch(loggingActions.addLog(log))
+        addLog: (log: LogData) => dispatch(loggingActions.addLog(log))
     };
 
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(LogForm);

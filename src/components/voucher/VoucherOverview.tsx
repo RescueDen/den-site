@@ -11,13 +11,13 @@ import VoucherList from "./VoucherList";
 import {Link} from "react-router-dom";
 
 interface LinkProps {
-    voucherInfo?:VoucherInfo;
+    voucherInfo?: VoucherInfo;
 
 
 }
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
     getGetVoucherInfo: () => any;
 
@@ -27,12 +27,12 @@ interface DispatchProps{
 /**
  * This card shows the animal details
  */
-class NewVoucher extends React.Component<DispatchProps&LinkProps> {
+class NewVoucher extends React.Component<DispatchProps & LinkProps> {
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         // get the forms
         this.props.getGetVoucherInfo();
     };
@@ -43,7 +43,7 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
      */
     render() {
 
-        return(
+        return (
             <Container>
                 <Segment>
                     {/*Add a simple header*/}
@@ -77,16 +77,16 @@ class NewVoucher extends React.Component<DispatchProps&LinkProps> {
         );
 
     }
-};
+}
 
 /**
  * All of them share the same mapDispatchToProps
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        getGetVoucherInfo:() =>  dispatch(voucherActions.getVoucherInfo())
+        getGetVoucherInfo: () => dispatch(voucherActions.getVoucherInfo())
     };
 
 }
@@ -97,17 +97,17 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState, myProps:LinkProps): LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
 
     return {
         ...myProps,
-        voucherInfo:state.voucher.info
+        voucherInfo: state.voucher.info
     };
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(NewVoucher);

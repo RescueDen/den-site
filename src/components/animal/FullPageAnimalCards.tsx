@@ -77,10 +77,10 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
         //Export as a file
         let filename = "export.json";
         let contentType = "application/json;charset=utf-8;";
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(fosterList)))], { type: contentType });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
+        // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        //     const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(fosterList)))], { type: contentType });
+        //     navigator.msSaveOrOpenBlob(blob, filename);
+        // } else {
             const a = document.createElement('a');
             a.download = filename;
             a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(fosterList));
@@ -88,7 +88,7 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        }
+        // }
     }
 
     /**
@@ -108,10 +108,10 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
         //Export as a file
         let filename = "export.csv";
         let contentType = "text/csv;charset=utf-8;";
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            const blob = new Blob([decodeURIComponent(encodeURI(csv))], { type: contentType });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
+        // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        //     const blob = new Blob([decodeURIComponent(encodeURI(csv))], { type: contentType });
+        //     navigator.msSaveOrOpenBlob(blob, filename);
+        // } else {
             const a = document.createElement('a');
             a.download = filename;
             a.href = 'data:' + contentType + ',' + encodeURIComponent(csv);
@@ -119,7 +119,7 @@ class SearchableAnimalCards extends React.Component<IncomingProps&DispatchProps,
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        }
+        // }
     }
 
     /**

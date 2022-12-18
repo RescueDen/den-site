@@ -18,9 +18,9 @@ export const achievementsActions = {
  * @param password
  * @returns {Function}
  */
-function getAchievements(): ThunkAction<any, any,any, any> {
+function getAchievements(): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         return getAchievementsWithDispatch(dispatch);
     };
 
@@ -31,7 +31,7 @@ function getAchievements(): ThunkAction<any, any,any, any> {
  * @param dispatch
  * @param user
  */
-function getAchievementsWithDispatch(dispatch:Dispatch<Action>) {
+function getAchievementsWithDispatch(dispatch: Dispatch<Action>) {
 
     //Ask the user service to login
     achievementsService.getMyAchievements()
@@ -41,7 +41,7 @@ function getAchievementsWithDispatch(dispatch:Dispatch<Action>) {
                 //dispatch a login success
                 dispatch({
                     type: achievementsConstants.FETCH_USER_ACHIEVEMENTS,
-                    payload:achList
+                    payload: achList
                 });
             },
             //If there was an error, dispatch a login failure and alert the user why
@@ -49,7 +49,7 @@ function getAchievementsWithDispatch(dispatch:Dispatch<Action>) {
                 //Dispatch the error
                 try {
                     dispatch(error(errorResponse.response.data.message));
-                }catch(e){
+                } catch (e) {
                     dispatch(error(errorResponse.toString()));
                 }
             }

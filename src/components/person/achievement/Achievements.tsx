@@ -131,7 +131,7 @@ class Achievements extends React.Component<LinkProps & DispatchProps, State> {
                     }
 
                     {/*Else show a loading screen*/}
-                    {this.state.allAchievements.length == 0 &&
+                    {this.state.allAchievements.length === 0 &&
                         <Segment>
                             <Header as="h2">Possible Achievements</Header>
                             <Dimmer active inverted>

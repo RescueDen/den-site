@@ -51,7 +51,7 @@ class ArticleViewer extends React.Component<MyProps, MyState> {
      */
     render() {
         //If there is no html mark as loading
-        if (this.state.html.length == 0) {
+        if (this.state.html.length === 0) {
             return (<Segment>
                     <Dimmer inverted active>
                         <Loader size='large'>Loading</Loader>

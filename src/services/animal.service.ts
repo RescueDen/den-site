@@ -30,7 +30,7 @@ function getAnimal(id: number): Promise<ShelterAnimal> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const anData = <ShelterAnimalData>response.data;
+        const anData = response.data as ShelterAnimalData;
 
         //Make a caws user
         const cawAnimal = new ShelterAnimal(anData)
@@ -88,7 +88,7 @@ function searchForAnimal(search: string, onShelter: boolean): Promise<ShelterAni
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const anData = <ShelterAnimalData[]>response.data;
+        const anData = response.data as ShelterAnimalData[];
 
         //Make a caws user for the search
         const cawAnimal = anData.map(data => new ShelterAnimal(data));

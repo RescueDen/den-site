@@ -19,7 +19,7 @@ export function inSpecies(ani: NonShelterAnimal, searchSpecies: Species[]): bool
     const mySpecies = ani.species;
 
     for (let i = 0; i < searchSpecies.length; i++) {
-        if (searchSpecies[i].toString() == mySpecies) {
+        if (searchSpecies[i].toString() === mySpecies) {
             return true
         }
     }
@@ -80,7 +80,7 @@ export default class InNeedOfFoster {
 
     public removeNonShelterAnimalAndCopy(nonShelterAnimalId: number) {
         let data = this.data;
-        data.nonShelter = this.data.nonShelter?.filter(ani => ani.id != nonShelterAnimalId);
+        data.nonShelter = this.data.nonShelter?.filter(ani => ani.id !== nonShelterAnimalId);
         return new InNeedOfFoster(this.data);
     }
 

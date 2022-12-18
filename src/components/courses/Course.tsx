@@ -101,13 +101,13 @@ class Course extends React.Component<MyProps & LinkProps & DispatchProps, any> {
 
                 //See if we need show the foward button
                 const nextIndex = Math.min(lessonIndex + 1, courseData.lessons.length - 1)
-                const nextButton = nextIndex != lessonIndex ? <Button
+                const nextButton = nextIndex !== lessonIndex ? <Button
                     circular
                     icon='angle double right'
                     onClick={() => this.moveToLesson(nextIndex)}
                 /> : null;
                 const prevIndex = Math.max(lessonIndex - 1, 0)
-                const prevButton = prevIndex != lessonIndex ? <Button
+                const prevButton = prevIndex !== lessonIndex ? <Button
                     circular
                     icon='angle double left'
                     onClick={() => this.moveToLesson(prevIndex)}

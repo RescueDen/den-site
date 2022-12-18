@@ -53,7 +53,7 @@ class UploadPicture extends React.Component<IncomingProps & LinkProps & Dispatch
 
     render(): React.ReactNode {
         //Allow allow to submit if there is a name and blob
-        const allowedToSubmit = this.state.files != undefined;
+        const allowedToSubmit = this.state.files !== undefined;
 
         //Return the list
         return (<Form

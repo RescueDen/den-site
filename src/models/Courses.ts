@@ -36,7 +36,7 @@ export default class CourseListing {
     }
 
     public empty(): boolean {
-        return this.courseListingData.items?.length == 0;
+        return this.courseListingData.items?.length === 0;
     }
 }
 

@@ -25,7 +25,7 @@ function getCode(loc: string): Promise<CodeResponse> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <CodeResponse>response.data;
+        const data = response.data as CodeResponse;
 
         return data;
     });

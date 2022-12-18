@@ -111,7 +111,7 @@ class OneTimePasswordLoginPage extends React.Component<IncomingProps & DispatchP
                         <Form.Input fluid error={submitted && !token} iconPosition='left' placeholder='Token'
                                     value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
 
-                        <Button disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT}
+                        <Button disabled={this.props.authentication.loggedInStatus === AuthenticationStatus.ATTEMPT}
                                 fluid size='large' primary>
                             Login
                         </Button>

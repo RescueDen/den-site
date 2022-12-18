@@ -42,7 +42,7 @@ export class ContentListing implements Listing {
 
     //Check to see if it empty
     public empty(): boolean {
-        return this.data.id.length == 0;
+        return this.data.id.length === 0;
     }
 
     public find(id: string | undefined): ItemData | ListingData | undefined {

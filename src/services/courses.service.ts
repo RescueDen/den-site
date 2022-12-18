@@ -23,7 +23,7 @@ function getCoursesSummary(category: string): Promise<CourseListing> {
 
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
-            const data = <CourseListingData>response.data;
+            const data = response.data as CourseListingData;
 
             return new CourseListing(data);
         }
@@ -41,7 +41,7 @@ function getLessonInfo(category: string, id: string): Promise<string> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const artData = <string>response.data;
+            const artData = response.data as string;
 
             return artData;
         }

@@ -136,9 +136,9 @@ class KCBuilder extends React.Component<IncomingProps & DispatchProps & LinkProp
 
         //Check to see if the format was defined
         const format = params["format"];
-        if (format == "full") {
+        if (format === "full") {
             this.setFullPage(true)
-        } else if (format == "half") {
+        } else if (format === "half") {
             this.setFullPage(false);
         }
     };
@@ -259,7 +259,7 @@ class KCBuilder extends React.Component<IncomingProps & DispatchProps & LinkProp
     render() {
         //Build the list of animal data
         let aniDataList = this.state.idList.filter(id => {
-            return this.props.cawsAnimalsDb.animals[id] != undefined;
+            return this.props.cawsAnimalsDb.animals[id] !== undefined;
         }).map(id => {
             return this.props.cawsAnimalsDb.animals[id];
         })
@@ -310,7 +310,7 @@ class KCBuilder extends React.Component<IncomingProps & DispatchProps & LinkProp
                         </Grid.Column>
                     </Grid>
                     <div>
-                        <Loader active={this.state.idList.length != aniDataList.length}/>
+                        <Loader active={this.state.idList.length !== aniDataList.length}/>
                         <PDFViewer style={{width: '100%', height: '80vh'}}
                                    key={this.state.stateIndex + this.state.idList.toString() + JSON.stringify(aniDataList) + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
                             <Document>

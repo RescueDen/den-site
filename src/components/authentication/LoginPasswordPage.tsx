@@ -114,7 +114,7 @@ class LoginPasswordPage extends React.Component<IncomingProps & DispatchProps, M
             msg.push(<div>Password is required!</div>)
         }
         //See if the user is not activated
-        if (this.props.authentication.loggedInStatus == AuthenticationStatus.FALSE && this.props.authentication.loggedInMsg == "user_not_activated") {
+        if (this.props.authentication.loggedInStatus === AuthenticationStatus.FALSE && this.props.authentication.loggedInMsg === "user_not_activated") {
             errorState = true;
             msg.push(<div>The user has not been activated. <Button onClick={(e) => this.getNewActivationToken(e)}>Request
                 new activation email.</Button></div>)
@@ -143,7 +143,7 @@ class LoginPasswordPage extends React.Component<IncomingProps & DispatchProps, M
                             type='password'
                             value={password} onChange={(e) => this.setState({password: e.target.value})}
                         />
-                        <Button disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT}
+                        <Button disabled={this.props.authentication.loggedInStatus === AuthenticationStatus.ATTEMPT}
                                 fluid size='large' primary>
                             Login
                         </Button>
@@ -155,7 +155,7 @@ class LoginPasswordPage extends React.Component<IncomingProps & DispatchProps, M
                 </Form>
                 <Message>
                     <Link to="/register" className="ui button">Register</Link>
-                    <Button disabled={email.length == 0} onClick={e => this.getNewRequestEmailReset(e)}>
+                    <Button disabled={email.length === 0} onClick={e => this.getNewRequestEmailReset(e)}>
                         Reset Password
                     </Button>
 

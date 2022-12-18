@@ -69,7 +69,7 @@ class ClientTable extends React.Component<IncomingProps, State> {
 
     deletePerson = (deleteId: number) => {
         this.props.updateList(this.props.clientIds.filter((currentId) => {
-            return deleteId != currentId;
+            return deleteId !== currentId;
         }))
     }
 
@@ -185,7 +185,7 @@ class ClientTable extends React.Component<IncomingProps, State> {
                         </Table.Body>
                     </Table>
                 }
-                {this.state.error != undefined &&
+                {this.state.error !== undefined &&
                     <Message>
                         {this.state.error}
                     </Message>

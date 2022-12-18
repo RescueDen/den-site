@@ -83,7 +83,7 @@ class Lesson extends React.Component<Props, State> {
                     <Grid.Column width={contentComputerWidth}>
                         <div>
                             {/*Only put the video in the rail if info is defined */}
-                            {this.props.lesson.infoId != undefined && this.props.lesson.videoId &&
+                            {this.props.lesson.infoId !== undefined && this.props.lesson.videoId &&
                                 <Rail style={{marginTop: "25px"}} position='right'>
                                     <Embed
                                         id={this.props.lesson.videoId}
@@ -98,7 +98,7 @@ class Lesson extends React.Component<Props, State> {
                             <Container>
                                 <Segment>
                                     {/*Show a loading of the info*/}
-                                    {this.props.lesson.infoId && this.state.html.length == 0 &&
+                                    {this.props.lesson.infoId && this.state.html.length === 0 &&
                                         <Placeholder>
                                             <Placeholder.Line length='full'/>
                                             <Placeholder.Line length='very long'/>
@@ -110,7 +110,7 @@ class Lesson extends React.Component<Props, State> {
                                     }
 
                                     {/*Show the video as normal if there is no info*/}
-                                    {this.props.lesson.infoId == undefined &&
+                                    {this.props.lesson.infoId === undefined &&
                                         <Embed
                                             id={this.props.lesson.videoId}
                                             source='youtube'
@@ -121,7 +121,7 @@ class Lesson extends React.Component<Props, State> {
                                         />
                                     }
                                     {/*Show the data of the info*/}
-                                    {this.props.lesson.infoId && this.state.html.length != 0 &&
+                                    {this.props.lesson.infoId && this.state.html.length !== 0 &&
                                         <div dangerouslySetInnerHTML={{__html: this.state.html}}/>
 
                                     }
@@ -161,7 +161,7 @@ class Lesson extends React.Component<Props, State> {
                             />
                         }
                         {/*Show a loading of the info*/}
-                        {this.props.lesson.infoId && this.state.html.length == 0 &&
+                        {this.props.lesson.infoId && this.state.html.length === 0 &&
                             <Placeholder>
                                 <Placeholder.Line length='full'/>
                                 <Placeholder.Line length='very long'/>
@@ -172,7 +172,7 @@ class Lesson extends React.Component<Props, State> {
                             </Placeholder>
                         }
                         {/*Show the data of the info*/}
-                        {this.props.lesson.infoId && this.state.html.length != 0 &&
+                        {this.props.lesson.infoId && this.state.html.length !== 0 &&
                             <div dangerouslySetInnerHTML={{__html: this.state.html}}/>
 
                         }

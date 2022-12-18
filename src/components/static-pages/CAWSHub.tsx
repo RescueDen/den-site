@@ -22,13 +22,11 @@ class CAWSHub extends React.Component<any, MyState> {
     //Download the log
     downloadLog = () => {
         //Get the data
-        accessService.downloadLog("hub").then(
-            //If successful html will be returned
+        accessService.downloadLog("hub").then(//If successful html will be returned
             blob => {
                 //Update the state
                 FileSaver.saveAs(blob, "hubLog.txt");
-            },
-            //If there was an error, show to the user
+            }, //If there was an error, show to the user
             errorResponse => {
                 //Dispatch the error
                 try {
@@ -38,8 +36,7 @@ class CAWSHub extends React.Component<any, MyState> {
 
                 }
 
-            }
-        )
+            })
 
 
     }
@@ -49,15 +46,13 @@ class CAWSHub extends React.Component<any, MyState> {
      */
     componentDidMount() {
         //Now set it
-        accessService.getCode("hub").
+        accessService.getCode("hub")
             //When it comes back use it
-            then(
-                //If successful html will be returned
+            .then(//If successful html will be returned
                 codeInfo => {
                     //Update the state
                     this.setState({code: codeInfo})
-                },
-                //If there was an error, show to the user
+                }, //If there was an error, show to the user
                 errorResponse => {
                     //Dispatch the error
                     try {
@@ -67,8 +62,7 @@ class CAWSHub extends React.Component<any, MyState> {
 
                     }
 
-                }
-            );
+                });
     };
 
     /**
@@ -87,8 +81,7 @@ class CAWSHub extends React.Component<any, MyState> {
         }
 
 
-        return (
-            <>
+        return (<>
                 <Grid stackable columns={2}>
                     <Grid.Column>
                         <Container>

@@ -84,7 +84,7 @@ class VetVoucherView extends React.Component<LinkProps, State> {
      */
     render() {
 
-        if (this.props.voucherSecret && this.state.voucherPublicView == undefined) {
+        if (this.props.voucherSecret && this.state.voucherPublicView === undefined) {
             return (
                 <Dimmer active inverted>
                     <Loader size='large'>Loading Voucher</Loader>

@@ -20,7 +20,7 @@ function getWikiPage(contentPath: string): Promise<WikiPage> {
     const responsePromise = apiServer.get(contentPath, {headers: headers});
 
     return responsePromise.then(response => {
-        return <WikiPage>response.data;
+        return response.data as WikiPage;
     });
 }
 
@@ -33,6 +33,6 @@ function postWikiPage(contentPath: string, page: WikiPage): Promise<WikiPage> {
     const responsePromise = apiServer.post(contentPath, page, {headers: headers});
 
     return responsePromise.then(response => {
-        return <WikiPage>response.data;
+        return response.data as WikiPage;
     });
 }

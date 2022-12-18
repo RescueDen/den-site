@@ -42,8 +42,8 @@ class AlertDisplay extends React.Component<Props> {
                                 floating
                                 onDismiss={() => this.clearMessage(alert)}
                                 key={alert.id}
-                                success={alert.type == AlertType.POSITIVE}
-                                negative={alert.type == AlertType.NEGATIVE}
+                                success={alert.type === AlertType.POSITIVE}
+                                negative={alert.type === AlertType.NEGATIVE}
                             >
                                 {/*Add a header if specified*/}
                                 {header && <Message.Header>{header}</Message.Header>}

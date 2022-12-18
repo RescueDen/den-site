@@ -125,7 +125,7 @@ class AchievementSummary extends React.Component<LinkProps & DispatchProps, Stat
                                             //Get the person info
                                             const personInfo = this.props.peopleInfo[+id];
 
-                                            if (personInfo != undefined) {
+                                            if (personInfo !== undefined) {
                                                 return (
                                                     <List.Item>
                                                         <List.Content>

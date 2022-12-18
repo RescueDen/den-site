@@ -34,7 +34,7 @@ export class Alert {
 
     //Increase count
     equals(otherAlert: Alert): boolean {
-        return this.message == otherAlert.message;
+        return this.message === otherAlert.message;
     }
 
     //The main public constructor

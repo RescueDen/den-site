@@ -49,7 +49,7 @@ export default class FormListing {
 
     //Check to see if it empty
     public empty(): boolean {
-        return this.data.id.length == 0;
+        return this.data.id.length === 0;
     }
 
     public find(id: string | undefined): FormItemData | FormListingData | undefined {
@@ -104,8 +104,8 @@ export default class FormListing {
  * @param arg
  */
 export function isFormItemData(arg: any): arg is FormItemData {
-    return (arg.metadata != undefined) &&
-        (arg.JSONSchema != undefined) &&
-        (arg.UISchema != undefined);
+    return (arg.metadata !== undefined) &&
+        (arg.JSONSchema !== undefined) &&
+        (arg.UISchema !== undefined);
 
 }

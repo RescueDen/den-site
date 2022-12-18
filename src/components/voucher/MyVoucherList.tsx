@@ -42,9 +42,9 @@ class MyVoucherList extends React.Component<Props, StateData> {
      * @returns {*}
      */
     render() {
-        if (this.state.vouchers == undefined && this.state.error) {
+        if (this.state.vouchers === undefined && this.state.error) {
             return <p>{this.state.error}</p>
-        } else if (this.state.vouchers != undefined) {
+        } else if (this.state.vouchers !== undefined) {
 
             let vouchers = this.state.vouchers! as PublicVoucherViewData[];
             return (

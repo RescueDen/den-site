@@ -60,7 +60,7 @@ class VoucherSearchParams extends React.Component<IncomingProps & DispatchProps 
 
         //If any of the newParams are empty remove them from the object
         Object.keys(newParams).forEach(key => {
-            if (params[key].toString().length == 0) {
+            if (params[key].toString().length === 0) {
                 delete params[key];
             }
         });

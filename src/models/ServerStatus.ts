@@ -18,10 +18,10 @@ export function extractMessageFromPossibleServerResponseStatus(response: any): s
     //Wrap in
     try {
         //Convert the status back
-        const status = <ServerResponseStatus>response.response.data;
+        const status = response.response.data as ServerResponseStatus;
 
         //See if it is undefined
-        if (status == undefined)
+        if (status === undefined)
             return response.toString();
         else
             return status.message;

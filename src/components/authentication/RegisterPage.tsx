@@ -56,7 +56,7 @@ class RegisterPage extends React.Component<IncomingProps & DispatchProps, MyStat
         }
 
         //Use the action
-        if (email && password && (password == passwordCheck)) {
+        if (email && password && (password === passwordCheck)) {
             this.props.userActionRegister(userData)
         }
     }
@@ -99,7 +99,7 @@ class RegisterPage extends React.Component<IncomingProps & DispatchProps, MyStat
             msg.push(<div>A new password is required</div>)
         }
         //Check for password
-        if (submitted && (password != passwordCheck)) {
+        if (submitted && (password !== passwordCheck)) {
             errorState = true;
             passwordCheckError = true;
 
@@ -147,7 +147,7 @@ class RegisterPage extends React.Component<IncomingProps & DispatchProps, MyStat
                             type='password'
                             value={passwordCheck} onChange={(e) => this.setState({passwordCheck: e.target.value})}
                         />
-                        <Button disabled={this.props.authentication.registerUserStatus == AuthenticationStatus.ATTEMPT}
+                        <Button disabled={this.props.authentication.registerUserStatus === AuthenticationStatus.ATTEMPT}
                                 fluid size='large' primary>
                             Register
                         </Button>

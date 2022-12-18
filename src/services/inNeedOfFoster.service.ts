@@ -30,7 +30,7 @@ function getInNeedOfFosterList(): Promise<InNeedOfFoster> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <InNeedOfFosterData>response.data;
+        const data = response.data as InNeedOfFosterData;
 
         const model = new InNeedOfFoster(data)
 
@@ -66,7 +66,7 @@ function uploadAnimal(data: NonShelterAnimal, file?: File): Promise<NonShelterAn
 
     //We need to do some work here
     return responsePromise.then(response => {
-        return <NonShelterAnimal>response.data;
+        return response.data as NonShelterAnimal;
     });
 }
 
@@ -78,6 +78,6 @@ function removeAnimal(id: number): Promise<ServerResponseStatus> {
     const responsePromise = apiServer.delete(`/inneed/${id}`, {headers: headers});
 
     return responsePromise.then(response => {
-        return <ServerResponseStatus>response.data;
+        return response.data as ServerResponseStatus;
     });
 }

@@ -189,7 +189,7 @@ function mapStateToProps(state: ApplicationState, myProps: IncomeProps): LinkPro
     return {
         ...myProps,
         prefs: state.authentication.preferences,
-        loading: state.authentication.prefStatus ? state.authentication.prefStatus == AuthenticationStatus.ATTEMPT : false
+        loading: state.authentication.prefStatus ? state.authentication.prefStatus === AuthenticationStatus.ATTEMPT : false
     };
 }
 

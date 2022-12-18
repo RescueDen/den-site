@@ -106,7 +106,7 @@ class LoginPage extends React.Component<IncomingProps & DispatchProps, MyState> 
                                     placeholder='E-mail address' value={email}
                                     onChange={(e) => this.setState({email: e.target.value})}/>
                         <Button
-                            disabled={this.props.authentication.loggedInStatus == AuthenticationStatus.ATTEMPT || this.props.authentication.oneTimePasswordStatus == AuthenticationStatus.ATTEMPT}
+                            disabled={this.props.authentication.loggedInStatus === AuthenticationStatus.ATTEMPT || this.props.authentication.oneTimePasswordStatus === AuthenticationStatus.ATTEMPT}
                             fluid size='large' primary>
                             send login link to email
                         </Button>

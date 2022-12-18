@@ -46,7 +46,7 @@ class ColonyList extends React.Component<IncomingProps & StateProps & DispatchPr
     }
 
     render() {
-        let locations = this.props.colonies.filter(colony => colony.address.coordinate != undefined).map(colony => {
+        let locations = this.props.colonies.filter(colony => colony.address.coordinate !== undefined).map(colony => {
             return {
                 latitude: colony.address.coordinate!.latitude,
                 longitude: colony.address.coordinate!.longitude,

@@ -40,7 +40,7 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
 
     //Add a function to update hidden on dir
     updateHiddenOnDir(id: string) {
-        const currentStatus = this.state.hidden[id] != undefined && this.state.hidden[id];
+        const currentStatus = this.state.hidden[id] !== undefined && this.state.hidden[id];
 
         //Now update my local state
         this.setState({hidden: {...this.state.hidden, [id]: !currentStatus}});
@@ -48,7 +48,7 @@ class DocumentHierarchy extends React.Component<MyProps, MyState> {
 
     buildHierarchy(listing: ListingData): JSX.ReactNode {
         //Determine if this directory is hidden
-        let hidden: boolean = this.state.hidden[listing.id] != undefined && this.state.hidden[listing.id];
+        let hidden: boolean = this.state.hidden[listing.id] !== undefined && this.state.hidden[listing.id];
 
         //See if we should flip the default behavior
         if (defaultHide)

@@ -48,7 +48,7 @@ function login(email: string, password: string, organizationId: number): Promise
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const userData = <ShelterUserData>response.data;
+            const userData = response.data as ShelterUserData;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -76,7 +76,7 @@ function loginFacebook(facebookToken: any): Promise<ShelterUser> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const userData = <ShelterUserData>response.data;
+            const userData = response.data as ShelterUserData;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -111,7 +111,7 @@ function loginGoogle(googleToken: any): Promise<ShelterUser> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const userData = <ShelterUserData>response.data;
+            const userData = response.data as ShelterUserData;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -145,7 +145,7 @@ function updateLoggedInUser(): Promise<ShelterUser> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const userData = <ShelterUserData>response.data;
+            const userData = response.data as ShelterUserData;
 
             //Make a caws user
             const cawsUser = new ShelterUser(userData)
@@ -176,7 +176,7 @@ function getLoggedInUserPermissions(): Promise<Permissions> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const permData = <PermissionsData>response.data;
+            const permData = response.data as PermissionsData;
 
             //Make a caws user
             const perm = new Permissions(permData)
@@ -206,7 +206,7 @@ function getLoggedInUserPreferences(): Promise<UserPreferences> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const prefData = <UserPreferences>response.data;
+            const prefData = response.data as UserPreferences;
 
             //Log that user in
             localStorage.setItem('currentPreferences', JSON.stringify(prefData));
@@ -230,7 +230,7 @@ function setLoggedInUserPreferences(setting: SettingGroup): Promise<UserPreferen
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const prefData = <UserPreferences>response.data;
+            const prefData = response.data as UserPreferences;
 
             //Log that user in
             localStorage.setItem('currentPreferences', JSON.stringify(prefData));
@@ -265,7 +265,7 @@ function registerNewUser(user: RegisterUserData): Promise<ServerResponseStatus> 
 
     //Now convert it to a serverResponse
     return responsePromise.then(response => {
-        return <ServerResponseStatus>response.data;
+        return response.data as ServerResponseStatus;
     });
 
 
@@ -285,7 +285,7 @@ function forcePasswordChange(email: string, reset_token: string, password: strin
 
     //Now convert it to a serverResponse
     return responsePromise.then(response => {
-        return <ServerResponseStatus>response.data;
+        return response.data as ServerResponseStatus;
     });
 
 
@@ -302,7 +302,7 @@ function requestOneTimePassword(email: string, organizationId: number): Promise<
 
     //Now convert it to a serverResponse
     return responsePromise.then(response => {
-        return <ServerResponseStatus>response.data;
+        return response.data as ServerResponseStatus;
     });
 }
 
@@ -319,7 +319,7 @@ function loginWithOneTimePassword(email: string, token: string, organizationId: 
     //Now convert it to a serverResponse
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const userData = <ShelterUserData>response.data;
+            const userData = response.data as ShelterUserData;
 
             //Log that user in
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -342,7 +342,7 @@ function requestActivationToken(email: string): Promise<ServerResponseStatus> {
 
     //Now convert it to a serverResponse
     return responsePromise.then(response => {
-        return <ServerResponseStatus>response.data;
+        return response.data as ServerResponseStatus;
     });
 }
 
@@ -355,7 +355,7 @@ function requestEmailReset(email: string): Promise<ServerResponseStatus> {
 
     //Now convert it to a serverResponse
     return responsePromise.then(response => {
-        return <ServerResponseStatus>response.data;
+        return response.data as ServerResponseStatus;
     });
 
 
@@ -379,7 +379,7 @@ function activateUser(email: string, activationToken: string): Promise<ServerRes
     //Now convert it to a serverResponse
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const data = <ServerResponseStatus>response.data;
+            const data = response.data as ServerResponseStatus;
 
             return data;
         }

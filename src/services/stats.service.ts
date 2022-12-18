@@ -35,7 +35,7 @@ function getStats(): Promise<Stats> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const stats = <Stats>response.data;
+        const stats = response.data as Stats;
 
 
         //Return just the user

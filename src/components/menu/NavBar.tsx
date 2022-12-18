@@ -55,7 +55,7 @@ class NavBar extends React.Component<Props> {
         } else {
             //Determine if the link is active
             //Determine if it is active
-            const active = this.props.pathname ? (this.props.pathname == item.to) : false;
+            const active = this.props.pathname ? (this.props.pathname === item.to) : false;
 
             //See if we should do anything with the on click
             let linkTo = undefined;
@@ -92,7 +92,7 @@ class NavBar extends React.Component<Props> {
         }
 
         //See if we should use a tool tip
-        if (mobile == MenuType.Tablet && !subMenu && item.icon != undefined) {
+        if (mobile === MenuType.Tablet && !subMenu && item.icon !== undefined) {
             return (
                 <Popup
                     mouseEnterDelay={1250}
@@ -117,7 +117,7 @@ class NavBar extends React.Component<Props> {
     buildSubMenu(item: MenuItem, mobile: MenuType) {
         //Determine if the link is active
         //Determine if it is active
-        const active = this.props.pathname ? (this.props.pathname == item.to) : false;
+        const active = this.props.pathname ? (this.props.pathname === item.to) : false;
 
         //See if we should do anything with the on click
         let linkTo = undefined;
@@ -125,7 +125,7 @@ class NavBar extends React.Component<Props> {
             linkTo = () => this.props.reRoute(item.to)
 
         //Draw the menu if it is mobile or not
-        if (mobile == MenuType.Mobile) {
+        if (mobile === MenuType.Mobile) {
             return (
                 <Menu.Item key={item.name + item.icon} active={active}>
                     {/*Now the icon if here*/}
@@ -138,7 +138,7 @@ class NavBar extends React.Component<Props> {
                 </Menu.Item>
             );
 
-        } else if (mobile == MenuType.Tablet) {
+        } else if (mobile === MenuType.Tablet) {
             //Desktop mode
             return (
                 <Menu.Item key={item.name + item.icon}>
@@ -146,7 +146,7 @@ class NavBar extends React.Component<Props> {
                     {item.icon}
                     {/*Now for the name*/}
                     <Dropdown key={item.name}
-                              text={item.icon == undefined ? item.name : undefined}
+                              text={item.icon === undefined ? item.name : undefined}
                               onClick={item.onClick ? item.onClick : linkTo}//If there is an onclick use it, otherwise link
                               icon={item.name ? undefined : <Icon name='ellipsis horizontal'/>}
                     >

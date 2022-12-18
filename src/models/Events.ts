@@ -95,7 +95,7 @@ export default class EventListing {
         const events: EventItemData[] | undefined = this.data.items;
         if (events) {
             for (let event of events) {
-                if (event.id == id) {
+                if (event.id === id) {
                     return event;
                 }
             }
@@ -105,7 +105,7 @@ export default class EventListing {
 
     //Check to see if it empty
     public empty(): boolean {
-        return this.data.id.length == 0;
+        return this.data.id.length === 0;
     }
 
 

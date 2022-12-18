@@ -56,7 +56,7 @@ class StaticComponent extends React.Component<Props, MyState> {
     };
 
     render(): React.ReactNode {
-        if (this.state.html.length == 0) {
+        if (this.state.html.length === 0) {
             return (
                 <Dimmer inverted active>
                     <Loader size='small'></Loader>

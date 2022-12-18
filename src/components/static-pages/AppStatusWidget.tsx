@@ -84,7 +84,7 @@ const AppStatusWidget = (props: AppStatusProps) => {
         listComponents.push(
             <Step
                 disabled={!thisActive}
-                active={highestStatus == props.status[i]}
+                active={highestStatus === props.status[i]}
                 as={props.status[i].link && Link}
                 to={props.status[i].link}
             >

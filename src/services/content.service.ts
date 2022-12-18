@@ -3,8 +3,7 @@ import {authHeader} from "../utils/auth-header";
 import {ContentListing, ListingData} from "../models/ContentListing";
 
 export const contentService = {
-    getContentListing,
-    downloadContent
+    getContentListing, downloadContent
 };
 
 // Create a default axios instance with the api
@@ -24,13 +23,12 @@ function getContentListing(category: string): Promise<ContentListing> {
 
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
-            const data = <ListingData>response.data;
+        const data = response.data as ListingData;
 
-            const listing = new ContentListing(data)
+        const listing = new ContentListing(data)
 
-            return listing;
-        }
-    );
+        return listing;
+    });
 
 
 }
@@ -46,11 +44,10 @@ function downloadContent(category: string, id: string): Promise<string> {
 
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
-            //Get the user
-            const artData = <string>response.data;
+        //Get the user
+        const artData = response.data as string;
 
-            return artData;
-        }
-    );
+        return artData;
+    });
 }
 

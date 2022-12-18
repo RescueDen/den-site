@@ -29,7 +29,7 @@ function getMyAchievements(): Promise<AchievementData[]> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <AchievementData[]>response.data;
+        const data = response.data as AchievementData[];
 
         //Now set the url for each
         data.forEach(ach => {
@@ -59,7 +59,7 @@ function getAchievementSummary(achId: number): Promise<AchievementSummaryData> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <AchievementSummaryData>response.data;
+        const data = response.data as AchievementSummaryData;
 
         //Now set the url for each
         data.achievement.badgeUrl = process.env.REACT_APP_API_URL + "/achievements/badge/" + data.achievement.id + ".svg";
@@ -88,7 +88,7 @@ function getAllAchievements(): Promise<AchievementData[]> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <AchievementData[]>response.data;
+        const data = response.data as AchievementData[];
 
         //Now set the url for each
         data.forEach(ach => {

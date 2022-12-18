@@ -124,7 +124,7 @@ class ActivationPage extends React.Component<IncomingProps & DispatchProps, MySt
                         <Form.Input fluid error={submitted && !token} iconPosition='left' placeholder='Token'
                                     value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
 
-                        <Button disabled={this.props.authentication.activatedUserStatus == AuthenticationStatus.ATTEMPT}
+                        <Button disabled={this.props.authentication.activatedUserStatus === AuthenticationStatus.ATTEMPT}
                                 fluid size='large' primary>
                             Activate
                         </Button>
@@ -144,7 +144,7 @@ class ActivationPage extends React.Component<IncomingProps & DispatchProps, MySt
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param props
  */
 function mapStateToProps(state: ApplicationState, props: IncomingProps): IncomingProps {
     return {

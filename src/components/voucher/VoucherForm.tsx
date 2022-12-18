@@ -172,7 +172,7 @@ class VoucherForm extends React.Component<IncomingProps & LinkProps & DispatchPr
             }
 
             //Get the current vet
-            const currentVet = this.props.voucherInfo.vets.find(vet => vet.id == this.state.voucher.vetId);
+            const currentVet = this.props.voucherInfo.vets.find(vet => vet.id === this.state.voucher.vetId);
             if (currentVet) {
                 if (currentVet.treatments.indexOf(treatment.id) < 0) {
                     enabled = false;
@@ -211,7 +211,6 @@ class VoucherForm extends React.Component<IncomingProps & LinkProps & DispatchPr
         this.state.voucher.animalInfo.map(info => {
             //If we have this animal
             speciesSet.add(info.species);
-
         });
 
 

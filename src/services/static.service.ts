@@ -32,7 +32,7 @@ function getPublicPage(page: string): Promise<string> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const artData = <string>response.data;
+        const artData = response.data as string;
 
         return artData;
     });
@@ -59,7 +59,7 @@ function getPrivatePage(page: string): Promise<string> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const artData = <string>response.data;
+        const artData = response.data as string;
 
         return artData;
     });

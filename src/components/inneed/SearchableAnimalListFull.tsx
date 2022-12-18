@@ -189,7 +189,7 @@ class SearchableAnimalListFull extends React.Component<IncomingProps & DispatchP
         return this.props.nonCaws.map(ani => {
 
             //If the ani is undefined just return the aniItem
-            if (ani != undefined && (inSearch(ani, this.state.searchTerm) && inSpecies(ani, this.state.searchSpecies))) {
+            if (ani !== undefined && (inSearch(ani, this.state.searchTerm) && inSpecies(ani, this.state.searchSpecies))) {
                 //It is in the search term
                 return <NonShelterAnimalItemFull key={ani.id} ani={ani}
                                                  extraButton={this.buildNonCawsFosterButton(ani)}/>;

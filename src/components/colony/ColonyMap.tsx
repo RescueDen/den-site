@@ -35,13 +35,13 @@ class ColonyMap extends React.Component<IncomingProps> {
         let centerLat = 0;
         let centerLon = 0;
 
-        if (this.props.selected == undefined) {
+        if (this.props.selected === undefined) {
             centerLat = this.props.locations.map(loc => loc.latitude).reduce((a, b) => a + b, 0);
             centerLon = this.props.locations.map(loc => loc.longitude).reduce((a, b) => a + b, 0);
             centerLat /= this.props.locations.length;
             centerLon /= this.props.locations.length;
         } else {
-            const selectedLocation = this.props.locations.find(loc => loc.id == this.props.selected);
+            const selectedLocation = this.props.locations.find(loc => loc.id === this.props.selected);
             if (selectedLocation) {
                 centerLat = selectedLocation.latitude;
                 centerLon = selectedLocation.longitude;

@@ -57,7 +57,7 @@ class CourseList extends React.Component<MyProps & LinkProps & DispatchProps, an
                     })
 
                 }
-                {!this.props.courses || this.props.courses.courseListingData.items?.length == 0 && <Card>
+                {(!this.props.courses || this.props.courses.courseListingData.items?.length === 0) && <Card>
                     <Card.Content>
                         <Placeholder>
                             <Placeholder.Image rectangular/>

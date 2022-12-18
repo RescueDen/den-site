@@ -63,7 +63,7 @@ const PrivateRouteWithOutState = ({
     //See if we are allowed to
     if (currentUser) {
         //See if we require permissions
-        if (reqPermission == undefined) {
+        if (reqPermission === undefined) {
             allowed = true;
         } else {
             //See if we are allowed to

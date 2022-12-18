@@ -72,14 +72,14 @@ class ActivationPage extends React.Component<IncomingProps & DispatchProps, MySt
         //Normal prevent default to prevent page from reloading
         e.preventDefault();
 
-        //Update the submit
+        //Update to submit
         this.setState({submitted: true});
 
-        //Extract the user name from the local
+        //Extract the username from the local
         const {email, token, password, passwordCheck} = this.state;
 
         //Use the action
-        if (email && token && password && (password == passwordCheck)) {
+        if (email && token && password && (password === passwordCheck)) {
             this.props.forcePasswordChange(email, token, password);
         }
     }
@@ -122,7 +122,7 @@ class ActivationPage extends React.Component<IncomingProps & DispatchProps, MySt
             msg.push(<div>A new password is required</div>)
         }
         //Check for password
-        if (submitted && (password != passwordCheck)) {
+        if (submitted && (password !== passwordCheck)) {
             errorState = true;
             passwordCheckError = true;
 
@@ -174,7 +174,7 @@ class ActivationPage extends React.Component<IncomingProps & DispatchProps, MySt
                             value={passwordCheck} onChange={(e) => this.setState({passwordCheck: e.target.value})}
                         />
 
-                        <Button disabled={this.props.authentication.pwResetStatus == AuthenticationStatus.ATTEMPT} fluid
+                        <Button disabled={this.props.authentication.pwResetStatus === AuthenticationStatus.ATTEMPT} fluid
                                 size='large' primary>
                             Reset
                         </Button>

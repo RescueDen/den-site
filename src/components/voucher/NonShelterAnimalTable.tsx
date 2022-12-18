@@ -38,7 +38,7 @@ class NonShelterAnimalTable extends React.Component<IncomingProps & DispatchProp
     deleteAnimal = (row: number) => {
         if (this.props.updateList) {
             this.props.updateList(this.props.animals.filter((value, index) => {
-                return index != row;
+                return index !== row;
             }))
         }
     }

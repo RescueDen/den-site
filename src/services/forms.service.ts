@@ -33,7 +33,7 @@ function getFormsSummary(category: string): Promise<FormListing> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const data = <FormListingData>response.data;
+            const data = response.data as FormListingData;
 
             //Make a caws user
             const info = new FormListing(data)
@@ -63,7 +63,7 @@ function submitForm(category: string, sub: FormSubmission): Promise<ServerRespon
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
             //Get the user
-            const data = <ServerResponseStatus>response.data;
+            const data = response.data as ServerResponseStatus;
 
             //Return just the user
             return data;

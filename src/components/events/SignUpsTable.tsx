@@ -33,7 +33,7 @@ class SignUpsTable extends React.Component<LinkProps> {
         //Add each row
         for (let ind = 0; ind < this.props.signups.rowids.length; ind++) {
             tblRows.push(
-                <Table.Row active={this.props.signups.rowids[ind] == this.props.selectedRow}>
+                <Table.Row active={this.props.signups.rowids[ind] === this.props.selectedRow}>
                     {/*Output each row for the header*/}
                     {this.buildRow(ind)}
 

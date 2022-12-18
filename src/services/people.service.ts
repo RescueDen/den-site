@@ -31,7 +31,7 @@ function getPerson(id: number): Promise<PersonData> {
     return responsePromise.then(response => {//When the request returns
         //Get the user
         //Return just the user
-        return <PersonData>response.data;
+        return response.data as PersonData;
     });
 
 
@@ -58,7 +58,7 @@ function searchForAnimal(search: string): Promise<ShelterAnimal[]> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const anData = <ShelterAnimalData[]>response.data;
+        const anData = response.data as ShelterAnimalData[];
 
         //Make a caws user for the search
         //Return just the user
@@ -85,7 +85,7 @@ function getAchievements(userId: number): Promise<AchievementData[]> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <AchievementData[]>response.data;
+        const data = response.data as AchievementData[];
 
         //Now set the url for each
         data.forEach(ach => {

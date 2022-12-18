@@ -67,7 +67,7 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
 
     handleSearchChange = (event: any, {searchQuery}: DropdownOnSearchChangeData) => {
         //If this value is defined
-        if (searchQuery != undefined) {
+        if (searchQuery !== undefined) {
             this.performSearch(searchQuery, this.state.onShelter);
         }
     }
@@ -121,7 +121,7 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
 
     handleResultSelect = (event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
         //If this value is defined
-        if (data.value != undefined) {
+        if (data.value !== undefined) {
             this.props.selectAnimal(+data.value);
         }
         this.resetComponent();
@@ -160,7 +160,7 @@ class RemoteSearch extends React.Component<IncomingProps, SearchState> {
 
                 }
                 content={this.state.error}
-                open={this.state.error != undefined}
+                open={this.state.error !== undefined}
                 position='right center'
             />
 

@@ -18,8 +18,6 @@ const apiServer = axios.create({
 
 /**
  * Get the info summary
- * @param username
- * @param password
  * @returns
  */
 function getFeed(): Promise<FeedItemData[]> {
@@ -32,7 +30,7 @@ function getFeed(): Promise<FeedItemData[]> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const info = <FeedItemData[]>response.data;
+        const info = response.data as FeedItemData[];
 
         return info;
     });

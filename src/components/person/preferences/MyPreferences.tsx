@@ -71,7 +71,7 @@ class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState
                                 let value: number;
 
                                 //See if we should parse as an int or value
-                                if (option.type == "int") {
+                                if (option.type === "int") {
                                     value = parseInt(event.target.value)
                                 } else {
                                     value = parseFloat(event.target.value)
@@ -93,7 +93,6 @@ class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState
 
                     </>
                 );
-                break;
             case "bool": {
                 //Build the name
                 let name = option.name;
@@ -106,7 +105,7 @@ class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState
                         <Form.Checkbox
                             disabled={disabled}
                             label={name}
-                            checked={currentValue == 'true'}
+                            checked={currentValue === 'true'}
                             onChange={(event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
                                 //Now store it
                                 update(data.checked ? "true" : "false");
@@ -118,7 +117,6 @@ class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState
                     </>
                 );
             }
-                break;
             case "string":
                 //Build the name
                 let name = option.name;
@@ -174,7 +172,6 @@ class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState
                         />
                     );
                 }
-                break;
             default: {
                 return <p>Preference {option.name} Not Supported of type {option.type}</p>
 
@@ -271,7 +268,7 @@ class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState
 
 
             //See if we are already in edit mode
-            const editMode = !(this.state.editSettings == undefined);
+            const editMode = !(this.state.editSettings === undefined);
 
             //Get the settings we are using
             let settings = this.props.prefs.settings;
@@ -333,7 +330,7 @@ function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps
         ...myProps,
         user: state.authentication.loggedInUser ? state.authentication.loggedInUser : getEmptyCawsUser(),
         prefs: state.authentication.preferences,
-        loading: state.authentication.prefStatus ? state.authentication.prefStatus == AuthenticationStatus.ATTEMPT : false
+        loading: state.authentication.prefStatus ? state.authentication.prefStatus === AuthenticationStatus.ATTEMPT : false
     };
 }
 

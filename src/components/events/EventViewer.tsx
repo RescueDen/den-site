@@ -192,7 +192,7 @@ class EventViewer extends React.Component<LinkProps & StateProps, MyState> {
 
 
     resetForm = () => {
-        this.setState({formCount: this.state.formCount++});
+        this.setState({formCount: this.state.formCount + 1});
 
     };
 
@@ -301,7 +301,7 @@ class EventViewer extends React.Component<LinkProps & StateProps, MyState> {
         //Now show the signup information
         //See if we should show info
         if (this.props.eventInfo.infoId) {
-            if (this.state.htmlInfo.length == 0) {
+            if (this.state.htmlInfo.length === 0) {
                 components.push(<div key={"loading div"}>
                     <Dimmer inverted active>
                         <Loader size='large'>Loading</Loader>

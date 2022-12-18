@@ -25,15 +25,6 @@ interface DispatchProps {
 
 }
 
-//Define the expected props
-interface State {
-    //Keep a voucher in mem
-    voucher?: Voucher;
-    error?: string;
-    loading: boolean;
-}
-
-
 /**
  * This card shows the animal details
  */
@@ -112,7 +103,7 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
                 <Container>
                     <Segment>
                         {/*Add a dimmer if needed*/}
-                        {this.state.voucher == undefined || this.state.loading &&
+                        {(this.state.voucher === undefined || this.state.loading) &&
                             <Dimmer inverted active={true}>
                                 <Loader inverted>Loading</Loader>
                             </Dimmer>
@@ -137,7 +128,7 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
                 <Container>
                     <Segment>
                         {/*Add a dimmer if needed*/}
-                        {this.state.voucher == undefined || this.state.loading &&
+                        {(this.state.voucher === undefined || this.state.loading) &&
                             <Dimmer inverted active={true}>
                                 <Loader inverted>Loading</Loader>
                             </Dimmer>

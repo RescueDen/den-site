@@ -20,7 +20,7 @@ function getColonyList(): Promise<Colony[]> {
 
     //We need to do some work here
     return responsePromise.then(response => {
-        return <Colony[]>response.data;
+        return response.data as Colony[];
     });
 }
 
@@ -34,7 +34,7 @@ function updateColony(colony: Colony): Promise<Colony> {
 
     //We need to do some work here
     return responsePromise.then(response => {
-        return <Colony>response.data;
+        return response.data as Colony;
     });
 }
 
@@ -48,7 +48,7 @@ function loadColony(colonyId: number): Promise<Colony> {
 
     //We need to do some work here
     return responsePromise.then(response => {
-        return <Colony>response.data;
+        return response.data as Colony;
     });
 }
 

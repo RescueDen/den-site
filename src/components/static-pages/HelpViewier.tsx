@@ -5,6 +5,7 @@ import ShelterUser from "../../models/ShelterUser";
 import ApplicationState from "../../state/ApplicationState";
 import {connect} from "react-redux";
 import StaticComponent from "./StaticComponent";
+import Version from "../utils/Version";
 
 //Define the expected props
 interface LinkProps {
@@ -18,18 +19,25 @@ class HelpViewer extends React.Component<LinkProps> {
     render() {
         //Now set it
         if (this.props.user) {
-            return (<Container>
+            return (<div>
+                <Container>
                     <Segment>
                         <StaticComponent pagePath={"help"} public={false}/>
                     </Segment>
-                </Container>);
+                </Container>
+                <Version></Version>
+            </div>);
 
         } else {
-            return (<Container>
+            return (<div><Container>
                     <Segment>
                         <StaticComponent pagePath={"help"} public={true}/>
                     </Segment>
-                </Container>);
+                </Container>
+                <Version></Version>
+                </div>
+
+                );
         }
 
     }

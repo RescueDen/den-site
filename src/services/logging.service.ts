@@ -33,7 +33,7 @@ function getCategorySummary(): Promise<CategoryInfoSummary> {
     return responsePromise.then(response => {//When the request returns
         //Get the user
         //Return just the user
-        return <CategoryInfoSummary>response.data;//CourseListing(data);
+        return response.data as CategoryInfoSummary;//CourseListing(data);
     });
 
 
@@ -56,7 +56,7 @@ function getLogSummary(asmId: number): Promise<LogSummary> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        return <LogSummary>response.data;
+        return response.data as LogSummary;
     });
 
 
@@ -79,7 +79,7 @@ function addLog(log: LogData): Promise<LogSummary> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        return <LogSummary>response.data;
+        return response.data as LogSummary;
     });
 
 
@@ -103,7 +103,7 @@ function removeLog(type: string, logId: number): Promise<LogSummary> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        return <LogSummary>response.data;
+        return response.data as LogSummary;
     });
 
 

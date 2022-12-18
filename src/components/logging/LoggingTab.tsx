@@ -108,7 +108,7 @@ class LoggingTab extends React.Component<Props, State> {
         if (this.props.timeHistory) {
             for (let i = 0; i < this.props.timeHistory.length; i++) {
                 //If the year and month match return
-                if (mon == this.props.timeHistory[i].month && year == this.props.timeHistory[i].year) {
+                if (mon === this.props.timeHistory[i].month && year === this.props.timeHistory[i].year) {
                     return this.props.timeHistory[i].total
                 }
 
@@ -145,7 +145,7 @@ class LoggingTab extends React.Component<Props, State> {
 
                 //Get the month name
                 let name = months[mon - 1];
-                if (mon == 1) {
+                if (mon === 1) {
                     name += "-" + yr
                 }
                 //Store the info

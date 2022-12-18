@@ -25,7 +25,7 @@ function getEventsListing(category: string): Promise<EventListing> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const data = <EventListingData>response.data;
+        const data = response.data as EventListingData;
 
         //Make a caws user
         const info = new EventListing(data)
@@ -55,7 +55,7 @@ function downloadEventInfo(id: string): Promise<string> {
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const artData = <string>response.data;
+        const artData = response.data as string;
 
         return artData;
     });
@@ -87,7 +87,7 @@ function downloadEventSignup(category: string, id: string, rowId?: number): Prom
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const artData = <SignUpResponse>response.data;
+        const artData = response.data as SignUpResponse;
 
         return artData;
     });
@@ -115,7 +115,7 @@ function deleteEventSignup(category: string, id: string, rowId: number): Promise
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const artData = <SignUpResponse>response.data;
+        const artData = response.data as SignUpResponse;
 
         return artData;
     });
@@ -148,7 +148,7 @@ function postEventSignup(sub: any, category: string, id: string, rowId?: number)
     //We need to do some work here
     return responsePromise.then(response => {//When the request returns
         //Get the user
-        const artData = <SignUpResponse>response.data;
+        const artData = response.data as SignUpResponse;
 
         return artData;
     });

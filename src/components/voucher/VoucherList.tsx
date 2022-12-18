@@ -43,7 +43,7 @@ class VoucherList extends React.Component<IncomingProps & LinkProps & DispatchPr
      */
     componentDidUpdate(prevProps: LinkProps) {
         // Typical usage (don't forget to compare props):
-        if (this.props.results && (prevProps.results == undefined)) {
+        if (this.props.results && (prevProps.results === undefined)) {
             this.getAnimalInfo();
 
         } else if (this.props.results && prevProps.results && (this.props.results.results.length !== prevProps.results.results.length)) {
@@ -66,7 +66,7 @@ class VoucherList extends React.Component<IncomingProps & LinkProps & DispatchPr
 
     getTypeName = (type: number) => {
         for (let i = 0; i < this.props.voucherInfo.types.length; i++) {
-            if (this.props.voucherInfo.types[i].id == type) {
+            if (this.props.voucherInfo.types[i].id === type) {
                 return this.props.voucherInfo.types[i].name;
             }
         }
@@ -74,7 +74,7 @@ class VoucherList extends React.Component<IncomingProps & LinkProps & DispatchPr
     }
     getVet = (vetId: number) => {
         for (let i = 0; i < this.props.voucherInfo.vets.length; i++) {
-            if (this.props.voucherInfo.vets[i].id == vetId) {
+            if (this.props.voucherInfo.vets[i].id === vetId) {
                 return this.props.voucherInfo.vets[i].name;
             }
         }
@@ -116,7 +116,7 @@ class VoucherList extends React.Component<IncomingProps & LinkProps & DispatchPr
                 <List>
                     {voucher.treatmentIds.map(id => {
                         for (let i = 0; i < this.props.voucherInfo.treatments.length; i++) {
-                            if (this.props.voucherInfo.treatments[i].id == id) {
+                            if (this.props.voucherInfo.treatments[i].id === id) {
                                 return (
                                     <List.Item>
                                         {this.props.voucherInfo.treatments[i].name}

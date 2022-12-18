@@ -50,7 +50,7 @@ class AddInNeed extends React.Component<IncomingProps & LinkProps, LocalState> {
 
     render(): React.ReactNode {
         //Allow allow to submit if there is a name and blob
-        const allowedToSubmit = this.state.anData.name.length > 0 && this.state.files != undefined;
+        const allowedToSubmit = this.state.anData.name.length > 0 && this.state.files !== undefined;
 
         //Return the list
         return (
@@ -95,7 +95,7 @@ class AddInNeed extends React.Component<IncomingProps & LinkProps, LocalState> {
                                 ...this.state,
                                 anData: {
                                     ...this.state.anData,
-                                    species: data.value.toString() == "Dog" ? Species.dog : Species.cat,
+                                    species: data.value.toString() === "Dog" ? Species.dog : Species.cat,
                                 }
                             })
                         }

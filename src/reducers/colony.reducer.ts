@@ -8,7 +8,7 @@ export function colony(state:ColonyState = {colonies:[] as Colony[]}, action:Act
         case colonyConstants.FETCH_COLONIES:
             return {...state, colonies:action.payload};
         case colonyConstants.UPDATE_COLONY:
-            return {...state, colonies:[action.payload, ...state.colonies.filter(c => c.id != action.payload.id)]};
+            return {...state, colonies:[action.payload, ...state.colonies.filter(c => c.id !== action.payload.id)]};
         default:
             return state
     }

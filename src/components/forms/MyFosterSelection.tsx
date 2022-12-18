@@ -94,7 +94,7 @@ class MyFosterSelection extends React.Component<LinkProps & StateProps & Dispatc
     //Add the code to seralize and deseralize the animals
     separateString = (value: string | undefined) => {
 
-        if (value != undefined) {
+        if (value !== undefined) {
             //Split the string
             return value.split(",").map(tmp => tmp.trim()).filter(tmp => tmp.length > 0);
         } else {

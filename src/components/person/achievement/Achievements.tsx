@@ -14,7 +14,7 @@ import {achievementsService} from "../../../services/achievements.service";
 import FormListing, {isFormItemData} from "../../../models/FormListing";
 import {formsActions} from "../../../actions/forms.actions";
 import FormViewer from "../../forms/FormViewer";
-import {WidgetProps} from "react-jsonschema-form-semanticui-fixed";
+import {WidgetProps} from "@rjsf/utils";
 
 
 //Define the expected props

@@ -1,9 +1,6 @@
 import React from 'react';
 
-// @ts-ignore
-import Map from 'pigeon-maps'
-// @ts-ignore
-import Marker from 'pigeon-marker'
+import { Map, Marker } from "pigeon-maps"
 import {Segment} from "semantic-ui-react";
 
 interface IncomingProps {

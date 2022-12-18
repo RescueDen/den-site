@@ -1,10 +1,7 @@
 import React from 'react';
 
 //Import custom styling
-import {
-    Button, DropdownProps,
-    Form, Icon, InputOnChangeData, TextArea, TextAreaProps
-} from "semantic-ui-react";
+import {Button, Form, Icon, TextAreaProps} from "semantic-ui-react";
 
 import {connect} from "react-redux";
 import ShelterAnimal from "../../../models/ShelterAnimal";
@@ -13,38 +10,35 @@ import {ThunkDispatch} from "redux-thunk";
 import {animalActions} from "../../../actions/animal.actions";
 
 //Define the expected props
-interface IncomingProps{
-    ani:ShelterAnimal
+interface IncomingProps {
+    ani: ShelterAnimal
 }
+
 interface LinkProps {
 }
 
 interface DispatchProps {
-    uploadPicture: (id: number,comments:string, file: File) => any;
+    uploadPicture: (id: number, comments: string, file: File) => any;
 }
 
 
-interface LocalState{
-    comments:string;
-    files?:FileList;
-    busy:boolean;
+interface LocalState {
+    comments: string;
+    files?: FileList;
+    busy: boolean;
 
 }
 
 
-
-
-
-class UploadPicture extends React.Component<IncomingProps&LinkProps&DispatchProps, LocalState> {
-    state ={comments:"",
-        files:undefined,
-        busy:false
+class UploadPicture extends React.Component<IncomingProps & LinkProps & DispatchProps, LocalState> {
+    state = {
+        comments: "", files: undefined, busy: false
     }
 
-    handleSubmit = (event:React.FormEvent<HTMLFormElement>) =>{
+    handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
         //Update the state to be busy
-        this.setState({busy:true});
+        this.setState({busy: true});
 
         //Get the files
         const files = this.state.files;
@@ -62,20 +56,18 @@ class UploadPicture extends React.Component<IncomingProps&LinkProps&DispatchProp
         const allowedToSubmit = this.state.files != undefined;
 
         //Return the list
-        return (
-            <Form
+        return (<Form
                 onSubmit={this.handleSubmit}
                 loading={this.state.busy}
-                style={{marginRight:"40px", marginLeft:"40px"}}
+                style={{marginRight: "40px", marginLeft: "40px"}}
             >
                 <Form.TextArea
                     placeholder='notes for the image...'
                     value={this.state.comments}
-                    onChange={(event: any, data:TextAreaProps) => {
-                        if(data.value) {
+                    onChange={(event: any, data: TextAreaProps) => {
+                        if (data.value) {
                             this.setState({
-                                ...this.state,
-                                comments: data.value.toString()
+                                ...this.state, comments: data.value.toString()
                             })
                         }
                     }}
@@ -85,46 +77,37 @@ class UploadPicture extends React.Component<IncomingProps&LinkProps&DispatchProp
                     type='file'
                     onChange={(event: React.FormEvent<HTMLInputElement>) => {
                         this.setState({
-                            ... this.state,
-                            files: event.currentTarget.files? event.currentTarget.files : undefined
+                            ...this.state, files: event.currentTarget.files ? event.currentTarget.files : undefined
                         })
                     }}
                 />
                 <Form.Field
                     disabled={!allowedToSubmit}
                     control={Button}
-                > <Icon name='upload' />
+                > <Icon name='upload'/>
                     Share Picture</Form.Field>
 
-            </Form>
-        );
+            </Form>);
 
     }
 
 
-
-};
+}
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState): LinkProps {
-    return {
-
-    };
+function mapStateToProps(state: ApplicationState): LinkProps {
+    return {};
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        uploadPicture: (id: number,comments:string, file: File)=> dispatch(animalActions.uploadAnimalPicture(id, comments, file))
+        uploadPicture: (id: number, comments: string, file: File) => dispatch(animalActions.uploadAnimalPicture(id, comments, file))
     };
 
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UploadPicture);
-;
+export default connect(mapStateToProps, mapDispatchToProps)(UploadPicture);
+

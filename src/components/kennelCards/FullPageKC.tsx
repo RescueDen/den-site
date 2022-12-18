@@ -1,6 +1,6 @@
 import React from 'react';
 import ShelterAnimal from "../../models/ShelterAnimal";
-import {StyleSheet,Font, Page, Text, View,Image} from "@react-pdf/renderer";
+import {Image, Page, Text, View} from "@react-pdf/renderer";
 import cawsLogo from "../../assets/logos/xCAWS_logo_full.png";
 import InfoSection from "./InfoSection";
 import BioSection from "./BioSection";
@@ -8,29 +8,26 @@ import Footer from "./Footer";
 import {kcstyles} from "./KCBuilder";
 
 
-
 //Define the expected props
-interface Props{
+interface Props {
     //Define the props we expect
     aniData: ShelterAnimal;
-    qrData?:string;
+    qrData?: string;
 }
 
 
-const FullPageKC =  (props:Props) => {
-
-
+const FullPageKC = (props: Props) => {
 
 
     return (
-        <Page size="LETTER" orientation='landscape' >
-            <View style={[kcstyles.headerSection,{height:'1.4in'}]} >
+        <Page size="LETTER" orientation='landscape'>
+            <View style={[kcstyles.headerSection, {height: '1.4in'}]}>
                 <Text
                     style={[
                         kcstyles.aniNameSection,
                         {
-                            width:'9.7in',
-                            fontSize:'.8in'
+                            width: '9.7in',
+                            fontSize: '.8in'
                         }
                     ]
                     }>{props.aniData.data.name}</Text>
@@ -44,12 +41,12 @@ const FullPageKC =  (props:Props) => {
                            }
                        }/>
             </View>
-            <View style={{ height:'6.1in' }} >
+            <View style={{height: '6.1in'}}>
                 {/*Add the left and right sides*/}
                 {/*Left*/}
                 <View style={
                     {
-                        width:"5.5in",
+                        width: "5.5in",
                         position: "absolute",
                         top: "0.33in",
                         left: "0"
@@ -59,14 +56,13 @@ const FullPageKC =  (props:Props) => {
                     {/*The big picture*/}
                     <Image
                         src={props.aniData.getImageUrl()}
-                        // allowDangerousPaths={true}
                         style={
                             {
                                 maxWidth: "5.4in",
                                 maxHeight: "3.6in",
                                 marginLeft: "auto",
                                 marginRight: "auto",
-                                marginBottom:"10px"
+                                marginBottom: "10px"
                             }
                         }
                     />
@@ -88,19 +84,20 @@ const FullPageKC =  (props:Props) => {
                         aniData={props.aniData}
                         fontUnit={"in"}
                         defaultSize={{
-                            fontSize:0.2,
-                            numChars:2000
+                            fontSize: 0.2,
+                            numChars: 2000
                         }}
                         minSize={{
-                            fontSize:0.15,
-                            numChars:4000
+                            fontSize: 0.15,
+                            numChars: 4000
                         }}
 
                     />
                 </View>
 
             </View>
-            <Footer key={props.aniData.data.id} fontSize={"0.25in"} qrData={props.qrData} iconSize=".42in" height='1.0in' aniData={props.aniData}/>
+            <Footer key={props.aniData.data.id} fontSize={"0.25in"} qrData={props.qrData} iconSize=".42in"
+                    height='1.0in' aniData={props.aniData}/>
         </Page>
     );
 }

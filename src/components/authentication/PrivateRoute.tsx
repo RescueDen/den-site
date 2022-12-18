@@ -1,6 +1,5 @@
 import React from 'react';
-import {Route, Redirect, RouteProps, RouteComponentProps} from 'react-router-dom';
-import {withRouter} from 'react-router-dom';
+import {Redirect, Route, RouteComponentProps, withRouter} from 'react-router-dom';
 import ApplicationState from "../../state/ApplicationState";
 import ShelterUser from "../../models/ShelterUser";
 import {connect} from "react-redux";
@@ -16,87 +15,93 @@ import Permissions from "../../models/Permissions";
 
 
 //Define a private route interface for props
-interface PrivateRouteProps extends RouteComponentProps<any>{
+interface PrivateRouteProps extends RouteComponentProps<any> {
     exclude: string[]
-    path:string
-    component:any
-    reqPermission?:string
+    path: string
+    component: any
+    reqPermission?: string
 
     //Define the props we expect
-    currentUser?:ShelterUser;
-    permissions?:Permissions;
+    currentUser?: ShelterUser;
+    permissions?: Permissions;
 
     //Redirect to
-    to:string;
-    exactRoute?:boolean;
+    to: string;
+    exactRoute?: boolean;
 }
 
 
-const Includes = (pathname: string, exclude: string[]):boolean  =>{
-    for(let testPath of exclude){
-        if(pathname.startsWith(testPath)){
+const Includes = (pathname: string, exclude: string[]): boolean => {
+    for (let testPath of exclude) {
+        if (pathname.startsWith(testPath)) {
             return true;
         }
     }
     return false;
 }
 
-const PrivateRouteWithOutState = ({exactRoute, to, currentUser,reqPermission, permissions, exclude, component: Component, ...rest }:PrivateRouteProps) => {
+const PrivateRouteWithOutState = ({
+                                      exactRoute,
+                                      to,
+                                      currentUser,
+                                      reqPermission,
+                                      permissions,
+                                      exclude,
+                                      component: Component,
+                                      ...rest
+                                  }: PrivateRouteProps) => {
     //Check to see if any of the routes are excluded
 
-    if(exclude && Includes(rest.location.pathname, exclude)){
+    if (exclude && Includes(rest.location.pathname, exclude)) {
         //Return null, so we don't render
         return null;
     }
 
     //See if allowed to
-    let allowed = false;
+    let allowed: boolean;
 
     //See if we are allowed to
     if (currentUser) {
         //See if we require permissions
-        if (reqPermission == undefined){
+        if (reqPermission == undefined) {
             allowed = true;
-        }else{
+        } else {
             //See if we are allowed to
-            if(permissions && permissions.allowed(reqPermission)){
-                allowed = true;
-
-            }else{
-                allowed = false;
-            }
+            allowed = !!(permissions && permissions.allowed(reqPermission));
         }
 
 
-    }else{
+    } else {
         //No way
         allowed = false;
     }
 
-    //if there is some one logged in continue
-    if(allowed){
-        return <Route exact={exactRoute} {...rest} render ={props=>{
+    //if there is someone logged in continue
+    if (allowed) {
+        return <Route exact={exactRoute} {...rest} render={props => {
             return <Component {...props} />
         }}/>
-    }else {
-        //Redirect back to login
-        return <Route {...rest} render={props => {return <Redirect to={{pathname: to}}/>}}/>
+    } else {
+        //Redirect back to log in
+        return <Route {...rest} render={() => {
+            return <Redirect to={{pathname: to}}/>
+        }}/>
 
     }
 
 
-
 }
+
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:PrivateRouteProps ):PrivateRouteProps {
+function mapStateToProps(state: ApplicationState, myProps: PrivateRouteProps): PrivateRouteProps {
     return {
         ...myProps,
-        currentUser:state.authentication.loggedInUser,
-        permissions:state.authentication.permissions
+        currentUser: state.authentication.loggedInUser,
+        permissions: state.authentication.permissions
     };
 }
 

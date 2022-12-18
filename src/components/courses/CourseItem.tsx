@@ -3,15 +3,14 @@ import {Card, Icon, Image} from "semantic-ui-react";
 import {CourseData} from "../../models/Courses";
 
 //Define the expected props
-interface Props{
+interface Props {
     //Define the props we expect
     course: CourseData
-    navigate:(id:string) => any;
+    navigate: (id: string) => any;
 }
 
-const CourseItem =  (myProps:Props) => {
-    return (
-        <Card onClick={() =>{
+const CourseItem = (myProps: Props) => {
+    return (<Card onClick={() => {
             myProps.navigate(myProps.course.id);
         }}>
             <Image centered src={myProps.course.thumbnail}/>
@@ -23,8 +22,7 @@ const CourseItem =  (myProps:Props) => {
                 <Icon name='university'/>
                 Lessons: {myProps.course.lessons.length}
             </Card.Content>
-        </Card>
-    );
+        </Card>);
 }
 
 export default CourseItem

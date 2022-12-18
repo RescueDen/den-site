@@ -1,4 +1,4 @@
-import {  error } from './alert.actions';
+import {error} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {contentService} from "../services/content.service";
@@ -12,9 +12,9 @@ export const contentActions = {
 };
 
 
-function getContentSummary(category:string): ThunkAction<any, any,any, any> {
+function getContentSummary(category: string): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         //Ask the user service to login
         contentService.getContentListing(category)
@@ -34,7 +34,7 @@ function getContentSummary(category:string): ThunkAction<any, any,any, any> {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }

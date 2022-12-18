@@ -3,36 +3,36 @@ import {connect} from "react-redux";
 import ApplicationState from "../../state/ApplicationState";
 import {animalActions} from "../../actions/animal.actions";
 import AnimalState from "../../state/AnimalState";
-import { Header, Input, List} from "semantic-ui-react";
+import {Header, Input, List} from "semantic-ui-react";
 import {ThunkDispatch} from "redux-thunk";
 import {Link} from "react-router-dom";
 import AnimalItemCompact from "./AnimalItemCompact";
 
 //Define the expected props
-interface IncomingProps  {
+interface IncomingProps {
     //Define the props we expect
     animalIdList: number[]
-    title:string
-    link?:string
-    aniLink:string;
+    title: string
+    link?: string
+    aniLink: string;
 }
 
 //Define the expected props
-interface LinkProps  {
+interface LinkProps {
     //Define the props we expect
     cawsAnimalsDb: AnimalState
 
 }
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    downloadAnimal: (id:number) => any;
+    downloadAnimal: (id: number) => any;
 
 }
 
 //Define the expected props
-interface SearchState  {
+interface SearchState {
     //Define the props we expect
     searchTerm: string
 
@@ -43,13 +43,13 @@ interface SearchState  {
 /**
  * This card shows the animal details
  */
-class SearchableAnimalListCompact extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={searchTerm:""};
+class SearchableAnimalListCompact extends React.Component<IncomingProps & DispatchProps & LinkProps, SearchState> {
+    state = {searchTerm: ""};
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.animalIdList.forEach(aniId => this.props.downloadAnimal(aniId));
     };
@@ -58,7 +58,7 @@ class SearchableAnimalListCompact extends React.Component<IncomingProps&Dispatch
      * Check to see if the props changed
      * @param prevProps
      */
-    componentDidUpdate(prevProps:IncomingProps) {
+    componentDidUpdate(prevProps: IncomingProps) {
         // Typical usage (don't forget to compare props):
         if (this.props.animalIdList.length !== prevProps.animalIdList.length) {
             this.props.animalIdList.forEach(aniId => this.props.downloadAnimal(aniId));
@@ -68,15 +68,15 @@ class SearchableAnimalListCompact extends React.Component<IncomingProps&Dispatch
     /**
      * Function to update search
      */
-    updateSearch(term:string){
-        this.setState({searchTerm:term});
+    updateSearch(term: string) {
+        this.setState({searchTerm: term});
     }
 
 
     /**
      * Get the items
      */
-    getItems(){
+    getItems() {
         //If we have items
         return this.props.animalIdList.map(id => {
             //Convert to an ani
@@ -134,16 +134,16 @@ class SearchableAnimalListCompact extends React.Component<IncomingProps&Dispatch
             </div>
         )
     }
-};
+}
 
 /**
  * All of them share the same mapDispatchToProps
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>, ownProps: IncomingProps): DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        downloadAnimal: (id: number) => dispatch(animalActions.getAnimal(id))
     };
 
 }
@@ -152,19 +152,19 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param props
  */
-function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps&LinkProps {
+function mapStateToProps(state: ApplicationState, props: IncomingProps): IncomingProps & LinkProps {
 
     return {
         ...props,
-        cawsAnimalsDb:state.animals,
+        cawsAnimalsDb: state.animals,
     };
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(SearchableAnimalListCompact);

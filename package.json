@@ -1,6 +1,6 @@
 {
   "name": "rescue-den",
-  "version": "0.2.0b",
+  "version": "0.2.1b",
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.5.0",
@@ -12,7 +12,6 @@
     "@types/json-schema": "^7.0.4",
     "@types/lodash": "^4.14.155",
     "@types/node": "^14.0.11",
-    "@types/query-string": "^6.3.0",
     "@types/react": "^16.9.35",
     "@types/react-big-calendar": "^0.24.1",
     "@types/react-datepicker": "^2.11.1",

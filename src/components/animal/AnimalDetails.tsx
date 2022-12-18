@@ -21,25 +21,25 @@ import Permissions from "../../models/Permissions";
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
     animal: ShelterAnimal;
-    user:ShelterUser;
-    permissions?:Permissions
+    user: ShelterUser;
+    permissions?: Permissions
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    downloadAnimal: (id:number) => any;
+    downloadAnimal: (id: number) => any;
 }
 
 /**
  * This card shows the animal details
  */
-class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
+class AnimalDetails extends React.Component<LinkProps & DispatchProps> {
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.downloadAnimal(this.props.match.params.aniId);
     };
@@ -51,7 +51,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
     render() {
 
         //If undefined show a loading icon
-        if(!this.props.animal){
+        if (!this.props.animal) {
             return (
                 <div>
                     <Segment>
@@ -62,7 +62,7 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     </Segment>
                 </div>
             );
-        }else {
+        } else {
             //Get the animal details
             return (
                 <Container>
@@ -102,14 +102,17 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
                     <Segment>
                         <Header as="h2">Biography</Header>
                         <AnimalBio animal={this.props.animal}/>
-                        <Link className={"ui button"} to={`/kennelcard?id=${this.props.animal.data.id}`}> Preview {this.props.animal.data.name.trim()}'s Kennel Card  </Link>
+                        <Link className={"ui button"}
+                              to={`/kennelcard?id=${this.props.animal.data.id}`}> Preview {this.props.animal.data.name.trim()}'s
+                            Kennel Card </Link>
                     </Segment>
                     {/*The vaccine history*/}
                     <AnimalVaxxHistory animal={this.props.animal}/>
                     {/* If the user can view the journal   */}
                     {this.props.animal.isSpecies([Species.dog]) &&
-                    <p>To update the dog's bio or pictures please use this <Link to="/forms/1LID8RWvBMux4FzXNzI7Yq9560Cf5ptFo">form</Link>.</p>
-                        }
+                        <p>To update the dog's bio or pictures please use this <Link
+                            to="/forms/1LID8RWvBMux4FzXNzI7Yq9560Cf5ptFo">form</Link>.</p>
+                    }
                     {/*<PermissionBlock reqPerm="view_public_journal">*/}
                     {/*    <AnimalJournal ani={this.props.animal} />*/}
                     {/*</PermissionBlock>*/}
@@ -123,26 +126,26 @@ class AnimalDetails extends React.Component<LinkProps&DispatchProps> {
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
     return {
         ...myProps,
-        animal: state.animals.animals[myProps.match.params.aniId] ,
-        user:state.authentication.loggedInUser || getEmptyCawsUser(),
-        permissions : state.authentication.permissions
+        animal: state.animals.animals[myProps.match.params.aniId],
+        user: state.authentication.loggedInUser || getEmptyCawsUser(),
+        permissions: state.authentication.permissions
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:LinkProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        downloadAnimal: (id: number) => dispatch(animalActions.getAnimal(id))
     };
 
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(AnimalDetails);

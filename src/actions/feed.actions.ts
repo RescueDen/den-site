@@ -4,22 +4,18 @@ import {ThunkAction} from 'redux-thunk';
 import {feedService} from "../services/feed.service";
 
 export const feedConstants = {
-    FEED_TOGGLE: 'FEED_TOGGLE',
-    FEED_UPDATE: 'FEED_UPDATE',
+    FEED_TOGGLE: 'FEED_TOGGLE', FEED_UPDATE: 'FEED_UPDATE',
 
 };
 
 export const feedActions = {
-    toggleFeed,
-    updateFeed
+    toggleFeed, updateFeed
     // getAll,
     // delete: _delete
 };
 
 /**
  * Update the info the summary
- * @param username
- * @param password
  * @returns {Function}
  */
 function toggleFeed(): Action {
@@ -30,39 +26,33 @@ function toggleFeed(): Action {
     };
 
 }
+
 /**
  * Update the info the summary
- * @param username
- * @param password
  * @returns {Function}
  */
-function updateFeed(): ThunkAction<any, any,any, any> {
+function updateFeed(): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         feedService.getFeed()
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 sum => {
                     //dispatch a login success
                     dispatch({
-                        type: feedConstants.FEED_UPDATE,
-                        payload: sum
+                        type: feedConstants.FEED_UPDATE, payload: sum
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }

@@ -1,8 +1,8 @@
-import {  error } from './alert.actions';
+import {error} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {voucherService} from "../services/voucher.service";
-import {Voucher, VoucherSearch} from "../models/Voucher";
+import {VoucherSearch} from "../models/Voucher";
 
 export const voucherConstants = {
     FETCH_VOUCHER_INFO: 'FETCH_VOUCHER_INFO',
@@ -12,8 +12,7 @@ export const voucherConstants = {
 };
 
 export const voucherActions = {
-    getVoucherInfo,
-    updateVoucherSearch
+    getVoucherInfo, updateVoucherSearch
     // logout,
     // getAll,
     // delete: _delete
@@ -21,37 +20,30 @@ export const voucherActions = {
 
 /**
  * Updates the info about vouchers
- * @param username
- * @param password
  * @returns {Function}
  */
-function getVoucherInfo(): ThunkAction<any, any,any, any> {
+function getVoucherInfo(): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         voucherService.getVoucherInfo()
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 info => {
                     //dispatch a login success
                     dispatch({
-                        type: voucherConstants.FETCH_VOUCHER_INFO,
-                        payload: info
+                        type: voucherConstants.FETCH_VOUCHER_INFO, payload: info
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }
@@ -59,43 +51,36 @@ function getVoucherInfo(): ThunkAction<any, any,any, any> {
 
 /**
  * Update the voucher search
- * @param username
- * @param password
  * @returns {Function}
+ * @param searchParams
  */
-function updateVoucherSearch(searchParams:VoucherSearch): ThunkAction<any, any,any, any> {
+function updateVoucherSearch(searchParams: VoucherSearch): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         //dispatch a login success
         dispatch({
-            type: voucherConstants.START_VOUCHER_SEARCH,
-            payload: searchParams
+            type: voucherConstants.START_VOUCHER_SEARCH, payload: searchParams
         });
 
-        //Ask the user service to login
         voucherService.performVoucherSearch(searchParams)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 results => {
                     //dispatch a login success
                     dispatch({
-                        type: voucherConstants.FETCH_VOUCHER_SEARCH,
-                        payload: results
+                        type: voucherConstants.FETCH_VOUCHER_SEARCH, payload: results
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }

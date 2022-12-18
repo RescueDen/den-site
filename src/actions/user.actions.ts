@@ -47,7 +47,6 @@ export const userActions = {
     requestEmailReset,
     forcePasswordChange,
     updateLoggedInUser,
-    loginFacebook,
     loginGoogle,
     setUserPreferences,
     requestOneTimePassword,
@@ -56,13 +55,14 @@ export const userActions = {
 
 /**
  * This is the user action to try to log in
- * @param username
+ * @param email
  * @param password
+ * @param organizationId
  * @returns {Function}
  */
-function login(email:string, password:string, organizationId:number): ThunkAction<any, any,any, any> {
+function login(email: string, password: string, organizationId: number): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         //Dispatch the action of attempting to login
         dispatch({
             type: userConstants.LOGIN_REQUEST,
@@ -70,93 +70,39 @@ function login(email:string, password:string, organizationId:number): ThunkActio
 
         //Ask the user service to login
         userService.login(email, password, organizationId)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 user => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.LOGIN_SUCCESS,
-                        payload: user
+                        type: userConstants.LOGIN_SUCCESS, payload: user
                     });
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.LOGIN_FAILURE,
-                        payload: message
+                        type: userConstants.LOGIN_FAILURE, payload: message
                     });
 
                     //Dispatch a success message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 }
 
 
 /**
  * This is the user action to try to log in
- * @param username
- * @param password
  * @returns {Function}
+ * @param googleLogin
  */
-function loginFacebook(facebookToken :any): ThunkAction<any, any,any, any> {
+function loginGoogle(googleLogin: any): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
-        //Dispatch the action of attempting to login
-        dispatch({
-            type: userConstants.LOGIN_REQUEST,
-        });
-
-        //Ask the user service to login
-        userService.loginFacebook(facebookToken)
-            .then(
-                //If successful a user will be returned
-                user => {
-                    //dispatch a login success
-                    dispatch({
-                        type: userConstants.LOGIN_SUCCESS,
-                        payload: user
-                    });
-                    //get the other user info
-                    getOtherUserInfo(dispatch, user);
-
-                },
-                //If there was an error, dispatch a login failure and alert the user why
-                errorResponse => {
-                    //Get the message
-                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
-
-                    //Else it failed
-                    dispatch({
-                        type: userConstants.LOGIN_FAILURE,
-                        payload: message
-                    });
-
-                    //Dispatch a sucess message
-                    dispatch(error(message));
-
-
-
-                }
-            );
-    };
-}
-/**
- * This is the user action to try to log in
- * @param username
- * @param password
- * @returns {Function}
- */
-function loginGoogle(googleLogin :any): ThunkAction<any, any,any, any> {
-    //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         //Dispatch the action of attempting to login
         dispatch({
             type: userConstants.LOGIN_REQUEST,
@@ -164,63 +110,55 @@ function loginGoogle(googleLogin :any): ThunkAction<any, any,any, any> {
 
         //Ask the user service to login
         userService.loginGoogle(googleLogin)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 user => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.LOGIN_SUCCESS,
-                        payload: user
+                        type: userConstants.LOGIN_SUCCESS, payload: user
                     });
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.LOGIN_FAILURE,
-                        payload: message
+                        type: userConstants.LOGIN_FAILURE, payload: message
                     });
 
                     //Dispatch a sucess message
                     dispatch(error(message));
 
 
-
-                }
-            );
+                });
     };
 }
 
-function requestOneTimePassword(email:string, organizationId: number): ThunkAction<any, any,any, any> {
+function requestOneTimePassword(email: string, organizationId: number): ThunkAction<any, any, any, any> {
     //Return a function that takes a dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         //Dispatch the action of attempting to login
         dispatch({
             type: userConstants.ONETIMEPASSWORD_REQUEST,
         });
         //Now ask the userService to register
         userService.requestOneTimePassword(email, organizationId)
-            .then(
-                response =>{
+            .then(response => {
                     //If the status is true, the new user was created
-                    if(response.status){
+                    if (response.status) {
                         //Dispatch a success message
                         dispatch(success(response.message))
                         dispatch({
                             type: userConstants.ONETIMEPASSWORD_SUCCESS,
                         });
-                    }else{
+                    } else {
 
                         //Dispatch a sucess message
                         dispatch(error(response.message))
                     }
-                },
-                //If we get an error back
+                }, //If we get an error back
                 errorResponse => {
                     dispatch({
                         type: userConstants.ONETIMEPASSWORD_FAILURE,
@@ -231,15 +169,14 @@ function requestOneTimePassword(email:string, organizationId: number): ThunkActi
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 }
 
 
-function loginWithOneTimePassword(email:string, token:string,  organizationId: number): ThunkAction<any, any,any, any> {
+function loginWithOneTimePassword(email: string, token: string, organizationId: number): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         //Dispatch the action of attempting to login
         dispatch({
             type: userConstants.LOGIN_REQUEST,
@@ -247,84 +184,71 @@ function loginWithOneTimePassword(email:string, token:string,  organizationId: n
 
         //Ask the user service to login
         userService.loginWithOneTimePassword(email, token, organizationId)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 user => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.LOGIN_SUCCESS,
-                        payload: user
+                        type: userConstants.LOGIN_SUCCESS, payload: user
                     });
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.LOGIN_FAILURE,
-                        payload: message
+                        type: userConstants.LOGIN_FAILURE, payload: message
                     });
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 }
+
 /**
  * Now update the user permissions
- * @param username
- * @param password
  * @returns {Function}
+ * @param dispatch
  */
-function updateUserPermissions(dispatch:Dispatch<Action>): void {
+function updateUserPermissions(dispatch: Dispatch<Action>): void {
 
     //Ask the user service to login
     userService.getLoggedInUserPermissions()
-        .then(
-            //If successful a user will be returned
+        .then(//If successful a user will be returned
             perm => {
                 //dispatch a login success
                 dispatch({
-                    type: userConstants.FETCH_PERMISSIONS,
-                    payload: perm
+                    type: userConstants.FETCH_PERMISSIONS, payload: perm
                 });
-            },
-            //If there was an error, dispatch a login failure and alert the user why
+            }, //If there was an error, dispatch a login failure and alert the user why
             errorResponse => {
                 //Get the message
                 const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                 //Dispatch a sucess message
                 dispatch(error(message));
-            }
-        );
+            });
 }
 
 /**
  * Now update the user pref
- * @param username
- * @param password
  * @returns {Function}
+ * @param dispatch
  */
-function updateUserPreferences(dispatch:Dispatch<Action>): void {
+function updateUserPreferences(dispatch: Dispatch<Action>): void {
 
     //Ask the user service to login
     userService.getLoggedInUserPreferences()
-        .then(
-            //If successful a user will be returned
+        .then(//If successful a user will be returned
             perm => {
                 //dispatch a login success
                 dispatch({
-                    type: userConstants.FETCH_USERPREF,
-                    payload: perm
+                    type: userConstants.FETCH_USERPREF, payload: perm
                 });
-            },
-            //If there was an error, dispatch a login failure and alert the user why
+            }, //If there was an error, dispatch a login failure and alert the user why
             errorResponse => {
                 //Get the message
                 const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
@@ -333,21 +257,18 @@ function updateUserPreferences(dispatch:Dispatch<Action>): void {
                 dispatch(error(message));
 
 
-
-            }
-        );
+            });
 }
 
 /**
  * set the suer preferences on the server
- * @param username
- * @param password
  * @returns {Function}
+ * @param newSetting
  */
-function setUserPreferences(newSetting:SettingGroup): ThunkAction<any, any,any, any> {
+function setUserPreferences(newSetting: SettingGroup): ThunkAction<any, any, any, any> {
 
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         //dispatch a login success
         dispatch({
@@ -356,29 +277,24 @@ function setUserPreferences(newSetting:SettingGroup): ThunkAction<any, any,any, 
 
         //Ask the user service to login
         userService.setLoggedInUserPreferences(newSetting)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 user => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.FETCH_USERPREF,
-                        payload: user
+                        type: userConstants.FETCH_USERPREF, payload: user
                     });
 
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.LOGIN_FAILURE,
-                        payload: message
+                        type: userConstants.LOGIN_FAILURE, payload: message
                     });
 
-                }
-            );
+                });
     };
 
 }
@@ -388,7 +304,7 @@ function setUserPreferences(newSetting:SettingGroup): ThunkAction<any, any,any, 
  * @param dispatch
  * @param user
  */
-function getOtherUserInfo(dispatch:Dispatch<Action>,user:ShelterUser ):void{
+function getOtherUserInfo(dispatch: Dispatch<Action>, user: ShelterUser): void {
 
     //Now update the user permissions
     updateUserPermissions(dispatch);
@@ -400,8 +316,8 @@ function getOtherUserInfo(dispatch:Dispatch<Action>,user:ShelterUser ):void{
     achievementsActions.getAchievementsWithDispatch(dispatch)
 
     //Get info for each foster
-    if(user.data.currentFosters){
-        user.data.currentFosters.forEach(aniId =>{
+    if (user.data.currentFosters) {
+        user.data.currentFosters.forEach(aniId => {
             animalActions.getAnimalWithDispatch(dispatch, aniId);
         })
     }
@@ -412,50 +328,43 @@ function getOtherUserInfo(dispatch:Dispatch<Action>,user:ShelterUser ):void{
 
 /**
  * This is the user action to try to log in
- * @param username
- * @param password
  * @returns {Function}
  */
-function updateLoggedInUser(): ThunkAction<any, any,any, any> {
+function updateLoggedInUser(): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         //Ask the user service to login
         userService.updateLoggedInUser()
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 user => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.LOGIN_SUCCESS,
-                        payload: user
+                        type: userConstants.LOGIN_SUCCESS, payload: user
                     });
 
                     //get the other user info
                     getOtherUserInfo(dispatch, user);
 
 
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Get the message
-                    const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
-                }
-            );
+                    extractMessageFromPossibleServerResponseStatus(errorResponse);
+                });
     };
 }
 
 
-
 /**
  * This is the user action to try to log in
- * @param username
- * @param password
- * @returns {Function}
+ * @param activationToken
+ * @param email
+ * @param activationToken
  */
-function activate(email:string, activationToken:string): ThunkAction<any, any,any, any> {
+function activate(email: string, activationToken: string): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         //Dispatch the action of attempting to login
         dispatch({
             type: userConstants.ACTIVATION_REQUEST,
@@ -463,18 +372,15 @@ function activate(email:string, activationToken:string): ThunkAction<any, any,an
 
         //Ask the user service to login
         userService.activateUser(email, activationToken)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 response => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.ACTIVATION_SUCCESS,
-                        payload: response
+                        type: userConstants.ACTIVATION_SUCCESS, payload: response
                     });
                     dispatch(success(response.message))
 
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
 
 
@@ -483,14 +389,12 @@ function activate(email:string, activationToken:string): ThunkAction<any, any,an
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.ACTIVATION_FAILURE,
-                        payload: message
+                        type: userConstants.ACTIVATION_FAILURE, payload: message
                     });
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 }
 
@@ -498,89 +402,83 @@ function activate(email:string, activationToken:string): ThunkAction<any, any,an
  * This action log outs the user
  * @returns {{simType: string}}
  */
-function logout() :Action {
+function logout(): Action {
     //Logout is an instant process
     userService.logout();
     //No need to dispatch because this is an instant process
-    return { type: userConstants.LOGOUT };
+    return {type: userConstants.LOGOUT};
 }
 
 /**
  * Register this new user with the system
- * @param user
  * @returns {Function}
+ * @param email
  */
-function requestActivationToken(email:string): ThunkAction<any, any,any, any> {
+function requestActivationToken(email: string): ThunkAction<any, any, any, any> {
     //Return a function that takes a dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
 
         //Now ask the userService to register
         userService.requestActivationToken(email)
-            .then(
-                response =>{
+            .then(response => {
                     //If the status is true, the new user was created
-                    if(response.status){
+                    if (response.status) {
 
                         //Dispatch a success message
                         dispatch(success(response.message))
-                    }else{
+                    } else {
 
                         //Dispatch a sucess message
                         dispatch(error(response.message))
                     }
 
 
-                },
-                //If we get an error back
+                }, //If we get an error back
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 
 }
 
 /**
  * requestEmailReset
- * @param user
  * @returns {Function}
+ * @param email
  */
-function requestEmailReset(email:string): ThunkAction<any, any,any, any> {
+function requestEmailReset(email: string): ThunkAction<any, any, any, any> {
     //Return a function that takes a dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
 
         //Now ask the userService to register
         userService.requestEmailReset(email)
-            .then(
-                response =>{
+            .then(response => {
                     //If the status is true, the new user was created
-                    if(response.status){
+                    if (response.status) {
 
                         //Dispatch a success message
                         dispatch(success(response.message))
-                    }else{
+                    } else {
 
                         //Dispatch a sucess message
                         dispatch(error(response.message))
                     }
 
 
-                },
-                //If we get an error back
+                }, //If we get an error back
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 
 }
@@ -588,7 +486,7 @@ function requestEmailReset(email:string): ThunkAction<any, any,any, any> {
 /**
  * Function to force a password change with a token
  */
-function forcePasswordChange(email:string, reset_token:string, password:string): ThunkAction<any, any,any, any> {
+function forcePasswordChange(email: string, reset_token: string, password: string): ThunkAction<any, any, any, any> {
     //Return a function that takes a dispatch
     return (dispatch: Dispatch<Action>) => {
 
@@ -599,18 +497,15 @@ function forcePasswordChange(email:string, reset_token:string, password:string):
 
         //Ask the user service to login
         userService.forcePasswordChange(email, reset_token, password)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 resposne => {
                     //dispatch a login success
                     dispatch({
-                        type: userConstants.PW_RESET_SUCCESS,
-                        payload: resposne
+                        type: userConstants.PW_RESET_SUCCESS, payload: resposne
                     });
                     dispatch(success(resposne.message))
 
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
 
 
@@ -619,14 +514,12 @@ function forcePasswordChange(email:string, reset_token:string, password:string):
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.ACTIVATION_FAILURE,
-                        payload: message
+                        type: userConstants.ACTIVATION_FAILURE, payload: message
                     });
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     }
 }
 
@@ -635,36 +528,31 @@ function forcePasswordChange(email:string, reset_token:string, password:string):
  * @param user
  * @returns {Function}
  */
-function register(user: RegisterUserData): ThunkAction<any, any,any, any> {
+function register(user: RegisterUserData): ThunkAction<any, any, any, any> {
     //Return a function that takes a dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
         //dispatch the fact we re trying to register
-        dispatch(
-            //Dispatch a new action
-            { type: userConstants.REGISTER_REQUEST,
-                payload: user
-            }
-        );
+        dispatch(//Dispatch a new action
+            {
+                type: userConstants.REGISTER_REQUEST, payload: user
+            });
 
         //Now ask the userService to register
         userService.registerNewUser(user)
-            .then(
-                response =>{
+            .then(response => {
                     //If the status is true, the new user was created
-                    if(response.status){
+                    if (response.status) {
                         //dispatch a login success
                         dispatch({
-                            type: userConstants.REGISTER_SUCCESS,
-                            payload: response.message
+                            type: userConstants.REGISTER_SUCCESS, payload: response.message
                         });
 
                         //Dispatch a sucess message
                         dispatch(success(response.message))
-                    }else{
+                    } else {
                         //Else it failed
                         dispatch({
-                            type: userConstants.REGISTER_FAILURE,
-                            payload: response.message
+                            type: userConstants.REGISTER_FAILURE, payload: response.message
                         });
 
                         //Dispatch a sucess message
@@ -672,22 +560,19 @@ function register(user: RegisterUserData): ThunkAction<any, any,any, any> {
                     }
 
 
-                },
-                //If we get an error back
+                }, //If we get an error back
                 errorResponse => {
                     //Get the message
                     const message = extractMessageFromPossibleServerResponseStatus(errorResponse);
 
                     //Else it failed
                     dispatch({
-                        type: userConstants.REGISTER_FAILURE,
-                        payload: message
+                        type: userConstants.REGISTER_FAILURE, payload: message
                     });
 
                     //Dispatch a sucess message
                     dispatch(error(message));
-                }
-            );
+                });
     };
 
 }

@@ -17,57 +17,47 @@ export const alertConstants = {
  */
 export function success(message: string): Action {
     return {
-        type: alertConstants.ACTION_SUCCESS,
-        payload: new Alert(AlertType.POSITIVE, message)
+        type: alertConstants.ACTION_SUCCESS, payload: new Alert(AlertType.POSITIVE, message)
 
     };
 }
 
 export function error(message: string): Action {
     return {
-        type: alertConstants.ACTION_ERROR,
-        payload: new Alert(AlertType.NEGATIVE, message)
+        type: alertConstants.ACTION_ERROR, payload: new Alert(AlertType.NEGATIVE, message)
 
     };
 }
 
-export function clearByMessage(message: string): Action{
+export function clearByMessage(message: string): Action {
     //After so many seconds dismiss it
     return {
-        type: alertConstants.ACTION_CLEAR_BY_ALERT,
-        payload: new Alert(AlertType.POSITIVE, message)
+        type: alertConstants.ACTION_CLEAR_BY_ALERT, payload: new Alert(AlertType.POSITIVE, message)
     }
 }
-
-export function clearAll(): Action {
-    return {
-        type: alertConstants.ACTION_CLEAR,
-        payload: undefined
-    };
-}
-
 export function clear(alert: Alert): Action {
     return {
-        type: alertConstants.ACTION_CLEAR,
-        payload: alert
+        type: alertConstants.ACTION_CLEAR, payload: alert
     };
 }
 
 
 /**
  * Update the logging category summary
- * @param username
- * @param password
  * @returns {Function}
+ * @param message
+ * @param time
  */
-export function successAutoDismiss(message: string, time:number): ThunkAction<any, any,any, any> {
+export function successAutoDismiss(message: string, time: number): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         dispatch(success(message))
 
         //After so many seconds dismiss it
-        setTimeout(() => {dispatch(clearByMessage(message))}, time);
+        setTimeout(() => {
+            dispatch(clearByMessage(message))
+        }, time);
 
     };
 

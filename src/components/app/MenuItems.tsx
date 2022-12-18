@@ -7,7 +7,7 @@ export const leftMenuItems = [
     //The logo
     {
         name: <Image size='tiny' src={logoImage}/>,
-        to:'/welcome'
+        to: '/welcome'
     },
     {
         name: "Getting Started",
@@ -98,9 +98,9 @@ export const leftMenuItems = [
         icon: <Icon name='user outline'/>,
         subItems: [
             {//Also show my info
-                name:"My Info",
-                to:'/myinfo',
-                icon:<Icon name='user outline' />
+                name: "My Info",
+                to: '/myinfo',
+                icon: <Icon name='user outline'/>
             },
             {
                 name: "Achievements",
@@ -130,19 +130,19 @@ export const leftMenuItems = [
             {
                 name: "Kennel Card Generator",
                 to: '/kennelcard',
-                icon:<Icon name='id card outline'/>,
+                icon: <Icon name='id card outline'/>,
             },
             {
                 name: "Vouchers Listing",
                 to: '/vouchers',
-                reqPerm:"issue_voucher",
-                icon:<Icon name='edit'/>,
+                reqPerm: "issue_voucher",
+                icon: <Icon name='edit'/>,
             },
             {
                 name: "New Voucher",
                 to: '/voucher',
-                reqPerm:"issue_voucher",
-                icon:<Icon corner name='add' />
+                reqPerm: "issue_voucher",
+                icon: <Icon corner name='add'/>
             }
         ]
     },
@@ -150,33 +150,33 @@ export const leftMenuItems = [
 
 export const rightMenuItems = [
     {//Now foster info
-        name:<Icon size='large' name='settings' />,
-        subItems:[
+        name: <Icon size='large' name='settings'/>,
+        subItems: [
             {//Show all of the forms
-                name:"Help",
-                to:'/help',
-                icon:<Icon name='help circle' />
+                name: "Help",
+                to: '/help',
+                icon: <Icon name='help circle'/>
             },
             {
-                name:"Email Support",
-                icon:<Icon name='envelope outline' />,
-                onClick:(() => {
+                name: "Email Support",
+                icon: <Icon name='envelope outline'/>,
+                onClick: (() => {
                     const mail = document.createElement("a");
                     mail.href = "mailto:support@rescueden.org";
                     mail.click();
                 })
             },
             {//Lower the User to change preferences
-                name:"Preferences",
-                to:'/preferences',
-                icon:<Icon name='settings' />
+                name: "Preferences",
+                to: '/preferences',
+                icon: <Icon name='settings'/>
             },
             {//Show all of the forms
-                name:"Log out",
-                to:'/login',
-                icon:<Icon name='log out' />
+                name: "Log out",
+                to: '/login',
+                icon: <Icon name='log out'/>
             }
         ]
 
     }
-    ];
+];

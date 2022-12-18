@@ -10,21 +10,20 @@ import {ListingData} from "../../models/ContentListing";
 //Define the expected props
 interface LinkProps {
     //Define the props we expect
-    breadCrumbs: (ItemData|ListingData)[];
-    link:string;
+    breadCrumbs: (ItemData | ListingData)[];
+    link: string;
 }
-
 
 
 /**
  * Simple method to get the bread crumbs
  */
-const Breadcrumbs = (props:LinkProps) => {
+const Breadcrumbs = (props: LinkProps) => {
     //Start to build the list of React
     let crumbs: JSX.ReactNode[] = [];
 
     //For every prop
-    for(let i = 0; i < props.breadCrumbs.length-1; i++){
+    for (let i = 0; i < props.breadCrumbs.length - 1; i++) {
         //Get the item
         const item = props.breadCrumbs[i];
 
@@ -32,31 +31,29 @@ const Breadcrumbs = (props:LinkProps) => {
         //Add the main link
         crumbs.push(
             <Breadcrumb.Section key={item.id}>
-                <Link to={`${props.link}/${item.id}`} >
-                {item.name}
+                <Link to={`${props.link}/${item.id}`}>
+                    {item.name}
                 </Link>
             </Breadcrumb.Section>
         );
 
         //Now add the divided
         crumbs.push(
-            <Breadcrumb.Divider key={i} />
+            <Breadcrumb.Divider key={i}/>
         );
     }
 
     //Now add the last item
-    const lastItem = props.breadCrumbs[props.breadCrumbs.length-1];
+    const lastItem = props.breadCrumbs[props.breadCrumbs.length - 1];
     crumbs.push(<Breadcrumb.Section key={lastItem.id} active>{lastItem.name}</Breadcrumb.Section>)
 
 
     //Return the breadcrumbs
-    return(
+    return (
         <Breadcrumb>
             {crumbs}
         </Breadcrumb>
     );
-
-
 
 
 }

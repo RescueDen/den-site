@@ -13,40 +13,39 @@ import FullPageForm from "./FullPageForm";
 
 
 //Define the expected props
-interface IncomingProps extends RouteComponentProps<any>{
+interface IncomingProps extends RouteComponentProps<any> {
     //Define the props we expect
     authentication: AuthenticationState;
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    activateUser: (email:string,activation_token:string ) => any;
+    activateUser: (email: string, activation_token: string) => any;
 
 }
 
 //Define the expected props
-interface MyState{
+interface MyState {
     email: string,
-    token:string,
-    submitted:boolean
+    token: string,
+    submitted: boolean
 }
-
 
 
 /**
  * This page is designed to allow user to login
  */
-class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyState> {
+class ActivationPage extends React.Component<IncomingProps & DispatchProps, MyState> {
     state = {
-        email:'',
-        token:'',
-        submitted:false
+        email: '',
+        token: '',
+        submitted: false
     }
 
 
     //After the component mounted, copy the params into state
-    componentDidMount(){
+    componentDidMount() {
         //Get the query string
         const string = this.props.location.search;
 
@@ -54,11 +53,11 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
         const params = queryString.parse(string)
 
         //If there is a token
-        if(params.token){
-            this.setState({token:params.token.toString()})
+        if (params.token) {
+            this.setState({token: params.token.toString()})
         }
-        if(params.email){
-            this.setState({email:params.email.toString()})
+        if (params.email) {
+            this.setState({email: params.email.toString()})
         }
 
 
@@ -70,7 +69,7 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
         e.preventDefault();
 
         //Extract the user name from the local
-        const { email, token } = this.state;
+        const {email, token} = this.state;
 
         //Use the action
         if (email && token) {
@@ -85,33 +84,33 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
     render() {
 
         //If the user has activated in redirect them to root
-        if(this.props.authentication.activatedUserStatus === AuthenticationStatus.TRUE){
-            return <Redirect to={{ pathname: '/login'}} />;
+        if (this.props.authentication.activatedUserStatus === AuthenticationStatus.TRUE) {
+            return <Redirect to={{pathname: '/login'}}/>;
         }
 
 
-        const { email, token, submitted } = this.state;
+        const {email, token, submitted} = this.state;
 
         //Determine if we are in an error state and what it is
         let errorState = false;
-        let msg:ReactNode[] = [];
+        let msg: ReactNode[] = [];
 
         //Make sure the user set the password
-        if (submitted && !email){
+        if (submitted && !email) {
             errorState = true;
-            msg.push(<div>Email is required!</div> )
+            msg.push(<div>Email is required!</div>)
         }
         //Check for password
-        if (submitted && !token){
+        if (submitted && !token) {
             errorState = true;
-            msg.push(<div>Token is required</div> )
+            msg.push(<div>Token is required</div>)
         }
 
         return (
             //Setup the page to take up the entire page
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
-                    <Image src={logoImage} />
+                    <Image src={logoImage}/>
                     Activate your account
                 </Header>
 
@@ -119,10 +118,14 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
                 <Form error={errorState} size='large' onSubmit={e => this.handleSubmit(e)}>
                     {/*Stacked segments*/}
                     <Segment stacked>
-                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left' placeholder='E-mail address' value={email} onChange={(e) => this.setState({email:e.target.value})}/>
-                        <Form.Input fluid  error={submitted && !token} iconPosition='left' placeholder='Token' value={this.state.token} onChange={(e) => this.setState({token:e.target.value})}/>
+                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left'
+                                    placeholder='E-mail address' value={email}
+                                    onChange={(e) => this.setState({email: e.target.value})}/>
+                        <Form.Input fluid error={submitted && !token} iconPosition='left' placeholder='Token'
+                                    value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
 
-                        <Button disabled={this.props.authentication.activatedUserStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
+                        <Button disabled={this.props.authentication.activatedUserStatus == AuthenticationStatus.ATTEMPT}
+                                fluid size='large' primary>
                             Activate
                         </Button>
                         <Message error>
@@ -134,7 +137,6 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
             </FullPageForm>
 
 
-
         );
     }
 }
@@ -144,7 +146,7 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps {
+function mapStateToProps(state: ApplicationState, props: IncomingProps): IncomingProps {
     return {
         ...props,
         authentication: state.authentication
@@ -154,7 +156,7 @@ function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingP
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        activateUser:(email:string, activation_token:string) => dispatch(userActions.activate(email, activation_token)),
+        activateUser: (email: string, activation_token: string) => dispatch(userActions.activate(email, activation_token)),
 
     };
 

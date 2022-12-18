@@ -4,7 +4,9 @@ import {connect} from "react-redux";
 
 import {FormItemData} from "../../models/FormListing";
 
-import Form, {Widget} from "react-jsonschema-form-semanticui-fixed";
+import validator from "@rjsf/validator-ajv8";
+import Form from "@rjsf/semantic-ui";
+import {Widget} from "@rjsf/utils";
 import {FormSubmission} from "../../models/FormSubmission";
 import ApplicationState from "../../state/ApplicationState";
 import {formsService} from "../../services/forms.service";
@@ -129,7 +131,9 @@ class FormViewer extends React.Component<MyProps & LinkProps, State> {
                       onSubmit={this.onSubmit}
                       formData={formData}
                       liveValidate={true}
-                      showErrorList={false}
+                      validator={validator}
+                      noHtml5Validate={true}
+                      showErrorList={"bottom"}
                 />
 
             </Segment>

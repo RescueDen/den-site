@@ -7,7 +7,8 @@ import {EventItemData} from "../../models/Events";
 import {eventsService} from "../../services/events.service";
 import {formatDate} from "../../utils/date-formater";
 import {SignUpResponse} from "../../models/SignUp";
-import Form from "react-jsonschema-form-semanticui-fixed";
+import validator from "@rjsf/validator-ajv8";
+import Form from "@rjsf/semantic-ui";
 import SignUpsTable from "./SignUpsTable";
 import ShelterAnimal, {findAnimalByShelterId, findShelterIds} from "../../models/ShelterAnimal";
 import AnimalState from "../../state/AnimalState";
@@ -80,7 +81,7 @@ class EventViewer extends React.Component<LinkProps & StateProps, MyState> {
 
                     });
         }
-        //Down load the signup
+        //Download the signup
         if (this.props.eventInfo.signupId) {
             //Load up the default
             this.editRow()
@@ -345,6 +346,7 @@ class EventViewer extends React.Component<LinkProps & StateProps, MyState> {
 
                         {/*Add in the signup form*/}
                         <Form
+                            validator={validator}
                             schema={signUpInfo.signupForm.JSONSchema}
                             uiSchema={signUpInfo.signupForm.UISchema}
                             formData={signUpInfo.signupForm.formData}
@@ -379,6 +381,7 @@ class EventViewer extends React.Component<LinkProps & StateProps, MyState> {
                               onSubmit={this.onSubmit}
                               liveValidate={true}
                               showErrorList={false}
+                              validator={validator}
                         >
                             {/*Render a custom/hidden Submit button*/}
                             <Button primary type="submit">Save</Button>

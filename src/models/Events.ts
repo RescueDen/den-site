@@ -4,18 +4,18 @@
 import {ItemData} from "./ItemData";
 import {ListingData} from "./ContentListing";
 
-export interface EventListingData extends ListingData{
-    items?:EventItemData[]
+export interface EventListingData extends ListingData {
+    items?: EventItemData[]
 }
 
-export interface EventItemData extends ItemData{
-    infoId?:string;
-    signupId?:string;
+export interface EventItemData extends ItemData {
+    infoId?: string;
+    signupId?: string;
 }
 
-export default class EventListing{
+export default class EventListing {
     //Set to read only for now
-    public readonly data:EventListingData;
+    public readonly data: EventListingData;
 
     constructor(data: EventListingData) {
         this.data = data;
@@ -60,12 +60,13 @@ export default class EventListing{
         // })
 
     }
+
     /**
-    *Private method to build a list of events in order
-    */
-    private buildEvents(folder:ItemData): EventItemData[] {
+     *Private method to build a list of events in order
+     */
+    private buildEvents(folder: ItemData): EventItemData[] {
         // //Create an empty array
-        let events:EventItemData[] = []
+        let events: EventItemData[] = []
         //
         // //March over each
         // if (folder.items){
@@ -90,11 +91,11 @@ export default class EventListing{
     //
     // }
 
-    public find(id:string|undefined): EventItemData|undefined {
-        const events:EventItemData[]|undefined = this.data.items;
-        if (events){
+    public find(id: string | undefined): EventItemData | undefined {
+        const events: EventItemData[] | undefined = this.data.items;
+        if (events) {
             for (let event of events) {
-                if(event.id == id){
+                if (event.id == id) {
                     return event;
                 }
             }
@@ -103,7 +104,7 @@ export default class EventListing{
     }
 
     //Check to see if it empty
-    public empty():boolean{
+    public empty(): boolean {
         return this.data.id.length == 0;
     }
 

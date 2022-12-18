@@ -1,29 +1,35 @@
 //Define the expected props
 import React from "react";
-import {Button, Dimmer, Form, Header, Icon, Loader, Message, Search, Table} from "semantic-ui-react";
+import {Header, Icon, Message, Search, Table} from "semantic-ui-react";
 import {VoucherClient} from "../../models/VoucherClient";
 import {voucherClientService} from "../../services/voucherClient.service";
 import {SearchProps, SearchResultData} from "semantic-ui-react/dist/commonjs/modules/Search/Search";
 import {EmptyAddress} from "../../models/Address";
 
 interface IncomingProps {
-    clientIds:number[];
+    clientIds: number[];
 
     //Pass in the function to update the list
-    updateList:(clientIds:number[]) => any;
+    updateList: (clientIds: number[]) => any;
 }
 
 interface State {
-    clients:{ [key:number]:VoucherClient; }
-    error:string|undefined;
+    clients: { [key: number]: VoucherClient; }
+    error: string | undefined;
 
-    searchLoading:boolean;
-    searchResults:SearchResult[];
-    searchTerm:string;
+    searchLoading: boolean;
+    searchResults: SearchResult[];
+    searchTerm: string;
 }
 
-class ClientTable extends React.Component<IncomingProps,State> {
-    state={clients:{} as { [key:number]:VoucherClient; }, error: undefined, searchLoading:false, searchResults:[] as SearchResult[],searchTerm:""};
+class ClientTable extends React.Component<IncomingProps, State> {
+    state = {
+        clients: {} as { [key: number]: VoucherClient; },
+        error: undefined,
+        searchLoading: false,
+        searchResults: [] as SearchResult[],
+        searchTerm: ""
+    };
 
     fetchClients() {
         for (let id of this.props.clientIds) {
@@ -48,47 +54,47 @@ class ClientTable extends React.Component<IncomingProps,State> {
         this.fetchClients();
     }
 
-    componentDidUpdate(prevProps:IncomingProps){
-        if(this.props.clientIds.length !== prevProps.clientIds.length){
+    componentDidUpdate(prevProps: IncomingProps) {
+        if (this.props.clientIds.length !== prevProps.clientIds.length) {
             this.fetchClients();
             return;
         }
-        for(let i in this.props.clientIds) {
-            if(this.props.clientIds[i] !== prevProps.clientIds[i]) {
+        for (let i in this.props.clientIds) {
+            if (this.props.clientIds[i] !== prevProps.clientIds[i]) {
                 this.fetchClients();
                 return;
             }
         }
     }
 
-    deletePerson = (deleteId:number ) =>{
+    deletePerson = (deleteId: number) => {
         this.props.updateList(this.props.clientIds.filter((currentId) => {
             return deleteId != currentId;
         }))
     }
 
-    getEmptyPerson = ():VoucherClient =>{
+    getEmptyPerson = (): VoucherClient => {
         return {
-            id:-1,
-            firstName:"",
+            id: -1,
+            firstName: "",
             lastName: "",
-            email:"",
-            phone:"",
-            group:"",
-            address:EmptyAddress(),
-            notes:""
+            email: "",
+            phone: "",
+            group: "",
+            address: EmptyAddress(),
+            notes: ""
         }
     }
 
-    addSearchResult = (event: React.MouseEvent<HTMLDivElement>, data: SearchResultData) =>{
+    addSearchResult = (event: React.MouseEvent<HTMLDivElement>, data: SearchResultData) => {
         this.props.updateList([...this.props.clientIds, data.result?.id]);
     }
 
-    handleSearchChange = (event: React.MouseEvent<HTMLElement>, data: SearchProps) =>{
-        const searchTerm =data.value ?? "";
-        this.setState({searchLoading:true, searchTerm: searchTerm})
+    handleSearchChange = (event: React.MouseEvent<HTMLElement>, data: SearchProps) => {
+        const searchTerm = data.value ?? "";
+        this.setState({searchLoading: true, searchTerm: searchTerm})
 
-        if(searchTerm.length > 3) {
+        if (searchTerm.length > 3) {
             voucherClientService.searchForClients(searchTerm).then(
                 clients => {
                     let results: SearchResult[] = clients.map(client => {
@@ -98,7 +104,7 @@ class ClientTable extends React.Component<IncomingProps,State> {
                             id: client.id
                         }
                     });
-                    this.setState({searchResults:results, searchLoading:false})
+                    this.setState({searchResults: results, searchLoading: false})
                 }
             );
 
@@ -124,60 +130,60 @@ class ClientTable extends React.Component<IncomingProps,State> {
                 >
                 </Search>
                 {this.props.clientIds.length > 0 &&
-                <Table basic='very'>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Email</Table.HeaderCell>
-                            <Table.HeaderCell></Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
+                    <Table basic='very'>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>Name</Table.HeaderCell>
+                                <Table.HeaderCell>Email</Table.HeaderCell>
+                                <Table.HeaderCell></Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
 
-                    <Table.Body>
-                        {/*Make each row*/}
-                        {
-                            this.props.clientIds.map((clientId: number) => {
-                                const client = this.state.clients[clientId];
-                                if (client) {
-                                    return (
-                                        <Table.Row key={client.id}>
-                                            <Table.Cell>
-                                                <Header as='h4'>
-                                                    {client.firstName} {client.lastName}
-                                                </Header>
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {client.email}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {/*<ClientPersonalModal*/}
-                                                {/*    key={client.id}*/}
-                                                {/*    icon='edit'*/}
-                                                {/*    initPerson={client}*/}
-                                                {/*    savePerson={(person: VoucherClient) => {*/}
-                                                {/*        this.updatePerson(person);*/}
-                                                {/*    }}*/}
-                                                {/*/>*/}
+                        <Table.Body>
+                            {/*Make each row*/}
+                            {
+                                this.props.clientIds.map((clientId: number) => {
+                                    const client = this.state.clients[clientId];
+                                    if (client) {
+                                        return (
+                                            <Table.Row key={client.id}>
+                                                <Table.Cell>
+                                                    <Header as='h4'>
+                                                        {client.firstName} {client.lastName}
+                                                    </Header>
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {client.email}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {/*<ClientPersonalModal*/}
+                                                    {/*    key={client.id}*/}
+                                                    {/*    icon='edit'*/}
+                                                    {/*    initPerson={client}*/}
+                                                    {/*    savePerson={(person: VoucherClient) => {*/}
+                                                    {/*        this.updatePerson(person);*/}
+                                                    {/*    }}*/}
+                                                    {/*/>*/}
 
-                                                <Icon name='delete' size='large' onClick={() => {
-                                                    this.deletePerson(client.id)
-                                                }}/>
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    )
-                                } else {
-                                    return(
-                                        <Table.Row key={clientId}>
-                                            <Table.Cell>
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    );
-                                }
-                            })
-                        }
+                                                    <Icon name='delete' size='large' onClick={() => {
+                                                        this.deletePerson(client.id)
+                                                    }}/>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        )
+                                    } else {
+                                        return (
+                                            <Table.Row key={clientId}>
+                                                <Table.Cell>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        );
+                                    }
+                                })
+                            }
 
-                    </Table.Body>
-                </Table>
+                        </Table.Body>
+                    </Table>
                 }
                 {this.state.error != undefined &&
                     <Message>
@@ -189,7 +195,7 @@ class ClientTable extends React.Component<IncomingProps,State> {
                 {/*    initPerson={this.getEmptyPerson()}*/}
                 {/*    savePerson={(person:VoucherClient) => {this.updatePerson(person)}}*/}
                 {/*/>*/}
-        </>
+            </>
         );
     }
 }
@@ -197,7 +203,7 @@ class ClientTable extends React.Component<IncomingProps,State> {
 interface SearchResult {
     title: string;
     description: string;
-    id:number;
+    id: number;
 }
 
 export default ClientTable;

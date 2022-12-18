@@ -13,7 +13,7 @@ class Welcome extends React.Component<any> {
      * @returns {*}
      */
     render() {
-        return(
+        return (
             <>
                 <Grid stackable columns={2}>
                     <Grid.Column>

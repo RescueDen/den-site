@@ -1,15 +1,6 @@
 import React from 'react';
 
-import {
-    Segment,
-    Header,
-    Container,
-    Loader,
-    Form,
-    DropdownProps,
-    Button,
-    CheckboxProps
-} from "semantic-ui-react";
+import {Button, CheckboxProps, Container, DropdownProps, Form, Header, Loader, Segment} from "semantic-ui-react";
 import {RouteComponentProps} from "react-router";
 
 import ShelterUser, {getEmptyCawsUser} from "../../../models/ShelterUser";
@@ -24,41 +15,39 @@ import {AuthenticationStatus} from "../../../state/AuthenticationState";
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user:ShelterUser;
-    prefs?:UserPreferences;
-    loading:boolean;
+    user: ShelterUser;
+    prefs?: UserPreferences;
+    loading: boolean;
 }
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
     updateMyInfo: () => any;
-    updatePreferences: (settings:SettingGroup) => any
+    updatePreferences: (settings: SettingGroup) => any
 }
 
-interface PrefState{
-    editSettings? :SettingGroup;
+interface PrefState {
+    editSettings?: SettingGroup;
 }
-
-
-
 
 
 /**
  * This page shows the person details
  */
-class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> {
-    state = {editSettings:undefined}
+class MyPreferences extends React.Component<LinkProps & DispatchProps, PrefState> {
+    state = {editSettings: undefined}
+
     //Update the user if there are any changes
-    componentDidMount(){
+    componentDidMount() {
         this.props.updateMyInfo()
     }
 
     //Get the item as html input
-    getItemAsHtml(option:Option, currentValue: string, update:(newValue:string) => any) {
+    getItemAsHtml(option: Option, currentValue: string, update: (newValue: string) => any) {
 
         //Make sure not hidden
-        if (option.hidden){
+        if (option.hidden) {
             return null
         }
 
@@ -73,13 +62,13 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                     <>
                         <Form.Field
                             disabled={disabled}
-                            label={option.name }
+                            label={option.name}
                             control='input'
                             type='number'
                             value={currentValue}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 //convert to an int
-                                let value = 0.0;
+                                let value: number;
 
                                 //See if we should parse as an int or value
                                 if (option.type == "int") {
@@ -92,10 +81,10 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                                 if (option.maxValue)
                                     value = Math.min(value, option.maxValue)
                                 if (option.minValue)
-                                    value = Math.max(value, option.minValue)
+                                    Math.max(value, option.minValue)
 
                                 //Now store it
-                                update(update+"");
+                                update(update + "");
 
                             }
                             }
@@ -103,7 +92,8 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                         />
 
                     </>
-                );break;
+                );
+                break;
             case "bool": {
                 //Build the name
                 let name = option.name;
@@ -119,7 +109,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                             checked={currentValue == 'true'}
                             onChange={(event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
                                 //Now store it
-                                update(data.checked? "true": "false");
+                                update(data.checked ? "true" : "false");
 
                             }
                             }
@@ -127,7 +117,8 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                         />
                     </>
                 );
-            }break;
+            }
+                break;
             case "string":
                 //Build the name
                 let name = option.name;
@@ -153,7 +144,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
 
 
                                 //Now store it
-                                update(data.value+"");
+                                update(data.value + "");
 
                             }
                             }
@@ -174,7 +165,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
 
                                 //Now store it
-                                update(event.target.value+"");
+                                update(event.target.value + "");
 
 
                             }
@@ -184,7 +175,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
                     );
                 }
                 break;
-            default:{
+            default: {
                 return <p>Preference {option.name} Not Supported of type {option.type}</p>
 
             }
@@ -196,49 +187,44 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
     }
 
 
-
     //Converts the component to the group
-    getComponent(optionsGroup:OptionGroup, settingGroup:SettingGroup, depth:number, update:(settingGroup:SettingGroup) => any ){
+    getComponent(optionsGroup: OptionGroup, settingGroup: SettingGroup, depth: number, update: (settingGroup: SettingGroup) => any) {
         return (
             <Segment>
                 <Header as={`h${depth}`}>{optionsGroup.name} </Header>
                 <p>{optionsGroup.description}</p>
                 {/*March over each option*/}
                 <Form>
-                {
-                    optionsGroup.options && optionsGroup.options.map(
-                    value =>
-                        {
-                            return this.getItemAsHtml(
-                                value,
-                                settingGroup.settings[value.id],
-                                (newValue:string) => {
-                                    settingGroup.settings[value.id] = newValue;
+                    {
+                        optionsGroup.options && optionsGroup.options.map(
+                            value => {
+                                return this.getItemAsHtml(
+                                    value,
+                                    settingGroup.settings[value.id],
+                                    (newValue: string) => {
+                                        settingGroup.settings[value.id] = newValue;
 
-                                    //Now update the settings
-                                    update(settingGroup);
+                                        //Now update the settings
+                                        update(settingGroup);
 
-                                }
-
-                            );
-                        }
-
-                    )
-                }
+                                    }
+                                );
+                            }
+                        )
+                    }
                 </Form>
                 {/*Add subgroups*/}
                 {optionsGroup.subgroups && optionsGroup.subgroups.map(group =>
                     this.getComponent(
                         group,
                         settingGroup.subgroup[group.id],
-                        depth+1,
-                        (childSettingGroup:SettingGroup) =>{
+                        depth + 1,
+                        (childSettingGroup: SettingGroup) => {
                             settingGroup.subgroup[group.id] = childSettingGroup;
                             //Now update the settings
                             update(settingGroup);
 
                         }
-
                     ))}
 
             </Segment>
@@ -247,9 +233,9 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
 
 
     //Add a button to submit case
-    saveChanges = () =>{
+    saveChanges = () => {
 
-        if(this.state.editSettings) {
+        if (this.state.editSettings) {
             //The new settings
             const newSettings = this.state.editSettings!;
 
@@ -262,17 +248,16 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
 
     };
 
-    cancelChanges =() =>{
-        this.setState({editSettings:undefined});
+    cancelChanges = () => {
+        this.setState({editSettings: undefined});
     };
 
-    enterEdit =() =>{
+    enterEdit = () => {
         //Set the edit mode
         if (this.props.prefs) {
             this.setState({editSettings: this.props.prefs.settings});
         }
     };
-
 
 
     /**
@@ -282,7 +267,7 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
     render() {
 
         //If undefined show a loading icon
-        if (this.props.prefs){
+        if (this.props.prefs) {
 
 
             //See if we are already in edit mode
@@ -297,44 +282,41 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
             return (
                 <Container text>
                     <Loader active={loading}/>
-                    {this.getComponent(this.props.prefs.options,settings, 1,
-                        (settingGroup:SettingGroup) =>
-                            {
-                                //Make a copy of the current state
-                                let newSettingState = {...settingGroup};
-                                //Now update the state
-                                this.setState({editSettings:newSettingState})
+                    {this.getComponent(this.props.prefs.options, settings, 1,
+                        (settingGroup: SettingGroup) => {
+                            //Make a copy of the current state
+                            let newSettingState = {...settingGroup};
+                            //Now update the state
+                            this.setState({editSettings: newSettingState})
                         }
                     )}
 
                     {/*Add a button bar to switch between the modes*/}
-                    <Button.Group style={{marginBottom:"50px"}} >
+                    <Button.Group style={{marginBottom: "50px"}}>
                         {editMode &&
-                        <Button secondary onClick={this.cancelChanges}>Cancel</Button>
+                            <Button secondary onClick={this.cancelChanges}>Cancel</Button>
                         }
                         {editMode &&
-                        <Button primary onClick={this.saveChanges}>Save Changes</Button>
+                            <Button primary onClick={this.saveChanges}>Save Changes</Button>
                         }
                         {!editMode &&
-                        <Button disabled={loading} onClick={this.enterEdit}>Edit</Button>
+                            <Button disabled={loading} onClick={this.enterEdit}>Edit</Button>
                         }
                     </Button.Group>
 
-               </Container>
+                </Container>
             );
-        }else{
+        } else {
             //Get the animal details
             return (
                 <Container text>
                     <Segment>
-                        <Loader active />
+                        <Loader active/>
                     </Segment>
                 </Container>
             );
 
         }
-
-
 
 
     }
@@ -344,28 +326,28 @@ class MyPreferences extends React.Component<LinkProps&DispatchProps, PrefState> 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
     return {
         ...myProps,
-        user:state.authentication.loggedInUser? state.authentication.loggedInUser : getEmptyCawsUser(),
-        prefs:state.authentication.preferences,
-        loading:state.authentication.prefStatus? state.authentication.prefStatus == AuthenticationStatus.ATTEMPT : false
+        user: state.authentication.loggedInUser ? state.authentication.loggedInUser : getEmptyCawsUser(),
+        prefs: state.authentication.preferences,
+        loading: state.authentication.prefStatus ? state.authentication.prefStatus == AuthenticationStatus.ATTEMPT : false
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser()),
-        updatePreferences: (settings:SettingGroup) => dispatch(userActions.setUserPreferences(settings))
+        updateMyInfo: () => dispatch(userActions.updateLoggedInUser()),
+        updatePreferences: (settings: SettingGroup) => dispatch(userActions.setUserPreferences(settings))
 
     };
 
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(MyPreferences);

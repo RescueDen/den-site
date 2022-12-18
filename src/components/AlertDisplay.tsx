@@ -7,20 +7,20 @@ import ApplicationState from '../state/ApplicationState';
 import {Container, Label, Message} from "semantic-ui-react";
 
 //Define the expected props
-interface Props{
+interface Props {
     //Define the props we expect
     alerts: Alert[];
 
     //And the actions that must be done
-    clearMessageAction: (alert:Alert) => any;
+    clearMessageAction: (alert: Alert) => any;
 }
 
 
-class AlertDisplay extends React.Component<Props>{
+class AlertDisplay extends React.Component<Props> {
 
 
     //Define a function to clear this message
-    clearMessage(message: Alert){
+    clearMessage(message: Alert) {
         //Just pass this into the props to clear
         this.props.clearMessageAction(message);
 
@@ -28,21 +28,16 @@ class AlertDisplay extends React.Component<Props>{
     }
 
     //Render the alerts
-    render(){
-        return(
-            <div style={{
-                position:"absolute",
-                top:"40px",
-                width:"100%",
-                zIndex: 10000
+    render() {
+        return (<div style={{
+                position: "absolute", top: "40px", width: "100%", zIndex: 10000
             }}>
 
                 {this.props.alerts.map(alert => {
                     //get the header string
                     const header = alert.getHeader();
 
-                    return (
-                        <Container text>
+                    return (<Container text>
                             <Message
                                 floating
                                 onDismiss={() => this.clearMessage(alert)}
@@ -51,24 +46,18 @@ class AlertDisplay extends React.Component<Props>{
                                 negative={alert.type == AlertType.NEGATIVE}
                             >
                                 {/*Add a header if specified*/}
-                                {header &&
-                                    <Message.Header>{header}</Message.Header>
-                                }
+                                {header && <Message.Header>{header}</Message.Header>}
 
                                 {/*Add the main message content*/}
-                                <div dangerouslySetInnerHTML={{ __html: alert.getMessage() }} />
+                                <div dangerouslySetInnerHTML={{__html: alert.getMessage()}}/>
 
                                 {/*Add a count */}
-                                {alert.getCount() > 1 &&
-                                <Label floating>
+                                {alert.getCount() > 1 && <Label floating>
                                     x{alert.getCount()}
-                                </Label>
-                                }
+                                </Label>}
                             </Message>
-                        </Container>
-                    );
-                })
-                }
+                        </Container>);
+                })}
             </div>
 
         )
@@ -76,16 +65,12 @@ class AlertDisplay extends React.Component<Props>{
     }
 
 
-
-};
+}
 
 //Get the states
-const mapStateToProps = (state: ApplicationState) =>{
-    return{ alerts: state.alerts}
+const mapStateToProps = (state: ApplicationState) => {
+    return {alerts: state.alerts}
 }
 
 
-export default connect(
-    mapStateToProps,
-    {clearMessageAction: clear}
-)(AlertDisplay);
+export default connect(mapStateToProps, {clearMessageAction: clear})(AlertDisplay);

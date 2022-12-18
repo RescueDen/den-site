@@ -5,9 +5,9 @@ import {NonShelterAnimal} from "../../models/InNeedOfFosterModel";
 
 
 //Define the expected props
-interface MyProps  {
+interface MyProps {
     //Define the props we expect
-    ani:NonShelterAnimal;
+    ani: NonShelterAnimal;
 
     //A foster button
     extraButton?: any
@@ -24,27 +24,27 @@ class NonShelterAnimalItemFull extends React.Component<MyProps> {
      */
     render() {
         //If the animal is undefined return a place holder
-        if(this.props.ani === undefined){
+        if (this.props.ani === undefined) {
             //Return the html
             return (
                 <Item>
                     {/*Give the ani image*/}
                     <Placeholder>
                         <Placeholder.Header image>
-                            <Placeholder.Line />
-                            <Placeholder.Line />
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
                         </Placeholder.Header>
                         <Placeholder.Paragraph>
-                            <Placeholder.Line />
-                            <Placeholder.Line />
-                            <Placeholder.Line />
-                            <Placeholder.Line />
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
                         </Placeholder.Paragraph>
                     </Placeholder>
                 </Item>
             );
 
-        }else {
+        } else {
 
 
             //Return the html

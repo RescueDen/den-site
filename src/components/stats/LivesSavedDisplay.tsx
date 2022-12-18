@@ -1,37 +1,38 @@
 import React, {CSSProperties} from 'react';
 
-import {Icon, Segment, Container, Grid, Placeholder, Label, Loader, Button, Responsive} from "semantic-ui-react";
-import {AdoptionStat, Stats} from "../../models/Stats";
+import {Responsive} from "semantic-ui-react";
+import {AdoptionStat} from "../../models/Stats";
 import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
 import {statsService} from "../../services/stats.service"
 import LivesSavedD3 from "./LivesSavedD3";
+
 //Pass in the year
 
-interface MyProps{
+interface MyProps {
     year: number;
 
     //Include the style
-    style?:CSSProperties;
+    style?: CSSProperties;
 }
 
 //Store the hub state
-interface MyState{
+interface MyState {
     //Keep the internal state of options
     adoptions?: AdoptionStat[];
-    error?:string;
+    error?: string;
 
 
     //Keep the width and height
-    width:number;
-    height:number;
+    width: number;
+    height: number;
 
 }
 
 
 class LivesSavedDisplay extends React.Component<MyProps, MyState> {
-    state={adoptions:undefined, error:undefined, width:1, height:600}
+    state = {adoptions: undefined, error: undefined, width: 1, height: 600}
 
-    constructor(props:MyProps) {
+    constructor(props: MyProps) {
         super(props);
     }
 
@@ -60,9 +61,10 @@ class LivesSavedDisplay extends React.Component<MyProps, MyState> {
             }
         );
     }
+
     //Update the width
-    updateWidth = (event: React.SyntheticEvent<HTMLElement>, data: ResponsiveOnUpdateData) =>{
-        this.setState({width:data.width, height:window.innerHeight});
+    updateWidth = (event: React.SyntheticEvent<HTMLElement>, data: ResponsiveOnUpdateData) => {
+        this.setState({width: data.width, height: window.innerHeight});
     }
 
 

@@ -9,20 +9,21 @@ import {FeedItemData} from "../models/Feed";
  * @param action
  * @returns {*}
  */
-export function feed(state:FeedState = {feedShown:false, feedItems:[]as FeedItemData[]}, action:Action): FeedState {
+export function feed(state: FeedState = {
+    feedShown: false,
+    feedItems: [] as FeedItemData[]
+}, action: Action): FeedState {
 
 
     //Ok, we now know that it is an alert action
     switch (action.type) {
         case feedConstants.FEED_TOGGLE:
             return {
-                ...state,
-                feedShown: !state.feedShown
+                ...state, feedShown: !state.feedShown
             }
         case feedConstants.FEED_UPDATE:
             return {
-                ...state,
-                feedItems: action.payload
+                ...state, feedItems: action.payload
             }
 
         default:

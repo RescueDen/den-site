@@ -1,28 +1,27 @@
 import React from "react";
-import {Header, Icon, List, Segment, Step} from "semantic-ui-react";
+import {Header, Icon, Segment, Step} from "semantic-ui-react";
 import ShelterUser from "../../models/ShelterUser";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 import {Link} from "react-router-dom";
 
 //Define the expected props
-interface AppStatusProps  {
+interface AppStatusProps {
     //Define the props we expect
-    name:string;
-    icon:any
-    user:ShelterUser;
+    name: string;
+    icon: any
+    user: ShelterUser;
     status: AppStatus[];
 }
 
 //Define the expected props
 interface AppStatus {
-    name:string;
-    comment?:string;
-    tag?:string;
-    show:any;
-    icon:SemanticICONS;
-    link?:string;
+    name: string;
+    comment?: string;
+    tag?: string;
+    show: any;
+    icon: SemanticICONS;
+    link?: string;
 }
-
 
 
 /**
@@ -30,7 +29,7 @@ interface AppStatus {
  * @param myProps
  * @constructor
  */
-const AppStatusWidget = (props:AppStatusProps) => {
+const AppStatusWidget = (props: AppStatusProps) => {
 
     //Build each component
     const components: JSX.Element[] = [];
@@ -38,7 +37,7 @@ const AppStatusWidget = (props:AppStatusProps) => {
 
     //the details
     components.push(
-        <Header as='h3' key={'header'+props.name}>
+        <Header as='h3' key={'header' + props.name}>
             {props.icon}
             <Header.Content>{props.name}</Header.Content>
         </Header>
@@ -48,10 +47,10 @@ const AppStatusWidget = (props:AppStatusProps) => {
     let highestStatus = props.status[0];
 
     //Keep a record of active status
-    let active:boolean[] = new Array(props.status.length);
+    let active: boolean[] = new Array(props.status.length);
 
     //Now fill out the active tag
-    for(let i =0; i < props.status.length; i++) {
+    for (let i = 0; i < props.status.length; i++) {
         const tag = props.status[i].tag;
 
         //check to see if this is an active tag
@@ -62,11 +61,11 @@ const AppStatusWidget = (props:AppStatusProps) => {
     }
 
     //Determine what role show
-    for(let i =0; i < props.status.length; i++) {
+    for (let i = 0; i < props.status.length; i++) {
         //Now if any of them past this are active
         let thisActive = false;
-        for(let ii = i ; ii < props.status.length; ii++){
-            if(active[ii])
+        for (let ii = i; ii < props.status.length; ii++) {
+            if (active[ii])
                 thisActive = true;
         }
 
@@ -85,11 +84,11 @@ const AppStatusWidget = (props:AppStatusProps) => {
         listComponents.push(
             <Step
                 disabled={!thisActive}
-                active={highestStatus==props.status[i]}
+                active={highestStatus == props.status[i]}
                 as={props.status[i].link && Link}
                 to={props.status[i].link}
             >
-                <Icon name={props.status[i].icon} />
+                <Icon name={props.status[i].icon}/>
                 <Step.Content>
                     <Step.Title>{props.status[i].name}</Step.Title>
                     <Step.Description>{props.status[i].comment}</Step.Description>
@@ -103,7 +102,7 @@ const AppStatusWidget = (props:AppStatusProps) => {
     //Now add the list items
     components.push(
         <Step.Group>
-          {listComponents}
+            {listComponents}
         </Step.Group>
     );
 
@@ -115,7 +114,7 @@ const AppStatusWidget = (props:AppStatusProps) => {
 
 
     return (
-        <Segment style={{textAlign:"center"}}>
+        <Segment style={{textAlign: "center"}}>
             {components}
         </Segment>
     );

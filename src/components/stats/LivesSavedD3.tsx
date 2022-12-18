@@ -1,14 +1,6 @@
 import React from 'react';
-
-import {Icon, Segment, Container, Grid, Placeholder, Label, Loader, Button, Responsive} from "semantic-ui-react";
-import {AdoptionStat, Stats} from "../../models/Stats";
-import {statsService} from "../../services/stats.service";
+import {AdoptionStat} from "../../models/Stats";
 import * as d3 from "d3";
-import {DSVRowString} from "d3";
-import {DSVRowArray, Simulation} from "d3";
-import {ValueFn} from "d3";
-// import "./LivesSavedDisplay.css";
-import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
 import {formatDate} from "../../utils/date-formater";
 
 //Pass in the year
@@ -50,12 +42,11 @@ class LivesSavedD3 extends React.Component<MyProps> {
             .domain([0, 100])
             .range([5, 30]);
 
-        //Define the base line colors
-        let colorScale: d3.ScaleSequential<unknown> = d3.scaleSequential(d3.interpolateRainbow)
+        //Define the baseline colors
+        d3.scaleSequential(d3.interpolateRainbow)
             .domain([0, 100])
             .interpolator(d3.interpolateRainbow);
-
-        //Define the base line limits on height
+//Define the base line limits on height
         let heightScale: d3.ScaleLinear<number, number> = d3.scaleLinear()
             .domain([0, 100])
             .range([0, this.props.height]);
@@ -122,64 +113,61 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
         //Define the actual bubbles based upon the nodes
         // @ts-ignore
-        let bubbles: string & d3.Selection<SVGCircleElement, { radius: any; fill: any; x: number; y: any; /*  Math.random() * height */ }, d3.BaseType, unknown> =
-            d3.select(this.svgRef.current)
-                .selectAll('circle')
-                .data(nodes)
-                .enter()
-                .append('circle')
-                .attr('r', d => {
-                    return radius(d)
-                })
-                .attr('stroke', "#aed957")
-                .attr('stroke-width', 3)
-                .style("fill", "#fff")
-                .style("fill", img_url)
-                .on('click', onClick)
-                .on('mouseover', function onClick(d: any) {
-                    d3.select(this)
-                        .transition()
-                        .attr('r', 100);
-                    //Bring to top
-                    d3.select(this).raise();
+        let bubbles: string & d3.Selection<SVGCircleElement, { radius: any; fill: any; x: number; y: any; /*  Math.random() * height */ }, d3.BaseType, unknown> = d3.select(this.svgRef.current)
+            .selectAll('circle')
+            .data(nodes)
+            .enter()
+            .append('circle')
+            .attr('r', d => {
+                return radius(d)
+            })
+            .attr('stroke', "#aed957")
+            .attr('stroke-width', 3)
+            .style("fill", "#fff")
+            .style("fill", img_url)
+            .on('click', onClick)
+            .on('mouseover', function onClick(d: any) {
+                d3.select(this)
+                    .transition()
+                    .attr('r', 100);
+                //Bring to top
+                d3.select(this).raise();
 
-                    //Turn on the tool tip
-                    tooltip
-                        .transition()
-                        .duration(200)
-                    tooltip
-                        .style("opacity", 1)
-                        .html(d.NAME + '<br/> Adopted: ' + formatDate(d.Date))
-                        .style("left", (d3.mouse(this)[0] + 30) + "px")
-                        .style("top", (d3.mouse(this)[1] + 30) + "px")
+                //Turn on the tool tip
+                tooltip
+                    .transition()
+                    .duration(200)
+                tooltip
+                    .style("opacity", 1)
+                    .html(d.NAME + '<br/> Adopted: ' + formatDate(d.Date))
+                    .style("left", (d3.mouse(this)[0] + 30) + "px")
+                    .style("top", (d3.mouse(this)[1] + 30) + "px")
 
 
-                })
-                .on('mouseout', function onClick(d: any) {
-                    //put the radius back
-                    d3.select(this)
-                        .transition()
-                        .attr('r', d.radius);
+            })
+            .on('mouseout', function onClick(d: any) {
+                //put the radius back
+                d3.select(this)
+                    .transition()
+                    .attr('r', d.radius);
 
-                    //Turn off the tool tip
-                    tooltip
-                        .transition()
-                        .duration(200)
-                        .style("opacity", 0)
-                })
-                .on('mousemove', function onClick(d: any) {
-                        //Move the tool tip
-                        tooltip
-                            .style("left", (d3.mouse(this)[0] + 30) + "px")
-                            .style("top", (d3.mouse(this)[1] + 30) + "px")
-                    }
-                )
-                // @ts-ignore
-                .call(d3.drag()
-                    .on('start', dragStarted)
-                    .on('drag', dragged)
-                    .on('end', dragEnded)
-                )
+                //Turn off the tool tip
+                tooltip
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 0)
+            })
+            .on('mousemove', function onClick(d: any) {
+                //Move the tool tip
+                tooltip
+                    .style("left", (d3.mouse(this)[0] + 30) + "px")
+                    .style("top", (d3.mouse(this)[1] + 30) + "px")
+            })
+            // @ts-ignore
+            .call(d3.drag()
+                .on('start', dragStarted)
+                .on('drag', dragged)
+                .on('end', dragEnded))
 
 
         //The force simulation causes all of the nodes to fit
@@ -198,7 +186,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
         }
 
         //Allow the movement of each of the particles
-        function dragged(event :any, d: any) {
+        function dragged(event: any, d: any) {
             /* bubbles.attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y); */
             d.fx = d3.event.x
             d.fy = d3.event.y
@@ -274,8 +262,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
      */
     render() {
 
-        return (
-            <div ref={this.parentRef}>
+        return (<div ref={this.parentRef}>
                 <svg className="container"
                      ref={this.svgRef}
                      width={this.props.width}
@@ -292,9 +279,7 @@ class LivesSavedD3 extends React.Component<MyProps> {
     generateRandomData = () => {
         const data = [];
         for (let i = 0; i < 200; i++) {
-            data.push(
-                {randomNumber: Math.round(Math.random() * 100)}
-            )
+            data.push({randomNumber: Math.round(Math.random() * 100)})
         }
         return data;
     }

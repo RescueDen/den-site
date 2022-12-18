@@ -15,24 +15,24 @@ import {peopleService} from "../../services/people.service";
 
 
 //Define the expected props
-interface LinkProps extends RouteComponentProps<any>{
+interface LinkProps extends RouteComponentProps<any> {
     //Pass in the achId
-    personId:number;
+    personId: number;
 
     //Store the people info
     peopleInfo: { [id: number]: PersonData; }
 }
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    getPerson: (personId:number) => any;
+    getPerson: (personId: number) => any;
 
 }
 
-interface State{
+interface State {
     //Store any errors
-    errors?:string;
+    errors?: string;
 
     //And the actions that must be done
     achievements?: AchievementData[];
@@ -42,15 +42,15 @@ interface State{
 /**
  * This page shows the person details
  */
-class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
-    state = {errors:undefined, achievements:undefined}
+class PersonDetails extends React.Component<LinkProps & DispatchProps, State> {
+    state = {errors: undefined, achievements: undefined}
 
     //Update the user if there are any changes
-    componentDidMount(){
+    componentDidMount() {
         //Load up the achievements for this person
-        peopleService.getAchievements(this.props.personId).then(listOfAch =>{
-            this.setState({achievements:listOfAch})
-        },
+        peopleService.getAchievements(this.props.personId).then(listOfAch => {
+                this.setState({achievements: listOfAch})
+            },
             //If there was an error, show to the user
             errorResponse => {
                 //Dispatch the error
@@ -77,7 +77,7 @@ class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
         //If undefined show a loading icon
         const person = this.props.peopleInfo[this.props.personId] as PersonData;
 
-        if(person) {
+        if (person) {
 
             return (
                 <div>
@@ -96,23 +96,25 @@ class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
 
                         {/*Add in my current fosters*/}
                         {person.currentFosters &&
-                        <Segment>
-                            <AnimalList aniLink="/animal" link="/currentfosters" title={person.firstname +"'s Fosters"}
-                                        animalIdList={person.currentFosters}/>
-                        </Segment>
+                            <Segment>
+                                <AnimalList aniLink="/animal" link="/currentfosters"
+                                            title={person.firstname + "'s Fosters"}
+                                            animalIdList={person.currentFosters}/>
+                            </Segment>
                         }
 
                         {/*Add in my Past fosters*/}
                         {person.pastFosters &&
-                        <Segment>
-                            <AnimalList aniLink="/animal" link="/pastfosters" title={person.firstname +"Past Fosters"}
-                                        animalIdList={person.pastFosters}/>
-                        </Segment>
+                            <Segment>
+                                <AnimalList aniLink="/animal" link="/pastfosters"
+                                            title={person.firstname + "Past Fosters"}
+                                            animalIdList={person.pastFosters}/>
+                            </Segment>
                         }
                     </Container>
                 </div>
             );
-        }else{
+        } else {
             return <Loader active={true}/>
         }
 
@@ -125,21 +127,21 @@ class PersonDetails extends React.Component<LinkProps&DispatchProps, State> {
  * @param state
  * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
     return {
         ...myProps,
-        personId:myProps.match.params.personId,
-        peopleInfo:state.people.people
+        personId: myProps.match.params.personId,
+        peopleInfo: state.people.people
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        getPerson:(personId:number) =>  dispatch(peopleActions.getPerson(personId)),
+        getPerson: (personId: number) => dispatch(peopleActions.getPerson(personId)),
     };
 }
 
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(PersonDetails);

@@ -9,40 +9,32 @@ import InNeedState from "../state/InNeedState";
  * @param action
  * @returns {*}
  */
-export function inNeedFoster(state:InNeedState = {
-    inNeed:new InNeedOfFoster({shelter:[]}),
-    busy:false}
-    , action:Action): InNeedState {
+export function inNeedFoster(state: InNeedState = {
+    inNeed: new InNeedOfFoster({shelter: []}), busy: false
+}, action: Action): InNeedState {
 
     switch (action.type) {
         case inNeedConstants.FETCH_INNEEDOFFOSTER:
             return {
-                inNeed:action.payload,
-                busy:false
+                inNeed: action.payload, busy: false
             };
         case inNeedConstants.UPLOAD_INNEED_ANIMAL:
             return {
-                ...state,
-                busy:true
+                ...state, busy: true
             };
         case inNeedConstants.UPLOADED_INNEED_ANIMAL:
 
             return {
-                ...state,
-                inNeed:state.inNeed.addNonShelterAnimalAndCopy(action.payload),
-                busy:false
+                ...state, inNeed: state.inNeed.addNonShelterAnimalAndCopy(action.payload), busy: false
             };
         case inNeedConstants.DELETE_INNEED_ANIMAL:
             return {
-                ...state,
-                busy:true
+                ...state, busy: true
             };
         case inNeedConstants.DELETED_INNEED_ANIMAL:
 
             return {
-                ...state,
-                inNeed:state.inNeed.removeNonShelterAnimalAndCopy(action.payload),
-                busy:false
+                ...state, inNeed: state.inNeed.removeNonShelterAnimalAndCopy(action.payload), busy: false
             };
         default:
             return state

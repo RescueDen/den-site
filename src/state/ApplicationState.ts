@@ -20,15 +20,15 @@ export default interface ApplicationState {
     authentication: AuthenticationState,
     alerts: Alert[],
     animals: AnimalState,
-    content:ContentState,
-    colony:ColonyState,
+    content: ContentState,
+    colony: ColonyState,
     inNeedFoster: InNeedState,
     forms: FormsState,
-    events:EventsState,
+    events: EventsState,
     achievements: AchievementsState,
     courses: CoursesState,
-    feed:FeedState,
+    feed: FeedState,
     logging: LoggingState,
-    people:PeopleState,
-    voucher:VoucherState
+    people: PeopleState,
+    voucher: VoucherState
 }

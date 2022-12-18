@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Load in the routes
-import { BrowserRouter, Route } from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import PrivateRoute from './authentication/PrivateRoute';
 
 //Load in the possible paths
@@ -20,7 +20,7 @@ import VetVoucherView from "./voucher/VetVoucherView";
 import OneTimePasswordLoginPage from "./authentication/OneTimePasswordLoginPage";
 
 //Define the class
-class AppRouter extends React.Component{
+class AppRouter extends React.Component {
 
 
     //The app router just shows the parts of the different
@@ -31,20 +31,23 @@ class AppRouter extends React.Component{
                 <AlertDisplay/>
 
                 {/*Go to different components depending upon the path specified*/}
-                <BrowserRouter >
+                <BrowserRouter>
                     <div>
                         <Container>
-                            <Route path="/login" component={LoginPage} />
+                            <Route path="/login" component={LoginPage}/>
                             <Route path="/loginpassword" component={LoginPasswordPage}/>
-                            <Route path="/register" component={RegisterPage} />
-                            <Route path="/activate" component={ActivationPage} />
-                            <Route path="/passwordreset" component={PasswordResetPage} />
-                            <Route path="/loginhelp" component={HelpViewer} />
-                            <Route path="/loginwithtoken" component={OneTimePasswordLoginPage} />
-                            <Route key={'/vet/voucher/vouchers'} path="/vet/voucher/:voucherSecret" component={VetVoucherView} />
+                            <Route path="/register" component={RegisterPage}/>
+                            <Route path="/activate" component={ActivationPage}/>
+                            <Route path="/passwordreset" component={PasswordResetPage}/>
+                            <Route path="/loginhelp" component={HelpViewer}/>
+                            <Route path="/loginwithtoken" component={OneTimePasswordLoginPage}/>
+                            <Route key={'/vet/voucher/vouchers'} path="/vet/voucher/:voucherSecret"
+                                   component={VetVoucherView}/>
 
                         </Container>
-                        <PrivateRoute to={'/login'} exclude={["/login", "/loginpassword","/loginwithtoken", "/register","/activate", "/passwordreset", "/loginhelp", "/loginhelp/",'/vet/voucher']} path="/" component={App} />
+                        <PrivateRoute to={'/login'}
+                                      exclude={["/login", "/loginpassword", "/loginwithtoken", "/register", "/activate", "/passwordreset", "/loginhelp", "/loginhelp/", '/vet/voucher']}
+                                      path="/" component={App}/>
                     </div>
                 </BrowserRouter>
             </div>
@@ -52,9 +55,7 @@ class AppRouter extends React.Component{
     }
 
 
-
-};
-
+}
 
 
 // export default connect(

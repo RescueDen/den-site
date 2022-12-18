@@ -3,46 +3,44 @@ import data from "../assets/alerts"
 export class Alert {
 
     //The Message simType
-    readonly message:string;
+    readonly message: string;
 
     //Set the id
-    readonly _id?:number;
+    readonly _id?: number;
 
     //Store the alert simType
-    readonly type:AlertType;
+    readonly type: AlertType;
 
     //Store the number of counts
-    private count:number = 1;
+    private count: number = 1;
 
 
     //The main public constructor
-    constructor(type:AlertType, message:string, id?:number) {
+    constructor(type: AlertType, message: string, id?: number) {
         this._id = id;
         this.type = type;
         this.message = message
     }
 
     //Increase count
-    bumpCount(){
+    bumpCount() {
         this.count++;
     }
 
     //Increase count
-    getCount(){
+    getCount() {
         return this.count
     }
 
     //Increase count
-    equals(otherAlert : Alert):boolean{
+    equals(otherAlert: Alert): boolean {
         return this.message == otherAlert.message;
     }
 
     //The main public constructor
-    assignId(id:number) :Alert {
+    assignId(id: number): Alert {
         //Create a new child with an id
-        const alert =  new Alert(this.type, this.message, id);
-
-        return alert;
+        return new Alert(this.type, this.message, id);
     }
 
     /**
@@ -55,10 +53,10 @@ export class Alert {
     /**
      * Get message
      */
-    getMessage():any{
-        if(data[this.message]){
+    getMessage(): any {
+        if (data[this.message]) {
             return data[this.message].message
-        }else{
+        } else {
             return this.message
         }
     }
@@ -66,14 +64,13 @@ export class Alert {
     /**
      * Get Header
      */
-    getHeader():string|undefined{
-        if(data[this.message] ){
+    getHeader(): string | undefined {
+        if (data[this.message]) {
             return data[this.message].header
-        }else{
+        } else {
             return undefined
         }
     }
-
 
 
 }
@@ -82,7 +79,6 @@ export class Alert {
  * Define an enum for different simType of alerts
  */
 export enum AlertType {
-    POSITIVE = "positive",
-    NEGATIVE = "negative",
+    POSITIVE = "positive", NEGATIVE = "negative",
 
 }

@@ -1,8 +1,5 @@
-import React, {ReactNode} from "react";
-import {Dropdown, Feed, Grid, Header, Icon, Label, Menu, Segment, Sidebar} from "semantic-ui-react";
-import {MenuItem} from "../menu/NavBar";
-import {RouteComponentProps, RouteProps} from "react-router";
-import {MenuMode} from "../menu/ResponsiveNavBar";
+import React from "react";
+import {Feed, Header, Icon} from "semantic-ui-react";
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
 import {feedActions} from "../../actions/feed.actions";
@@ -18,7 +15,7 @@ interface Props {
 
 //Setup up path props to get the current path
 interface StateProps {
-    feedItems:FeedItemData[]
+    feedItems: FeedItemData[]
 }
 
 //Setup up path props to get the current path
@@ -28,18 +25,18 @@ interface DispatchProps {
 }
 
 
-class TheFeed extends React.Component<Props&StateProps&DispatchProps> {
-
+class TheFeed extends React.Component<Props & StateProps & DispatchProps> {
 
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         // get the forms
         this.props.updateFeed();
 
     };
+
     /**
      * Re-render eveyr time this is called
      * @returns {*}
@@ -48,45 +45,46 @@ class TheFeed extends React.Component<Props&StateProps&DispatchProps> {
         return (
             <>
 
-                    <Header as='h2'
-                            icon textAlign='center'>
-                        <Icon name='feed'  />
-                        <Header.Content>The CAWS Feed
-                            <Header.Subheader>See what is happening in the world of CAWS</Header.Subheader>
-                        </Header.Content>
-                    </Header>
-                    <Feed >
-                        {this.props.feedItems.map( item =>{
-                            return <FeedItem key={item.id} data={item}/>
-                        })}
-                    </Feed>
+                <Header as='h2'
+                        icon textAlign='center'>
+                    <Icon name='feed'/>
+                    <Header.Content>The CAWS Feed
+                        <Header.Subheader>See what is happening in the world of CAWS</Header.Subheader>
+                    </Header.Content>
+                </Header>
+                <Feed>
+                    {this.props.feedItems.map(item => {
+                        return <FeedItem key={item.id} data={item}/>
+                    })}
+                </Feed>
             </>
 
         );
 
     }
 
-};
+}
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:Props ):Props&StateProps {
+function mapStateToProps(state: ApplicationState, myProps: Props): Props & StateProps {
     return {
         ...myProps,
-        feedItems:state.feed.feedItems
+        feedItems: state.feed.feedItems
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        updateFeed:() => dispatch(feedActions.updateFeed())
+        updateFeed: () => dispatch(feedActions.updateFeed())
     };
 
 }
-export default connect (
+
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(TheFeed);

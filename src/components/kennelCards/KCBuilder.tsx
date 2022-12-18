@@ -16,20 +16,20 @@ import RemoteSearch from "../animal/RemoteSearch";
 import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
-interface IncomingProps extends RouteComponentProps<any>  {
+interface IncomingProps extends RouteComponentProps<any> {
 
 }
 
 //Define the expected props
-interface LinkProps  {
+interface LinkProps {
     //Define the props we expect
     cawsAnimalsDb: AnimalState
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    downloadAnimal: (id:number) => any;
+    downloadAnimal: (id: number) => any;
 
 }
 
@@ -38,19 +38,19 @@ const baseUrl = 'https://us01.sheltermanager.com/animal?id='
 
 //Setup the fonts
 // Register font
-Font.register({ family: 'LemonTuesday', src: process.env.PUBLIC_URL+"/fonts/LemonTuesday.ttf" });
-Font.register({ family: 'LeagueSpartan-Bold', src: process.env.PUBLIC_URL+"/fonts/LeagueSpartan-Bold.ttf" });
-Font.register({ family: 'Gidole-Regular', src: process.env.PUBLIC_URL+"/fonts/Gidole-Regular.ttf" });
-Font.register({ family: 'Arimo', src: process.env.PUBLIC_URL+"/fonts/Arimo-Regular.ttf" });
+Font.register({family: 'LemonTuesday', src: process.env.PUBLIC_URL + "/fonts/LemonTuesday.ttf"});
+Font.register({family: 'LeagueSpartan-Bold', src: process.env.PUBLIC_URL + "/fonts/LeagueSpartan-Bold.ttf"});
+Font.register({family: 'Gidole-Regular', src: process.env.PUBLIC_URL + "/fonts/Gidole-Regular.ttf"});
+Font.register({family: 'Arimo', src: process.env.PUBLIC_URL + "/fonts/Arimo-Regular.ttf"});
 
 export const kcstyles = StyleSheet.create({
-    page: { backgroundColor: 'white' },
-    headerSection: {  backgroundColor:"#fafafa",color: 'black', textAlign: 'left'},
+    page: {backgroundColor: 'white'},
+    headerSection: {backgroundColor: "#fafafa", color: 'black', textAlign: 'left'},
     aniNameSection: {
-        fontFamily:'LeagueSpartan-Bold', margin: "auto", marginLeft:"0", color:'#35b729', textAlign:'center'/*, float:"left"*/
+        fontFamily: 'LeagueSpartan-Bold', margin: "auto", marginLeft: "0", color: '#35b729', textAlign: 'center'/*, float:"left"*/
     },
     footerSection: {
-        backgroundColor:"#eae2ff",
+        backgroundColor: "#eae2ff",
         color: 'black',
         display: "flex",
         flexDirection: "row",
@@ -58,56 +58,56 @@ export const kcstyles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center"
     },
-    sectionHeader:{
-        fontFamily:'LeagueSpartan-Bold',
-        color:'#ff5e0f'
+    sectionHeader: {
+        fontFamily: 'LeagueSpartan-Bold', color: '#ff5e0f'
     },
-    infoRow:{
-        fontFamily:'Gidole-Regular',
-        color:'#000000'
+    infoRow: {
+        fontFamily: 'Gidole-Regular', color: '#000000'
     },
-    bio:{
-        fontFamily:'Gidole-Regular',
-        color:'#000000',
-        textAlign:"justify"
+    bio: {
+        fontFamily: 'Gidole-Regular', color: '#000000', textAlign: "justify"
     },
-    footerText:{
-        fontFamily:'Arimo',
-        color:'#000000',
-        marginLeft:"5px"
+    footerText: {
+        fontFamily: 'Arimo', color: '#000000', marginLeft: "5px"
     }
 });
 
 
 //Define the expected props
-interface SearchState  {
+interface SearchState {
     //Define the props we expect
     searchTerm: string
 
     //Store a list of things to render
-    idList:number[];
+    idList: number[];
 
     //Store the qr data to render based upon id
-    qrData:{ [id: number]: string; }
+    qrData: { [id: number]: string; }
 
     //Define if it is full page
-    fullPage:boolean;
+    fullPage: boolean;
 
     //store an index
-    stateIndex:number;
+    stateIndex: number;
 }
 
 
 /**
  * This card shows the animal details
  */
-class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, SearchState> {
-    state={stateIndex:0, searchTerm:"", idList:[] as number[], qrData: {} as { [id: number]: string; } , fullPage:true};
+class KCBuilder extends React.Component<IncomingProps & DispatchProps & LinkProps, SearchState> {
+    state = {
+        stateIndex: 0,
+        searchTerm: "",
+        idList: [] as number[],
+        qrData: {} as { [id: number]: string; },
+        fullPage: true
+    };
 
     /**
      * Gets called once when the page loads.  Tell the system to download that animal
      */
-    componentDidMount(){
+    componentDidMount() {
         //Get the query string
         const string = this.props.location.search;
 
@@ -124,27 +124,27 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                 const queryListArray = queryList as any[];
 
                 //Map
-                this.addIds(queryListArray.map((num:any) => {
-                   return +num;
+                this.addIds(queryListArray.map((num: any) => {
+                    return +num;
 
                 }));
 
-            }else{
+            } else {
                 this.addId(+queryList);
             }
         }
 
         //Check to see if the format was defined
         const format = params["format"];
-        if(format == "full"){
+        if (format == "full") {
             this.setFullPage(true)
-        }else if (format == "half"){
+        } else if (format == "half") {
             this.setFullPage(false);
         }
     };
 
     //Add new ids
-    addId = (id:number) =>{
+    addId = (id: number) => {
         this.setState({idList: [...this.state.idList, id]});
 
         //Make sure we have the animal
@@ -154,38 +154,38 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         this.buildQrCodes([id], {} as { [id: number]: string; });
 
     }
-    addIds = (ids:number[]) =>{
+    addIds = (ids: number[]) => {
         this.setState({idList: [...this.state.idList, ...ids]});
 
         //Make sure we have the animal
-        ids.forEach((id:number) =>{
-           this.props.downloadAnimal(id);
+        ids.forEach((id: number) => {
+            this.props.downloadAnimal(id);
         });
 
         //Now build the qr codes
         this.buildQrCodes(ids, {} as { [id: number]: string; });
     }
 
-    redraw = () =>{
+    redraw = () => {
         //Force a redraw
         this.bumpStateIndex();
 
         //Redownload all of the animals
-        this.state.idList.forEach((id:number) =>{
+        this.state.idList.forEach((id: number) => {
             this.props.downloadAnimal(id);
         });
     }
 
-    bumpStateIndex = () =>{
-        this.setState({stateIndex:this.state.stateIndex+1})
+    bumpStateIndex = () => {
+        this.setState({stateIndex: this.state.stateIndex + 1})
     }
 
-    buildQrCodes = (ids:number[], newQr: { [id: number]: string; }) =>{
+    buildQrCodes = (ids: number[], newQr: { [id: number]: string; }) => {
 
         //Get the next number
         const nextID = ids.pop();
 
-        if(nextID) {
+        if (nextID) {
             QRCode.toDataURL(baseUrl + nextID, {
                 color: {
                     dark: '#1a4789',  // Blue dots
@@ -194,44 +194,40 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
             }).then(data => {
 
                 //Add the new qr code
-                newQr[nextID]= data;
+                newQr[nextID] = data;
 
                 //Now call the next one in the list
-                this.buildQrCodes(ids,newQr);
+                this.buildQrCodes(ids, newQr);
 
             })
-        }else{
+        } else {
             //We are done, save it
             //Wait some time
-            this.setState(
-                {
-                    qrData: {...this.state.qrData, ...newQr}
-                }
-            );
+            this.setState({
+                qrData: {...this.state.qrData, ...newQr}
+            });
         }
-
 
 
     }
 
-    setFullPage = (fullPage:boolean) =>{
+    setFullPage = (fullPage: boolean) => {
         this.setState({fullPage: fullPage});
 
     }
 
-    buildPages = (aniDataList:ShelterAnimal[]) =>{
+    buildPages = (aniDataList: ShelterAnimal[]) => {
         //Build the list of components
-        let listOfPages:any[] = [];
+        let listOfPages: any[] = [];
 
         //If it is full page
-        if(this.state.fullPage){
+        if (this.state.fullPage) {
             //One page per kc
             listOfPages = aniDataList.map(data => {
-                return (
-                    <FullPageKC key={this.state.stateIndex+data.data.id} aniData={data} qrData={this.state.qrData[data.data.id]}/>
-                );
+                return (<FullPageKC key={this.state.stateIndex + data.data.id} aniData={data}
+                                    qrData={this.state.qrData[data.data.id]}/>);
             });
-        }else {
+        } else {
             //Do two pages at a time
             for (let i = 0; i < aniDataList.length; i += 2) {//Notice we go up by two
                 //Get page one
@@ -247,10 +243,9 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
 
 
                 //Build a new page
-                listOfPages.push(
-                    <HalfPageKC key={this.state.stateIndex+"" + data1.data.id + (data2 ? data2.data.id : "")} aniDataFirst={data1}
-                                aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2}/>
-                );
+                listOfPages.push(<HalfPageKC
+                    key={this.state.stateIndex + "" + data1.data.id + (data2 ? data2.data.id : "")} aniDataFirst={data1}
+                    aniDataSecond={data2} qrDataFirst={qr1} qrDataSecond={qr2}/>);
 
             }
         }
@@ -263,17 +258,15 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
      */
     render() {
         //Build the list of animal data
-        let aniDataList = this.state.idList.filter(id =>{
+        let aniDataList = this.state.idList.filter(id => {
             return this.props.cawsAnimalsDb.animals[id] != undefined;
-            }
-        ).map( id =>{
+        }).map(id => {
             return this.props.cawsAnimalsDb.animals[id];
         })
 
 
         //Build the header
-        return (
-            <>
+        return (<>
                 <Container>
                     {/*Define a stackable grid to offset the header from the search box*/}
                     <Grid stackable columns={2}>
@@ -282,44 +275,44 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
                             <Grid.Column floated='left' textAlign='left'>
                                 <RemoteSearch selectAnimal={this.addId}/>
                             </Grid.Column>
-                            </PermissionBlock>
-                        <Grid.Column floated='right' textAlign='right' >
+                        </PermissionBlock>
+                        <Grid.Column floated='right' textAlign='right'>
 
-                              {/*Add Button to download  */}
+                            {/*Add Button to download  */}
                             <PDFDownloadLink
-                                key={this.state.stateIndex+this.state.idList.toString()+aniDataList.length+this.state.qrData.toString()+this.state.fullPage}
+                                key={this.state.stateIndex + this.state.idList.toString() + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}
                                 className={"ui button"}
-                                document={
-                                    <Document>
-                                        {this.buildPages(aniDataList)}
-                                    </Document>
-                                }
+                                document={<Document>
+                                    {this.buildPages(aniDataList)}
+                                </Document>}
                                 fileName="kennelCards.pdf"
                             >
-                                {({ blob, url, loading, error }) => (loading ? 'Loading...' : <><Icon name='download' />'Download PDF'</>)}
+                                {({blob, url, loading, error}) => (loading ? 'Loading...' : <><Icon name='download'/>'Download
+                                    PDF'</>)}
                             </PDFDownloadLink>
 
                             {/*Allow to redraw*/}
-                            <Button  onClick={this.redraw}>
-                                <Icon name='refresh' />
+                            <Button onClick={this.redraw}>
+                                <Icon name='refresh'/>
                                 ReDraw
                             </Button>
 
                             {/*    Allow switch between full and half*/}
                             <Button.Group>
-                                <Button positive={!this.state.fullPage} onClick={() => this.setFullPage(false)}>Half</Button>
-                                <Button.Or />
-                                <Button  positive={this.state.fullPage} onClick={() => this.setFullPage(true)}>Full</Button>
+                                <Button positive={!this.state.fullPage}
+                                        onClick={() => this.setFullPage(false)}>Half</Button>
+                                <Button.Or/>
+                                <Button positive={this.state.fullPage}
+                                        onClick={() => this.setFullPage(true)}>Full</Button>
                             </Button.Group>
-
 
 
                         </Grid.Column>
                     </Grid>
                     <div>
-                        <Loader active={this.state.idList.length != aniDataList.length} />
+                        <Loader active={this.state.idList.length != aniDataList.length}/>
                         <PDFViewer style={{width: '100%', height: '80vh'}}
-                                   key={this.state.stateIndex +this.state.idList.toString() + JSON.stringify(aniDataList) + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
+                                   key={this.state.stateIndex + this.state.idList.toString() + JSON.stringify(aniDataList) + aniDataList.length + this.state.qrData.toString() + this.state.fullPage}>
                             <Document>
                                 {this.buildPages(aniDataList)}
                             </Document>
@@ -335,16 +328,16 @@ class KCBuilder extends React.Component<IncomingProps&DispatchProps&LinkProps, S
         );
 
     }
-};
+}
 
 /**
  * All of them share the same mapDispatchToProps
  * @param dispatch
  * @param ownProps
  */
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>, ownProps: IncomingProps): DispatchProps {
     return {
-        downloadAnimal:(id:number) =>  dispatch(animalActions.getAnimal(id))
+        downloadAnimal: (id: number) => dispatch(animalActions.getAnimal(id))
     };
 
 }
@@ -353,20 +346,16 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:Inco
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param props
  */
-function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps&LinkProps {
+function mapStateToProps(state: ApplicationState, props: IncomingProps): IncomingProps & LinkProps {
 
     return {
-        ...props,
-        cawsAnimalsDb:state.animals,
+        ...props, cawsAnimalsDb: state.animals,
     };
 }
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {
-export default  connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(KCBuilder);
+export default connect(mapStateToProps, mapDispatchToProps)(KCBuilder);
 

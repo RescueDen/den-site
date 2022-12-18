@@ -1,25 +1,18 @@
-
 //Define the expected props
 import React from "react";
-import {
-    DropdownProps,
-    Form,
-    Grid,
-    Select,
-    Dropdown, TextAreaProps, Segment, Input
-} from "semantic-ui-react";
-import {NonShelterAnimal, Treatment, Type, Voucher, VoucherInfo} from "../../models/Voucher";
+import {Dropdown, Form, Input} from "semantic-ui-react";
+import {Treatment, Type, Voucher} from "../../models/Voucher";
 import {DateTimeInput} from "semantic-ui-calendar-react";
 import moment from "moment";
 
 interface IncomingProps {
-    type:Type;
-    voucher:Voucher;
-    treatments:Treatment[];
+    type: Type;
+    voucher: Voucher;
+    treatments: Treatment[];
 }
 
 class VoucherInfoView extends React.Component<IncomingProps> {
-    getTreatmentOptions = () =>{
+    getTreatmentOptions = () => {
         return this.props.treatments.map(treatment => {
             return {
                 key: treatment.id,
@@ -28,7 +21,7 @@ class VoucherInfoView extends React.Component<IncomingProps> {
             }
         });
     }
-    getTreatmentValues = () =>{
+    getTreatmentValues = () => {
         return this.props.treatments.map(treatment => {
             return treatment.id
         });
@@ -46,7 +39,7 @@ class VoucherInfoView extends React.Component<IncomingProps> {
                         control={DateTimeInput}
                         label='Appointment Date and Time'
                         name="dateTime"
-                        value={this.props.voucher.appointment_date?moment(this.props.voucher.appointment_date).format("MMMM Do YYYY, h:mm:ss a"):""}
+                        value={this.props.voucher.appointment_date ? moment(this.props.voucher.appointment_date).format("MMMM Do YYYY, h:mm:ss a") : ""}
                         iconPosition="left"
                         timeFormat={"AMPM"}
                         dateTimeFormat={"MMMM Do YYYY, h:mm:ss a"}
@@ -78,7 +71,7 @@ class VoucherInfoView extends React.Component<IncomingProps> {
 
 
     }
-};
+}
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {

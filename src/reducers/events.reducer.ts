@@ -1,7 +1,6 @@
 import Action from '../actions/Action'
 import EventsState from "../state/EventsState";
 import {eventsConstants} from "../actions/events.actions";
-import EventsSummary from "../models/Events";
 
 /**
  * The alert reducer maintains a list of alerts
@@ -9,12 +8,12 @@ import EventsSummary from "../models/Events";
  * @param action
  * @returns {*}
  */
-export function events(state:EventsState =
+export function events(state: EventsState =
                            {
-                               eventsSummary:{},
+                               eventsSummary: {},
                                //view:EventView.Cal,
-                               hideCal:{} as {[id: string]: boolean}
-                           }, action:Action): EventsState {
+                               hideCal: {} as { [id: string]: boolean }
+                           }, action: Action): EventsState {
 
     //Ok, we now know that it is an alert action
     switch (action.type) {
@@ -22,7 +21,7 @@ export function events(state:EventsState =
 
             return {
                 ...state,
-                eventsSummary:{...state.eventsSummary, [action.payload.category]:action.payload.listing}
+                eventsSummary: {...state.eventsSummary, [action.payload.category]: action.payload.listing}
             };
 
         case eventsConstants.TOGGLE_EVENT_GROUP:
@@ -33,7 +32,7 @@ export function events(state:EventsState =
             //Now update the state
             return {
                 ...state,
-                hideCal:newHideItemState
+                hideCal: newHideItemState
             };
         /*case eventsConstants.UPDATE_VIEW:
             //Now update the state

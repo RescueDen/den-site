@@ -2,8 +2,7 @@ import axios from 'axios';
 import {authHeader} from "../utils/auth-header";
 
 export const staticService = {
-    getPublicPage,
-    getPrivatePage
+    getPublicPage, getPrivatePage
     // register,
     // getAll,
     // getById,
@@ -12,8 +11,8 @@ export const staticService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -24,21 +23,19 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getPublicPage(page:string) : Promise<string> {
+function getPublicPage(page: string): Promise<string> {
 
     //Now make a post request and get a promise back
     const responsePromise = apiServer.get(`/static/public/${page}`);
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const artData = <string>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const artData = <string>response.data;
 
-            return artData;
-        }
-    );
+        return artData;
+    });
 
 
 }
@@ -50,24 +47,22 @@ function getPublicPage(page:string) : Promise<string> {
  * @param password
  * @returns
  */
-function getPrivatePage(page:string) : Promise<string> {
+function getPrivatePage(page: string): Promise<string> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/static/private/${page}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/static/private/${page}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
-            //Get the user
-            const artData = <string>response.data;
+    return responsePromise.then(response => {//When the request returns
+        //Get the user
+        const artData = <string>response.data;
 
-            return artData;
-        }
-    );
+        return artData;
+    });
 
 
 }

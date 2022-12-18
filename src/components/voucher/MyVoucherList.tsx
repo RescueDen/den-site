@@ -1,11 +1,7 @@
-
 //Define the expected props
 import React from "react";
 import {Header, Segment, Table} from "semantic-ui-react";
-import {
-    PublicVoucherViewData,
-    Vet
-} from "../../models/Voucher";
+import {PublicVoucherViewData} from "../../models/Voucher";
 import {voucherService} from "../../services/voucher.service";
 import {Link} from "react-router-dom";
 import {formatDateTime} from "../../utils/date-formater";
@@ -16,12 +12,12 @@ interface Props {
 }
 
 interface StateData {
-    vouchers?:PublicVoucherViewData[];
-    error?:string;
+    vouchers?: PublicVoucherViewData[];
+    error?: string;
 }
 
 class MyVoucherList extends React.Component<Props, StateData> {
-    state = {vouchers:undefined, error:undefined};
+    state = {vouchers: undefined, error: undefined};
 
     componentDidMount() {
         voucherService.getMyVouchers()
@@ -46,12 +42,12 @@ class MyVoucherList extends React.Component<Props, StateData> {
      * @returns {*}
      */
     render() {
-        if(this.state.vouchers == undefined && this.state.error){
+        if (this.state.vouchers == undefined && this.state.error) {
             return <p>{this.state.error}</p>
-        }else if(this.state.vouchers != undefined){
+        } else if (this.state.vouchers != undefined) {
 
             let vouchers = this.state.vouchers! as PublicVoucherViewData[];
-            return(
+            return (
                 <Segment>
                     <Header as="h2">My Upcoming Vet Appointments</Header>
                     <Table striped>
@@ -65,13 +61,14 @@ class MyVoucherList extends React.Component<Props, StateData> {
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {vouchers.map(voucher =>{
+                            {vouchers.map(voucher => {
                                 return (
                                     <Table.Row>
                                         <Table.Cell>
                                             {voucher.voucher.code}
                                         </Table.Cell>
-                                        <Table.Cell>{voucher.animals.map(ani => <Link to={`/animal/${ani.id}`}>{ani.name}</Link>)}</Table.Cell>
+                                        <Table.Cell>{voucher.animals.map(ani => <Link
+                                            to={`/animal/${ani.id}`}>{ani.name}</Link>)}</Table.Cell>
                                         <Table.Cell>
                                             {voucher.vet &&
                                                 <VetDetails vet={voucher.vet}/>
@@ -88,12 +85,11 @@ class MyVoucherList extends React.Component<Props, StateData> {
                     {this.state.error}
                 </Segment>
             );
-        }else{
+        } else {
             return null;
         }
     }
-};
-
+}
 
 
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = {

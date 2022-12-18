@@ -1,30 +1,28 @@
-
-
 //Define the caws user, this comes from the json decode
-import ShelterAnimal from "./ShelterAnimal";
 
-export interface AchievementData{
-    id:number;
-    name:string;
-    description:string;
-    badge:string;//This is the badge name
-    date?:Date;
+export interface AchievementData {
+    id: number;
+    name: string;
+    description: string;
+    badge: string;//This is the badge name
+    date?: Date;
 
-    automatic:boolean;
+    automatic: boolean;
 
     //Also set the url
-    badgeUrl:string;
+    badgeUrl: string;
 
 }
 
 
 //define the summary, it holds an achievement
-export interface AchievementSummaryData{
-    achievement:AchievementData;
+export interface AchievementSummaryData {
+    achievement: AchievementData;
     achievers: { [id: number]: Date; }
 
 
 }
+
 /**
  * Returns an empty caws user
  */

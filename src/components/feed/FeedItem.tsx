@@ -1,34 +1,33 @@
 import React from 'react';
-import {Button, Card, Feed, Header, Icon, Image, Modal} from "semantic-ui-react";
+import {Feed, Icon, Image, Modal} from "semantic-ui-react";
 import {FeedItemData} from "../../models/Feed";
 import {getTimeSince} from "../../utils/date-formater";
 
 
-
 //Define the expected props
-interface Props{
+interface Props {
     //Define the props we expect
     data: FeedItemData
 }
 
-const FeedItem =  (props:Props) => {
+const FeedItem = (props: Props) => {
 
     //Determine the label
     let label = undefined
 
     //Select a label pased upon source
-    switch(props.data.source){
+    switch (props.data.source) {
         case "instagram":
-            label = <Icon name='instagram' />;
+            label = <Icon name='instagram'/>;
             break;
         case "asm":
-            label = <Icon name='paw' />;
+            label = <Icon name='paw'/>;
             break;
         case "achievement":
-            label = <Icon name='certificate' />;
+            label = <Icon name='certificate'/>;
             break;
         case "news":
-            label = <Icon name='newspaper outline' />;
+            label = <Icon name='newspaper outline'/>;
             break;
     }
 
@@ -36,7 +35,7 @@ const FeedItem =  (props:Props) => {
     let link = undefined
 
 
-    if(props.data.linkurl){
+    if (props.data.linkurl) {
         link = <a href={props.data.linkurl}> See more at {label}</a>
     }
 
@@ -54,12 +53,12 @@ const FeedItem =  (props:Props) => {
                         <Feed.Date>{getTimeSince(props.data.date)} ago</Feed.Date>
                     </Feed.Summary>
                     {props.data.preview &&
-                    <Feed.Extra text>
-                        {props.data.preview}
-                    </Feed.Extra>
+                        <Feed.Extra text>
+                            {props.data.preview}
+                        </Feed.Extra>
                     }
                     <Feed.Extra images>
-                        <img src={props.data.thumbnailurl} />
+                        <img src={props.data.thumbnailurl}/>
                     </Feed.Extra>
                 </Feed.Content>
             </Feed.Event>
@@ -69,8 +68,8 @@ const FeedItem =  (props:Props) => {
                 <Modal.Header>{label}{props.data.name}</Modal.Header>
             }
 
-            <Modal.Content image scrolling >
-                <Image wrapped size='medium' src={props.data.imgurl} />
+            <Modal.Content image scrolling>
+                <Image wrapped size='medium' src={props.data.imgurl}/>
                 <Modal.Description>
                     <p>{props.data.preview}</p>
                     {link}

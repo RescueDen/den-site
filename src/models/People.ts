@@ -3,19 +3,19 @@
  */
 
 //Store the person data
-export interface PersonData{
+export interface PersonData {
     //Store basic info
-    firstname:string;
-    lastname:string;
+    firstname: string;
+    lastname: string;
 
 
     //Basic info
-    id:number;
-    email?:string;
+    id: number;
+    email?: string;
 
     //Foster history
-    currentFosters:number[];
-    pastFosters:number[];
+    currentFosters: number[];
+    pastFosters: number[];
 
 }
 

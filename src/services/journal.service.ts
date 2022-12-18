@@ -10,8 +10,8 @@ export const journalService = {
 };
 
 // Create a default axios instance with the api
-const apiServer =  axios.create({
-    baseURL:process.env.REACT_APP_API_URL
+const apiServer = axios.create({
+    baseURL: process.env.REACT_APP_API_URL
 
 });
 
@@ -21,23 +21,22 @@ const apiServer =  axios.create({
  * @param password
  * @returns
  */
-function getJournalEntriesForAnimal(id:number) : Promise<JournalEntry[]> {
+function getJournalEntriesForAnimal(id: number): Promise<JournalEntry[]> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.get(`/journal/animal/${id}`,  {headers:headers});
+    const responsePromise = apiServer.get(`/journal/animal/${id}`, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const data = response.data as JournalEntry[];
 
             //Return just the user
-            return  data;//CourseListing(data);
+            return data;//CourseListing(data);
         }
     );
 
@@ -50,23 +49,22 @@ function getJournalEntriesForAnimal(id:number) : Promise<JournalEntry[]> {
  * @param password
  * @returns
  */
-function postJournalEntryForAnimal(jou:JournalEntry) : Promise<JournalEntry[]> {
+function postJournalEntryForAnimal(jou: JournalEntry): Promise<JournalEntry[]> {
 
     //Get the headers
-    const headers =authHeader();
+    const headers = authHeader();
 
     //Now make a post request and get a promise back
-    const responsePromise = apiServer.post(`/journal/animal/`, jou, {headers:headers});
+    const responsePromise = apiServer.post(`/journal/animal/`, jou, {headers: headers});
 
 
     //We need to do some work here
-    return responsePromise.then(response =>
-        {//When the request returns
+    return responsePromise.then(response => {//When the request returns
             //Get the user
             const data = response.data as JournalEntry[];
 
             //Return just the user
-            return  data;//CourseListing(data);
+            return data;//CourseListing(data);
         }
     );
 

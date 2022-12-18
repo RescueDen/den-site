@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 
-import {Container, Header, Label, Segment} from "semantic-ui-react";
+import {Container, Header, Segment} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {RouteComponentProps} from "react-router";
 import MySummary from "./MySummary";
@@ -11,20 +11,18 @@ import AnimalList from "../animal/SearchableAnimalListCompact";
 import {ThunkDispatch} from "redux-thunk";
 import {userActions} from "../../actions/user.actions";
 import {AchievementData} from "../../models/Achievements";
-import AchievementList from "./achievement/AchievementList";
-import {Link} from "react-router-dom";
 import MyVoucherList from "../voucher/MyVoucherList";
 
 
 //Define the expected props
 interface LinkProps extends RouteComponentProps<any> {
     //Define the props we expect
-    user:ShelterUser;
-    achievements?:AchievementData[]
+    user: ShelterUser;
+    achievements?: AchievementData[]
 }
 
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
     updateMyInfo: () => any;
 
@@ -33,10 +31,10 @@ interface DispatchProps{
 /**
  * This page shows the person details
  */
-class MyDetails extends React.Component<LinkProps&DispatchProps> {
+class MyDetails extends React.Component<LinkProps & DispatchProps> {
 
     //Update the user if there are any changes
-    componentDidMount(){
+    componentDidMount() {
         this.props.updateMyInfo()
     }
 
@@ -73,18 +71,18 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
 
                     {/*Add in my current fosters*/}
                     {this.props.user.data.currentFosters &&
-                    <Segment>
-                        <AnimalList aniLink="/animal" link="/currentfosters" title="My Fosters"
-                                    animalIdList={this.props.user.data.currentFosters}/>
-                    </Segment>
+                        <Segment>
+                            <AnimalList aniLink="/animal" link="/currentfosters" title="My Fosters"
+                                        animalIdList={this.props.user.data.currentFosters}/>
+                        </Segment>
                     }
 
                     {/*Add in my Past fosters*/}
                     {this.props.user.data.pastFosters &&
-                    <Segment>
-                        <AnimalList aniLink="/animal" link="/pastfosters" title="Past Fosters"
-                                    animalIdList={this.props.user.data.pastFosters}/>
-                    </Segment>
+                        <Segment>
+                            <AnimalList aniLink="/animal" link="/pastfosters" title="Past Fosters"
+                                        animalIdList={this.props.user.data.pastFosters}/>
+                        </Segment>
                     }
                 </Container>
             </div>
@@ -97,25 +95,25 @@ class MyDetails extends React.Component<LinkProps&DispatchProps> {
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
     return {
         ...myProps,
-        user:state.authentication.loggedInUser? state.authentication.loggedInUser : getEmptyCawsUser(),
-        achievements:state.achievements?.achievements ?? []
+        user: state.authentication.loggedInUser ? state.authentication.loggedInUser : getEmptyCawsUser(),
+        achievements: state.achievements?.achievements ?? []
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        updateMyInfo:() =>  dispatch(userActions.updateLoggedInUser())
+        updateMyInfo: () => dispatch(userActions.updateLoggedInUser())
     };
 
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(MyDetails);

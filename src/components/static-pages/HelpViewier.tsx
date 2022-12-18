@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import StaticComponent from "./StaticComponent";
 
 //Define the expected props
-interface LinkProps  {
+interface LinkProps {
     //See if the user is logged in
     user?: ShelterUser
 
@@ -17,23 +17,19 @@ class HelpViewer extends React.Component<LinkProps> {
 
     render() {
         //Now set it
-        if(this.props.user){
-            return (
-                <Container>
+        if (this.props.user) {
+            return (<Container>
                     <Segment>
                         <StaticComponent pagePath={"help"} public={false}/>
                     </Segment>
-                </Container>
-            );
+                </Container>);
 
-        }else{
-            return(
-                <Container>
+        } else {
+            return (<Container>
                     <Segment>
                         <StaticComponent pagePath={"help"} public={true}/>
                     </Segment>
-                </Container>
-            );
+                </Container>);
         }
 
     }
@@ -42,16 +38,13 @@ class HelpViewer extends React.Component<LinkProps> {
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param myProps
  */
-function mapStateToProps(state:ApplicationState,myProps:LinkProps ):LinkProps {
+function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
     return {
-        ...myProps,
-        user:state.authentication.loggedInUser,
+        ...myProps, user: state.authentication.loggedInUser,
     };
 }
 
 
-export default connect (
-    mapStateToProps
-)(HelpViewer);
+export default connect(mapStateToProps)(HelpViewer);

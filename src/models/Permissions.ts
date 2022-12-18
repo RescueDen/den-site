@@ -3,18 +3,18 @@
  */
 
 //Define the caws user, this comes from the json decode
-export interface PermissionsData{
+export interface PermissionsData {
     //The baseline User Data
-    permissions:string[];
+    permissions: string[];
 }
 
 
 /**
  * Define a class that uses the CAWS User data
  */
-export default class Permissions{
+export default class Permissions {
     //Set to read only for now
-    readonly data:PermissionsData;
+    readonly data: PermissionsData;
 
     //The main constructor
     constructor(data: PermissionsData) {
@@ -23,7 +23,7 @@ export default class Permissions{
 
 
     //Check to see if we have the permissions
-    allowed(perm:string): boolean{
+    allowed(perm: string): boolean {
         return this.data.permissions.indexOf(perm) > -1;
     }
 

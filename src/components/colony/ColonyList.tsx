@@ -6,43 +6,42 @@ import {ThunkDispatch} from "redux-thunk";
 import {Colony, EmptyColony} from "../../models/Colony";
 import {colonyActions} from "../../actions/colony.actions";
 import ColonyCard from "./ColonyCard";
-import ColonyMap from "./ColonyMap";
-import {Location} from "./ColonyMap";
-import {Button, Card, Grid, Header, Icon, Segment} from 'semantic-ui-react';
+import ColonyMap, {Location} from "./ColonyMap";
+import {Button, Card, Grid, Header, Icon} from 'semantic-ui-react';
 import ColonyEdit from "./ColonyEdit";
 import PermissionBlock from "../authentication/PermissionBlock";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 
 //Define the expected props
-interface IncomingProps extends RouteComponentProps<any>{
+interface IncomingProps extends RouteComponentProps<any> {
 
 }
 
-interface StateProps{
+interface StateProps {
     colonies: Colony[];
 }
 
-interface DispatchProps{
+interface DispatchProps {
     downloadColonyList: () => any;
 }
 
-interface MyState{
-    selectedId?:number;
+interface MyState {
+    selectedId?: number;
 }
 
-class ColonyList extends React.Component<IncomingProps&StateProps&DispatchProps,MyState> {
-    state={selectedId:undefined};
+class ColonyList extends React.Component<IncomingProps & StateProps & DispatchProps, MyState> {
+    state = {selectedId: undefined};
 
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.downloadColonyList();
     };
 
-    selectLocation = (id:number) =>{
-        this.setState({selectedId:id});
+    selectLocation = (id: number) => {
+        this.setState({selectedId: id});
     }
 
-    navigateToColony = (id:number) =>{
+    navigateToColony = (id: number) => {
         this.props.history.push(`/colony/${id}`);
     }
 
@@ -52,7 +51,8 @@ class ColonyList extends React.Component<IncomingProps&StateProps&DispatchProps,
                 latitude: colony.address.coordinate!.latitude,
                 longitude: colony.address.coordinate!.longitude,
                 id: colony.id
-            } as Location});
+            } as Location
+        });
 
         return (
             <>
@@ -62,7 +62,8 @@ class ColonyList extends React.Component<IncomingProps&StateProps&DispatchProps,
                     </Grid.Column>
                     <Grid.Column floated='right'>
                         <PermissionBlock reqPerm={'edit_colonies'}>
-                            <ColonyEdit trigger={<Button icon floated='right'>Add Colony<Icon name='plus' /></Button>} incomingColony={EmptyColony()}/>
+                            <ColonyEdit trigger={<Button icon floated='right'>Add Colony<Icon name='plus'/></Button>}
+                                        incomingColony={EmptyColony()}/>
                         </PermissionBlock>
                     </Grid.Column>
                 </Grid>
@@ -80,13 +81,13 @@ class ColonyList extends React.Component<IncomingProps&StateProps&DispatchProps,
                         </Card.Group>
                     </Grid.Column>
                     {locations.length > 0 &&
-                    <Grid.Column>
-                        <ColonyMap
-                            selected={this.state.selectedId}
-                            locations={locations}
-                            select={this.selectLocation}
-                        />
-                    </Grid.Column>
+                        <Grid.Column>
+                            <ColonyMap
+                                selected={this.state.selectedId}
+                                locations={locations}
+                                select={this.selectLocation}
+                            />
+                        </Grid.Column>
                     }
                 </Grid>
             </>
@@ -97,23 +98,23 @@ class ColonyList extends React.Component<IncomingProps&StateProps&DispatchProps,
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param props
  */
-function mapStateToProps(state:ApplicationState, props:IncomingProps ):IncomingProps&StateProps {
+function mapStateToProps(state: ApplicationState, props: IncomingProps): IncomingProps & StateProps {
     return {
         ...props,
-        colonies:state.colony.colonies,
+        colonies: state.colony.colonies,
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps&StateProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        downloadColonyList:() =>  dispatch(colonyActions.getColonyList())
+        downloadColonyList: () => dispatch(colonyActions.getColonyList())
     };
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default withRouter(connect (
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
 )(ColonyList));

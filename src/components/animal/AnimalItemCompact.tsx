@@ -6,12 +6,12 @@ import ShelterAnimal from "../../models/ShelterAnimal";
 
 
 //Define the expected props
-interface MyProps  {
+interface MyProps {
     //Define the props we expect
-    ani:ShelterAnimal;
+    ani: ShelterAnimal;
 
     //add a link to link to
-    link:string;
+    link: string;
 }
 
 /**
@@ -25,27 +25,27 @@ class AnimalItemCompact extends React.Component<MyProps> {
      */
     render() {
         //If the animal is undefined return a place holder
-        if(this.props.ani === undefined){
+        if (this.props.ani === undefined) {
             //Return the html
             return (
                 <List.Item>
                     <Placeholder>
                         <Placeholder.Header image>
-                            <Placeholder.Line />
-                            <Placeholder.Line />
+                            <Placeholder.Line/>
+                            <Placeholder.Line/>
                         </Placeholder.Header>
                         <Placeholder.Paragraph>
-                            <Placeholder.Line length='short' />
+                            <Placeholder.Line length='short'/>
                         </Placeholder.Paragraph>
                     </Placeholder>
                 </List.Item>
             );
 
-        }else {
+        } else {
             //Return the html
             return (
                 <List.Item as='a' href={`${this.props.link}/${this.props.ani.data.id}`}>
-                    <Image centered={true} avatar src={this.props.ani.getImageUrl()} />
+                    <Image centered={true} avatar src={this.props.ani.getImageUrl()}/>
                     <List.Content>
                         <Link to={`${this.props.link}/${this.props.ani.data.id}`}>
                             <List.Header>

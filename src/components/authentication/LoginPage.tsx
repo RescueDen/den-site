@@ -146,7 +146,6 @@ class LoginPage extends React.Component<IncomingProps & DispatchProps, MyState> 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
 function mapStateToProps(state: ApplicationState): IncomingProps {
     return {

@@ -1,59 +1,58 @@
 import React from 'react';
 import ShelterAnimal from "../../../models/ShelterAnimal";
-import {Header, Segment, Table, Image, Icon} from "semantic-ui-react";
-import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
+import {Header, Segment, Table} from "semantic-ui-react";
 import {formatDate} from "../../../utils/date-formater";
 
 //Add in the props
 interface Props {
-    animal:ShelterAnimal;
-    hideHeader?:boolean;
+    animal: ShelterAnimal;
+    hideHeader?: boolean;
 }
 
 
-const AnimalVaxxHistory =  (myProps:Props) =>{
+const AnimalVaxxHistory = (myProps: Props) => {
 
 
     return (
         <Segment>
             {!myProps.hideHeader &&
-                < Header as = "h2" > {myProps.animal.data.name}'s Vaccine History</Header>
+                < Header as="h2"> {myProps.animal.data.name}'s Vaccine History</Header>
             }
 
-            <Table basic='very' style={{margin:"auto"}} celled className={"unstackable"}>
+            <Table basic='very' style={{margin: "auto"}} celled className={"unstackable"}>
                 {/*Add the header info*/}
                 <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Date Required</th>
-                        <th>Date Given</th>
-                        <th>Vet</th>
-                        <th>Comments</th>
-                    </tr>
+                <tr>
+                    <th>Type</th>
+                    <th>Date Required</th>
+                    <th>Date Given</th>
+                    <th>Vet</th>
+                    <th>Comments</th>
+                </tr>
                 </thead>
                 <Table.Body>
 
-                {/*//Get the vaccine history in order*/}
-                {myProps.animal.getVaccineHistoryInOrder().map(vax =>{
-                    return (
-                        <Table.Row key={vax.type+vax.dateRequired} >
-                            <Table.Cell>
-                                <Header as='h4' >
-                                    <Header.Content>
-                                        {vax.type}
-                                    </Header.Content>
-                                </Header>
-                            </Table.Cell>
-                            <Table.Cell>{formatDate(vax.dateRequired)}</Table.Cell>
-                            <Table.Cell>{formatDate(vax.date)}</Table.Cell>
-                            <Table.Cell>{vax.vet}</Table.Cell>
-                            <Table.Cell>{vax.comments}</Table.Cell>
+                    {/*//Get the vaccine history in order*/}
+                    {myProps.animal.getVaccineHistoryInOrder().map(vax => {
+                        return (
+                            <Table.Row key={vax.type + vax.dateRequired}>
+                                <Table.Cell>
+                                    <Header as='h4'>
+                                        <Header.Content>
+                                            {vax.type}
+                                        </Header.Content>
+                                    </Header>
+                                </Table.Cell>
+                                <Table.Cell>{formatDate(vax.dateRequired)}</Table.Cell>
+                                <Table.Cell>{formatDate(vax.date)}</Table.Cell>
+                                <Table.Cell>{vax.vet}</Table.Cell>
+                                <Table.Cell>{vax.comments}</Table.Cell>
 
-                        </Table.Row>
-                    );
+                            </Table.Row>
+                        );
 
 
-                })}
+                    })}
                 </Table.Body>
             </Table>
 
@@ -62,7 +61,6 @@ const AnimalVaxxHistory =  (myProps:Props) =>{
 
         </Segment>
     );
-
 
 
 };

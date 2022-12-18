@@ -1,21 +1,21 @@
 import React from 'react';
 import ShelterAnimal from "../../../models/ShelterAnimal";
-import {Header, Segment, Table, Image, Icon, Grid} from "semantic-ui-react";
+import {Grid, Header, Icon, Table} from "semantic-ui-react";
 import {SemanticICONS} from "semantic-ui-react/dist/commonjs/generic";
 
 //Add in the props
 interface Props {
-    animal:ShelterAnimal;
+    animal: ShelterAnimal;
 }
 
 //Add a private support function to create the row
-const createRow = ( name:string, value:string, ...icons:SemanticICONS[]) =>{
+const createRow = (name: string, value: string, ...icons: SemanticICONS[]) => {
     return (
         <Table.Row>
             <Table.Cell>
                 <Header as='h4' image>
                     {/*For each icon add it*/}
-                    {icons.map(icon => <Icon key={icon.toString()} name={icon} />)}
+                    {icons.map(icon => <Icon key={icon.toString()} name={icon}/>)}
                     <Header.Content>
                         {name}
                     </Header.Content>
@@ -26,7 +26,7 @@ const createRow = ( name:string, value:string, ...icons:SemanticICONS[]) =>{
     );
 }
 
-const AnimalBio =  (myProps:Props) =>{
+const AnimalBio = (myProps: Props) => {
 
 
     return (
@@ -37,7 +37,7 @@ const AnimalBio =  (myProps:Props) =>{
             </Grid.Column>
             <Grid.Column>
                 {/*Add in a table with their information*/}
-                <Table basic='very' style={{margin:"auto"}} celled collapsing>
+                <Table basic='very' style={{margin: "auto"}} celled collapsing>
                     <Table.Body>
                         {createRow("Breed", myProps.animal.data.breed, "paw")}
                         {createRow("Sex", myProps.animal.data.sex, "man", "woman")}
@@ -59,7 +59,6 @@ const AnimalBio =  (myProps:Props) =>{
         </Grid>
 
     );
-
 
 
 };

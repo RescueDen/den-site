@@ -7,12 +7,12 @@ import {Link} from "react-router-dom";
 
 
 //Define the expected props
-interface MyProps  {
+interface MyProps {
     //Define the props we expect
-    item:ItemData;
+    item: ItemData;
 
     //add a link to link to
-    link:string;
+    link: string;
 }
 
 /**
@@ -39,11 +39,11 @@ class ArticleItem extends React.Component<MyProps> {
                     </Item.Meta>
                     <Item.Description>{this.props.item.preview}</Item.Description>
                     <Item.Extra>
-                        <Link to={`${this.props.link}/${this.props.item.id}`} >
-                        <Button primary floated='right'>
-                            Read More
-                            <Icon name='chevron right' />
-                        </Button>
+                        <Link to={`${this.props.link}/${this.props.item.id}`}>
+                            <Button primary floated='right'>
+                                Read More
+                                <Icon name='chevron right'/>
+                            </Button>
                         </Link>
                     </Item.Extra>
                 </Item.Content>

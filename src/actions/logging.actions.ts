@@ -1,7 +1,6 @@
 import {clearByMessage, error, success} from './alert.actions';
 import {Action, Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {contentService} from "../services/content.service";
 import {loggingService} from "../services/logging.service";
 import {LogData} from "../models/Logging";
 import {formatDate} from "../utils/date-formater";
@@ -15,111 +14,91 @@ export const loggingConstants = {
 };
 
 export const loggingActions = {
-    getCategorySummary,
-    getLogSummary,
-    addLog,
-    removeLog
+    getCategorySummary, getLogSummary, addLog, removeLog
     // getAll,
     // delete: _delete
 };
 
 /**
  * Update the logging category summary
- * @param username
- * @param password
  * @returns {Function}
  */
-function getCategorySummary(): ThunkAction<any, any,any, any> {
+function getCategorySummary(): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         loggingService.getCategorySummary()
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 sum => {
                     //dispatch a login success
                     dispatch({
-                        type: loggingConstants.FETCH_LOGGING_CAT_SUMMARY,
-                        payload: sum
+                        type: loggingConstants.FETCH_LOGGING_CAT_SUMMARY, payload: sum
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }
 
 /**
  * Update the logging category summary
- * @param username
- * @param password
  * @returns {Function}
+ * @param asmId
  */
-function getLogSummary(asmId:number): ThunkAction<any, any,any, any> {
+function getLogSummary(asmId: number): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         loggingService.getLogSummary(asmId)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 sum => {
                     //dispatch a login success
                     dispatch({
-                        type: loggingConstants.UPDATE_LOGGING_SUMMARY,
-                        payload: sum
+                        type: loggingConstants.UPDATE_LOGGING_SUMMARY, payload: sum
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }
 
 /**
  * Update the logging category summary
- * @param username
- * @param password
  * @returns {Function}
+ * @param log
  */
-function addLog(log: LogData): ThunkAction<any, any,any, any> {
+function addLog(log: LogData): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         dispatch({
             type: loggingConstants.LOG_ADDED_ATTEMPT,
         })
 
-        //Ask the user service to login
         loggingService.addLog(log)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 sum => {
                     //dispatch a login success
                     dispatch({
-                        type: loggingConstants.UPDATE_LOGGING_SUMMARY,
-                        payload: sum
+                        type: loggingConstants.UPDATE_LOGGING_SUMMARY, payload: sum
                     });
 
                     //Build the alert messaged
@@ -128,21 +107,21 @@ function addLog(log: LogData): ThunkAction<any, any,any, any> {
                     dispatch(success(msg));
 
                     //After so many seconds dismiss it
-                    setTimeout(() => {dispatch(clearByMessage(msg))}, 1000);
+                    setTimeout(() => {
+                        dispatch(clearByMessage(msg))
+                    }, 1000);
 
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }
@@ -150,41 +129,36 @@ function addLog(log: LogData): ThunkAction<any, any,any, any> {
 
 /**
  * Remove log
- * @param username
- * @param password
- * @returns {Function}
+ * @param logId
+ * @param type
+ * @param logId
  */
-function removeLog(type:string , logId:number): ThunkAction<any, any,any, any> {
+function removeLog(type: string, logId: number): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
         dispatch({
             type: loggingConstants.LOG_DELETED_ATTEMPT,
         })
 
-        //Ask the user service to login
         loggingService.removeLog(type, logId)
-            .then(
-                //If successful a user will be returned
+            .then(//If successful a user will be returned
                 sum => {
                     //dispatch a login success
                     dispatch({
-                        type: loggingConstants.UPDATE_LOGGING_SUMMARY,
-                        payload: sum
+                        type: loggingConstants.UPDATE_LOGGING_SUMMARY, payload: sum
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
 
-                }
-            );
+                });
     };
 
 }

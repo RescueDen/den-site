@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import ShelterAnimal from "../../models/ShelterAnimal";
-import {Button, Dimmer, Feed, Form, FormProps, Icon, Loader, Segment, TextArea, TextAreaProps} from "semantic-ui-react";
+import {Button, Dimmer, Feed, Form, Icon, Loader, Segment, TextArea, TextAreaProps} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {JournalEntry} from "../../models/JournalEntry";
 import {journalService} from "../../services/journal.service";
@@ -13,19 +13,17 @@ import {ThunkDispatch} from "redux-thunk";
 import {peopleActions} from "../../actions/people.actions";
 import Permissions from "../../models/Permissions";
 import {PersonData} from "../../models/People";
-import {Link} from "react-router-dom";
-import PermissionBlock from "../authentication/PermissionBlock";
 
 //Define the expected props
-interface IncomingProps{
+interface IncomingProps {
     ani: ShelterAnimal;
 
 }
 
 //Define the expected props
-interface LinkProps{
+interface LinkProps {
     //Define the props we expect
-    user:ShelterUser;
+    user: ShelterUser;
 
     //Store the people info
     peopleInfo: { [id: number]: PersonData; }
@@ -39,22 +37,22 @@ interface LinkProps{
 interface MyState {
 
     //Store the journal entries
-    journal?:JournalEntry[];
+    journal?: JournalEntry[];
 
     //Store the error as well
-    error?:string;
+    error?: string;
 
     //Store the newPost
-    newPost:ReactText;
+    newPost: ReactText;
 
     //Store if it is updating
-    loading:boolean;
+    loading: boolean;
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    getPerson: (personId:number) => any;
+    getPerson: (personId: number) => any;
 
 }
 
@@ -62,33 +60,33 @@ interface DispatchProps{
 /**
  * This card shows the animal details
  */
-class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProps,MyState> {
-    state = {journal:undefined, error:undefined, newPost:"", loading:true};
+class AnimalJournal extends React.Component<IncomingProps & LinkProps & DispatchProps, MyState> {
+    state = {journal: undefined, error: undefined, newPost: "", loading: true};
 
 
     /**
      * No need to keep the article in the app state.  Keep locally to allow it to be removed from mem
      */
-    componentDidMount(){
+    componentDidMount() {
         //If the user is logged in get the logged in
         this.loadEntries(journalService.getJournalEntriesForAnimal(this.props.ani.data.id));
 
     };
 
-    loadEntries = (promise:Promise<JournalEntry[]>) =>{
+    loadEntries = (promise: Promise<JournalEntry[]>) => {
         //When it comes back use it
         promise.then(
             //If successful html will be returned
             list => {
                 //Update the state
-                this.setState({journal:list, loading:false, newPost:""})
+                this.setState({journal: list, loading: false, newPost: ""})
 
                 //Now get the people info if allowed to
-                if(this.props.permissions && this.props.permissions.allowed("get_public_people_info")) {
+                if (this.props.permissions && this.props.permissions.allowed("get_public_people_info")) {
 
                     //update each person
-                    list.forEach(entry =>{
-                        if(entry.authorId && entry.authorId > 0){
+                    list.forEach(entry => {
+                        if (entry.authorId && entry.authorId > 0) {
                             this.props.getPerson(entry.authorId);
                         }
                     })
@@ -99,31 +97,30 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
             errorResponse => {
                 //Dispatch the error
                 try {
-                    this.setState({error:errorResponse.response.data.message});
-                }catch(e){
-                    this.setState({error:errorResponse.toString()});
+                    this.setState({error: errorResponse.response.data.message});
+                } catch (e) {
+                    this.setState({error: errorResponse.toString()});
 
                 }
 
             }
-
         );
     }
 
     /**
      * No need to keep the article in the app state.  Keep locally to allow it to be removed from mem
      */
-    submitJournal = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
+    submitJournal = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         //Set the loading
-        this.setState({loading:true});
+        this.setState({loading: true});
 
         //Build the journal entry
-        let journal:JournalEntry = {
-            type:"General Info.",
-            date:new Date(),
-            animalId:this.props.ani.data.id,
-            content:this.state.newPost
+        let journal: JournalEntry = {
+            type: "General Info.",
+            date: new Date(),
+            animalId: this.props.ani.data.id,
+            content: this.state.newPost
         }
 
         //If the user is logged in get the logged in
@@ -140,37 +137,37 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
         //Determine if we can post and make the post here
         const allowedToPost = this.props.permissions && this.props.permissions.allowed("post_journal");
 
-        return(
+        return (
             <>
-                <Segment attached={allowedToPost?'top':undefined}>
+                <Segment attached={allowedToPost ? 'top' : undefined}>
                     {this.state.journal &&
-                    <Feed>
-                        {
-                            (this.state.journal! as JournalEntry[]).map((ent: JournalEntry) => {
-                                    return (
-                                        <Feed.Event>
-                                            <Feed.Label>
-                                                <Icon name='comment'/>
+                        <Feed>
+                            {
+                                (this.state.journal! as JournalEntry[]).map((ent: JournalEntry) => {
+                                        return (
+                                            <Feed.Event>
+                                                <Feed.Label>
+                                                    <Icon name='comment'/>
 
-                                            </Feed.Label>
-                                            <Feed.Content>
-                                                {this.props.peopleInfo && ent.authorId && this.props.peopleInfo[ent.authorId] &&
-                                                    <>
-                                                        <Feed.User>{this.props.peopleInfo[ent.authorId].firstname} {this.props.peopleInfo[ent.authorId].lastname} </Feed.User> wrote {ent.type}
-                                                    </>
-                                                }
-                                                <Feed.Date>{formatDate(ent.date)}</Feed.Date>
-                                                <Feed.Summary>
-                                                    {ent.content}
-                                                </Feed.Summary>
-                                            </Feed.Content>
-                                        </Feed.Event>
-                                    )
-                                }
-                            )
-                        }
+                                                </Feed.Label>
+                                                <Feed.Content>
+                                                    {this.props.peopleInfo && ent.authorId && this.props.peopleInfo[ent.authorId] &&
+                                                        <>
+                                                            <Feed.User>{this.props.peopleInfo[ent.authorId].firstname} {this.props.peopleInfo[ent.authorId].lastname} </Feed.User> wrote {ent.type}
+                                                        </>
+                                                    }
+                                                    <Feed.Date>{formatDate(ent.date)}</Feed.Date>
+                                                    <Feed.Summary>
+                                                        {ent.content}
+                                                    </Feed.Summary>
+                                                </Feed.Content>
+                                            </Feed.Event>
+                                        )
+                                    }
+                                )
+                            }
 
-                    </Feed>
+                        </Feed>
                     }
                     {!this.state.journal &&
                         <Dimmer active inverted>
@@ -187,8 +184,8 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
                             <TextArea
                                 placeholder={'Tell us more about ' + this.props.ani.data.name}
                                 value={this.state.newPost}
-                                onChange={ (event: React.FormEvent<HTMLTextAreaElement>, data: TextAreaProps) =>{
-                                    if(data.value) {
+                                onChange={(event: React.FormEvent<HTMLTextAreaElement>, data: TextAreaProps) => {
+                                    if (data.value) {
                                         this.setState({newPost: data.value})
                                     }
                                 }}
@@ -202,31 +199,29 @@ class AnimalJournal extends React.Component<IncomingProps&LinkProps&DispatchProp
     }
 
 
-
 }
 
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,myProps:IncomingProps ):LinkProps {
+function mapStateToProps(state: ApplicationState): LinkProps {
     return {
-        user:state.authentication.loggedInUser || getEmptyCawsUser(),
-        peopleInfo:state.people.people,
-        permissions:state.authentication.permissions
+        user: state.authentication.loggedInUser || getEmptyCawsUser(),
+        peopleInfo: state.people.people,
+        permissions: state.authentication.permissions
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchProps {
     return {
-        getPerson:(personId:number) =>  dispatch(peopleActions.getPerson(personId)),
+        getPerson: (personId: number) => dispatch(peopleActions.getPerson(personId)),
 
     };
 
 }
 
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(AnimalJournal);

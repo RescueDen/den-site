@@ -1,18 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
-
-import ApplicationState from "../../state/ApplicationState";
-import {ThunkDispatch} from "redux-thunk";
 import {Colony} from "../../models/Colony";
-import {colonyActions} from "../../actions/colony.actions";
-import {Card, Container, Header, Icon, Label, List} from "semantic-ui-react";
+import {Card, Icon, Label, List} from "semantic-ui-react";
 
 //Define the expected props
-interface IncomingProps{
+interface IncomingProps {
     colony: Colony;
-    onClick:(id:number) => any;
-    onLocate:(id:number) => any;
-    selected:boolean;
+    onClick: (id: number) => any;
+    onLocate: (id: number) => any;
+    selected: boolean;
 }
 
 class ColonyCard extends React.Component<IncomingProps> {
@@ -26,7 +21,7 @@ class ColonyCard extends React.Component<IncomingProps> {
                 fluid
                 key={this.props.colony.id}
                 onClick={() => this.props.onClick(this.props.colony.id)}
-                color={this.props.selected? 'green':undefined}
+                color={this.props.selected ? 'green' : undefined}
             >
                 <Card.Content>
                     <Card.Header>{this.props.colony.name}</Card.Header>

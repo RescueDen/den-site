@@ -14,43 +14,42 @@ import {checkPassword} from "../../utils/password-checker";
 
 
 //Define the expected props
-interface IncomingProps extends RouteComponentProps<any>{
+interface IncomingProps extends RouteComponentProps<any> {
     //Define the props we expect
     authentication: AuthenticationState;
 
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    forcePasswordChange:(email:string, activation_token:string, password:string) => any;
+    forcePasswordChange: (email: string, activation_token: string, password: string) => any;
 }
 
 //Define the expected props
-interface MyState{
+interface MyState {
     email: string,
-    password:string,
-    passwordCheck:string
-    token:string,
-    submitted:boolean
+    password: string,
+    passwordCheck: string
+    token: string,
+    submitted: boolean
 }
-
 
 
 /**
  * This page is designed to allow user to login
  */
-class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyState> {
+class ActivationPage extends React.Component<IncomingProps & DispatchProps, MyState> {
     state = {
-        email:'',
-        token:'',
-        submitted:false,
-        password:'',
-        passwordCheck:''
+        email: '',
+        token: '',
+        submitted: false,
+        password: '',
+        passwordCheck: ''
     }
 
 
     //After the component mounted, copy the params into state
-    componentDidMount(){
+    componentDidMount() {
         //Get the query string
         const string = this.props.location.search;
 
@@ -58,11 +57,11 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
         const params = queryString.parse(string)
 
         //If there is a token
-        if(params.token){
-            this.setState({token:params.token.toString()})
+        if (params.token) {
+            this.setState({token: params.token.toString()})
         }
-        if(params.email){
-            this.setState({email:params.email.toString()})
+        if (params.email) {
+            this.setState({email: params.email.toString()})
         }
 
 
@@ -74,10 +73,10 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
         e.preventDefault();
 
         //Update the submit
-        this.setState({submitted:true});
+        this.setState({submitted: true});
 
         //Extract the user name from the local
-        const { email, token, password, passwordCheck } = this.state;
+        const {email, token, password, passwordCheck} = this.state;
 
         //Use the action
         if (email && token && password && (password == passwordCheck)) {
@@ -92,48 +91,48 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
     render() {
 
         //If the user has activated in redirect them to root
-        if(this.props.authentication.pwResetStatus === AuthenticationStatus.TRUE){
-            return <Redirect to={{ pathname: '/login'}} />;
+        if (this.props.authentication.pwResetStatus === AuthenticationStatus.TRUE) {
+            return <Redirect to={{pathname: '/login'}}/>;
         }
 
 
-        const { email, token, submitted , password, passwordCheck} = this.state;
+        const {email, token, submitted, password, passwordCheck} = this.state;
 
         //Determine if we are in an error state and what it is
         let errorState = false;
-        let msg:ReactNode[] = [];
+        let msg: ReactNode[] = [];
 
         //Make sure the user set the password
-        if (submitted && !email){
+        if (submitted && !email) {
             errorState = true;
-            msg.push(<div>Email is required!</div> )
+            msg.push(<div>Email is required!</div>)
         }
         //Check for password
-        if (submitted && !token){
+        if (submitted && !token) {
             errorState = true;
-            msg.push(<div>Token is required</div> )
+            msg.push(<div>Token is required</div>)
         }
         //Check if there is a password problem
         let passwordError = false;
         let passwordCheckError = false;
         //Check for password
-        if (submitted && !password){
+        if (submitted && !password) {
             errorState = true;
-            passwordError= true;
-            msg.push(<div>A new password is required</div> )
+            passwordError = true;
+            msg.push(<div>A new password is required</div>)
         }
         //Check for password
-        if (submitted && (password != passwordCheck)){
+        if (submitted && (password != passwordCheck)) {
             errorState = true;
-            passwordCheckError= true;
+            passwordCheckError = true;
 
-            msg.push(<div>The passwords do not match.</div> )
+            msg.push(<div>The passwords do not match.</div>)
         }
         //Double check the passswords
         const passwordProbs = checkPassword(this.state.password);
-        if (submitted && passwordProbs.length > 0){
+        if (submitted && passwordProbs.length > 0) {
             errorState = true;
-            passwordError= true;
+            passwordError = true;
 
             passwordProbs.forEach(pb => msg.push(<div>{pb}</div>))
         }
@@ -143,7 +142,7 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
             //Setup the page to take up the entire page
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
-                    <Image src={logoImage} />
+                    <Image src={logoImage}/>
                     Reset Your Password
                 </Header>
 
@@ -151,8 +150,11 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
                 <Form error={errorState} size='large' onSubmit={e => this.handleSubmit(e)}>
                     {/*Stacked segments*/}
                     <Segment stacked>
-                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left' placeholder='E-mail address' value={email} onChange={(e) => this.setState({email:e.target.value})}/>
-                        <Form.Input fluid  error={submitted && !token} iconPosition='left' placeholder='Token' value={this.state.token} onChange={(e) => this.setState({token:e.target.value})}/>
+                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left'
+                                    placeholder='E-mail address' value={email}
+                                    onChange={(e) => this.setState({email: e.target.value})}/>
+                        <Form.Input fluid error={submitted && !token} iconPosition='left' placeholder='Token'
+                                    value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
                         <Form.Input
                             error={passwordError}
                             fluid
@@ -160,7 +162,7 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
                             iconPosition='left'
                             placeholder='Password'
                             type='password'
-                            value={password} onChange={(e) => this.setState({password:e.target.value})}
+                            value={password} onChange={(e) => this.setState({password: e.target.value})}
                         />
                         <Form.Input
                             error={passwordCheckError}
@@ -169,10 +171,11 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
                             iconPosition='left'
                             placeholder='Password'
                             type='password'
-                            value={passwordCheck} onChange={(e) => this.setState({passwordCheck:e.target.value})}
+                            value={passwordCheck} onChange={(e) => this.setState({passwordCheck: e.target.value})}
                         />
 
-                        <Button disabled={this.props.authentication.pwResetStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
+                        <Button disabled={this.props.authentication.pwResetStatus == AuthenticationStatus.ATTEMPT} fluid
+                                size='large' primary>
                             Reset
                         </Button>
                         <Message error>
@@ -184,7 +187,6 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
             </FullPageForm>
 
 
-
         );
     }
 }
@@ -192,9 +194,9 @@ class ActivationPage extends React.Component<IncomingProps&DispatchProps, MyStat
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param props
  */
-function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingProps {
+function mapStateToProps(state: ApplicationState, props: IncomingProps): IncomingProps {
     return {
         ...props,
         authentication: state.authentication
@@ -204,7 +206,7 @@ function mapStateToProps(state:ApplicationState,props:IncomingProps ): IncomingP
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        forcePasswordChange:(email:string, reset_token:string, password:string) => dispatch(userActions.forcePasswordChange(email, reset_token, password)),
+        forcePasswordChange: (email: string, reset_token: string, password: string) => dispatch(userActions.forcePasswordChange(email, reset_token, password)),
 
     };
 

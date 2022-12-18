@@ -1,4 +1,4 @@
-import {alertConstants, error} from './alert.actions';
+import {error} from './alert.actions';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {eventsService} from "../services/events.service";
@@ -14,11 +14,10 @@ export const eventsActions = {
     toggleEventGroup
 };
 
-function getEventListing(category:string): ThunkAction<any, any,any, any> {
+function getEventListing(category: string): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         eventsService.getEventsSummary(category)
             .then(
                 //If successful a user will be returned
@@ -37,7 +36,7 @@ function getEventListing(category:string): ThunkAction<any, any,any, any> {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
 
                     }
@@ -48,12 +47,11 @@ function getEventListing(category:string): ThunkAction<any, any,any, any> {
 }
 
 
-
 /**
  * Create new success message
  * @param message
 
-export function setEventView(view: EventView): Action {
+ export function setEventView(view: EventView): Action {
     return {
         type: eventsConstants.UPDATE_VIEW,
         payload: view
@@ -62,7 +60,7 @@ export function setEventView(view: EventView): Action {
  */
 /**
  * Turn on and off event group
- * @param message
+ * @param group
  */
 export function toggleEventGroup(group: string): Action {
     return {
@@ -70,6 +68,7 @@ export function toggleEventGroup(group: string): Action {
         payload: group
     };
 }
+
 //
 // export function error(message: string): Action {
 //     return {

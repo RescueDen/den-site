@@ -5,94 +5,76 @@ import {colonyService} from "../services/colony.service";
 import {Colony} from "../models/Colony";
 
 export const colonyConstants = {
-    FETCH_COLONIES: 'FETCH_COLONiES',
-    UPDATE_COLONY: 'UPDATE_COLONY',
+    FETCH_COLONIES: 'FETCH_COLONiES', UPDATE_COLONY: 'UPDATE_COLONY',
 };
 
 export const colonyActions = {
-    getColonyList,
-    updateColony,
-    loadColony
+    getColonyList, updateColony, loadColony
 };
 
-function getColonyList(): ThunkAction<any, any,any, any> {
+function getColonyList(): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         colonyService.getColonyList()
-            .then(
-                list => {
+            .then(list => {
                     //dispatch a login success
                     dispatch({
-                        type: colonyConstants.FETCH_COLONIES,
-                        payload: list
+                        type: colonyConstants.FETCH_COLONIES, payload: list
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
                     }
-                }
-            );
+                });
     };
 }
 
-function updateColony(colony:Colony): ThunkAction<any, any,any, any> {
+function updateColony(colony: Colony): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         colonyService.updateColony(colony)
-            .then(
-                list => {
+            .then(list => {
                     //dispatch a login success
                     dispatch({
-                        type: colonyConstants.UPDATE_COLONY,
-                        payload: list
+                        type: colonyConstants.UPDATE_COLONY, payload: list
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
                     }
-                }
-            );
+                });
     };
 }
 
 
-function loadColony(colonyId:number): ThunkAction<any, any,any, any> {
+function loadColony(colonyId: number): ThunkAction<any, any, any, any> {
     //Return a function that will be called by dispatch
-    return (dispatch:Dispatch<Action>) => {
+    return (dispatch: Dispatch<Action>) => {
 
-        //Ask the user service to login
         colonyService.loadColony(colonyId)
-            .then(
-                list => {
+            .then(list => {
                     //dispatch a login success
                     dispatch({
-                        type: colonyConstants.UPDATE_COLONY,
-                        payload: list
+                        type: colonyConstants.UPDATE_COLONY, payload: list
                     });
-                },
-                //If there was an error, dispatch a login failure and alert the user why
+                }, //If there was an error, dispatch a login failure and alert the user why
                 errorResponse => {
                     //Dispatch the error
                     try {
                         dispatch(error(errorResponse.response.data.message));
-                    }catch(e){
+                    } catch (e) {
                         dispatch(error(errorResponse.toString()));
                     }
-                }
-            );
+                });
     };
 }

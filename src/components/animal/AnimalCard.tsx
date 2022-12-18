@@ -4,32 +4,29 @@ import {connect} from 'react-redux';
 import ApplicationState from "../../state/ApplicationState";
 
 import ShelterAnimal from "../../models/ShelterAnimal";
-import {Card, Image, Icon, Placeholder, Button} from "semantic-ui-react";
+import {Button, Card, Image, Placeholder} from "semantic-ui-react";
 import ShelterUser, {getEmptyCawsUser} from "../../models/ShelterUser";
 import {Link} from "react-router-dom";
 
 //Define the expected props
-interface IncomingProps{
+interface IncomingProps {
     ani: ShelterAnimal;
-    link:string;
-    showBio:boolean;
+    link: string;
+    showBio: boolean;
 }
 
 //Define the expected props
-interface LinkProps{
+interface LinkProps {
     //Define the props we expect
-    user:ShelterUser;
+    user: ShelterUser;
 
 }
-
-
-
 
 
 /**
  * This card shows the animal details
  */
-class AnimalCard extends React.Component<IncomingProps&LinkProps> {
+class AnimalCard extends React.Component<IncomingProps & LinkProps> {
 
 
     /**
@@ -39,11 +36,11 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
     render() {
 
         //If undefined
-        if(!this.props.ani){
+        if (!this.props.ani) {
             return (
-                <Card >
+                <Card>
                     <Placeholder>
-                        <Placeholder.Image square />
+                        <Placeholder.Image square/>
                     </Placeholder>
 
 
@@ -61,37 +58,37 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
 
 
                     <Card.Content extra>
-                        <Placeholder.Line length='short' />
+                        <Placeholder.Line length='short'/>
                     </Card.Content>
                 </Card>
             );
-        }else {
+        } else {
 
             return (
-                    <Card key={this.props.ani.data.id}>
-                        <Link to={`${this.props.link}/${this.props.ani.data.id}`}>
-                            <Image src={this.props.ani.getImageUrl()}/>
-                        </Link>
-                        <Card.Content>
-                            <Card.Header>
-                                {this.props.ani.data.name}
-                                <Link  to={`${this.props.link}/${this.props.ani.data.id}`}>
-                                    <Button compact floated='right' circular icon='settings' basic size='mini'>more<br/>info...</Button>
-                                </Link>
-                            </Card.Header>
-                            <Card.Meta>
-                                <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.shelterId)}</span>
-                            </Card.Meta>
-                            {this.props.showBio &&
-                                <Card.Description>{this.props.ani.data.bio}</Card.Description>
-                            }
-                        </Card.Content>
-                        <Card.Content extra>
-                            <a>
-                                {this.props.ani.getCurrentStatus()}
-                            </a>
-                        </Card.Content>
-                    </Card>
+                <Card key={this.props.ani.data.id}>
+                    <Link to={`${this.props.link}/${this.props.ani.data.id}`}>
+                        <Image src={this.props.ani.getImageUrl()}/>
+                    </Link>
+                    <Card.Content>
+                        <Card.Header>
+                            {this.props.ani.data.name}
+                            <Link to={`${this.props.link}/${this.props.ani.data.id}`}>
+                                <Button compact floated='right' circular icon='settings' basic size='mini'>more<br/>info...</Button>
+                            </Link>
+                        </Card.Header>
+                        <Card.Meta>
+                            <span className='date'>{this.props.ani.getMyHistory(this.props.user.data.shelterId)}</span>
+                        </Card.Meta>
+                        {this.props.showBio &&
+                            <Card.Description>{this.props.ani.data.bio}</Card.Description>
+                        }
+                    </Card.Content>
+                    <Card.Content extra>
+                        <a>
+                            {this.props.ani.getCurrentStatus()}
+                        </a>
+                    </Card.Content>
+                </Card>
 
             );
 
@@ -102,11 +99,10 @@ class AnimalCard extends React.Component<IncomingProps&LinkProps> {
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState,myProps:IncomingProps ):LinkProps {
+function mapStateToProps(state: ApplicationState): LinkProps {
     return {
-        user:state.authentication.loggedInUser || getEmptyCawsUser(),
+        user: state.authentication.loggedInUser || getEmptyCawsUser(),
     };
 }
 
@@ -118,6 +114,6 @@ function mapStateToProps(state:ApplicationState,myProps:IncomingProps ):LinkProp
 // }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default connect(
     mapStateToProps,
 )(AnimalCard);

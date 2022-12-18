@@ -3,39 +3,37 @@ import {connect} from 'react-redux';
 
 import ApplicationState from "../../state/ApplicationState";
 import {ThunkDispatch} from "redux-thunk";
-import {Colony, EmptyColony} from "../../models/Colony";
+import {Colony} from "../../models/Colony";
 import {colonyActions} from "../../actions/colony.actions";
-import ColonyCard from "./ColonyCard";
 import ColonyMap from "./ColonyMap";
-import {Location} from "./ColonyMap";
-import {Button, Card, Grid, Header, Icon, Label, List, Placeholder, Segment} from 'semantic-ui-react';
+import {Card, Grid, Header, Icon, Label, List, Placeholder} from 'semantic-ui-react';
 import ColonyEdit from "./ColonyEdit";
 import PermissionBlock from "../authentication/PermissionBlock";
 import {RouteComponentProps} from "react-router";
 import WikiPageEditor from "../wiki/WikiPageEditor";
 import Permissions from "../../models/Permissions";
 
-interface IncomingProps extends RouteComponentProps<any>{
+interface IncomingProps extends RouteComponentProps<any> {
     colonyId: number;
 }
 
-interface StateProps{
+interface StateProps {
     colony?: Colony;
-    permissions?:Permissions
+    permissions?: Permissions
 }
 
-interface DispatchProps{
-    downloadColony: (colonyId:number) => any;
+interface DispatchProps {
+    downloadColony: (colonyId: number) => any;
 }
 
-interface MyState{
-    selectedId?:number;
+interface MyState {
+    selectedId?: number;
 }
 
-class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,MyState> {
-    state={selectedId:undefined};
+class ColonyPage extends React.Component<IncomingProps & StateProps & DispatchProps, MyState> {
+    state = {selectedId: undefined};
 
-    componentDidMount(){
+    componentDidMount() {
         // reset login status
         this.props.downloadColony(this.props.colonyId);
     };
@@ -55,12 +53,12 @@ class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,
                                 <Card.Content>
                                     <Placeholder>
                                         <Placeholder.Header>
-                                            <Placeholder.Line />
-                                            <Placeholder.Line />
+                                            <Placeholder.Line/>
+                                            <Placeholder.Line/>
                                         </Placeholder.Header>
                                         <Placeholder.Paragraph>
-                                            <Placeholder.Line length='medium' />
-                                            <Placeholder.Line length='short' />
+                                            <Placeholder.Line length='medium'/>
+                                            <Placeholder.Line length='short'/>
                                         </Placeholder.Paragraph>
                                     </Placeholder>
                                 </Card.Content>
@@ -79,34 +77,36 @@ class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,
                                         </List>
                                     </Card.Description>
                                     {this.props.colony &&
-                                    <PermissionBlock reqPerm={'edit_colonies'}>
-                                        <ColonyEdit
-                                            trigger={<Label attached='bottom right' as='a'>
-                                                <Icon name='edit' />
-                                                Edit
-                                            </Label>}
-                                            incomingColony={this.props.colony}/>
-                                    </PermissionBlock>
+                                        <PermissionBlock reqPerm={'edit_colonies'}>
+                                            <ColonyEdit
+                                                trigger={<Label attached='bottom right' as='a'>
+                                                    <Icon name='edit'/>
+                                                    Edit
+                                                </Label>}
+                                                incomingColony={this.props.colony}/>
+                                        </PermissionBlock>
                                     }
                                 </Card.Content>
                             </Card>
                         }
-                        <WikiPageEditor key={this.props.colonyId} allowEdit={this.props.permissions?.allowed("edit_colonies")} contentPath={`/colony/wiki/${this.props.colonyId}`}/>
+                        <WikiPageEditor key={this.props.colonyId}
+                                        allowEdit={this.props.permissions?.allowed("edit_colonies")}
+                                        contentPath={`/colony/wiki/${this.props.colonyId}`}/>
                     </Grid.Column>
                     {this.props.colony?.address.coordinate &&
-                    <Grid.Column>
-                        <ColonyMap
-                            key={this.props.colony.id}
-                            selected={this.state.selectedId}
-                            locations={[
-                                {
-                                    latitude: this.props.colony.address.coordinate.latitude,
-                                    longitude: this.props.colony.address.coordinate.longitude,
-                                    id: this.props.colony.id
-                                }]
-                            }
-                        />
-                    </Grid.Column>
+                        <Grid.Column>
+                            <ColonyMap
+                                key={this.props.colony.id}
+                                selected={this.state.selectedId}
+                                locations={[
+                                    {
+                                        latitude: this.props.colony.address.coordinate.latitude,
+                                        longitude: this.props.colony.address.coordinate.longitude,
+                                        id: this.props.colony.id
+                                    }]
+                                }
+                            />
+                        </Grid.Column>
                     }
                 </Grid>
             </>
@@ -117,27 +117,27 @@ class ColonyPage extends React.Component<IncomingProps&StateProps&DispatchProps,
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
+ * @param incoming
  */
-function mapStateToProps(state:ApplicationState, incoming: IncomingProps ):IncomingProps&StateProps {
+function mapStateToProps(state: ApplicationState, incoming: IncomingProps): IncomingProps & StateProps {
     const colonyId = +incoming.match.params.colonyId;
     return {
         ...incoming,
-        colonyId:colonyId,
-        colony:state.colony.colonies.find(c => c.id === colonyId),
-        permissions : state.authentication.permissions
+        colonyId: colonyId,
+        colony: state.colony.colonies.find(c => c.id === colonyId),
+        permissions: state.authentication.permissions
     };
 }
 
-function mapDispatchToProps(dispatch: ThunkDispatch<any,any, any>, ownProps:IncomingProps&StateProps):DispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>, ownProps: IncomingProps & StateProps): DispatchProps {
     return {
         ...ownProps,
-        downloadColony:(colonyId:number) =>  dispatch(colonyActions.loadColony(colonyId))
+        downloadColony: (colonyId: number) => dispatch(colonyActions.loadColony(colonyId))
     };
 }
 
 //https://stackoverflow.com/questions/48292707/strongly-typing-the-react-redux-connect-with-typescript
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(ColonyPage);

@@ -1,28 +1,28 @@
-import React, {RefObject} from 'react';
+import React from 'react';
 import {
-    Card,
     Container,
     Embed,
-    Grid, Header,
+    Grid,
+    Header,
     Icon,
-    Image,
     Placeholder,
     Rail,
     Responsive,
-    Segment, SemanticWIDTHSNUMBER,
-    Sticky
+    Segment,
+    SemanticWIDTHSNUMBER
 } from "semantic-ui-react";
 import {LessonData} from "../../models/Courses";
 import {coursesService} from "../../services/courses.service";
 import SingleForm from "../forms/SingleForm";
 
 //Define the expected props
-interface Props{
+interface Props {
     //Define the props we expect
     lesson: LessonData
-    category:string
+    category: string
 }
-interface State{
+
+interface State {
     html: string;
 }
 
@@ -30,9 +30,9 @@ interface State{
  * This card shows the animal details
  */
 class Lesson extends React.Component<Props, State> {
-    state = {html:""};
+    state = {html: ""};
 
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
     }
@@ -65,27 +65,52 @@ class Lesson extends React.Component<Props, State> {
     };
 
 
-
     render() {
 
         //Prerender the video so it doesn't not un render
-        let contentComputerWidth = 16 as  SemanticWIDTHSNUMBER;
+        let contentComputerWidth = 16 as SemanticWIDTHSNUMBER;
 
-        if(this.props.lesson.videoId && this.props.lesson.infoId) {
+        if (this.props.lesson.videoId && this.props.lesson.infoId) {
 
-            contentComputerWidth = 12 as  SemanticWIDTHSNUMBER;
+            contentComputerWidth = 12 as SemanticWIDTHSNUMBER;
         }
 
         return (
             <div>
                 {/*Now for a small screen just overlay them*/}
-                <Responsive key="small"as={Grid}  columns={2} minWidth={Responsive.onlyLargeScreen.minWidth}>
+                <Responsive key="small" as={Grid} columns={2} minWidth={Responsive.onlyLargeScreen.minWidth}>
                     {/*Put everything in a single col*/}
                     <Grid.Column width={contentComputerWidth}>
                         <div>
-                                {/*Only put the video in the rail if info is defined */}
-                                {this.props.lesson.infoId != undefined && this.props.lesson.videoId &&
-                                    <Rail style={{marginTop:"25px"}} position='right'>
+                            {/*Only put the video in the rail if info is defined */}
+                            {this.props.lesson.infoId != undefined && this.props.lesson.videoId &&
+                                <Rail style={{marginTop: "25px"}} position='right'>
+                                    <Embed
+                                        id={this.props.lesson.videoId}
+                                        source='youtube'
+                                        active={true}
+                                        iframe={{
+                                            allowFullScreen: true,
+                                        }}
+                                    />
+                                </Rail>
+                            }
+                            <Container>
+                                <Segment>
+                                    {/*Show a loading of the info*/}
+                                    {this.props.lesson.infoId && this.state.html.length == 0 &&
+                                        <Placeholder>
+                                            <Placeholder.Line length='full'/>
+                                            <Placeholder.Line length='very long'/>
+                                            <Placeholder.Line length='long'/>
+                                            <Placeholder.Line length='medium'/>
+                                            <Placeholder.Line length='short'/>
+                                            <Placeholder.Line length='very short'/>
+                                        </Placeholder>
+                                    }
+
+                                    {/*Show the video as normal if there is no info*/}
+                                    {this.props.lesson.infoId == undefined &&
                                         <Embed
                                             id={this.props.lesson.videoId}
                                             source='youtube'
@@ -94,63 +119,37 @@ class Lesson extends React.Component<Props, State> {
                                                 allowFullScreen: true,
                                             }}
                                         />
-                                    </Rail>
-                                }
-                                <Container>
-                                    <Segment>
-                                        {/*Show a loading of the info*/}
-                                        {this.props.lesson.infoId && this.state.html.length == 0 &&
-                                        <Placeholder>
-                                            <Placeholder.Line length='full' />
-                                            <Placeholder.Line length='very long' />
-                                            <Placeholder.Line length='long' />
-                                            <Placeholder.Line length='medium' />
-                                            <Placeholder.Line length='short' />
-                                            <Placeholder.Line length='very short' />
-                                        </Placeholder>
-                                        }
+                                    }
+                                    {/*Show the data of the info*/}
+                                    {this.props.lesson.infoId && this.state.html.length != 0 &&
+                                        <div dangerouslySetInnerHTML={{__html: this.state.html}}/>
 
-                                        {/*Show the video as normal if there is no info*/}
-                                        {this.props.lesson.infoId == undefined &&
-                                            <Embed
-                                                id={this.props.lesson.videoId}
-                                                source='youtube'
-                                                active={true}
-                                                iframe={{
-                                                    allowFullScreen: true,
-                                                }}
-                                            />
-                                        }
-                                        {/*Show the data of the info*/}
-                                        {this.props.lesson.infoId && this.state.html.length != 0 &&
-                                        <div dangerouslySetInnerHTML={{__html:this.state.html}}/>
-
-                                        }
-                                        {/*If there is a form*/}
-                                        {this.props.lesson.formId &&
-                                        <SingleForm category={"forms"} formId={this.props.lesson.formId} />
-                                        }
-                                        {/*Lastly we should embbeed somthing*/}
-                                        {this.props.lesson.embeddedUrl &&
+                                    }
+                                    {/*If there is a form*/}
+                                    {this.props.lesson.formId &&
+                                        <SingleForm category={"forms"} formId={this.props.lesson.formId}/>
+                                    }
+                                    {/*Lastly we should embbeed somthing*/}
+                                    {this.props.lesson.embeddedUrl &&
                                         <Header as='h2' textAlign='center'>
                                             <a target="_blank"
                                                href={this.props.lesson.embeddedUrl}
                                             >
-                                                <Icon name='signup' />
+                                                <Icon name='signup'/>
                                                 <Header.Content>{this.props.lesson.name}</Header.Content>
                                             </a>
                                         </Header>
 
-                                        }
-                                    </Segment>
-                                </Container>
-                            </div>
+                                    }
+                                </Segment>
+                            </Container>
+                        </div>
                     </Grid.Column>
                 </Responsive>
                 <Container>
 
                     {/*Now for a small screen just overlay them*/}
-                    <Responsive key="small"as={Segment} maxWidth={Responsive.onlyLargeScreen.minWidth}>
+                    <Responsive key="small" as={Segment} maxWidth={Responsive.onlyLargeScreen.minWidth}>
                         {this.props.lesson.videoId &&
                             <Embed
                                 id={this.props.lesson.videoId}
@@ -164,34 +163,34 @@ class Lesson extends React.Component<Props, State> {
                         {/*Show a loading of the info*/}
                         {this.props.lesson.infoId && this.state.html.length == 0 &&
                             <Placeholder>
-                                <Placeholder.Line length='full' />
-                                <Placeholder.Line length='very long' />
-                                <Placeholder.Line length='long' />
-                                <Placeholder.Line length='medium' />
-                                <Placeholder.Line length='short' />
-                                <Placeholder.Line length='very short' />
+                                <Placeholder.Line length='full'/>
+                                <Placeholder.Line length='very long'/>
+                                <Placeholder.Line length='long'/>
+                                <Placeholder.Line length='medium'/>
+                                <Placeholder.Line length='short'/>
+                                <Placeholder.Line length='very short'/>
                             </Placeholder>
                         }
                         {/*Show the data of the info*/}
                         {this.props.lesson.infoId && this.state.html.length != 0 &&
-                            <div dangerouslySetInnerHTML={{__html:this.state.html}}/>
+                            <div dangerouslySetInnerHTML={{__html: this.state.html}}/>
 
                         }
                         {/*If there is a form*/}
                         {this.props.lesson.formId &&
-                            <SingleForm category={"forms"} formId={this.props.lesson.formId} />
+                            <SingleForm category={"forms"} formId={this.props.lesson.formId}/>
                         }
                         {/*Lastly we should embbeed somthing*/}
                         {this.props.lesson.embeddedUrl &&
 
-                                <Header as='h2' textAlign='center'>
-                                    <a target="_blank"
-                                       href={this.props.lesson.embeddedUrl}
-                                    >
-                                    <Icon name='signup' />
+                            <Header as='h2' textAlign='center'>
+                                <a target="_blank"
+                                   href={this.props.lesson.embeddedUrl}
+                                >
+                                    <Icon name='signup'/>
                                     <Header.Content>{this.props.lesson.name}</Header.Content>
-                                    </a>
-                                </Header>
+                                </a>
+                            </Header>
 
                         }
                     </Responsive>

@@ -13,18 +13,18 @@ import {RegisterUserData} from "../../services";
 import {organizationService} from "../../services/organization.service";
 
 //Define the expected props
-interface IncomingProps{
+interface IncomingProps {
     //Define the props we expect
     authentication: AuthenticationState;
 }
 
-interface DispatchProps{
+interface DispatchProps {
     //And the actions that must be done
-    userActionRegister: (user:RegisterUserData) => any;
+    userActionRegister: (user: RegisterUserData) => any;
 }
 
 //Define the expected props
-interface MyState{
+interface MyState {
     email: string,
     password: string,
     passwordCheck: string,
@@ -34,11 +34,9 @@ interface MyState{
 /**
  * This page is designed to allow user to login
  */
-class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState> {
-    state = {email:'',
-        password:'',
-        passwordCheck:'',
-        submitted: false
+class RegisterPage extends React.Component<IncomingProps & DispatchProps, MyState> {
+    state = {
+        email: '', password: '', passwordCheck: '', submitted: false
     }
 
     //When the user is done with the form add it
@@ -47,16 +45,14 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
         e.preventDefault();
 
         //Update the state to say it was submitted
-        this.setState({ submitted: true });
+        this.setState({submitted: true});
 
-        //Extract the user name from the local
-        const { email, password, passwordCheck } = this.state;
+        //Extract the username from the local
+        const {email, password, passwordCheck} = this.state;
 
         //Form a basic little user
-        const userData: RegisterUserData ={
-            email:email,
-            password:password,
-            organizationId: organizationService.getCurrentOrganizationId()
+        const userData: RegisterUserData = {
+            email: email, password: password, organizationId: organizationService.getCurrentOrganizationId()
         }
 
         //Use the action
@@ -66,64 +62,63 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
     }
 
     /**
-     * Re-render eveyr time this is called
+     * Re-render every time this is called
      * @returns {*}
      */
     render() {
         //If the user has logged in redirect them to root
-        if(this.props.authentication.loggedInStatus === AuthenticationStatus.TRUE){
-            return <Redirect to={{ pathname: '/'}} />;
+        if (this.props.authentication.loggedInStatus === AuthenticationStatus.TRUE) {
+            return <Redirect to={{pathname: '/'}}/>;
         }
         //If the user has logged in redirect them to root
-        if(this.props.authentication.registerUserStatus === AuthenticationStatus.TRUE){
-            return <Redirect to={{ pathname: '/login'}} />;
+        if (this.props.authentication.registerUserStatus === AuthenticationStatus.TRUE) {
+            return <Redirect to={{pathname: '/login'}}/>;
         }
 
 
         //Get the required params
-        const { email, password,passwordCheck, submitted } = this.state;
+        const {email, password, passwordCheck, submitted} = this.state;
 
         //Determine if we are in an error state and what it is
         let errorState = false;
-        let msg:ReactNode[] = [];
+        let msg: ReactNode[] = [];
 
         //Make sure the user set the password
-        if (submitted && !email){
+        if (submitted && !email) {
             errorState = true;
-            msg.push(<div>Email is required!</div> )
+            msg.push(<div>Email is required!</div>)
         }
 
         //Check if there is a password problem
         let passwordError = false;
         let passwordCheckError = false;
         //Check for password
-        if (submitted && !password){
+        if (submitted && !password) {
             errorState = true;
-            passwordError= true;
-            msg.push(<div>A new password is required</div> )
+            passwordError = true;
+            msg.push(<div>A new password is required</div>)
         }
         //Check for password
-        if (submitted && (password != passwordCheck)){
+        if (submitted && (password != passwordCheck)) {
             errorState = true;
-            passwordCheckError= true;
+            passwordCheckError = true;
 
-            msg.push(<div>The passwords do not match.</div> )
+            msg.push(<div>The passwords do not match.</div>)
         }
-        //Double check the passswords
+        //Double-check the passwords
         const passwordProbs = checkPassword(this.state.password);
-        if (submitted && passwordProbs.length > 0){
+        if (submitted && passwordProbs.length > 0) {
             errorState = true;
-            passwordError= true;
+            passwordError = true;
 
             passwordProbs.forEach(pb => msg.push(<div>{pb}</div>))
         }
 
 
-        return (
-            //Setup the page to take up the entire page
+        return (//Set up the page to take up the entire page
             <FullPageForm>
                 <Header as='h2' textAlign='center'>
-                    <Image src={logoImage} />
+                    <Image src={logoImage}/>
                     Register New Account
                 </Header>
 
@@ -131,7 +126,9 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
                 <Form error={errorState} size='large' onSubmit={e => this.handleSubmit(e)}>
                     {/*Stacked segments*/}
                     <Segment stacked>
-                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left' placeholder='E-mail address' value={email} onChange={(e) => this.setState({email:e.target.value})}/>
+                        <Form.Input fluid icon='user' error={submitted && !email} iconPosition='left'
+                                    placeholder='E-mail address' value={email}
+                                    onChange={(e) => this.setState({email: e.target.value})}/>
                         <Form.Input
                             error={passwordError}
                             fluid
@@ -139,7 +136,7 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
                             iconPosition='left'
                             placeholder='Password'
                             type='password'
-                            value={password} onChange={(e) => this.setState({password:e.target.value})}
+                            value={password} onChange={(e) => this.setState({password: e.target.value})}
                         />
                         <Form.Input
                             error={passwordCheckError}
@@ -148,9 +145,10 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
                             iconPosition='left'
                             placeholder='Password'
                             type='password'
-                            value={passwordCheck} onChange={(e) => this.setState({passwordCheck:e.target.value})}
+                            value={passwordCheck} onChange={(e) => this.setState({passwordCheck: e.target.value})}
                         />
-                        <Button disabled={this.props.authentication.registerUserStatus == AuthenticationStatus.ATTEMPT} fluid size='large' primary>
+                        <Button disabled={this.props.authentication.registerUserStatus == AuthenticationStatus.ATTEMPT}
+                                fluid size='large' primary>
                             Register
                         </Button>
                         <Message error>
@@ -169,9 +167,8 @@ class RegisterPage extends React.Component<IncomingProps&DispatchProps, MyState>
 /**
  * Map from the global state to things we need here
  * @param state
- * @returns {{authentication: WebAuthentication}}
  */
-function mapStateToProps(state:ApplicationState): IncomingProps {
+function mapStateToProps(state: ApplicationState): IncomingProps {
     return {
         authentication: state.authentication
     };
@@ -180,12 +177,9 @@ function mapStateToProps(state:ApplicationState): IncomingProps {
 function mapDispatchToProps(dispatch: Dispatch<any>): {} {
 
     return {
-        userActionRegister:(user:RegisterUserData) => dispatch(userActions.register(user)),
+        userActionRegister: (user: RegisterUserData) => dispatch(userActions.register(user)),
     };
 
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-    )(RegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

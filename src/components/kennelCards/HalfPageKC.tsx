@@ -81,7 +81,7 @@ const HalfPageContent = (props:HalfPageContentProps) => {
                     {/*The big picture*/}
                     <Image
                         src={props.aniData.getImageUrl()}
-                        allowDangerousPaths={true}
+                        // allowDangerousPaths={true}
                         style={
                             {
                                 maxWidth: "3.4in",

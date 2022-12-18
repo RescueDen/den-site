@@ -5,55 +5,53 @@ import {AdoptionStat, Stats} from "../../models/Stats";
 import {statsService} from "../../services/stats.service";
 import * as d3 from "d3";
 import {DSVRowString} from "d3";
-import {DSVRowArray,Simulation} from "d3";
+import {DSVRowArray, Simulation} from "d3";
 import {ValueFn} from "d3";
 // import "./LivesSavedDisplay.css";
 import {ResponsiveOnUpdateData} from "semantic-ui-react/dist/commonjs/addons/Responsive";
 import {formatDate} from "../../utils/date-formater";
+
 //Pass in the year
 
-interface MyProps{
+interface MyProps {
     //Store the current width and height
-    width:number;
-    height:number;
+    width: number;
+    height: number;
     //Keep the internal state of options
     adoptions: AdoptionStat[];
 
 
-
 }
-
-
 
 
 class LivesSavedD3 extends React.Component<MyProps> {
     private readonly svgRef: React.RefObject<SVGSVGElement>;
     private readonly parentRef: React.RefObject<HTMLDivElement>;
 
-    constructor(props:MyProps) {
+    constructor(props: MyProps) {
         super(props);
         this.svgRef = React.createRef();
         this.parentRef = React.createRef();
 
     }
+
     /**
      * No need to keep the article in the app state.  Keep locally to allow it to be removed from mem
      */
-    componentDidMount(){
+    componentDidMount() {
 
         //Set some basic params
         const velocityDecay = 0.3;
         const forceStrength = 0.03;
 
 
-
         //Define the upper and lower bounds of the radius
-        let radiusScale:d3.ScaleLinear<number, number> = d3.scaleLinear()
+        let radiusScale: d3.ScaleLinear<number, number> = d3.scaleLinear()
             .domain([0, 100])
             .range([5, 30]);
 
         //Define the base line colors
-        let colorScale: d3.ScaleSequential<unknown>  = d3.scaleSequential(d3.interpolateRainbow)
+        let colorScale: d3.ScaleSequential<unknown> = d3.scaleSequential(d3.interpolateRainbow)
             .domain([0, 100])
             .interpolator(d3.interpolateRainbow);
 
@@ -66,14 +64,14 @@ class LivesSavedD3 extends React.Component<MyProps> {
         let nodes = this.props.adoptions.map(d => {
             //Compute a random radius
             return {
-                radius: radiusScale( Math.round(Math.random() * 100) ),
+                radius: radiusScale(Math.round(Math.random() * 100)),
                 x: Math.random() * this.props.width,
-                y: Math.random()*this.props.height,//heightScale(d.ID),
+                y: Math.random() * this.props.height,//heightScale(d.ID),
                 THUMBNAILURL: d.thumbnailUrl,
-                ID:d.id,
-                active:false,
+                ID: d.id,
+                active: false,
                 NAME: d.name,
-                Date:d.date
+                Date: d.date
 
             }
         });
@@ -90,9 +88,12 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
 
         //Define function to make image txt
-        const img_id = function(d:any){ return "img_" + d.ID; }
-        const img_url = function(d:any){ return "url(#img_" + d.ID + ")"; }
-
+        const img_id = function (d: any) {
+            return "img_" + d.ID;
+        }
+        const img_url = function (d: any) {
+            return "url(#img_" + d.ID + ")";
+        }
 
 
         //Append defs to the svg
@@ -115,25 +116,27 @@ class LivesSavedD3 extends React.Component<MyProps> {
             .attr("width", 150)
             .attr("height", 150)
             .attr("preserveAspectRatio", "xMidYMid slice")
-            .attr("xlink:href", function(d) {
+            .attr("xlink:href", function (d) {
                 return d.THUMBNAILURL;
             })
 
         //Define the actual bubbles based upon the nodes
         // @ts-ignore
         let bubbles: string & d3.Selection<SVGCircleElement, { radius: any; fill: any; x: number; y: any; /*  Math.random() * height */ }, d3.BaseType, unknown> =
-                d3.select(this.svgRef.current)
+            d3.select(this.svgRef.current)
                 .selectAll('circle')
                 .data(nodes)
                 .enter()
                 .append('circle')
-                .attr('r', d => { return radius(d) })
-                .attr('stroke',"#aed957")
+                .attr('r', d => {
+                    return radius(d)
+                })
+                .attr('stroke', "#aed957")
                 .attr('stroke-width', 3)
                 .style("fill", "#fff")
                 .style("fill", img_url)
-                .on('click',onClick)
-                .on('mouseover',function onClick(d: any) {
+                .on('click', onClick)
+                .on('mouseover', function onClick(d: any) {
                     d3.select(this)
                         .transition()
                         .attr('r', 100);
@@ -146,13 +149,13 @@ class LivesSavedD3 extends React.Component<MyProps> {
                         .duration(200)
                     tooltip
                         .style("opacity", 1)
-                        .html( d.NAME + '<br/> Adopted: '+ formatDate(d.Date))
-                        .style("left", (d3.mouse(this)[0]+30) + "px")
-                        .style("top", (d3.mouse(this)[1]+30) + "px")
+                        .html(d.NAME + '<br/> Adopted: ' + formatDate(d.Date))
+                        .style("left", (d3.mouse(this)[0] + 30) + "px")
+                        .style("top", (d3.mouse(this)[1] + 30) + "px")
 
 
                 })
-                .on('mouseout',function onClick(d: any) {
+                .on('mouseout', function onClick(d: any) {
                     //put the radius back
                     d3.select(this)
                         .transition()
@@ -163,20 +166,20 @@ class LivesSavedD3 extends React.Component<MyProps> {
                         .transition()
                         .duration(200)
                         .style("opacity", 0)
-                    })
-                .on('mousemove',function onClick(d: any) {
+                })
+                .on('mousemove', function onClick(d: any) {
                         //Move the tool tip
                         tooltip
-                            .style("left", (d3.mouse(this)[0]+30) + "px")
-                            .style("top", (d3.mouse(this)[1]+30) + "px")
+                            .style("left", (d3.mouse(this)[0] + 30) + "px")
+                            .style("top", (d3.mouse(this)[1] + 30) + "px")
                     }
-                    )
+                )
                 // @ts-ignore
-                    .call(d3.drag()
-                        .on('start', dragStarted)
-                        .on('drag', dragged)
-                        .on('end', dragEnded)
-                    )
+                .call(d3.drag()
+                    .on('start', dragStarted)
+                    .on('drag', dragged)
+                    .on('end', dragEnded)
+                )
 
 
         //The force simulation causes all of the nodes to fit
@@ -190,16 +193,17 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
 
         //Allow the movement of each of the particles
-        function dragStarted(d:any) {
+        function dragStarted(d: any) {
             forceSimulation.alphaTarget(0.3).restart()
         }
 
         //Allow the movement of each of the particles
-        function dragged(d: any) {
+        function dragged(event :any, d: any) {
             /* bubbles.attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y); */
             d.fx = d3.event.x
             d.fy = d3.event.y
         }
+
         //Allow the movement of each of the particles
         function dragEnded(d: any) {
             delete d.fx;
@@ -209,8 +213,9 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
         //Allow clicking away
         function onClick(d: any) {
-            window.location.assign("/animal/"+d.ID);
+            window.location.assign("/animal/" + d.ID);
         }
+
         //This function steps in time
         function ticked() {
             bubbles
@@ -223,19 +228,18 @@ class LivesSavedD3 extends React.Component<MyProps> {
         }
 
         //Compute the radius as a function
-        function radius(d:any) {
-            if(d.active) {
+        function radius(d: any) {
+            if (d.active) {
                 return 100 + 1
-            }else{
+            } else {
                 return d.radius + 1
             }
         }
 
         //The charge is used to compute the values
-        function charge(d:any) {
+        function charge(d: any) {
             return -Math.pow(d.radius, 2) * forceStrength;
         }
-
 
 
         // // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
@@ -285,11 +289,11 @@ class LivesSavedD3 extends React.Component<MyProps> {
 
     }
 
-    generateRandomData= () => {
+    generateRandomData = () => {
         const data = [];
         for (let i = 0; i < 200; i++) {
             data.push(
-                { randomNumber: Math.round(Math.random() * 100) }
+                {randomNumber: Math.round(Math.random() * 100)}
             )
         }
         return data;

@@ -59,7 +59,7 @@ const FullPageKC =  (props:Props) => {
                     {/*The big picture*/}
                     <Image
                         src={props.aniData.getImageUrl()}
-                        allowDangerousPaths={true}
+                        // allowDangerousPaths={true}
                         style={
                             {
                                 maxWidth: "5.4in",

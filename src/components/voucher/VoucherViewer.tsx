@@ -42,14 +42,12 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
         if (this.props.voucherId) {
             voucherService.getVoucherById(this.props.voucherId)
                 //When it comes back use it
-                .then(
-                    //If successful html will be returned
+                .then(//If successful html will be returned
                     voucher => {
                         //Update the state
                         this.setState({voucher: voucher})
 
-                    },
-                    //If there was an error, show to the user
+                    }, //If there was an error, show to the user
                     errorResponse => {
                         //Dispatch the error
                         try {
@@ -59,8 +57,7 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
 
                         }
 
-                    }
-                );
+                    });
         }
 
     };
@@ -69,16 +66,14 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
         //Send to the server
         this.setState({loading: true});
 
-        voucherService.updateVoucher(voucher, issue).then(
-            //If successful html will be returned
+        voucherService.updateVoucher(voucher, issue).then(//If successful html will be returned
             voucher => {
                 //Now tell the system to reload
                 this.setState({loading: false});
 
                 //Route to it
                 this.props.history.push('/vouchers')
-            },
-            //If there was an error, show to the user
+            }, //If there was an error, show to the user
             errorResponse => {
                 //Dispatch the error
                 try {
@@ -86,8 +81,7 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
                 } catch (e) {
                     this.setState({loading: false, error: errorResponse.toString()});
                 }
-            }
-        );
+            });
 
     }
 
@@ -99,54 +93,42 @@ class VoucherViewer extends React.Component<DispatchProps & LinkProps> {
 
         if (this.props.voucherId) {
             //We have a voucher ID
-            return (
-                <Container>
+            return (<Container>
                     <Segment>
                         {/*Add a dimmer if needed*/}
-                        {(this.state.voucher === undefined || this.state.loading) &&
-                            <Dimmer inverted active={true}>
-                                <Loader inverted>Loading</Loader>
-                            </Dimmer>
-                        }
+                        {(this.state.voucher == undefined || this.state.loading) && <Dimmer inverted active={true}>
+                            <Loader inverted>Loading</Loader>
+                        </Dimmer>}
                         <Header>Edit Voucher</Header>
-                        {this.props.voucherInfo && this.state.voucher &&
-                            <VoucherForm
-                                initVoucher={this.state.voucher!}
-                                voucherInfo={this.props.voucherInfo}
-                                onSubmit={this.updateVoucher}
-                            >
+                        {this.props.voucherInfo && this.state.voucher && <VoucherForm
+                            initVoucher={this.state.voucher!}
+                            voucherInfo={this.props.voucherInfo}
+                            onSubmit={this.updateVoucher}
+                        >
 
-                            </VoucherForm>
-                        }
+                        </VoucherForm>}
                         {this.state.error}
 
                     </Segment>
-                </Container>
-            )
+                </Container>)
         } else {
-            return (
-                <Container>
+            return (<Container>
                     <Segment>
                         {/*Add a dimmer if needed*/}
-                        {(this.state.voucher === undefined || this.state.loading) &&
-                            <Dimmer inverted active={true}>
-                                <Loader inverted>Loading</Loader>
-                            </Dimmer>
-                        }
+                        {this.state.loading && <Dimmer inverted active={true}>
+                            <Loader inverted>Loading</Loader>
+                        </Dimmer>}
                         <Header>New Voucher </Header>
-                        {this.props.voucherInfo &&
-                            <VoucherForm
-                                initVoucher={this.props.voucherInfo.default_voucher}
-                                voucherInfo={this.props.voucherInfo}
-                                onSubmit={this.updateVoucher}
-                            >
+                        {this.props.voucherInfo && <VoucherForm
+                            initVoucher={this.props.voucherInfo.default_voucher}
+                            voucherInfo={this.props.voucherInfo}
+                            onSubmit={this.updateVoucher}
+                        >
 
-                            </VoucherForm>
-                        }
+                        </VoucherForm>}
                         {this.state.error}
                     </Segment>
-                </Container>
-            );
+                </Container>);
         }
 
 
@@ -174,14 +156,9 @@ function mapDispatchToProps(dispatch: ThunkDispatch<any, any, any>): DispatchPro
 function mapStateToProps(state: ApplicationState, myProps: LinkProps): LinkProps {
 
     return {
-        ...myProps,
-        voucherInfo: state.voucher.info,
-        voucherId: myProps.match.params.voucherId
+        ...myProps, voucherInfo: state.voucher.info, voucherId: myProps.match.params.voucherId
     };
 }
 
 //Wrap with a withRouter so we get the current location
-export default withRouter(connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(VoucherViewer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VoucherViewer));

@@ -8,7 +8,7 @@ import {eventsService} from "../../services/events.service";
 import {formatDate} from "../../utils/date-formater";
 import {SignUpResponse} from "../../models/SignUp";
 import validator from "@rjsf/validator-ajv8";
-import Form from "@rjsf/core";
+import Form from "@rjsf/semantic-ui";
 import SignUpsTable from "./SignUpsTable";
 import ShelterAnimal, {findAnimalByShelterId, findShelterIds} from "../../models/ShelterAnimal";
 import AnimalState from "../../state/AnimalState";

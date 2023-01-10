@@ -91,8 +91,7 @@ export interface VaccineData {
 
 
 export enum Species {
-    cat = "Cat",
-    dog = "Dog"
+    cat = "Cat", dog = "Dog"
 
 }
 
@@ -257,8 +256,8 @@ export default class ShelterAnimal {
     getVaccineHistoryInOrder(): VaccineData[] {
         return this.data.vaccineHistory.sort(((a, b) => {
             //Get the given date
-            const aDate: Date = new Date(a.date.toString());
-            const bDate: Date = new Date(b.date.toString());
+            const aDate: Date = new Date(a.dateRequired.toString());
+            const bDate: Date = new Date(b.dateRequired.toString());
 
             //Get as value Date.valueOf()
             const aValue = aDate.valueOf();
@@ -278,10 +277,11 @@ export default class ShelterAnimal {
                 }
             }
             //Both are real values
-            if (aValue > bValue)
+            if (aValue > bValue) {
                 return 1
-            else if (aValue < bValue)
+            } else if (aValue < bValue) {
                 return -1
+            }
 
             return 0;
         }))

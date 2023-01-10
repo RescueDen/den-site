@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {FormItemData} from "../../models/FormListing";
 
 import validator from "@rjsf/validator-ajv8";
-import Form from "@rjsf/core";
+import Form from "@rjsf/semantic-ui";
 import {Widget} from "@rjsf/utils";
 import {FormSubmission} from "../../models/FormSubmission";
 import ApplicationState from "../../state/ApplicationState";

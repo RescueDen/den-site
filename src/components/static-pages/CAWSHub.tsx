@@ -88,14 +88,14 @@ class CAWSHub extends React.Component<any, MyState> {
                             <Segment>
                                 <StaticComponent pagePath={"cawsHub"} public={false}/>
 
-                                {/*Add a lock symbol*/}
-                                <div style={{"textAlign": "center"}}>
-                                    <Label size='huge'>
-                                        <Icon name='lock'/>
-                                        {/*{code}*/}
-                                        3794
-                                    </Label>
-                                </div>
+                                {/*/!*Add a lock symbol*!/*/}
+                                {/*<div style={{"textAlign": "center"}}>*/}
+                                {/*    <Label size='huge'>*/}
+                                {/*        <Icon name='lock'/>*/}
+                                {/*        /!*{code}*!/*/}
+                                {/*        3794*/}
+                                {/*    </Label>*/}
+                                {/*</div>*/}
 
                                 {/*Display an error if needed*/}
                                 {this.state.error}

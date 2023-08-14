@@ -117,18 +117,6 @@ class CAWSHub extends React.Component<any, MyState> {
                                 width="100%" height="300" frameBorder="0" style={{"border": 0}}
                                 allowFullScreen></iframe>
                         </Segment>
-                        <Segment>
-
-                            <ReloadingImage
-                                /*label={
-                                <Label as='a' color='green' ribbon='right'>
-                                    Live Update
-                                </Label>
-                            }*/
-                                src={`${process.env.REACT_APP_API_URL}/access/security/hub`}
-                                interval={15000}
-                            />
-                        </Segment>
                     </Grid.Column>
                 </Grid>
 
